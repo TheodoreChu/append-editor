@@ -91,10 +91,18 @@ html {
     font-family: var(--sn-stylekit-sans-serif-font);
     overflow-y: auto;
     font-size: 16px;
+  }
 
-    /*@media screen and (max-width: 996px) {
-      min-height: 300px
-    }*/
+  .sk-input.contrast.textarea.editnote {
+  }
+  @media screen and (max-height: 640px) {
+    min-height: 344px;
+  }
+  @media screen and (max-height: 640px) {
+    min-height: 344px;
+  }
+  @media screen and (max-height: 740px) {
+    min-height: 424px;
   }
 }
 .sk-notification {

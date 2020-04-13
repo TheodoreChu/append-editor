@@ -102,7 +102,7 @@ export default class EditNote extends React.Component {
         <div className="sk-panel-content">
               <textarea
                 name="front"
-                className="sk-input contrast textarea"
+                className="sk-input contrast textarea editnote"
                 placeholder="Text"
                 value={text}
                 onChange={this.handleInputChange}
