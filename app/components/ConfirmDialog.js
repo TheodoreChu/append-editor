@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ConfirmDialog = ({ title, message, onConfirm, onCancel }) => (
-  <div className="card-overlay">
-    <div className="card-dialog sk-panel">
+  <div className="note-overlay">
+    <div className="note-dialog sk-panel">
       <div className="sk-panel-header">
         <div className="sk-panel-header-title">{title}</div>
       </div>
