@@ -92,7 +92,7 @@ export default class AppendText extends React.Component {
                 id="AppendTextArea"
                 name="Append"
                 className="sk-input contrast textarea"
-                placeholder="Append text to your note"
+                placeholder="Append to your note"
                 value={text}
                 onChange={this.handleInputChange}
                 onKeyDown={this.onKeyDown}

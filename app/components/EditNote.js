@@ -95,7 +95,7 @@ export default class EditNote extends React.Component {
   render() {
     const {text} = this.state;
     //var editText = String(text); 
-    var wait = window.setTimeout(this.autoSave(), 20000)
+    //var wait = window.setTimeout(this.autoSave(), 10000)
     
     return (
       <div className="note-edit sk-panel">
