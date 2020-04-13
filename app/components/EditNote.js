@@ -98,7 +98,7 @@ export default class EditNote extends React.Component {
     //var wait = window.setTimeout(this.autoSave(), 10000)
     
     return (
-      <div className="note-edit sk-panel">
+      <div className="sk-panel">
         <div className="sk-panel-content">
               <textarea
                 name="front"

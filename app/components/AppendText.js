@@ -86,7 +86,7 @@ export default class AppendText extends React.Component {
     const {text} = this.state;
 
     return (
-      <div className="note-edit sk-panel">
+      <div className="sk-panel">
         <div className="sk-panel-content">
               <textarea
                 id="AppendTextArea"

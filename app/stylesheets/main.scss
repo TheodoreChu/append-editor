@@ -41,7 +41,11 @@ html {
   display: flex;
   justify-content: center;
 
-  .note-edit.sk-panel {
+  @media screen and (max-width: 996px) {
+    padding: 0;
+  }
+
+  .sk-panel {
     .sk-button-group.stretch {
       display: flex;
       justify-content: space-between;
@@ -64,9 +68,14 @@ html {
   height: 100vh;
 
   .sk-panel {
-    flex-grow: unset;
     max-width:700px;
     width: 100%;
+    margin: 10px;
+
+    @media screen and (max-width: 996px) {
+      margin: 0;
+      box-shadow: none;
+    }
     }
   
   .sk-panel-content {
@@ -74,6 +83,9 @@ html {
     //padding: 1.6rem 2rem !important;
     margin: inherit auto;
     //width: 700px;
+    @media screen and (max-width: 996px) {
+      padding: .8rem 1rem !important;
+    }
   }
   .sk-input.contrast.textarea {
     min-height: 60px; //60px for double lines
@@ -101,7 +113,7 @@ html {
       min-height: 344px;
     }
     @media screen and (max-height: 740px) {
-      min-height: 424px;
+      min-height: 420px;
     }
   }
 }
@@ -137,14 +149,6 @@ html {
   display: flex;
   flex-direction: column;
   width: 700px;
-}
-
-.note-edit {
-  margin: 10px;// 10px 0;
-}
-
-.note-study {
-  margin: 10px;// 10px 0;
 }
 
 /* entry default styles */
@@ -342,7 +346,7 @@ html {
     margin-left: auto;
     margin-right: auto;
   }
-  .note-edit.sk-panel {
+  .sk-panel {
     margin: 0;
   }
 }
