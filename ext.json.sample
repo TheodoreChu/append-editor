@@ -1,0 +1,9 @@
+{
+    "identifier": "org.standardnotes.append-editor",
+    "name": "Append Editor",
+    "content_type": "SN|Component",
+    "area": "editor-editor",
+    "version": "1.0.0",
+    "description": "A new way to edit take notes",
+    "url": "http://localhost:8003/dist/index.html"
+}
