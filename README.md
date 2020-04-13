@@ -13,7 +13,7 @@
 The Append Editor is a [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org). It is currently in development. When it is ready for use, it will be part of the [Standard Notes Extensions](https://standardnotes.org/extensions). :smile:
 
 ## Features
-- GitHub flavored Markdown as provided by [Unified/Remark](https://github.com/remarkjs/remark)
+- GitHub flavored Markdown via [Unified/Remark](https://github.com/remarkjs/remark)
 - LaTeX via hosted [KaTeX](https://github.com/KaTeX/KaTeX)
 - Read notes by default
 - Append text to notes without accidentally editing old notes
