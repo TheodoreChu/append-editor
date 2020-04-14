@@ -80,22 +80,11 @@ export default class EditNote extends React.Component {
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
-  }
-
-  clickSave = () => {
-    var saveButton = document.querySelector('#submit');
-    saveButton.click();
-  }
-
-  autoSave = () => {
-    console.log("autosave started")
-    var autosave = window.setInterval(this.clickSave(), 20000)
+    this.onSave(e);
   }
 
   render() {
     const {text} = this.state;
-    //var editText = String(text); 
-    //var wait = window.setTimeout(this.autoSave(), 10000)
     
     return (
       <div className="sk-panel">

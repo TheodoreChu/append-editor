@@ -57,12 +57,14 @@ export default class AppendEditor extends React.Component {
   // Entry operations
 
   onAppend = ({text}) => {
+    if (text) {
     console.log("append attempted")
     const currentText = this.state.text;
     var newText = currentText + text;
     this.editText(newText)
     this.onRefresh();
     console.log("append completed)")
+    }
   }
 
   onSave = ({text}) => {

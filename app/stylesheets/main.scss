@@ -62,11 +62,13 @@ html {
     overflow-y: auto;
     font-family: var(--sn-stylekit-sans-serif-font);
     font-size: var(--sn-stylekit-font-size-editor);
+    line-height: 1.9rem;
   }
 
   .sk-input.contrast.textarea.editnote {
     @media screen and (max-width: 997px) {
       min-height: 240px;
+      height: 90%;
     }
   }
 }
@@ -179,6 +181,10 @@ html {
     .note-info {
       min-width: inherit;
       width: 100%;
+
+      .hljs {
+        color: unset;
+      }
       
       code, pre {
         font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,

@@ -22,7 +22,8 @@ var processor = unified()
   .use(parse)
   .use(remark2rehype)
   .use(math)
-  .use(rehypeKatex) // css doesn't load properly//.use(emoji) //.use(highlight) // doesn't work
+  .use(rehypeKatex) 
+  .use(highlight, {ignoreMissing: true})
   .use(emoji)
   .use(rehype2react, {createElement: React.createElement})
 
