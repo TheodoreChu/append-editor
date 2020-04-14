@@ -1,5 +1,9 @@
 @import '~stylekit';
 
+:root {
+  --sn-stylekit-font-size-editor: 16px;
+}
+
 body,
 html {
   font-family: var(--sn-stylekit-sans-serif-font);
@@ -100,9 +104,9 @@ html {
     height: calc(100% - 32px);
     //outline: 0; // doesn't do anything
     resize: vertical;
-    font-family: var(--sn-stylekit-sans-serif-font);
     overflow-y: auto;
-    font-size: 16px;
+    font-family: var(--sn-stylekit-sans-serif-font);
+    font-size: var(--sn-stylekit-font-size-editor);
   }
 
   .sk-input.contrast.textarea.editnote {
@@ -143,6 +147,10 @@ html {
   right: 0;
   bottom: 0;
   z-index: 100;
+
+  .note-dialog.sk-panel {
+    margin: 0;
+  }
 }
 
 .note-list {

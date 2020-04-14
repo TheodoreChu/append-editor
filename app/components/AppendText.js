@@ -88,17 +88,17 @@ export default class AppendText extends React.Component {
     return (
       <div className="sk-panel">
         <div className="sk-panel-content">
-              <textarea
-                id="AppendTextArea"
-                name="Append"
-                className="sk-input contrast textarea"
-                placeholder="Append to your note"
-                value={text}
-                onChange={this.handleInputChange}
-                onKeyDown={this.onKeyDown}
-                onKeyUp={this.onKeyUp}
-                type="text"
-              />
+          <textarea
+            id="AppendTextArea"
+            name="Append"
+            className="sk-input contrast textarea"
+            placeholder="Append to your note 🙂"
+            value={text}
+            onChange={this.handleInputChange}
+            onKeyDown={this.onKeyDown}
+            onKeyUp={this.onKeyUp}
+            type="text"
+          />
         </div>
         <div className="sk-panel-row">
           <div className="sk-button-group stretch">

@@ -12,7 +12,10 @@ const initialState = {
   editMode: false,
   viewMode: true,
   refreshStatus: false,
-  confirmEdit: false,
+  confirmOpenEdit: false,
+  confirmStopEdit: false,
+  confirmHideAppend: false,
+  confirmOpenAppend: false,
 };
 
 export default class AppendEditor extends React.Component {
@@ -89,16 +92,42 @@ export default class AppendEditor extends React.Component {
 
   // Event Handlers
   onEditMode = () => {
-    var textarea = document.getElementById("AppendTextArea");
-    if (textarea.value && !this.state.editMode) {
-      this.setState({
-        confirmEdit: true,
-      });
+    // if the append area has text and edit mode is off,
+    // ask user if they want to confirm opening the edit box
+    if (this.state.appendMode && !this.state.editMode) {
+      var AppendTextArea = document.getElementById("AppendTextArea");
+      if (AppendTextArea.value && !this.state.editMode) { 
+        this.setState({
+          confirmOpenEdit: true,
+        });
+      }
+      else {
+        this.setState({
+        editMode: true,
+        appendMode: false,
+        });
+      }
     }
-    else {
-          this.setState({
-      editMode: !this.state.editMode,
-    });
+    else if (this.state.editMode) {
+      // if you have unsaved text, confirm if you want to save it
+      // if there's no unsaved text, close the edit box and open append
+      var EditTextArea = document.getElementById("EditTextArea");
+      if (!(EditTextArea.value === this.state.text)) { 
+        this.setState({
+          confirmStopEdit: true,
+        });
+      }
+      else {
+        this.setState({
+        editMode: false,
+        appendMode: true,
+        });
+      }
+    }
+    else if (!this.state.editMode) {
+      this.setState({
+      editMode: true,
+      });
     }
   };
 
@@ -108,17 +137,91 @@ export default class AppendEditor extends React.Component {
       });
     }
 
-  onConfirmEdit = () => {
+  onAppendMode = () => {
+    if (this.state.appendMode) {
+      var AppendTextArea = document.getElementById("AppendTextArea");
+      if (AppendTextArea.value) { 
+        this.setState({
+          confirmHideAppend: true,
+        });
+      }
+      else {
+        this.setState({
+          appendMode: !this.state.appendMode,
+        });
+      }
+    }
+    else if (this.state.editMode && !this.state.appendMode) {
+      var EditTextArea = document.getElementById("EditTextArea");
+      if (!(EditTextArea.value === this.state.text)) { 
+        this.setState({
+          confirmOpenAppend: true,
+        });
+      }
+      else {
+        this.setState({
+        editMode: false,
+        appendMode: true,
+        });
+      }
+    }
+
+    else {
+      this.setState({
+        appendMode: !this.state.appendMode,
+      });
+    }
+  }
+
+  onConfirmOpenEdit = () => {
     this.setState({
-      confirmEdit: false,
+      confirmOpenEdit: false,
       editMode: true,
     });
   }
 
-  onCancelEdit = () => {
+  onCancelOpenEdit = () => {
     this.setState({
-      confirmEdit: false,
+      confirmOpenEdit: false,
+    });
+  }
+
+  onConfirmStopEdit = () => {
+    this.setState({
+      confirmStopEdit: false,
       editMode: false,
+    });
+  }
+
+  onCancelStopEdit = () => {
+    this.setState({
+      confirmStopEdit: false,
+    });
+  }
+
+  onConfirmOpenAppend = () => {
+    this.setState({
+      confirmOpenAppend: false,
+      appendMode: true,
+    });
+  }
+
+  onCancelOpenAppend = () => {
+    this.setState({
+      confirmOpenAppend: false,
+    });
+  }
+
+  onConfirmHideAppend = () => {
+    this.setState({
+      confirmHideAppend: false,
+      appendMode: false,
+    });
+  }
+
+  onCancelHideAppend = () => {
+    this.setState({
+      confirmHideAppend: false,
     });
   }
 
@@ -131,6 +234,9 @@ export default class AppendEditor extends React.Component {
         <div className="sk-button-group">
             <div className="sk-button info" onClick={this.onEditMode}>
               <div className="sk-label">Edit</div>
+            </div>
+            <div className="sk-button info" onClick={this.onAppendMode}>
+              <div className="sk-label">Append</div>
             </div>
             <div className="sk-button info" onClick={this.onViewMode}>
               <div className="sk-label">View</div>
@@ -163,12 +269,36 @@ export default class AppendEditor extends React.Component {
               viewMode={this.state.viewMode}
             />
           )}
-          {this.state.confirmEdit && (
+          {this.state.confirmOpenEdit && (
             <ConfirmDialog
-              title={`Warning`}
-              message="Editing and Appending simultaneously may result in data loss. Would you like to proceed?"
-              onConfirm={this.onConfirmEdit}
-              onCancel={this.onCancelEdit}
+              title={`⚠️ Warning ⚠️`}
+              message="You have unsaved text in your Append Box. Editing and Appending simultaneously may result in data loss. Would you still like to open the Edit box?"
+              onConfirm={this.onConfirmOpenEdit}
+              onCancel={this.onCancelOpenEdit}
+            />
+          )}
+          {this.state.confirmStopEdit && (
+            <ConfirmDialog
+              title={`⚠️ Warning ⚠️`}
+              message="You have unsaved changes in your Edit box. Would you still like to close it?"
+              onConfirm={this.onConfirmStopEdit}
+              onCancel={this.onCancelStopEdit}
+            />
+          )}
+          {this.state.confirmOpenAppend && (
+            <ConfirmDialog
+              title={`⚠️ Warning ⚠️`}
+              message="You have unsaved changes in your Edit Box. Editing and Appending simultaneously may result in data loss. Would you still like to open the Append box?"
+              onConfirm={this.onConfirmOpenAppend}
+              onCancel={this.onCancelOpenAppend}
+            />
+          )}
+          {this.state.confirmHideAppend && (
+            <ConfirmDialog
+              title={`⚠️ Warning ⚠️`}
+              message="You have unsaved text in your Append box. Would you still like to close it?"
+              onConfirm={this.onConfirmHideAppend}
+              onCancel={this.onCancelHideAppend}
             />
           )}
         </div>
