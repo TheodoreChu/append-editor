@@ -15,6 +15,62 @@ html {
   background-color: transparent;
 }
 
+* {
+  // To prevent gray flash when focusing input on mobile Safari
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.sn-component {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: scroll;
+
+  .sk-panel {
+    max-width:700px;
+    width: 100%;
+    margin: 10px;
+
+    @media screen and (max-width: 996px) {
+      margin: 0;
+      box-shadow: none;
+    }
+    }
+  
+  .sk-panel-content {
+    height: inherit !important;
+    //padding: 1.6rem 2rem !important;
+    margin: inherit auto;
+    //width: 700px;
+    @media screen and (max-width: 996px) {
+      padding: .8rem 1rem !important;
+    }
+  }
+  .sk-input.contrast.textarea {
+    min-height: 60px; //60px for double lines
+    padding: 9px 10px;//0.7rem 0.8rem;
+    margin: 0.30rem 0;
+    max-width: inherit;
+    //max-width: 627px; // 648 - 10*2 - 1
+    width: calc(100% - 22px);
+    //height: 95%;
+    height: -webkit-calc(100% - 32px);
+    height: -moz-calc(100% - 32px);
+    height: calc(100% - 32px);
+    //outline: 0; // doesn't do anything
+    resize: vertical;
+    overflow-y: auto;
+    font-family: var(--sn-stylekit-sans-serif-font);
+    font-size: var(--sn-stylekit-font-size-editor);
+  }
+
+  .sk-input.contrast.textarea.editnote {
+    @media screen and (max-width: 997px) {
+      min-height: 240px;
+    }
+  }
+}
+
 #header {
   border-bottom: 0px;
   //border-bottom: 1px solid var(--sn-stylekit-border-color);
@@ -61,72 +117,6 @@ html {
   }
 }
 
-* {
-  // To prevent gray flash when focusing input on mobile Safari
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-.sn-component {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  .sk-panel {
-    max-width:700px;
-    width: 100%;
-    margin: 10px;
-
-    @media screen and (max-width: 996px) {
-      margin: 0;
-      box-shadow: none;
-    }
-    }
-  
-  .sk-panel-content {
-    height: inherit !important;
-    //padding: 1.6rem 2rem !important;
-    margin: inherit auto;
-    //width: 700px;
-    @media screen and (max-width: 996px) {
-      padding: .8rem 1rem !important;
-    }
-  }
-  .sk-input.contrast.textarea {
-    min-height: 60px; //60px for double lines
-    padding: 9px 10px;//0.7rem 0.8rem;
-    margin: 0.30rem 0;
-    max-width: inherit;
-    //max-width: 627px; // 648 - 10*2 - 1
-    width: calc(100% - 22px);
-    //height: 95%;
-    height: -webkit-calc(100% - 32px);
-    height: -moz-calc(100% - 32px);
-    height: calc(100% - 32px);
-    //outline: 0; // doesn't do anything
-    resize: vertical;
-    overflow-y: auto;
-    font-family: var(--sn-stylekit-sans-serif-font);
-    font-size: var(--sn-stylekit-font-size-editor);
-  }
-
-  .sk-input.contrast.textarea.editnote {
-    @media screen and (max-width: 997px) {
-      min-height: 240px;
-    }
-    /*@media screen and (max-height: 640px) {
-      min-height: 344px;
-    }
-    @media screen and (max-height: 640px) {
-      min-height: 344px;
-    }
-    @media screen and (max-height: 736px) { // iPhone 6/7/8 Plus
-      min-height: 200px;
-    }
-    /*@media screen and (min-height: 736px) and (max-height: 812px) { // iPhone 6/7/8 Plus
-      min-height: 673px;
-    }*/
-  }
-}
 .sk-notification {
   // Hacking sk-notification style
   overflow: visible !important; // We need this for the dropdown menu
@@ -298,14 +288,12 @@ html {
 
       .note-back {
         font-size: var(--sn-stylekit-font-size-editor);
-        text-align: auto;
         margin-left: auto;
         margin-right: auto;
         width: 100%;
         word-wrap: break-word;
         line-height: 1.9rem;
         height: calc(100% - 20px);
-        overflow-y: auto;
       }
     }
   }
@@ -336,22 +324,9 @@ html {
   }
 }
 
-#footer {
-  //border-bottom: 0px;
-  //border-bottom: 1px solid var(--sn-stylekit-border-color);
-  //background-color: var(--sn-stylekit-background-color);
-  //color: var(--sn-stylekit-foreground-color);
-
-  //min-height: 26px;
-  //padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center; // flex-end;
-
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  max-width: 700px;
+#appendix {
+  background-color: var(--sn-stylekit-contrast-background-color);
+  display:block;
 
   .sk-button-group {
     display: flex;
@@ -361,6 +336,35 @@ html {
     margin-right: auto;
   }
   .sk-panel {
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// Save note notification
+.note-saved-notification {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 200;
+
+  .sk-panel {
+    border-radius: 4px;
+    padding: 4px;
     margin: 0;
+  }
+
+  &.visible {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 500ms, opacity 500ms ease-out;
   }
 }

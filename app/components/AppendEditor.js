@@ -73,7 +73,7 @@ export default class AppendEditor extends React.Component {
     this.saveNote(text);
     console.log("text saved")
     this.setState({
-      text:text,
+      text: text,
     });
     console.log("view refreshed")
   };
@@ -229,7 +229,6 @@ export default class AppendEditor extends React.Component {
     //const editEntry = this.state.editEntry || {};
     return (
       <div className="sn-component">
-        
         <div id="header">
         <div className="sk-button-group">
             <div className="sk-button info" onClick={this.onEditMode}>
@@ -243,7 +242,6 @@ export default class AppendEditor extends React.Component {
             </div>
           </div>
         </div>
-
         <div id="content">
           {this.state.editMode && !this.state.refreshStatus && (
             <EditNote
@@ -302,7 +300,7 @@ export default class AppendEditor extends React.Component {
             />
           )}
         </div>
-        <div id="footer">
+        <div id="appendix">
           {this.state.appendMode && (
             <AppendText
               onAppend={this.onAppend}

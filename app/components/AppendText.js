@@ -33,7 +33,6 @@ export default class AppendText extends React.Component {
     this.setState({
       text: '',
     })
-    window.scrollTo(0, document.body.scrollHeight);
     //var textarea = document.getElementByName("Append");
     //textarea.value = '';
   };
