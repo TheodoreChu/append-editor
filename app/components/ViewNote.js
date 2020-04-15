@@ -1,21 +1,12 @@
 import React from 'react';
-//import { Remarkable } from 'remarkable';
-//import ReactDom from 'react-dom'
 import unified from 'unified'
 import parse from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import rehype2react from 'rehype-react'
 
-// additional for math
-//import math from 'remark-math';
 const math = require('remark-math');
-//import rehypeKatex from 'rehype-katex';
 const rehypeKatex = require('rehype-katex')
-
-//for syntax highlighting
-//import attacher from 'rehype-highlight';
 var highlight = require('rehype-highlight');
-
 const emoji = require('remark-emoji');
 
 var processor = unified()
@@ -34,9 +25,31 @@ export default class ViewNote extends React.Component {
   this.state = {
     text: this.props.text,
     viewMode: this.props.viewMode,
+    showHelp: this.props.showHelp,
+    showFeelings: false,
+    showMoreQuestions: false,
+    showFeedback: false,
     };
     //this.onChange = this.onChange.bind(this);
   }
+
+  onToggleShowFeelings = () => {
+    this.setState({
+      showFeelings: !this.state.showFeelings
+    });
+  };
+
+  onToggleShowMoreQuestions = () => {
+    this.setState({
+      showMoreQuestions: !this.state.showMoreQuestions
+    });
+  };
+
+  onToggleShowFeedback = () => {
+    this.setState({
+      showFeedback: !this.state.showFeedback
+    });
+  };
 
   render() {
     const text = this.props.text;
@@ -49,18 +62,63 @@ export default class ViewNote extends React.Component {
         <div className="note-details">
           <div className="note-info">
             <div className="note-content">
-              { text ? ([
+              { (!text) && ([
+                <div className="note-back">
+                  <div style={{textAlign: "center"}}>
+                  Welcome to the Append Editor! 👋 Your note is empty. 🙂
+                  <br></br><br></br>      
+                  Click <strong>Edit</strong> at the top ⬆️ or <strong>Append</strong> at the bottom ⬇️ to add to your note. 📝
+                  <br></br><br></br>
+                  Click <strong>Help</strong> in the top menu to learn more about this editor.
+                  <br></br><br></br>
+                  Happy note-taking! 😄
+                  </div>
+                </div>
+              ])}
+              { this.state.showHelp && ([
+                <div className="note-back">
+                  <hr></hr>
+                  <h3>How do I use the Append Editor?</h3>
+                  This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="noreferrer noopener">GitHub flavored Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="noreferrer noopener">LaTeX via KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noreferrer noopener">Emoji codes</a>. For the full list of keyboard shortcuts, please visit <a href="https://docs.standardnotes.org/append-editor" target="_blank" rel="noreferrer noopener">docs.standardnotes.org/append-editor</a>.
+                  <h3>What do I write about?</h3>
+                  Here are some questions to help you get started:
+                  <ul>
+                    <li>How are you? What's happening?</li>
+                    <li>What might be affecting your mood?</li>
+                    <li>Which feelings fit your mood and to what extent? {!this.state.showFeelings && ([<a onClick={this.onToggleShowFeelings}>Show feelings</a>])}{this.state.showFeelings && ([<a onClick={this.onToggleShowFeelings}>Hide feelings</a>])}</li>
+                    <li>What thoughts are contributing to the way you're feeling?</li>
+                    {this.state.showFeelings && ([
+                    <ul>
+                      <li>Positive Feelings: bold, calm, cheerful, confident, content, eager, ecstatic, energized, engaged, enthusiastic, excited, grateful, happy, humorous, inspired, joyful, light, lively, loving, motivated, optimistic, passionate, peaceful, playful, proud, reassured, refreshed, relaxed, relieved, satisfied, secure, surprised, thrilled, wonderful</li>
+                      <li>Negative Feelings: afraid, angry, annoyed, anxious, ashamed, bored, burnt out, confused, demoralized, depressed, disappointed, disgusted, distraught, embarrassed, empty, exhausted, frustrated, furious, guilty, heavy, insecure, irritated, jealous, jittery, lethargic, lonely, nervous, numb, resentful, sad, self-conscious, sleepy, stressed, tired, winded, worried</li>
+                    </ul>])}
+                    <li>{!this.state.showMoreQuestions && ([<a onClick={this.onToggleShowMoreQuestions}>Show more questions</a>])}{this.state.showMoreQuestions && ([<a onClick={this.onToggleShowMoreQuestions}>Show fewer questions</a>])}</li>
+                    {this.state.showMoreQuestions &&([
+                    <div>
+                    <li>What do you hope your life will look like in a week? a month? a year?</li>
+                    <li>What can you do today to make your life the way you want it?</li>
+                    <li>How will you feel when you've realized the goals that you have for yourself?</li>
+                    <li>Who or what do you feel grateful for and why?</li>
+                    <li>What did you enjoy about today?</li>
+                    </div>
+                    ])}
+                  </ul>
+                  <a onClick={this.onToggleShowFeedback}>Give feedback</a>
+                  {this.state.showFeedback && ([
+                  <div>
+                  We love hearing from users. 🙂 Please visit <a href="https://standardnotes.org/help" target="_blank" rel="noreferrer noopener">standardnotes.org/help</a> with all of the questions, comments, and concerns you may have. 👋
+                  </div>
+                  ])}
+                  <br></br>
+                  Click <strong>Help</strong> in the top menu to close this section.
+                  <hr></hr>
+                </div>
+              ])}
+              { text && ([
                 <div className="note-back">
                   {processor.processSync(text).result}
                   </div>,
-                ]) : ([
-                <div className="note-back" style={{textAlign: "center"}}>
-                  Your note is empty! Click the <strong>Append</strong> button to start appending. 🙂
-                  <br></br><br></br>
-                  This editor supports both Markdown and LaTeX.
-                  <br></br><br></br>
-                  Happy note-taking! 😄
-                  </div>])}
+                ])}
             </div>
           </div>
         </div>

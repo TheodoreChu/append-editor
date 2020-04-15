@@ -56,15 +56,11 @@ html {
   }
 
   .sk-input.contrast.textarea {
-    min-height: 60px; //60px for double lines
+    min-height: 75px; // 75px for three lines
     padding: 9px 10px;//0.7rem 0.8rem;
-    //margin: 0.30rem 0;
     max-width: inherit;
-    //max-width: 627px; // 648 - 10*2 - 1
     width: calc(100% - 22px);
-    //height: 95%;
-    height: -webkit-calc(100% - 32px);
-    height: -moz-calc(100% - 32px);
+    height: 95%;
     height: calc(100% - 32px);
     //outline: 0; // doesn't do anything
     resize: vertical;
@@ -77,7 +73,7 @@ html {
   .sk-input.contrast.textarea.editnote {
     @media screen and (max-width: 997px) {
       min-height: 480px;
-      height: 90%;
+      height: 95%;
     }
   }
 
@@ -111,11 +107,11 @@ html {
   margin-right: auto;
   width: 100%;
   max-width: 700px;
-  .sk-button-group {
+  /*.sk-button-group {
     display: flex;
     justify-content: space-between;
-    width: 50%;
-  }
+    width: 60%;
+  }*/
 }
 
 #content {

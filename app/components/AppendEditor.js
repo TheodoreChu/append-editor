@@ -8,10 +8,15 @@ import AppendText from './AppendText';
 
 const initialState = {
   text: '',
+  autoSave: true,
   appendMode: true,
   editMode: false,
   viewMode: true,
-  refreshStatus: false,
+  showMenu: false,
+  showHelp: false,
+  refreshEdit: false,
+  refreshView: false,
+  confirmAutoSave: false,
   confirmOpenEdit: false,
   confirmStopEdit: false,
   confirmHideAppend: false,
@@ -62,7 +67,8 @@ export default class AppendEditor extends React.Component {
     const currentText = this.state.text;
     var newText = currentText + text;
     this.editText(newText)
-    this.onRefresh();
+    this.onRefreshEdit();
+    this.onRefreshView();
     console.log("append completed)")
     }
   }
@@ -80,15 +86,15 @@ export default class AppendEditor extends React.Component {
     console.log("view refreshed")
   };
 
-  onRefresh = () => {
+  onRefreshEdit = () => {
     this.setState({
-      refreshStatus: !this.state.refreshStatus,
+      refreshEdit: !this.state.refreshEdit,
     });
   }
 
-  onViewMode = () => {
+  onRefreshView = () => {
     this.setState({
-      viewMode: !this.state.viewMode,
+      refreshView: !this.state.refreshView,
     });
   }
 
@@ -122,6 +128,7 @@ export default class AppendEditor extends React.Component {
       else {
         this.setState({
         editMode: false,
+        viewMode: true,
         appendMode: true,
         });
       }
@@ -132,12 +139,6 @@ export default class AppendEditor extends React.Component {
       });
     }
   };
-
-  onViewMode = () => {
-      this.setState({
-        viewMode: !this.state.viewMode,
-      });
-    }
 
   onAppendMode = () => {
     if (this.state.appendMode) {
@@ -173,6 +174,39 @@ export default class AppendEditor extends React.Component {
         appendMode: !this.state.appendMode,
       });
     }
+  }
+
+  onViewMode = () => {
+    this.setState({
+      viewMode: !this.state.viewMode,
+    });
+  }
+
+  onToggleMenu = () => {
+    this.setState({
+      showMenu: !this.state.showMenu,
+    })
+  }
+
+  onToggleAutoSave = () => {
+    if (this.state.editMode) {
+      if (this.state.autoSave) {
+        alert("You turned autosave OFF. Please refresh your edit box.");
+      }
+      else if (!this.state.autoSave) {
+        alert("You turned autosave ON. Please refresh your edit box.");
+      }
+    }
+    this.setState({
+      autoSave: !this.state.autoSave,
+    })
+  }
+
+  onToggleShowHelp = () => {
+    this.setState({
+      showHelp: !this.state.showHelp,
+    })
+    this.onRefreshView();
   }
 
   onConfirmOpenEdit = () => {
@@ -242,31 +276,53 @@ export default class AppendEditor extends React.Component {
             <div id="viewButton" className="sk-button info" onClick={this.onViewMode}>
               <div className="sk-label">View</div>
             </div>
+            <div className="sk-button" onClick={this.onToggleMenu}>
+              <div className="sk-label">•••</div>
+            </div>
+            {this.state.showMenu && ([
+            <div  className="sk-button info" onClick={this.onToggleShowHelp}>
+              <div className="sk-label">Help</div>
+            </div>
+            ])}
+            {this.state.showMenu && this.state.autoSave && ([
+            <div  className="sk-button info" onClick={this.onToggleAutoSave}>
+              <div className="sk-label">Turn Autosave Off</div>
+            </div>
+            ])}
+            {this.state.showMenu && !this.state.autoSave && ([
+            <div  className="sk-button info" onClick={this.onToggleAutoSave}>
+              <div className="sk-label">Turn Autosave On</div>
+            </div>
+            ])}
           </div>
         </div>
         <div id="content">
-          {this.state.editMode && !this.state.refreshStatus && (
+          {this.state.editMode && !this.state.refreshEdit && (
             <EditNote
               text={this.state.text}
               onSave={this.onSave}
+              autoSave={this.state.autoSave}
             />
           )}
-          {this.state.editMode && this.state.refreshStatus && (
+          {this.state.editMode && this.state.refreshEdit && (
             <EditNote
               text={this.state.text}
               onSave={this.onSave}
+              autoSave={this.state.autoSave}
             />
           )}
-          {this.state.viewMode && !this.state.refreshStatus && (
+          {this.state.viewMode && !this.state.refreshView && (
             <ViewNote
               text={this.state.text}
               viewMode={this.state.viewMode}
+              showHelp={this.state.showHelp}
             />
           )}
-          {this.state.viewMode && this.state.refreshStatus && (
+          {this.state.viewMode && this.state.refreshView && (
             <ViewNote
               text={this.state.text}
               viewMode={this.state.viewMode}
+              showHelp={this.state.showHelp}
             />
           )}
           {this.state.confirmOpenEdit && (
