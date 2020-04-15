@@ -26,25 +26,32 @@ html {
   height: 100vh;
   overflow-y: scroll;
 
-  .sk-panel {
-    @media screen and (max-width: 996px) {
-      box-shadow: none;
-      }
-    }
-
   .sk-panel.main {
     max-width:700px;
     width: 100%;
     margin: 10px;
+
+    @media screen and (max-width: 996px) {
+      box-shadow: none;
+      margin:0;
+    }
   }
   
-  .sk-panel-content {
-    height: inherit !important;
+  //.sk-panel-content {
+    //height: inherit !important;
     //padding: 1.6rem 2rem !important;
-    margin: inherit auto;
     //width: 700px;
+ // }
+  
+  .sk-panel-content.view {
     @media screen and (max-width: 996px) {
-      padding: .16rem .2rem !important;
+      padding: .8rem 1rem;
+    }
+  }
+
+  .sk-panel-content.edit {
+    @media screen and (max-width: 996px) {
+      padding: .16rem .2rem;
     }
   }
 
