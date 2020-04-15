@@ -35,7 +35,7 @@ export default class AppendEditor extends React.Component {
           })
         }
         this.setState({
-          //...initialState,
+          ...initialState,
           text,
         });
       },
