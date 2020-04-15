@@ -27,15 +27,16 @@ html {
   overflow-y: scroll;
 
   .sk-panel {
+    @media screen and (max-width: 996px) {
+      box-shadow: none;
+      }
+    }
+
+  .sk-panel.main {
     max-width:700px;
     width: 100%;
     margin: 10px;
-
-    @media screen and (max-width: 996px) {
-      margin: 0;
-      box-shadow: none;
-    }
-    }
+  }
   
   .sk-panel-content {
     height: inherit !important;
@@ -43,13 +44,14 @@ html {
     margin: inherit auto;
     //width: 700px;
     @media screen and (max-width: 996px) {
-      padding: .8rem 1rem !important;
+      padding: .16rem .2rem !important;
     }
   }
+
   .sk-input.contrast.textarea {
     min-height: 60px; //60px for double lines
     padding: 9px 10px;//0.7rem 0.8rem;
-    margin: 0.30rem 0;
+    //margin: 0.30rem 0;
     max-width: inherit;
     //max-width: 627px; // 648 - 10*2 - 1
     width: calc(100% - 22px);
@@ -67,8 +69,21 @@ html {
 
   .sk-input.contrast.textarea.editnote {
     @media screen and (max-width: 997px) {
-      min-height: 240px;
+      min-height: 480px;
       height: 90%;
+    }
+  }
+
+  .sk-panel-row {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem; // default is top only
+
+    .sk-button-group.stretch {
+      display: flex;
+      justify-content: space-between;
+      width: 50%;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }
@@ -106,29 +121,18 @@ html {
   @media screen and (max-width: 996px) {
     padding: 0;
   }
-
-  .sk-panel {
-    .sk-button-group.stretch {
-      display: flex;
-      justify-content: space-between;
-      width: 50%;
-      margin-left: auto;
-      margin-right: auto;
-      //padding-top:15px;
-    }
-  }
 }
 
-.sk-notification {
+/*.sk-notification {
   // Hacking sk-notification style
   overflow: visible !important; // We need this for the dropdown menu
   margin: 10px 0 0 0 !important;
   //padding: 28px 14px 28px 28px !important;
   padding: 21px 14px 21px 28px !important; //top left bottom right 
-}
+}*/
 
 .note-dialog {
-  width: 450px;
+  width: 500px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -145,10 +149,6 @@ html {
   right: 0;
   bottom: 0;
   z-index: 100;
-
-  .note-dialog.sk-panel {
-    margin: 0;
-  }
 }
 
 .note-list {
@@ -359,7 +359,6 @@ html {
   .sk-panel {
     border-radius: 4px;
     padding: 4px;
-    margin: 0;
   }
 
   &.visible {

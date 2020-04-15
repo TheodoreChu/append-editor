@@ -25,56 +25,95 @@ export default class AppendText extends React.Component {
   };
 
   onAppend = e => {
-    console.log("append initiated")
     e.preventDefault();
     const { text } = this.state;
     this.props.onAppend({text});
-    console.log("append initiation complete")
     this.setState({
       text: '',
     })
-    //var textarea = document.getElementByName("Append");
-    //textarea.value = '';
   };
 
-  // this is the default behavior for 'input' boxes but not 'textarea'
-  // we want it to be control + enter
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
-    console.log("Keys pressed:" + e.key + "KeyMap for key:" + keyMap.get(e.key)) + "KeyMap for Shift:" +keyMap.get('Shift');
+    console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
+    
+    // Save note if Control and Enter are pressed
     if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
-      keyMap.set('Control', false);
-      keyMap.set('Enter', false);
       this.onAppend(e);
     }
+    // Save note if Control and S are pressed
     else if (keyMap.get('Control') && keyMap.get('s')) {
       e.preventDefault();
-      keyMap.set('Control', false);
-      keyMap.set('s', false);
       this.onAppend(e);
     }
-    
+    // Click view if 'Control' and 'p' are pressed
+    else if (keyMap.get('Control') && keyMap.get('p')) {
+      e.preventDefault();
+      var viewButton = document.getElementById("viewButton");
+      viewButton.click();
+    }
+    // Add four spaces if tab is pressed without shift
     else if (!keyMap.get('Shift') && keyMap.get('Tab')) {
       e.preventDefault();
-      keyMap.set('Shift', true);
-      keyMap.set('Tab', false);
-
       // Using document.execCommand gives us undo support
-      if (!document.execCommand("insertText", false, "\t")) {
+      document.execCommand("insertText", false, "\t")
         // document.execCommand works great on Chrome/Safari but not Firefox
-        var start = this.selectionStart;
-        var end = this.selectionEnd;
-        var spaces = "    ";
-
-        // Insert 4 spaces
-        this.value = this.value.substring(0, start)
-          + spaces + this.value.substring(end);
-
-        // Place cursor 4 spaces away from where
-        // the tab key was pressed
-        this.selectionStart = this.selectionEnd = start + 4;
-      }
+    }
+    // Add two spaces and line break if Shift and Enter are pressed
+    else if (keyMap.get('Shift') && keyMap.get('Enter')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "  \n")
+    }
+    // Add two stars if Control + b are pressed
+    else if (keyMap.get('Control') && keyMap.get('b')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "**")
+    }
+    // Add header when pressing Control + H
+    else if (keyMap.get('Control') && keyMap.get('h')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "#")
+    }
+    // Add one stars if Control + i is pressed
+    else if (keyMap.get('Control') && keyMap.get('i')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "*")
+    }
+    // Add inline code if Control + Shift and k are pressed
+    else if ((keyMap.get('Control') && keyMap.get('Shift') && keyMap.get('k')) ||
+    (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('k'))) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\`")
+    }
+    // Add link if Control + k are pressed
+    else if (keyMap.get('Control') && keyMap.get('k')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "[]()")
+    }
+    // Add ordered list item if Control + Shift + l or Control + Alt + l are pressed
+    else if ((keyMap.get('Control') && keyMap.get('Shift') && keyMap.get('l')) ||
+    (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('l'))){
+      e.preventDefault();
+      document.execCommand("insertText", false, "\n1. ")
+    }
+    // Add unordered list item if Control + l are pressed
+    else if (keyMap.get('Control') && keyMap.get('l')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\n- ")
+    }
+    // Add strikethrough if Control + Shift + u or Control + Alt + u are pressed
+    else if ((keyMap.get('Control') && keyMap.get('Shift') && keyMap.get('u')) ||
+      (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u'))) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "~~")
+    }
+    // Add quote Control + q, Control + ' or Control + " are pressed
+    else if ((keyMap.get('Control') && keyMap.get('q')) ||
+     (keyMap.get('Control') && keyMap.get('\'')) ||
+     (keyMap.get('Control') && keyMap.get('\"'))) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\n> ")
     }
   }
 
@@ -86,7 +125,7 @@ export default class AppendText extends React.Component {
     const {text} = this.state;
 
     return (
-      <div className="sk-panel">
+      <div className="sk-panel main">
         <div className="sk-panel-content">
           <textarea
             id="AppendTextArea"

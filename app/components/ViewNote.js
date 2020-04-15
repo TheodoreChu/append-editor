@@ -42,7 +42,7 @@ export default class ViewNote extends React.Component {
     const text = this.props.text;
 
     return (
-            <div className="sk-panel">
+            <div className="sk-panel main">
         <div className="sk-panel-content">
           <div className="sk-panel-section">
           <div className="note-entry">

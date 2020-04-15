@@ -239,7 +239,7 @@ export default class AppendEditor extends React.Component {
             <div className="sk-button info" onClick={this.onAppendMode}>
               <div className="sk-label">Append</div>
             </div>
-            <div className="sk-button info" onClick={this.onViewMode}>
+            <div id="viewButton" className="sk-button info" onClick={this.onViewMode}>
               <div className="sk-label">View</div>
             </div>
           </div>
