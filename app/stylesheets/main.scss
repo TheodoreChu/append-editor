@@ -32,31 +32,48 @@ html {
     margin: 10px;
 
     @media screen and (max-width: 996px) {
+      border-left: none;
+      border-right: none;
+      border-bottom: none;
       box-shadow: none;
       margin:0;
     }
   }
   
-  //.sk-panel-content {
+  .sk-panel-content {
     //height: inherit !important;
     //padding: 1.6rem 2rem !important;
+    padding: 1rem 1.25rem !important;
+    padding-bottom: 0px !important;
     //width: 700px;
- // }
-  
-  .sk-panel-content.view {
     @media screen and (max-width: 996px) {
-      padding: .8rem 1rem;
+      padding: .16rem .2rem !important;
+      padding-bottom: 0px !important;
+      //padding: 0px !important;
+    }
+  }
+  .sk-panel-content.view {
+    .sk-panel-section {
+      padding: 9px 10px;
+      border: 1px transparent;
+      border-style: solid;
+    }
+  }
+  
+  /*.sk-panel-content.view {
+    @media screen and (max-width: 996px) {
+    padding: .8rem 1rem !important; // 1.6rem 2rem
     }
   }
 
   .sk-panel-content.edit {
     @media screen and (max-width: 996px) {
-      padding: .16rem .2rem;
+      padding: .16rem .2rem !important;
     }
-  }
+  }*/
 
   .sk-input.contrast.textarea {
-    min-height: 75px; // 75px for three lines
+    min-height: 100px; // 75px for three lines, 100px for four lines, 25px per line
     padding: 9px 10px;//0.7rem 0.8rem;
     max-width: inherit;
     width: calc(100% - 22px);
@@ -92,7 +109,7 @@ html {
 }
 
 #header {
-  border-bottom: 0px;
+  //border-bottom: 0px;
   //border-bottom: 1px solid var(--sn-stylekit-border-color);
   background-color: var(--sn-stylekit-background-color);
   color: var(--sn-stylekit-foreground-color);
@@ -106,12 +123,13 @@ html {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 700px;
-  /*.sk-button-group {
-    display: flex;
-    justify-content: space-between;
-    width: 60%;
-  }*/
+  
+  .sk-button-group {
+    max-width: 700px;
+    //display: flex;
+    //justify-content: space-between;
+    //width: 60%;
+  }
 }
 
 #content {
@@ -135,7 +153,8 @@ html {
 }*/
 
 .note-dialog {
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -295,7 +314,7 @@ html {
         font-size: var(--sn-stylekit-font-size-h3);
       }
 
-      .note-back {
+      .note-content {
         font-size: var(--sn-stylekit-font-size-editor);
         margin-left: auto;
         margin-right: auto;
