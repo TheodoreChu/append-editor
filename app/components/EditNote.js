@@ -48,6 +48,13 @@ export default class EditNote extends React.Component {
       e.preventDefault();
       this.onSave(e);
     }
+    // Click Edit if 'Escape' is pressed
+    else if (keyMap.get('Escape')) {
+      e.preventDefault();
+      keyMap.set('Escape', false)
+      var editButton = document.getElementById("editButton");
+      editButton.click();
+    }
     // Click view if 'Control' and 'p' are pressed
     else if (keyMap.get('Control') && keyMap.get('p')) {
       e.preventDefault();

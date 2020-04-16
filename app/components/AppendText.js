@@ -47,7 +47,14 @@ export default class AppendText extends React.Component {
       e.preventDefault();
       this.onAppend(e);
     }
-    // Click view if 'Control' and 'p' are pressed
+    // Click Append if 'Escape' is pressed
+    else if (keyMap.get('Escape')) {
+      e.preventDefault();
+      keyMap.set('Escape', false)
+      var appendButton = document.getElementById("appendButton");
+      appendButton.click();
+    }
+    // Click View if 'Control' and 'p' are pressed
     else if (keyMap.get('Control') && keyMap.get('p')) {
       e.preventDefault();
       var viewButton = document.getElementById("viewButton");
