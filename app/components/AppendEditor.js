@@ -16,7 +16,7 @@ const initialState = {
   showHelp: false,
   refreshEdit: false,
   refreshView: false,
-  confirmAutoSave: false,
+  confirmAutoSaveOff: false,
   confirmOpenEdit: false,
   confirmStopEdit: false,
   confirmHideAppend: false,
@@ -68,7 +68,6 @@ export default class AppendEditor extends React.Component {
     var newText = currentText + text;
     this.editText(newText)
     this.onRefreshEdit();
-    this.onRefreshView();
     console.log("append completed)")
     }
   }
@@ -189,17 +188,19 @@ export default class AppendEditor extends React.Component {
   }
 
   onToggleAutoSave = () => {
-    if (this.state.editMode) {
-      if (this.state.autoSave) {
-        alert("You turned autosave OFF. Please refresh your edit box.");
-      }
-      else if (!this.state.autoSave) {
-        alert("You turned autosave ON. Please refresh your edit box.");
+    if (this.state.autoSave) {
+      this.setState({
+        confirmAutoSaveOff: true,
+      })
+    }
+    else {
+      this.setState({
+        autoSave: true,
+      })
+      if (this.state.editMode) {
+        alert("You turned AutoSave ON. Please save your work and refresh your edit box.");
       }
     }
-    this.setState({
-      autoSave: !this.state.autoSave,
-    })
   }
 
   onToggleShowHelp = () => {
@@ -261,8 +262,21 @@ export default class AppendEditor extends React.Component {
     });
   }
 
+  onConfirmAutoSaveOff = () => {
+    this.setState({
+      confirmAutoSaveOff: false,
+      autoSave: false,
+    });
+    this.onRefreshEdit();
+  }
+
+  onCancelAutoSaveOff = () => {
+    this.setState({
+      confirmAutoSaveOff: false,
+    });
+  }
+
   render() {
-    //const editEntry = this.state.editEntry || {};
     return (
       <div className="sn-component">
         <div id="header">
@@ -286,12 +300,12 @@ export default class AppendEditor extends React.Component {
             ])}
             {this.state.showMenu && this.state.autoSave && ([
             <div  className="sk-button info" onClick={this.onToggleAutoSave}>
-              <div className="sk-label">Turn Autosave Off</div>
+              <div className="sk-label">AutoSave: ON</div>
             </div>
             ])}
             {this.state.showMenu && !this.state.autoSave && ([
             <div  className="sk-button info" onClick={this.onToggleAutoSave}>
-              <div className="sk-label">Turn Autosave On</div>
+              <div className="sk-label">AutoSave: OFF</div>
             </div>
             ])}
           </div>
@@ -355,6 +369,14 @@ export default class AppendEditor extends React.Component {
               message="You have unsaved text in your Append box. Would you still like to close it?"
               onConfirm={this.onConfirmHideAppend}
               onCancel={this.onCancelHideAppend}
+            />
+          )}
+          {this.state.confirmAutoSaveOff && (
+            <ConfirmDialog
+              title={`⚠️ Warning ⚠️`}
+              message="Are you sure you want to turn AutoSave OFF?"
+              onConfirm={this.onConfirmAutoSaveOff}
+              onCancel={this.onCancelAutoSaveOff}
             />
           )}
         </div>

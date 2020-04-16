@@ -10,13 +10,23 @@
 
 </div>
 
-The Append Editor is a [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org). It is currently in development. When it is ready for use, it will be part of the [Standard Notes Extensions](https://standardnotes.org/extensions). :smile:
+The Append Editor is a [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org). It is currently in active development. When it is ready for use, it will be part of the [Standard Notes Extensions](https://standardnotes.org/extensions). :smile:
+
+This editor follows the "read first" philosophy. The editor opens your notes in read/view mode so you don't accidentally edit old notes as you're reading them. While in view mode, you can easily add to the end of your notes with the Append box at the bottom. GitHub flavored Markdown and LaTeX/KaTeX are built-in. This editor is perfect for class notes and daily journals. 
 
 ## Features
-- GitHub flavored Markdown via [Unified/Remark](https://github.com/remarkjs/remark)
+- [GitHub flavored Markdown](https://guides.github.com/features/mastering-markdown/) via [Unified/Remark](https://github.com/remarkjs/remark)
 - LaTeX via hosted [KaTeX](https://github.com/KaTeX/KaTeX)
-- Read notes by default
-- Append text to notes without accidentally editing old notes
+- Emojis via [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- Google Code and GitHub Gist flavored Syntax Highlighting via [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
+- Read notes by default to prevent accidentally editing previous notes
+- Append text to notes without exposing previous notes
+- Notes are stored in plaintext (great for longevity)
+- AutoSave notes by default
+- Edit mode is available with and without viewing
+- If AutoSave and view mode are both on, text is rendered live
+- Option to turn AutoSave off to improve editing performance while keeping the View mode on
+- Helpful questions to prompt writing
  
 ## Development
 
