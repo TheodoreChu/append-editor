@@ -132,6 +132,12 @@ export default class EditNote extends React.Component {
     }
   }
 
+  onDragEnd = (e) => {
+    if (this.state.autoSave){
+      this.onSave(e);
+    }
+  }
+
   render() {
     const {text} = this.state;
     
@@ -147,6 +153,7 @@ export default class EditNote extends React.Component {
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
+            onDragEnd={this.onDragEnd}
             type="text"
           />
         </div>
