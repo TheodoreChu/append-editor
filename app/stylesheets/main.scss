@@ -153,7 +153,7 @@ html {
 }*/
 
 .note-dialog {
-  max-width: 500px;
+  max-width: 450px;
   width: 100%;
   position: absolute;
   top: 50%;
@@ -322,6 +322,7 @@ html {
         word-wrap: break-word;
         line-height: 1.9rem;
         height: calc(100% - 20px);
+        max-width: 628.700px;
       }
     }
   }
@@ -367,6 +368,16 @@ html {
     margin-top: 0;
     margin-left: auto;
     margin-right: auto;
+  }
+  #scrollToBottomButton {
+    position: absolute;
+    right: 25px;
+    bottom: 10px;
+  }
+  #scrollToTopButton {
+    position: absolute;
+    right: 25px;
+    bottom: 40px;
   }
 }
 

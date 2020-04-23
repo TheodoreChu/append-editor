@@ -12,7 +12,6 @@ export default class EditNote extends React.Component {
 
     this.state = {
       text: this.props.text,
-      autoSave: this.props.autoSave,
     };
   }
 
@@ -127,15 +126,11 @@ export default class EditNote extends React.Component {
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
-    if (this.state.autoSave){
-      this.onSave(e);
-    }
+    this.onSave(e);
   }
 
   onDragEnd = (e) => {
-    if (this.state.autoSave){
-      this.onSave(e);
-    }
+    this.onSave(e);
   }
 
   render() {

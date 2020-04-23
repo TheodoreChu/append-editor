@@ -11,7 +11,7 @@ export default class AppendText extends React.Component {
     super(props);
 
     this.state = {
-      text: "",
+      text: this.props.text,
     };
   }
 
@@ -31,6 +31,12 @@ export default class AppendText extends React.Component {
     this.setState({
       text: '',
     })
+  };
+
+  onSaveAppendText = e => {
+    e.preventDefault();
+    const { text } = this.state;
+    this.props.onSaveAppendText({text});
   };
 
   onKeyDown = (e) => {
@@ -126,6 +132,11 @@ export default class AppendText extends React.Component {
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
+    this.onSaveAppendText(e);
+  }
+
+  onDragEnd = (e) => {
+    this.onSaveAppendText(e);
   }
 
   render() {
@@ -143,6 +154,7 @@ export default class AppendText extends React.Component {
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
+            onDragEnd={this.onDragEnd}
             type="text"
           />
         </div>

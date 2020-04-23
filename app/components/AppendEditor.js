@@ -8,19 +8,18 @@ import AppendText from './AppendText';
 
 const initialState = {
   text: '',
-  autoSave: true,
-  appendMode: true,
+  appendText: '',
+  appendMode: false,
   editMode: false,
   viewMode: true,
   showMenu: false,
   showHelp: false,
   refreshEdit: false,
   refreshView: false,
-  confirmAutoSaveOff: false,
   confirmOpenEdit: false,
   confirmStopEdit: false,
-  confirmHideAppend: false,
   confirmOpenAppend: false,
+  appendTextRetrieved: false,
 };
 
 export default class AppendEditor extends React.Component {
@@ -55,6 +54,30 @@ export default class AppendEditor extends React.Component {
     });
   }
 
+  getAppendText = () => {
+    this.editorKit.internal.componentManager.streamContextItem((note) => {
+      this.setState({
+        appendTextRetrieved: true,
+      })
+      if (note.content.appendText) {
+        this.setState({
+        appendText: note.content.appendText,
+        },
+        () => {
+        console.log("loaded append text: " + this.state.appendText)
+        this.setState({
+        appendMode: true
+        });
+        })
+      }
+      else {
+        this.setState({
+        appendMode: true,
+        })
+      }
+    })
+  }
+
   saveNote(text) {
     this.editorKit.onEditorValueChanged(text);
   }
@@ -74,6 +97,20 @@ export default class AppendEditor extends React.Component {
 
   onSave = ({text}) => {
     this.editText(text);
+  }
+
+  onSaveAppendText = ({text}) => {
+    this.setState({
+      appendText: text,
+    })
+    let note = this.editorKit.internal.note;
+    if (note) {
+      this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
+        note.content.appendText = text; // this.editorKit.internal.note.content.appendText
+      })
+    }
+    console.log("internal appendtext " + this.editorKit.internal.note.content.appendText)
+    console.log("appendtext " + this.state.appendText)
   }
 
   editText = text => {
@@ -99,75 +136,47 @@ export default class AppendEditor extends React.Component {
 
   // Event Handlers
   onEditMode = () => {
-    // if the append area has text and edit mode is off,
-    // ask user if they want to confirm opening the edit box
+    // if Append box is empty, close it and open Edit mode
+    // if Edit mode is on, then close it, open View mode, and Append mode
     if (this.state.appendMode && !this.state.editMode) {
       var AppendTextArea = document.getElementById("AppendTextArea");
-      if (AppendTextArea.value && !this.state.editMode) { 
+      if (!AppendTextArea.value) { 
         this.setState({
-          confirmOpenEdit: true,
+          editMode: true,
+          appendMode: false,
         });
       }
       else {
         this.setState({
         editMode: true,
-        appendMode: false,
         });
       }
     }
     else if (this.state.editMode) {
-      // if you have unsaved text, confirm if you want to save it
-      // if there's no unsaved text, close the edit box and open append
-      var EditTextArea = document.getElementById("EditTextArea");
-      if (!(EditTextArea.value === this.state.text)) { 
-        this.setState({
-          confirmStopEdit: true,
-        });
-      }
-      else {
-        this.setState({
-        editMode: false,
-        viewMode: true,
-        appendMode: true,
-        });
-      }
-    }
-    else if (!this.state.editMode) {
       this.setState({
-      editMode: true,
+      editMode: false,
+      viewMode: true,
+      appendMode: true,
+      });
+    }
+    else {
+      this.setState({
+      editMode: !this.state.editMode,
       });
     }
   };
 
   onAppendMode = () => {
-    if (this.state.appendMode) {
-      var AppendTextArea = document.getElementById("AppendTextArea");
-      if (AppendTextArea.value) { 
-        this.setState({
-          confirmHideAppend: true,
-        });
-      }
-      else {
-        this.setState({
-          appendMode: !this.state.appendMode,
-        });
-      }
+    if (!this.state.appendMode) {
+      this.getAppendText();
+      /*this.setState({
+      appendMode: true,
+      editMode: false,
+      }, () => {
+      this.scrollToBottom();
+      });*/
+      this.scrollToBottom();
     }
-    else if (this.state.editMode && !this.state.appendMode) {
-      var EditTextArea = document.getElementById("EditTextArea");
-      if (!(EditTextArea.value === this.state.text)) { 
-        this.setState({
-          confirmOpenAppend: true,
-        });
-      }
-      else {
-        this.setState({
-        editMode: false,
-        appendMode: true,
-        });
-      }
-    }
-
     else {
       this.setState({
         appendMode: !this.state.appendMode,
@@ -185,22 +194,6 @@ export default class AppendEditor extends React.Component {
     this.setState({
       showMenu: !this.state.showMenu,
     })
-  }
-
-  onToggleAutoSave = () => {
-    if (this.state.autoSave) {
-      this.setState({
-        confirmAutoSaveOff: true,
-      })
-    }
-    else {
-      this.setState({
-        autoSave: true,
-      })
-      if (this.state.editMode) {
-        alert("You turned AutoSave ON. Please save your work and refresh your edit box.");
-      }
-    }
   }
 
   onToggleShowHelp = () => {
@@ -249,38 +242,30 @@ export default class AppendEditor extends React.Component {
     });
   }
 
-  onConfirmHideAppend = () => {
-    this.setState({
-      confirmHideAppend: false,
-      appendMode: false,
-    });
+  // Need both content and appendix for mobile
+  scrollToBottom = () => {
+    var content = document.getElementById("content")
+    var appendix = document.getElementById("appendix");
+    content.scrollIntoView(false); // Bottom
+    appendix.scrollIntoView(false); // Bottom
   }
 
-  onCancelHideAppend = () => {
-    this.setState({
-      confirmHideAppend: false,
-    });
-  }
-
-  onConfirmAutoSaveOff = () => {
-    this.setState({
-      confirmAutoSaveOff: false,
-      autoSave: false,
-    });
-    this.onRefreshEdit();
-  }
-
-  onCancelAutoSaveOff = () => {
-    this.setState({
-      confirmAutoSaveOff: false,
-    });
+  // Need both content and appendix for mobile
+  scrollToTop = () => {
+    var content = document.getElementById("content")
+    var header = document.getElementById("header");
+    content.scrollIntoView(true); // Top
+    header.scrollIntoView(true); // Top
   }
 
   render() {
+    if (!this.state.appendTextRetrieved) {
+      this.getAppendText();
+    }
     return (
       <div className="sn-component">
         <div id="header">
-        <div className="sk-button-group">
+          <div className="sk-button-group">
             <div id="editButton" className="sk-button info" onClick={this.onEditMode}>
               <div className="sk-label">Edit</div>
             </div>
@@ -298,14 +283,9 @@ export default class AppendEditor extends React.Component {
               <div className="sk-label">Help</div>
             </div>
             ])}
-            {this.state.showMenu && this.state.autoSave && ([
-            <div  className="sk-button info" onClick={this.onToggleAutoSave}>
-              <div className="sk-label">AutoSave: ON</div>
-            </div>
-            ])}
-            {this.state.showMenu && !this.state.autoSave && ([
-            <div  className="sk-button info" onClick={this.onToggleAutoSave}>
-              <div className="sk-label">AutoSave: OFF</div>
+            {this.state.showMenu && ([
+            <div  className="sk-button info">
+              <div className="sk-label">Search</div>
             </div>
             ])}
           </div>
@@ -315,14 +295,12 @@ export default class AppendEditor extends React.Component {
             <EditNote
               text={this.state.text}
               onSave={this.onSave}
-              autoSave={this.state.autoSave}
             />
           )}
           {this.state.editMode && this.state.refreshEdit && (
             <EditNote
               text={this.state.text}
               onSave={this.onSave}
-              autoSave={this.state.autoSave}
             />
           )}
           {this.state.viewMode && !this.state.refreshView && (
@@ -371,21 +349,21 @@ export default class AppendEditor extends React.Component {
               onCancel={this.onCancelHideAppend}
             />
           )}
-          {this.state.confirmAutoSaveOff && (
-            <ConfirmDialog
-              title={`⚠️ Warning ⚠️`}
-              message="Are you sure you want to turn AutoSave OFF?"
-              onConfirm={this.onConfirmAutoSaveOff}
-              onCancel={this.onCancelAutoSaveOff}
-            />
-          )}
         </div>
         <div id="appendix">
           {this.state.appendMode && (
             <AppendText
               onAppend={this.onAppend}
+              onSaveAppendText={this.onSaveAppendText}
+              text={this.state.appendText}
             />
           )}
+          <div id="scrollToBottomButton" className="sk-button info" onClick={this.scrollToBottom}>
+            <div className="sk-label"> ▼ </div>
+          </div>
+          <div id="scrollToTopButton" className="sk-button info" onClick={this.scrollToTop}>
+            <div className="sk-label"> ▲ </div>
+          </div>
         </div>
       </div>
     );

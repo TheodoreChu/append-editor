@@ -14,6 +14,8 @@ The Append Editor is a [Custom Editor](https://standardnotes.org/help/77/what-ar
 
 This editor follows the "read first" philosophy. The editor opens your notes in read/view mode so you don't accidentally edit old notes as you're reading them. While in view mode, you can easily add to the end of your notes with the Append box at the bottom. GitHub flavored Markdown and LaTeX/KaTeX are built-in. This editor is perfect for class notes and daily journals. 
 
+On the [Desktop](https://standardnotes.org/download) and [web](https://app.standardnotes.org) apps, this editor works best when used with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. 
+
 ## Features
 - [GitHub flavored Markdown](https://guides.github.com/features/mastering-markdown/) via [Unified/Remark](https://github.com/remarkjs/remark)
 - LaTeX via hosted [KaTeX](https://github.com/KaTeX/KaTeX)
@@ -22,10 +24,12 @@ This editor follows the "read first" philosophy. The editor opens your notes in 
 - Read notes by default to prevent accidentally editing previous notes
 - Append text to notes without exposing previous notes
 - Notes are stored in plaintext (great for longevity)
-- AutoSave notes by default
+- Changes to note in the Edit mode are automatically saved
+- Text in the Append mode is automatically saved without automatically appending
 - Edit mode is available with and without viewing
-- If AutoSave and view mode are both on, text is rendered live
-- Option to turn AutoSave off to improve editing performance while keeping the View mode on
+- If Edit mode and View mode are both on, text is rendered live
+- Option to turn View mode off to improve editor performance when editing long notes
+- Buttons to scroll to top and bottom of the note
 - Helpful questions to prompt writing
  
 ## Development
