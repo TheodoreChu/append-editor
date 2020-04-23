@@ -169,13 +169,12 @@ export default class AppendEditor extends React.Component {
   onAppendMode = () => {
     if (!this.state.appendMode) {
       this.getAppendText();
-      /*this.setState({
+      this.setState({
       appendMode: true,
       editMode: false,
       }, () => {
       this.scrollToBottom();
-      });*/
-      this.scrollToBottom();
+      });
     }
     else {
       this.setState({
@@ -246,16 +245,16 @@ export default class AppendEditor extends React.Component {
   scrollToBottom = () => {
     var content = document.getElementById("content")
     var appendix = document.getElementById("appendix");
-    content.scrollIntoView(false); // Bottom
-    appendix.scrollIntoView(false); // Bottom
+    content.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"}); // Bottom
+    appendix.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"}); // Bottom
   }
 
   // Need both content and appendix for mobile
   scrollToTop = () => {
     var content = document.getElementById("content")
     var header = document.getElementById("header");
-    content.scrollIntoView(true); // Top
-    header.scrollIntoView(true); // Top
+    content.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}); // Top
+    header.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}); // Top
   }
 
   render() {
