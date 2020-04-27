@@ -4,6 +4,27 @@
   --sn-stylekit-font-size-editor: 16px;
 }
 
+@media screen and (max-width: 996px) {
+  :root {
+    --sn-stylekit-font-size-editor: 18px;
+  }
+  h1 {
+    font-size: 32px;
+  }
+  h2 {
+    font-size: 28px;
+  }
+  h3 {
+    font-size: 24px;
+  }
+  h4 {
+    font-size: 18px;
+  }
+  h5 {
+    font-size: 16px;
+  }
+}
+
 body,
 html {
   font-family: var(--sn-stylekit-sans-serif-font);
@@ -64,13 +85,15 @@ html {
     @media screen and (max-width: 996px) {
     padding: .8rem 1rem !important; // 1.6rem 2rem
     }
-  }
+  }*/
 
   .sk-panel-content.edit {
     @media screen and (max-width: 996px) {
-      padding: .16rem .2rem !important;
+      //padding: .16rem .2rem !important;
+      padding-left: 0px !important;
+      padding-right: 0px !important;
     }
-  }*/
+  }
 
   .sk-input.contrast.textarea {
     min-height: 100px; // 75px for three lines, 100px for four lines, 25px per line
@@ -126,9 +149,35 @@ html {
   
   .sk-button-group {
     max-width: 700px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     //display: flex;
     //justify-content: space-between;
     //width: 60%;
+
+    :focus {
+      outline: -webkit-focus-ring-color auto 10px;
+      outline-color: -webkit-focus-ring-color;
+      outline-style: auto;
+      outline-width: 10px;
+    }
+
+    button {
+      border-width: 0px;
+      font-family: var(--sn-stylekit-sans-serif-font);
+      font-size: 14px;
+      @media screen and (max-width: 996px) {
+        font-size: 15px;
+      }
+
+      .sk-label { 
+        font-weight: inherit;
+      }
+    }
+    #menuButton {
+      background-color: inherit;
+      color: inherit;
+    }
   }
 }
 
@@ -322,7 +371,7 @@ html {
         word-wrap: break-word;
         line-height: 1.9rem;
         height: calc(100% - 20px);
-        max-width: 628.700px;
+        max-width: 645.500//628.700px;
       }
     }
   }
@@ -369,15 +418,41 @@ html {
     margin-left: auto;
     margin-right: auto;
   }
+
+  :focus {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-color: -webkit-focus-ring-color;
+    outline-style: auto;
+    outline-width: 1px;
+  }
+  
+  button {
+    border-width: 0px;
+    font-family: var(--sn-stylekit-sans-serif-font);
+    font-size: 14px;
+    @media screen and (max-width: 996px) {
+      font-size: 15px;
+    }
+    .sk-label { 
+      font-weight: inherit;
+    }
+  }
+
+  #scrollToTopButton {
+    position: absolute;
+    right: 25px;
+    bottom: 45px;
+    @media screen and (max-width: 996px) {
+      display: none;
+    }
+  }
   #scrollToBottomButton {
     position: absolute;
     right: 25px;
     bottom: 10px;
-  }
-  #scrollToTopButton {
-    position: absolute;
-    right: 25px;
-    bottom: 40px;
+    @media screen and (max-width: 996px) {
+      display: none;
+    }
   }
 }
 

@@ -37,31 +37,15 @@ export default class EditNote extends React.Component {
     keyMap.set(e.key, true);
     console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
     
-    // Save note if Control and Enter are pressed
-    if (keyMap.get('Control') && keyMap.get('Enter')) {
-      e.preventDefault();
-      this.onSave(e);
-    }
-    // Save note if Control and S are pressed
-    else if (keyMap.get('Control') && keyMap.get('s')) {
-      e.preventDefault();
-      this.onSave(e);
-    }
     // Click Edit if 'Escape' is pressed
-    else if (keyMap.get('Escape')) {
+    if (keyMap.get('Escape')) {
       e.preventDefault();
-      keyMap.set('Escape', false)
+      keyMap.set('Escape', false);
       var editButton = document.getElementById("editButton");
       editButton.click();
     }
-    // Click view if 'Control' and 'p' are pressed
-    else if (keyMap.get('Control') && keyMap.get('p')) {
-      e.preventDefault();
-      var viewButton = document.getElementById("viewButton");
-      viewButton.click();
-    }
     // Add four spaces if tab is pressed without shift
-    else if (!keyMap.get('Shift') && keyMap.get('Tab')) {
+    else if (keyMap.get('Control') && !keyMap.get('Shift') && keyMap.get('Tab')) {
       e.preventDefault();
       // Using document.execCommand gives us undo support
       document.execCommand("insertText", false, "\t")
@@ -71,6 +55,11 @@ export default class EditNote extends React.Component {
     else if (keyMap.get('Shift') && keyMap.get('Enter')) {
       e.preventDefault();
       document.execCommand("insertText", false, "  \n")
+    }
+    // Save note if Control and Enter are pressed
+    if (keyMap.get('Control') && keyMap.get('Enter')) {
+      e.preventDefault();
+      this.onSave(e);
     }
     // Add two stars if Control + b are pressed
     else if (keyMap.get('Control') && keyMap.get('b')) {
@@ -87,9 +76,8 @@ export default class EditNote extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "*")
     }
-    // Add inline code if Control + Shift and k are pressed
-    else if ((keyMap.get('Control') && keyMap.get('Shift') && keyMap.get('k')) ||
-    (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('k'))) {
+    // Add inline code if Control + Alt and k are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('k')) {
       e.preventDefault();
       document.execCommand("insertText", false, "\`")
     }
@@ -98,9 +86,8 @@ export default class EditNote extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "[]()")
     }
-    // Add ordered list item if Control + Shift + l or Control + Alt + l are pressed
-    else if ((keyMap.get('Control') && keyMap.get('Shift') && keyMap.get('l')) ||
-    (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('l'))){
+    // Add ordered list item if Control + Alt + l are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('l')){
       e.preventDefault();
       document.execCommand("insertText", false, "\n1. ")
     }
@@ -109,11 +96,16 @@ export default class EditNote extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "\n- ")
     }
-    // Add strikethrough if Control + Shift + u or Control + Alt + u are pressed
-    else if ((keyMap.get('Control') && keyMap.get('Shift') && keyMap.get('u')) ||
-      (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u'))) {
+    // Add strikethrough if Control + Alt + u are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u')) {
       e.preventDefault();
       document.execCommand("insertText", false, "~~")
+    }
+    // Click view if 'Control' and 'p' are pressed
+    else if (keyMap.get('Control') && keyMap.get('p')) {
+      e.preventDefault();
+      var viewButton = document.getElementById("viewButton");
+      viewButton.click();
     }
     // Add quote Control + q, Control + ' or Control + " are pressed
     else if ((keyMap.get('Control') && keyMap.get('q')) ||
@@ -121,6 +113,11 @@ export default class EditNote extends React.Component {
      (keyMap.get('Control') && keyMap.get('\"'))) {
       e.preventDefault();
       document.execCommand("insertText", false, "\n> ")
+    }
+    // Save note if Control and S are pressed
+    else if (keyMap.get('Control') && keyMap.get('s')) {
+      e.preventDefault();
+      this.onSave(e);
     }
   }
 
@@ -140,7 +137,7 @@ export default class EditNote extends React.Component {
       <div className="sk-panel main">
         <div className="sk-panel-content edit">
           <textarea
-            id="EditTextArea"
+            id="editTextArea"
             name="front"
             className="sk-input contrast textarea editnote"
             placeholder="Welcome to the Append Editor! 😄"
@@ -152,19 +149,22 @@ export default class EditNote extends React.Component {
             type="text"
           />
         </div>
+      </div>
+    );
+  }
+}
+
+/*
         <div className="sk-panel-row">
           <div className="sk-button-group stretch">
             <button type="button" 
             onClick={this.onSave}
             className="sk-button info" 
-            id="submit">
+            id="save">
               <div className="sk-label">
                 Save
               </div>
             </button>
           </div>
         </div>
-      </div>
-    );
-  }
-}
+        */

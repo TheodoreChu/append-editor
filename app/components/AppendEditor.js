@@ -22,6 +22,8 @@ const initialState = {
   appendTextRetrieved: false,
 };
 
+let keyMap = new Map();
+
 export default class AppendEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -139,30 +141,36 @@ export default class AppendEditor extends React.Component {
     // if Append box is empty, close it and open Edit mode
     // if Edit mode is on, then close it, open View mode, and Append mode
     if (this.state.appendMode && !this.state.editMode) {
-      var AppendTextArea = document.getElementById("AppendTextArea");
-      if (!AppendTextArea.value) { 
+      var appendTextArea = document.getElementById("appendTextArea");
+      if (!appendTextArea.value) { 
         this.setState({
-          editMode: true,
           appendMode: false,
         });
       }
-      else {
-        this.setState({
+      this.setState({
         editMode: true,
+        }, () => {
+          var editTextArea = document.getElementById("editTextArea");
+          editTextArea.focus();
         });
-      }
     }
     else if (this.state.editMode) {
       this.setState({
       editMode: false,
       viewMode: true,
       appendMode: true,
-      });
+      }, () => {
+        var content = document.getElementById("editButton");
+        content.focus();
+        });
     }
-    else {
+    else if (!this.state.editMode) {
       this.setState({
       editMode: !this.state.editMode,
-      });
+      }, () => {
+        var editTextArea = document.getElementById("editTextArea");
+        editTextArea.focus();
+        });
     }
   };
 
@@ -174,12 +182,17 @@ export default class AppendEditor extends React.Component {
       editMode: false,
       }, () => {
       this.scrollToBottom();
+      var appendTextArea = document.getElementById("appendTextArea");
+      appendTextArea.focus();
       });
     }
-    else {
+    else if (this.state.appendMode) {
       this.setState({
-        appendMode: !this.state.appendMode,
-      });
+        appendMode: false,
+      }, () => {
+        var content = document.getElementById("appendButton");
+        content.focus();
+        });
     }
   }
 
@@ -243,7 +256,7 @@ export default class AppendEditor extends React.Component {
 
   // Need both content and appendix for mobile
   scrollToBottom = () => {
-    var content = document.getElementById("content")
+    var content = document.getElementById("content");
     var appendix = document.getElementById("appendix");
     content.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"}); // Bottom
     appendix.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"}); // Bottom
@@ -257,35 +270,57 @@ export default class AppendEditor extends React.Component {
     header.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}); // Top
   }
 
+  onKeyDown = (e) => {
+    keyMap.set(e.key, true);
+    if (keyMap.get('Control') && keyMap.get('e')) {
+      e.preventDefault();
+      //keyMap.set('Control', false);
+      //keyMap.set('e', false);
+      var editButton = document.getElementById("editButton");
+      editButton.click();
+    }
+    if (keyMap.get('Control') && !keyMap.get('Alt') && keyMap.get('u')) {
+      e.preventDefault();
+      //keyMap.set('Control', false);
+      //keyMap.set('u', false);
+      var appendButton = document.getElementById("appendButton");
+      appendButton.click();
+    }
+  }
+
+  onKeyUp = (e) => {
+    keyMap.set(e.key, false);
+  }
+
   render() {
     if (!this.state.appendTextRetrieved) {
       this.getAppendText();
     }
     return (
-      <div className="sn-component">
+      <div className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
         <div id="header">
           <div className="sk-button-group">
-            <div id="editButton" className="sk-button info" onClick={this.onEditMode}>
-              <div className="sk-label">Edit</div>
-            </div>
-            <div id="appendButton" className="sk-button info" onClick={this.onAppendMode}>
-              <div className="sk-label">Append</div>
-            </div>
-            <div id="viewButton" className="sk-button info" onClick={this.onViewMode}>
-              <div className="sk-label">View</div>
-            </div>
-            <div className="sk-button" onClick={this.onToggleMenu}>
-              <div className="sk-label">•••</div>
-            </div>
+            <button type="button" id="editButton" onClick={this.onEditMode} className="sk-button info">
+              <div className="sk-label"> Edit </div>
+            </button>
+            <button type="button" id="appendButton" onClick={this.onAppendMode} className="sk-button info">
+              <div className="sk-label"> Append </div>
+            </button>
+            <button type="button" id="viewButton" onClick={this.onViewMode} className="sk-button info">
+              <div className="sk-label"> View </div>
+            </button>
+            <button type="button" id="menuButton" onClick={this.onToggleMenu} className="sk-button">
+              <div className="sk-label"> ••• </div>
+            </button>
             {this.state.showMenu && ([
-            <div  className="sk-button info" onClick={this.onToggleShowHelp}>
-              <div className="sk-label">Help</div>
-            </div>
+            <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className="sk-button info">
+              <div className="sk-label"> Help </div>
+            </button>
             ])}
             {this.state.showMenu && ([
-            <div  className="sk-button info">
-              <div className="sk-label">Search</div>
-            </div>
+            <button type="button" id="searchButton" onClick={this.onToggleShowHelp} className="sk-button info">
+              <div className="sk-label"> Search </div>
+            </button>
             ])}
           </div>
         </div>
@@ -357,12 +392,12 @@ export default class AppendEditor extends React.Component {
               text={this.state.appendText}
             />
           )}
-          <div id="scrollToBottomButton" className="sk-button info" onClick={this.scrollToBottom}>
-            <div className="sk-label"> ▼ </div>
-          </div>
-          <div id="scrollToTopButton" className="sk-button info" onClick={this.scrollToTop}>
+          <button type="button" id="scrollToTopButton" onClick={this.scrollToTop} className="sk-button info">
             <div className="sk-label"> ▲ </div>
-          </div>
+          </button>
+          <button type="button" id="scrollToBottomButton" onClick={this.scrollToBottom} className="sk-button info">
+            <div className="sk-label"> ▼ </div>
+          </button>
         </div>
       </div>
     );
