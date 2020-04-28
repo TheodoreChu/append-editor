@@ -66,21 +66,22 @@ export default class AppendEditor extends React.Component {
         appendText: note.content.appendText,
         },
         () => {
-        console.log("loaded append text: " + this.state.appendText)
+        console.log("loaded append text: " + this.state.appendText);
+        console.log("internal appendtext: " + this.editorKit.internal.note.content.appendText);
         this.setState({
         appendMode: true
         });
-        })
+        });
       }
       else {
         this.setState({
         appendMode: true,
-        })
+        });
       }
     })
   }
 
-  saveNote(text) {
+  saveNote = (text) => {
     this.editorKit.onEditorValueChanged(text);
   }
 
@@ -88,12 +89,10 @@ export default class AppendEditor extends React.Component {
 
   onAppend = ({text}) => {
     if (text) {
-    console.log("append attempted")
-    const currentText = this.state.text;
-    var newText = currentText + text;
-    this.editText(newText)
-    this.onRefreshEdit();
-    console.log("append completed)")
+      console.log("append attempted");
+      this.editText(this.state.text.concat(text));
+      this.onRefreshEdit();
+      console.log("append completed");
     }
   }
 
@@ -109,19 +108,17 @@ export default class AppendEditor extends React.Component {
     if (note) {
       this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
         note.content.appendText = text; // this.editorKit.internal.note.content.appendText
-      })
+      });
     }
-    console.log("internal appendtext " + this.editorKit.internal.note.content.appendText)
-    console.log("appendtext " + this.state.appendText)
+    console.log("onSaveAppendText completed: " + note.content.appendText);
   }
 
-  editText = text => {
+  editText = (text) => {
     this.saveNote(text);
-    console.log("text saved")
+    console.log("text saved");
     this.setState({
       text: text,
     });
-    console.log("view refreshed")
   };
 
   onRefreshEdit = () => {
@@ -279,7 +276,7 @@ export default class AppendEditor extends React.Component {
       var editButton = document.getElementById("editButton");
       editButton.click();
     }
-    if (keyMap.get('Control') && !keyMap.get('Alt') && keyMap.get('u')) {
+    else if (keyMap.get('Control') && !keyMap.get('Alt') && keyMap.get('u')) {
       e.preventDefault();
       //keyMap.set('Control', false);
       //keyMap.set('u', false);
@@ -297,7 +294,7 @@ export default class AppendEditor extends React.Component {
       this.getAppendText();
     }
     return (
-      <div className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+      <div tabIndex="0" className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
         <div id="header">
           <div className="sk-button-group">
             <button type="button" id="editButton" onClick={this.onEditMode} className="sk-button info">

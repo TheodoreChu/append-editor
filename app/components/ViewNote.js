@@ -6,11 +6,13 @@ import rehype2react from 'rehype-react'
 
 const math = require('remark-math');
 const rehypeKatex = require('rehype-katex')
-var highlight = require('rehype-highlight');
+const highlight = require('rehype-highlight');
 const emoji = require('remark-emoji');
+const externalLinks = require('remark-external-links')
 
 var processor = unified()
   .use(parse)
+  .use(externalLinks)
   .use(remark2rehype)
   .use(math)
   .use(rehypeKatex) 

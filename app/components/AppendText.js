@@ -12,6 +12,7 @@ export default class AppendText extends React.Component {
 
     this.state = {
       text: this.props.text,
+      autoSave: true,
     };
   }
 
@@ -19,26 +20,26 @@ export default class AppendText extends React.Component {
     const target = event.target;
     const value = target.value
 
-    this.setState(state => ({
-      text: value
-    }));
+    this.setState({
+      text: value,
+    });
   };
 
-  onAppend = e => {
+  onAppend = (e) => {
     e.preventDefault();
     const { text } = this.state;
     this.props.onAppend({text});
     this.setState({
       text: '',
-    })
+    });
     var appendTextArea = document.getElementById("appendTextArea");
     appendTextArea.focus();
   };
 
-  onSaveAppendText = e => {
-    e.preventDefault();
+  onSaveAppendText = () => {
     const { text } = this.state;
     this.props.onSaveAppendText({text});
+    console.log("onSaveAppendText triggered")
   };
 
   onKeyDown = (e) => {
@@ -48,11 +49,20 @@ export default class AppendText extends React.Component {
     // Click Append if 'Escape' is pressed
     if (keyMap.get('Escape')) {
       e.preventDefault();
-      keyMap.set('Escape', false)
+      keyMap.set('Escape', false);
       var appendButton = document.getElementById("appendButton");
       appendButton.click();
     }
-    // Add four spaces if tab is pressed without shift
+    // Save Append Text if Tab is pressed
+    else if (!keyMap.get('Control') && keyMap.get('Tab')) {
+      console.log("Tab key: " + keyMap.get('Tab'));
+      keyMap.set('Tab', false);
+      this.setState({
+        autoSave: false,
+      })
+      this.onSaveAppendText();
+    }
+    // Add four spaces if Control and Tab are pressed without Shift
     else if (keyMap.get('Control') && !keyMap.get('Shift') && keyMap.get('Tab')) {
       e.preventDefault();
       // Using document.execCommand gives us undo support
@@ -64,9 +74,12 @@ export default class AppendText extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "  \n")
     }
-    // Save note if Control and Enter are pressed
+    // Append text if Control and Enter are pressed
     else if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
+      this.setState({
+        autoSave: false,
+      });
       this.onAppend(e);
     }
     // Add two stars if Control + b are pressed
@@ -122,20 +135,32 @@ export default class AppendText extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "\n> ")
     }
-    // Save note if Control and S are pressed
+    // Append text if Control and S are pressed
     else if (keyMap.get('Control') && keyMap.get('s')) {
       e.preventDefault();
+      this.setState({
+        autoSave: false,
+      });
       this.onAppend(e);
+    }
+    else {
+      this.setState({
+        autoSave: true,
+      })
     }
   }
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
-    this.onSaveAppendText(e);
+    if (this.state.autoSave) {
+      this.onSaveAppendText();
+    }
   }
 
   onDragEnd = (e) => {
-    this.onSaveAppendText(e);
+    if (this.state.autoSave) {
+      this.onSaveAppendText();
+    }
   }
 
   render() {
@@ -159,10 +184,11 @@ export default class AppendText extends React.Component {
         </div>
         <div className="sk-panel-row">
           <div className="sk-button-group stretch">
-            <button type="button" 
+            <button 
+            type="button" 
+            id="appendTextButton"
             onClick={this.onAppend}
             className="sk-button info" 
-            id="appendTextButton"
             >
               <div className="sk-label">
                 Append
