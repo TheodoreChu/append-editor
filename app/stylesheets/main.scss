@@ -100,7 +100,7 @@ html {
     padding: 9px 10px;//0.7rem 0.8rem;
     max-width: inherit;
     width: calc(100% - 22px);
-    height: 95%;
+    height: 100%;
     height: calc(100% - 32px);
     //outline: 0; // doesn't do anything
     resize: vertical;
@@ -113,7 +113,6 @@ html {
   .sk-input.contrast.textarea.editnote {
     @media screen and (max-width: 997px) {
       min-height: 480px;
-      height: 95%;
     }
   }
 

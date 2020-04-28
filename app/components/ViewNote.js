@@ -8,11 +8,17 @@ const math = require('remark-math');
 const rehypeKatex = require('rehype-katex')
 const highlight = require('rehype-highlight');
 const emoji = require('remark-emoji');
-const externalLinks = require('remark-external-links')
+const externalLinks = require('remark-external-links');
+const toc = require('remark-toc');
+const footnotes = require('remark-footnotes');
+const slug = require('remark-slug');
 
 var processor = unified()
   .use(parse)
+  .use(slug)
+  .use(toc, {maxDepth:6})
   .use(externalLinks)
+  .use(footnotes, {inlineNotes: true})
   .use(remark2rehype)
   .use(math)
   .use(rehypeKatex) 
