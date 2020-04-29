@@ -255,6 +255,7 @@ export default class AppendEditor extends React.Component {
   scrollToBottom = () => {
     var content = document.getElementById("content");
     var appendix = document.getElementById("appendix");
+    document.body.scrollTop = 10000000; // for Safari
     content.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"}); // Bottom
     appendix.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"}); // Bottom
   }
@@ -263,6 +264,7 @@ export default class AppendEditor extends React.Component {
   scrollToTop = () => {
     var content = document.getElementById("content")
     var header = document.getElementById("header");
+    document.body.scrollTop = 0; // for Safari
     content.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}); // Top
     header.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"}); // Top
   }

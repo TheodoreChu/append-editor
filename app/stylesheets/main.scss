@@ -44,8 +44,8 @@ html {
 .sn-component {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow-y: scroll;
+  min-height: 100vh;
+  //overflow-y: scroll;
 
   .sk-panel.main {
     max-width:700px;
@@ -438,20 +438,20 @@ html {
   }
 
   #scrollToTopButton {
-    position: absolute;
+    position: fixed;
     right: 25px;
     bottom: 45px;
-    @media screen and (max-width: 996px) {
+    /*@media screen and (max-width: 996px) {
       display: none;
-    }
+    }*/
   }
   #scrollToBottomButton {
-    position: absolute;
+    position: fixed;
     right: 25px;
     bottom: 10px;
-    @media screen and (max-width: 996px) {
+    /*@media screen and (max-width: 996px) {
       display: none;
-    }
+    }*/
   }
 }
 
