@@ -116,6 +116,12 @@ html {
     }
   }
 
+  .sk-input.contrast.textarea.append {
+    @media screen and (max-width: 997px) {
+      min-height: 120px;
+    }
+  }
+
   .sk-panel-row {
     padding-top: 0.4rem;
     padding-bottom: 0.4rem; // default is top only
@@ -430,7 +436,7 @@ html {
     font-family: var(--sn-stylekit-sans-serif-font);
     font-size: 14px;
     @media screen and (max-width: 996px) {
-      font-size: 15px;
+      font-size: 16px;
     }
     .sk-label { 
       font-weight: inherit;
@@ -441,17 +447,21 @@ html {
     position: fixed;
     right: 25px;
     bottom: 45px;
-    /*@media screen and (max-width: 996px) {
-      display: none;
-    }*/
+    @media screen and (max-width: 996px) {
+      //display: none;
+      right: 15px;
+      bottom: 5.2px;
+    }
   }
   #scrollToBottomButton {
     position: fixed;
     right: 25px;
     bottom: 10px;
-    /*@media screen and (max-width: 996px) {
-      display: none;
-    }*/
+    @media screen and (max-width: 996px) {
+      //display: none;
+      right: 55px;
+      bottom: 5.2px;
+    }
   }
 }
 
