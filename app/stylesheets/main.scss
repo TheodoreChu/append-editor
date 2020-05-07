@@ -4,7 +4,7 @@
   --sn-stylekit-font-size-editor: 16px;
 }
 
-@media screen and (max-width: 996px) {
+@media screen and (max-width: 650px) {
   :root {
     --sn-stylekit-font-size-editor: 18px;
   }
@@ -52,12 +52,18 @@ html {
     width: 100%;
     margin: 10px 5px;
 
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 725px) {
       border-left: none;
       border-right: none;
       border-bottom: none;
       box-shadow: none;
       margin: 0;
+    }
+  }
+
+  .sk-panel.main.edit, .sk-panel.main.appendix {
+    @media screen and (max-width: 725px) {
+      border-top: none;
     }
   }
   
@@ -67,7 +73,7 @@ html {
     padding: 1rem 1.25rem !important;
     padding-bottom: 0px !important;
     //width: 700px;
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 725px) {
       padding: .16rem .2rem !important;
       padding-bottom: 0px !important;
       //padding: 0px !important;
@@ -88,10 +94,11 @@ html {
   }*/
 
   .sk-panel-content.edit {
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 725px) {
       //padding: .16rem .2rem !important;
       padding-left: 0px !important;
       padding-right: 0px !important;
+      padding-top: 0px !important;
     }
   }
 
@@ -101,7 +108,7 @@ html {
     max-width: inherit;
     width: calc(100% - 22px);
     height: 100%;
-    height: calc(100% - 32px);
+    max-height: calc(100% - 23px);
     //outline: 0; // doesn't do anything
     resize: vertical;
     overflow-y: auto;
@@ -161,17 +168,17 @@ html {
     //width: 60%;
 
     :focus {
-      outline: -webkit-focus-ring-color auto 10px;
+      outline: -webkit-focus-ring-color auto 1px;
       outline-color: -webkit-focus-ring-color;
       outline-style: auto;
-      outline-width: 10px;
+      outline-width: 1px;
     }
 
     button {
       border-width: 0px;
       font-family: var(--sn-stylekit-sans-serif-font);
       font-size: 14px;
-      @media screen and (max-width: 996px) {
+      @media screen and (max-width: 650px) {
         font-size: 15px;
       }
 
@@ -189,11 +196,11 @@ html {
 #content {
   background-color: var(--sn-stylekit-contrast-background-color);
   flex: 1;
-  padding: 0 10px;
+  //padding: 0 10px;
   display: flex;
   justify-content: center;
 
-  @media screen and (max-width: 996px) {
+  @media screen and (max-width: 725px) {
     padding: 0;
   }
 }
@@ -435,7 +442,7 @@ html {
     border-width: 0px;
     font-family: var(--sn-stylekit-sans-serif-font);
     font-size: 14px;
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 650px) {
       font-size: 16px;
     }
     .sk-label { 
@@ -447,7 +454,7 @@ html {
     position: fixed;
     right: 25px;
     bottom: 45px;
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 725px) {
       //display: none;
       right: 15px;
       bottom: 5.2px;
@@ -457,7 +464,7 @@ html {
     position: fixed;
     right: 25px;
     bottom: 10px;
-    @media screen and (max-width: 996px) {
+    @media screen and (max-width: 725px) {
       //display: none;
       right: 55px;
       bottom: 5.2px;

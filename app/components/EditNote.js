@@ -134,7 +134,7 @@ export default class EditNote extends React.Component {
     const {text} = this.state;
     
     return (
-      <div className="sk-panel main">
+      <div className="sk-panel main edit">
         <div className="sk-panel-content edit">
           <textarea
             id="editTextArea"
