@@ -72,13 +72,15 @@ export default class ViewNote extends React.Component {
           { (!text) && ([
             <div className="note-content">
               <div style={{textAlign: "center"}}>
-              Welcome to the Append Editor! 👋 Your note is empty. 🙂
-              <br></br><br></br>      
+              <details><summary>
+              Welcome to the Append Editor! 👋 Your note is empty. 🙂</summary>
+              <br></br>      
               Click <strong>Edit</strong> at the top ⬆️ or <strong>Append</strong> at the bottom ⬇️ to add to your note. 📝
               <br></br><br></br>
               Click <strong>Help</strong> in the top menu to learn more about this editor.
               <br></br><br></br>
               Happy note-taking! 😄
+              </details>
               </div>
             </div>
           ])}
@@ -94,8 +96,8 @@ export default class ViewNote extends React.Component {
                 <li>What might be affecting your mood?</li>
                 <li>Which feelings fit your mood and to what extent?</li>
                 <li>What thoughts are contributing to the way you're feeling?</li>
-                  <li><details onToggle={this.onToggleShowFeelings}>
-                  <summary style={{display:"block"}}>
+                  <details onToggle={this.onToggleShowFeelings}>
+                  <summary>
                     {!this.state.showFeelings && ([<a>Show feelings</a>])}
                     {this.state.showFeelings && ([<a>Hide feelings</a>])}</summary>
                   <ul>
@@ -103,15 +105,12 @@ export default class ViewNote extends React.Component {
                     <li>Negative Feelings: afraid, angry, annoyed, anxious, ashamed, bored, burnt out, confused, demoralized, depressed, disappointed, disgusted, distraught, embarrassed, empty, exhausted, frustrated, furious, guilty, heavy, insecure, irritated, jealous, jittery, lethargic, lonely, nervous, numb, resentful, sad, self-conscious, sleepy, stressed, tired, winded, worried</li>
                   </ul>
                   </details>
-                  </li>
-                  <li>
                   <details onToggle={this.onToggleShowMoreQuestions}>
-                    <summary style={{display:"block"}}>
+                    <summary>
                     {!this.state.showMoreQuestions && ([<a>Show more questions</a>])}
                     {this.state.showMoreQuestions && ([<a>Show fewer questions</a>])}
                     </summary>
                   </details>
-                  </li>
                 {this.state.showMoreQuestions &&([
                 <div>
                 <li>What do you hope your life will look like in a week? a month? a year?</li>
@@ -122,7 +121,7 @@ export default class ViewNote extends React.Component {
                 </div>
                 ])}
               </ul>
-              <details id="giveFeedbackDetails" onToggle={this.onToggleShowFeedback}>
+              <details onToggle={this.onToggleShowFeedback}>
                 <summary><a>Give feedback</a></summary>
                 {this.state.showFeedback && ([
                 <div>
