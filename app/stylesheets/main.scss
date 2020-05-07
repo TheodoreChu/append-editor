@@ -108,13 +108,20 @@ html {
     max-width: inherit;
     width: calc(100% - 22px);
     height: 100%;
-    max-height: calc(100% - 23px);
+    max-height: calc(100% - 32px);
     //outline: 0; // doesn't do anything
     resize: vertical;
     overflow-y: auto;
     font-family: var(--sn-stylekit-sans-serif-font);
     font-size: var(--sn-stylekit-font-size-editor);
     line-height: 1.9rem;
+  }
+
+  .sk-input.contrast.textarea:focus {
+    outline: -webkit-focus-ring-color auto 1px;
+    outline-color: -webkit-focus-ring-color;
+    outline-style: auto;
+    outline-width: 1px;
   }
 
   .sk-input.contrast.textarea.editnote {

@@ -19,9 +19,9 @@ export default class EditNote extends React.Component {
     const target = event.target;
     const value = target.value
 
-    this.setState(state => ({
+    this.setState({
       text: value
-    }));
+    });
   };
 
   onSave = e => {
@@ -141,6 +141,8 @@ export default class EditNote extends React.Component {
             name="front"
             className="sk-input contrast textarea editnote"
             placeholder="Welcome to the Append Editor! 😄"
+            rows="25"
+            spellCheck="true"
             value={text}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}

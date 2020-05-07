@@ -10,7 +10,7 @@ const initialState = {
   text: '',
   appendText: '',
   appendMode: false,
-  editMode: false,
+  //editMode: false,
   viewMode: true,
   showMenu: false,
   showHelp: false,
@@ -34,15 +34,11 @@ export default class AppendEditor extends React.Component {
   configureEditorKit() {
     let delegate = new EditorKitDelegate({
       setEditorRawText: text => {
-
-        if (text) {
-          this.setState({
-            text: text,
-          })
-        }
         this.setState({
           ...initialState,
           text,
+        }, () => {
+          this.onRefreshEdit();
         });
       },
       clearUndoHistory: () => {},
@@ -93,14 +89,28 @@ export default class AppendEditor extends React.Component {
       this.editText(this.state.text.concat(text));
       this.onRefreshEdit();
       console.log("append completed");
+      this.setState({
+        appendText: '',
+      }
+      // TODO: save the cleared appendText to note
+      // This would clear the appendText box, but it seems that it will prevent the above editText from working properly
+      // This problem may have to do with two quick, consecutive calls to the component manager
+      // One thing to try is to use the component manger once to save both text and appendText 
+      /*, () => {
+        this.onSaveAppendText(this.state.appendText);
+      }*/);
     }
+    // Saves empty appendText if it's empty
+    /*else {
+      this.onSaveAppendText(text);
+    }*/
   }
 
   onSave = ({text}) => {
     this.editText(text);
   }
 
-  onSaveAppendText = ({text}) => {
+  onSaveAppendText = (text) => {
     this.setState({
       appendText: text,
     })
@@ -115,7 +125,7 @@ export default class AppendEditor extends React.Component {
 
   editText = (text) => {
     this.saveNote(text);
-    console.log("text saved");
+    console.log("text saved:" + text );
     this.setState({
       text: text,
     });
@@ -155,7 +165,6 @@ export default class AppendEditor extends React.Component {
       this.setState({
       editMode: false,
       viewMode: true,
-      appendMode: true,
       }, () => {
         var content = document.getElementById("editButton");
         content.focus();
@@ -177,6 +186,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
       appendMode: true,
       editMode: false,
+      viewMode: true,
       }, () => {
       this.scrollToBottom();
       var appendTextArea = document.getElementById("appendTextArea");

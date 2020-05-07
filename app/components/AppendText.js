@@ -1,6 +1,7 @@
 import React from 'react';
 
 let keyMap = new Map();
+//var timeoutID;
 
 export default class AppendText extends React.Component {
   static defaultProps = {
@@ -19,9 +20,20 @@ export default class AppendText extends React.Component {
   handleInputChange = event => {
     const target = event.target;
     const value = target.value
-
+    console.log("value:" + value)
     this.setState({
       text: value,
+    }
+    // This callback is used to save the append text without using the autoSave boolean
+    // This will work in an SN context, but breaks the standalone editor
+    // TODO: remove the use of autoSave
+    , () => {
+      try {
+        this.onSaveAppendText();
+      }
+      catch (error) {
+        console.error(error);
+      }
     });
   };
 
@@ -32,13 +44,14 @@ export default class AppendText extends React.Component {
     this.setState({
       text: '',
     });
-    var appendTextArea = document.getElementById("appendTextArea");
+    const appendTextArea = document.getElementById("appendTextArea");
     appendTextArea.focus();
+    //timeoutID = window.setTimeout(appendTextArea.click(), 5*1000,);
   };
 
   onSaveAppendText = () => {
-    const { text } = this.state;
-    this.props.onSaveAppendText({text});
+    const text = this.state.text;
+    this.props.onSaveAppendText(text);
     console.log("onSaveAppendText triggered")
   };
 
@@ -174,11 +187,14 @@ export default class AppendText extends React.Component {
             name="Append"
             className="sk-input contrast textarea append"
             placeholder="Append to your note 🙂"
+            rows="5"
+            spellCheck="true"
             value={text}
+            onDoubleClick={this.onSaveAppendText}
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
-            onDragEnd={this.onDragEnd}
+            //onDragEnd={this.onDragEnd}
             type="text"
           />
         </div>
