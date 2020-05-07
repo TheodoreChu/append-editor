@@ -95,16 +95,14 @@ export default class ViewNote extends React.Component {
                 <li>How are you? What's happening?</li>
                 <li>What might be affecting your mood?</li>
                 <li>Which feelings fit your mood and to what extent?</li>
-                <li>What thoughts are contributing to the way you're feeling?</li>
                   <details onToggle={this.onToggleShowFeelings}>
                   <summary>
                     {!this.state.showFeelings && ([<a>Show feelings</a>])}
                     {this.state.showFeelings && ([<a>Hide feelings</a>])}</summary>
-                  <ul>
-                    <li>Positive Feelings: bold, calm, cheerful, confident, content, eager, ecstatic, energized, engaged, enthusiastic, excited, grateful, happy, humorous, inspired, joyful, light, lively, loving, motivated, optimistic, passionate, peaceful, playful, proud, reassured, refreshed, relaxed, relieved, satisfied, secure, surprised, thrilled, wonderful</li>
-                    <li>Negative Feelings: afraid, angry, annoyed, anxious, ashamed, bored, burnt out, confused, demoralized, depressed, disappointed, disgusted, distraught, embarrassed, empty, exhausted, frustrated, furious, guilty, heavy, insecure, irritated, jealous, jittery, lethargic, lonely, nervous, numb, resentful, sad, self-conscious, sleepy, stressed, tired, winded, worried</li>
-                  </ul>
+                    <li><b>Positive Feelings:</b> bold, calm, cheerful, confident, content, eager, ecstatic, energized, engaged, enthusiastic, excited, grateful, happy, humorous, inspired, joyful, light, lively, loving, motivated, optimistic, passionate, peaceful, playful, proud, reassured, refreshed, relaxed, relieved, satisfied, secure, surprised, thrilled, wonderful</li>
+                    <li><b>Negative Feelings:</b> afraid, angry, annoyed, anxious, ashamed, bored, burnt out, confused, demoralized, depressed, disappointed, disgusted, distraught, embarrassed, empty, exhausted, frustrated, furious, guilty, heavy, insecure, irritated, jealous, jittery, lethargic, lonely, nervous, numb, resentful, sad, self-conscious, sleepy, stressed, tired, winded, worried</li>
                   </details>
+                <li>What thoughts are contributing to the way you're feeling?</li>
                   <details onToggle={this.onToggleShowMoreQuestions}>
                     <summary>
                     {!this.state.showMoreQuestions && ([<a>Show more questions</a>])}
