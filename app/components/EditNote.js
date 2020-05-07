@@ -21,6 +21,13 @@ export default class EditNote extends React.Component {
 
     this.setState({
       text: value
+    }, () => {
+      try {
+        this.onSave(event);
+      }
+      catch (error) {
+        console.error(error);
+      }
     });
   };
 

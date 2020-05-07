@@ -84,26 +84,27 @@ export default class AppendEditor extends React.Component {
   // Entry operations
 
   onAppend = ({text}) => {
+    // Do nothing if there's no append text
     if (text) {
-      console.log("append attempted");
-      this.editText(this.state.text.concat(text));
-      this.onRefreshEdit();
-      console.log("append completed");
+      /* 
+      * We usually use this.editText() to save the main text
+      * However, we want to save the main text and clear the appendText
+      * Consecutive calls to the component manager does not work well,
+      * so we want to do both with one call to the component manager */
       this.setState({
+        text: this.state.text.concat(text),
         appendText: '',
-      }
-      // TODO: save the cleared appendText to note
-      // This would clear the appendText box, but it seems that it will prevent the above editText from working properly
-      // This problem may have to do with two quick, consecutive calls to the component manager
-      // One thing to try is to use the component manger once to save both text and appendText 
-      /*, () => {
-        this.onSaveAppendText(this.state.appendText);
-      }*/);
+      }, () => {
+        let note = this.editorKit.internal.note;
+        if (note) {
+          this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
+            note.content.text = this.state.text; // this.editorKit.internal.note.content.text
+            note.content.appendText = this.state.appendText; // this.editorKit.internal.note.content.appendText
+          });
+        }
+        this.onRefreshEdit();
+      });
     }
-    // Saves empty appendText if it's empty
-    /*else {
-      this.onSaveAppendText(text);
-    }*/
   }
 
   onSave = ({text}) => {
@@ -111,6 +112,7 @@ export default class AppendEditor extends React.Component {
   }
 
   onSaveAppendText = (text) => {
+    // This code is similar to this.onAppend();, but we only save the appendText and not the main text
     this.setState({
       appendText: text,
     })

@@ -1,7 +1,6 @@
 import React from 'react';
 
 let keyMap = new Map();
-//var timeoutID;
 
 export default class AppendText extends React.Component {
   static defaultProps = {
@@ -20,7 +19,6 @@ export default class AppendText extends React.Component {
   handleInputChange = event => {
     const target = event.target;
     const value = target.value
-    console.log("value:" + value)
     this.setState({
       text: value,
     }
@@ -44,17 +42,15 @@ export default class AppendText extends React.Component {
     this.setState({
       text: '',
     });
-    const scrollToBottomButton = document.getElementById("scrollToBottomButton");
-    scrollToBottomButton.click();
+    //const scrollToBottomButton = document.getElementById("scrollToBottomButton");
+    //scrollToBottomButton.click();
     const appendTextArea = document.getElementById("appendTextArea");
     appendTextArea.focus();
-    //timeoutID = window.setTimeout(appendTextArea.click(), 5*1000,);
   };
 
   onSaveAppendText = () => {
     const text = this.state.text;
     this.props.onSaveAppendText(text);
-    console.log("onSaveAppendText triggered")
   };
 
   onKeyDown = (e) => {

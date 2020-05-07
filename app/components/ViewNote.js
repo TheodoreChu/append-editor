@@ -86,20 +86,32 @@ export default class ViewNote extends React.Component {
             <div className="note-content">
               <hr></hr>
               <h3>How do I use the Append Editor?</h3>
-              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="noreferrer noopener">GitHub flavored Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="noreferrer noopener">LaTeX via KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="noreferrer noopener">Emoji codes</a>. For the full list of keyboard shortcuts, please visit <a href="https://docs.standardnotes.org/append-editor" target="_blank" rel="noreferrer noopener">docs.standardnotes.org/append-editor</a>.
+              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">GitHub flavored Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">LaTeX via KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>. For the full list of keyboard shortcuts, please visit <a href="https://docs.standardnotes.org/editing/append-editor" target="_blank" rel="noreferrer noopener">docs.standardnotes.org/editing/append-editor</a>.
               <h3>What do I write about?</h3>
               Here are some questions to help you get started:
               <ul>
                 <li>How are you? What's happening?</li>
                 <li>What might be affecting your mood?</li>
-                <li>Which feelings fit your mood and to what extent? {!this.state.showFeelings && ([<a onClick={this.onToggleShowFeelings}>Show feelings</a>])}{this.state.showFeelings && ([<a onClick={this.onToggleShowFeelings}>Hide feelings</a>])}</li>
+                <li>Which feelings fit your mood and to what extent?</li>
                 <li>What thoughts are contributing to the way you're feeling?</li>
-                {this.state.showFeelings && ([
-                <ul>
-                  <li>Positive Feelings: bold, calm, cheerful, confident, content, eager, ecstatic, energized, engaged, enthusiastic, excited, grateful, happy, humorous, inspired, joyful, light, lively, loving, motivated, optimistic, passionate, peaceful, playful, proud, reassured, refreshed, relaxed, relieved, satisfied, secure, surprised, thrilled, wonderful</li>
-                  <li>Negative Feelings: afraid, angry, annoyed, anxious, ashamed, bored, burnt out, confused, demoralized, depressed, disappointed, disgusted, distraught, embarrassed, empty, exhausted, frustrated, furious, guilty, heavy, insecure, irritated, jealous, jittery, lethargic, lonely, nervous, numb, resentful, sad, self-conscious, sleepy, stressed, tired, winded, worried</li>
-                </ul>])}
-                <li>{!this.state.showMoreQuestions && ([<a onClick={this.onToggleShowMoreQuestions}>Show more questions</a>])}{this.state.showMoreQuestions && ([<a onClick={this.onToggleShowMoreQuestions}>Show fewer questions</a>])}</li>
+                  <li><details onToggle={this.onToggleShowFeelings}>
+                  <summary style={{display:"block"}}>
+                    {!this.state.showFeelings && ([<a>Show feelings</a>])}
+                    {this.state.showFeelings && ([<a>Hide feelings</a>])}</summary>
+                  <ul>
+                    <li>Positive Feelings: bold, calm, cheerful, confident, content, eager, ecstatic, energized, engaged, enthusiastic, excited, grateful, happy, humorous, inspired, joyful, light, lively, loving, motivated, optimistic, passionate, peaceful, playful, proud, reassured, refreshed, relaxed, relieved, satisfied, secure, surprised, thrilled, wonderful</li>
+                    <li>Negative Feelings: afraid, angry, annoyed, anxious, ashamed, bored, burnt out, confused, demoralized, depressed, disappointed, disgusted, distraught, embarrassed, empty, exhausted, frustrated, furious, guilty, heavy, insecure, irritated, jealous, jittery, lethargic, lonely, nervous, numb, resentful, sad, self-conscious, sleepy, stressed, tired, winded, worried</li>
+                  </ul>
+                  </details>
+                  </li>
+                  <li>
+                  <details onToggle={this.onToggleShowMoreQuestions}>
+                    <summary style={{display:"block"}}>
+                    {!this.state.showMoreQuestions && ([<a>Show more questions</a>])}
+                    {this.state.showMoreQuestions && ([<a>Show fewer questions</a>])}
+                    </summary>
+                  </details>
+                  </li>
                 {this.state.showMoreQuestions &&([
                 <div>
                 <li>What do you hope your life will look like in a week? a month? a year?</li>
@@ -110,13 +122,15 @@ export default class ViewNote extends React.Component {
                 </div>
                 ])}
               </ul>
-              <a onClick={this.onToggleShowFeedback}>Give feedback</a>
-              {this.state.showFeedback && ([
-              <div>
-              We love hearing from users. 🙂 Please visit <a href="https://standardnotes.org/help" target="_blank" rel="noreferrer noopener">standardnotes.org/help</a> with all of the questions, comments, and concerns you may have. 👋
-              </div>
-              ])}
-              <br></br>
+              <details id="giveFeedbackDetails" onToggle={this.onToggleShowFeedback}>
+                <summary><a>Give feedback</a></summary>
+                {this.state.showFeedback && ([
+                <div>
+                We love hearing from users. 🙂 Please visit <a href="https://standardnotes.org/help" target="_blank" rel="noreferrer noopener">standardnotes.org/help</a> with all of the questions, comments, and concerns that you may have. 👋
+                <br></br><br></br>
+                </div>
+                ])}
+              </details>
               Click <strong>Help</strong> in the top menu to close this section.
               <hr></hr>
             </div>
