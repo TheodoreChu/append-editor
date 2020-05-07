@@ -44,6 +44,8 @@ export default class AppendText extends React.Component {
     this.setState({
       text: '',
     });
+    const scrollToBottomButton = document.getElementById("scrollToBottomButton");
+    scrollToBottomButton.click();
     const appendTextArea = document.getElementById("appendTextArea");
     appendTextArea.focus();
     //timeoutID = window.setTimeout(appendTextArea.click(), 5*1000,);
