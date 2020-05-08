@@ -347,6 +347,10 @@ html {
         border: 0.5px solid var(--sn-stylekit-border-color);
       }
 
+      img {
+        max-width: 645.500px;
+      }
+
       table {
 
         display: block;
@@ -390,7 +394,7 @@ html {
         word-wrap: break-word;
         line-height: 1.9rem;
         height: calc(100% - 20px);
-        max-width: 645.500//628.700px;
+        max-width: 645.500px//628.700px;
       }
     }
   }
