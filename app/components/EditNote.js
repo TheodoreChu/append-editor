@@ -148,7 +148,7 @@ export default class EditNote extends React.Component {
             name="front"
             className="sk-input contrast textarea editnote"
             placeholder="Welcome to the Append Editor! 😄"
-            rows="25"
+            rows="15"
             spellCheck="true"
             value={text}
             onChange={this.handleInputChange}

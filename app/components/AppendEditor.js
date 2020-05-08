@@ -22,6 +22,7 @@ const initialState = {
   appendTextRetrieved: false,
 };
 
+// TODO: Use a single global keyMap (currently there is also one in EditNote.js and ViewNote.js)
 let keyMap = new Map();
 
 export default class AppendEditor extends React.Component {
