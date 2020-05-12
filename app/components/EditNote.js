@@ -129,11 +129,11 @@ export default class EditNote extends React.Component {
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
-    this.onSave(e);
+    //this.onSave(e);
   }
 
   onDragEnd = (e) => {
-    this.onSave(e);
+    //this.onSave(e);
   }
 
   render() {

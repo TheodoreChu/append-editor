@@ -13,7 +13,8 @@ export default class AppendText extends React.Component {
     this.state = {
       text: this.props.text,
       // This autoSave boolean is needed in order for Ctrl + S and Ctrl + Enter keyboard shortcuts to work
-      autoSave: true,
+      // It might not be needed
+      //autoSave: true,
     };
   }
 
@@ -65,14 +66,14 @@ export default class AppendText extends React.Component {
       appendButton.click();
     }
     // Save Append Text if Tab is pressed
-    else if (!keyMap.get('Control') && keyMap.get('Tab')) {
+    /*else if (!keyMap.get('Control') && keyMap.get('Tab')) {
       console.log("Tab key: " + keyMap.get('Tab'));
       keyMap.set('Tab', false);
-      this.setState({
-        autoSave: false,
-      })
+      //this.setState({
+     //   autoSave: false,
+    //  })
       this.onSaveAppendText();
-    }
+    }*/
     // Add four spaces if Control and Tab are pressed without Shift
     else if (keyMap.get('Control') && !keyMap.get('Shift') && keyMap.get('Tab')) {
       e.preventDefault();
@@ -88,9 +89,9 @@ export default class AppendText extends React.Component {
     // Append text if Control and Enter are pressed
     else if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
-      this.setState({
-        autoSave: false,
-      });
+     // this.setState({
+    //    autoSave: false,
+    //  });
       this.onAppend(e);
     }
     // Add two stars if Control + b are pressed
@@ -148,29 +149,30 @@ export default class AppendText extends React.Component {
     // Append text if Control and S are pressed
     else if (keyMap.get('Control') && keyMap.get('s')) {
       e.preventDefault();
-      this.setState({
-        autoSave: false,
-      });
+     // this.setState({
+     //   autoSave: false,
+      //});
       this.onAppend(e);
     }
-    else {
+    /*else {
       this.setState({
         autoSave: true,
       })
-    }
+    }*/
   }
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
-    if (this.state.autoSave) {
-      this.onSaveAppendText();
-    }
+  //  if (this.state.autoSave) {
+   //   this.onSaveAppendText();
+    //}
   }
 
   onDragEnd = (e) => {
-    if (this.state.autoSave) {
-      this.onSaveAppendText();
-    }
+  //  if (this.state.autoSave) {
+  //    this.onSaveAppendText();
+   // }
+   return
   }
 
   render() {

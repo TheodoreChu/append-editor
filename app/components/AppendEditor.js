@@ -336,8 +336,8 @@ export default class AppendEditor extends React.Component {
             </button>
             ])}
             {this.state.showMenu && ([
-            <button type="button" id="searchButton" onClick={this.onToggleShowHelp} className="sk-button info">
-              <div className="sk-label"> Search </div>
+            <button type="button" id="settingsButton" onClick={this.onToggleShowHelp} className="sk-button info">
+              <div className="sk-label"> Settings </div>
             </button>
             ])}
           </div>
