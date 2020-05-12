@@ -284,20 +284,26 @@ export default class AppendEditor extends React.Component {
 
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
+    // Click the top Append if 'Control' and 'e' are pressed
     if (keyMap.get('Control') && keyMap.get('e')) {
       e.preventDefault();
-      //keyMap.set('Control', false);
-      //keyMap.set('e', false);
       var editButton = document.getElementById("editButton");
       editButton.click();
     }
+    // Click the top Append if 'Control' and 'u' are pressed
     else if (keyMap.get('Control') && !keyMap.get('Alt') && keyMap.get('u')) {
       e.preventDefault();
-      //keyMap.set('Control', false);
-      //keyMap.set('u', false);
       var appendButton = document.getElementById("appendButton");
       appendButton.click();
     }
+    // Click view if 'Control' and 'p' are pressed
+    else if (keyMap.get('Control') && keyMap.get('p')) {
+      e.preventDefault();
+      var viewButton = document.getElementById("viewButton");
+      viewButton.click();
+    }
+    // TODO: If you close it with Ctrl + W and open it again, the Ctrl event key isn't set to false
+    // So, if you have minimize to tray on, then it'll open with Ctrl still down
   }
 
   onKeyUp = (e) => {

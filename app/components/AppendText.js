@@ -12,6 +12,7 @@ export default class AppendText extends React.Component {
 
     this.state = {
       text: this.props.text,
+      // This autoSave boolean is needed in order for Ctrl + S and Ctrl + Enter keyboard shortcuts to work
       autoSave: true,
     };
   }
@@ -22,9 +23,8 @@ export default class AppendText extends React.Component {
     this.setState({
       text: value,
     }
-    // This callback is used to save the append text without using the autoSave boolean
-    // This will work in an SN context, but breaks the standalone editor
-    // TODO: remove the use of autoSave
+    // This callback is used to save the append text
+    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
     , () => {
       try {
         this.onSaveAppendText();
@@ -103,6 +103,11 @@ export default class AppendText extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "#")
     }
+    // Add image code if Control + Alt and i are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('i')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "![]()")
+    }
     // Add one stars if Control + i is pressed
     else if (keyMap.get('Control') && keyMap.get('i')) {
       e.preventDefault();
@@ -132,12 +137,6 @@ export default class AppendText extends React.Component {
     else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u')) {
       e.preventDefault();
       document.execCommand("insertText", false, "~~")
-    }
-    // Click View if 'Control' and 'p' are pressed
-    else if (keyMap.get('Control') && keyMap.get('p')) {
-      e.preventDefault();
-      var viewButton = document.getElementById("viewButton");
-      viewButton.click();
     }
     // Add quote Control + q, Control + ' or Control + " are pressed
     else if ((keyMap.get('Control') && keyMap.get('q')) ||

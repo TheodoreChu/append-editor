@@ -78,6 +78,11 @@ export default class EditNote extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "#")
     }
+    // Add image code if Control + Alt and i are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('i')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "![]()")
+    }
     // Add one stars if Control + i is pressed
     else if (keyMap.get('Control') && keyMap.get('i')) {
       e.preventDefault();
@@ -107,12 +112,6 @@ export default class EditNote extends React.Component {
     else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u')) {
       e.preventDefault();
       document.execCommand("insertText", false, "~~")
-    }
-    // Click view if 'Control' and 'p' are pressed
-    else if (keyMap.get('Control') && keyMap.get('p')) {
-      e.preventDefault();
-      var viewButton = document.getElementById("viewButton");
-      viewButton.click();
     }
     // Add quote Control + q, Control + ' or Control + " are pressed
     else if ((keyMap.get('Control') && keyMap.get('q')) ||

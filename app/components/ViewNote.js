@@ -12,6 +12,7 @@ const externalLinks = require('remark-external-links');
 const toc = require('remark-toc');
 const footnotes = require('remark-footnotes');
 const slug = require('remark-slug');
+const raw = require('rehype-raw');
 
 var processor = unified()
   .use(parse)
@@ -19,7 +20,8 @@ var processor = unified()
   .use(toc, {maxDepth:6})
   .use(externalLinks)
   .use(footnotes, {inlineNotes: true})
-  .use(remark2rehype)
+  .use(remark2rehype, {allowDangerousHtml: true})
+  .use(raw)
   .use(math)
   .use(rehypeKatex) 
   .use(highlight, {ignoreMissing: true})
@@ -88,7 +90,7 @@ export default class ViewNote extends React.Component {
             <div className="note-content">
               <hr></hr>
               <h3>How do I use the Append Editor?</h3>
-              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">GitHub flavored Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">LaTeX via KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>. For the full list of keyboard shortcuts, please visit <a href="https://docs.standardnotes.org/editing/append-editor" target="_blank" rel="noreferrer noopener">docs.standardnotes.org/editing/append-editor</a>.
+              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">GitHub flavored Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">LaTeX via KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>. For the full list of keyboard shortcuts, please visit <a href="https://docs.standardnotes.org/usage/append-editor" target="_blank" rel="noreferrer noopener">docs.standardnotes.org/usage/append-editor</a>.
               <h3>What do I write about?</h3>
               Here are some questions to help you get started:
               <ul>

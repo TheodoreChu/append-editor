@@ -285,7 +285,7 @@ html {
         padding: .2em .4em;
         margin: 0;
         font-size: 85%;
-        background-color: rgba(27,31,35,.05);
+        background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);
         border-radius: 3px;
       }
 
@@ -294,7 +294,7 @@ html {
         overflow: auto;
         font-size: 85%;
         line-height: 1.45;
-        background-color: rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
+        background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
         border-radius: 3px;
         word-wrap: normal;
         margin-top: 0;
@@ -359,10 +359,10 @@ html {
         margin-top: 0;
         margin-bottom: 16px;
         border-spacing: 0;
-        //border-collapse: collapse;
+        border-collapse: collapse;
         
         tr {
-          background-color: #fff;
+          background-color: transparent; // #fff;
           border-top: 1px solid #c6cbd1;  
         }
 
@@ -372,7 +372,7 @@ html {
         }
 
         tr:nth-child(2n) {
-          background-color: #f6f8fa;
+          background-color: var(--sn-stylekit-contrast-background-color)// #f6f8fa;
         }
       }
 
