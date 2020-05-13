@@ -2,26 +2,46 @@
 <div align="center">
 
 [![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/master/LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/theodorechu/append-editor/graphs/commit-activity)
-[![Status](https://img.shields.io/badge/Status-beta-darkgreen.svg)](https://github.com/theodorechu/append-editor#development)
+[![Maintenance](https://img.shields.io/badge/maintained%3F-yes-green.svg)](https://github.com/theodorechu/append-editor/graphs/commit-activity)
+[![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
+[![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
+[![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
 
 </div>
 
 ## Introduction
 The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org). You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com)
 
-This editor follows the "read first" philosophy. The editor opens your notes in read/view mode so you don't accidentally edit old notes as you're reading them. While in view mode, you can easily add to the end of your notes with the Append box at the bottom. Support for Markdown and $\LaTeX/ \KaTeX$ are built-in. This editor is perfect for writing class notes and daily journals. 
+This editor follows the "read first" p<div align="center">
+
+[![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/master/LICENSE)
+[![Maintenance](https://img.shields.io/badge/maintained%3F-yes-green.svg)](https://github.com/theodorechu/append-editor/graphs/commit-activity)
+[![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
+[![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
+[![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
+[![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
+
+</div>
+
+## Introduction
+The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, open-source, and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.  
+
+You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com).
+
+The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in read/view mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
+
+The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down. 
 
 This editor works best on the [Desktop app](https://standardnotes.org/download) and [web](https://app.standardnotes.org) app on a Chromium browser (e.g., Google Chrome), this editor works best when used with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. 
 
 ## Features
 - [Markdown](https://guides.github.com/features/mastering-markdown/) support via [Unified/Remark](https://github.com/remarkjs/remark)
-- LaTeX/TeX via hosted [KaTeX](https://github.com/KaTeX/KaTeX)
+- $\LaTeX/\KaTeX$ via hosted [KaTeX](https://github.com/KaTeX/KaTeX)
 - Emojis via [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
 - Google Code and GitHub Gist flavored Syntax Highlighting via [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
-- Table of Contents (links don't work on mobile)
-- Footnotes (links don't work on mobile)
+- Table of Contents (links don't work on mobile) via [Remark TOC](https://github.com/remarkjs/remark-toc)
+- Footnotes (links don't work on mobile) via [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
 - Inline HTML for underlining and highlighting
 - Buttons to scroll to top and bottom of the note
 - Read notes by default to prevent accidentally editing previous notes
@@ -94,6 +114,8 @@ You can create highlighted text using the following format:
 
 ## Line Breaks
 To have a line break without a paragraph, you will need to add two spaces, called trailing spaces, to the end of your sentence. This line is separate, but is considered to be within the same paragraph. To create a new paragraph, skip two lines.
+
+The **New Line** checkbox adds two spaces and a new line to the beginning of your note. The **New Paragraph** checkbox adds two spaces and two new lines to the beginning of your note. If both are checked, new paragraph will take precedence. 
 
 ## $\KaTeX$
 
