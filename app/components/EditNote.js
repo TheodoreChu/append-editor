@@ -37,9 +37,6 @@ export default class EditNote extends React.Component {
     this.props.onSave({text});
   };
 
-  //const submit = document.querySelector('#submit');
-  //submit.click();
-
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
     console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
@@ -64,7 +61,7 @@ export default class EditNote extends React.Component {
       document.execCommand("insertText", false, "  \n")
     }
     // Save note if Control and Enter are pressed
-    if (keyMap.get('Control') && keyMap.get('Enter')) {
+    else if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
       this.onSave(e);
     }
@@ -129,11 +126,6 @@ export default class EditNote extends React.Component {
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
-    //this.onSave(e);
-  }
-
-  onDragEnd = (e) => {
-    //this.onSave(e);
   }
 
   render() {
@@ -153,7 +145,6 @@ export default class EditNote extends React.Component {
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
-            onDragEnd={this.onDragEnd}
             type="text"
           />
         </div>
