@@ -314,6 +314,21 @@ export default class AppendEditor extends React.Component {
     if (!this.state.appendTextRetrieved) {
       this.getAppendText();
     }
+    /*
+    <button type="button" id="menuButton" onClick={this.onToggleMenu} className="sk-button">
+      <div className="sk-label"> ••• </div>
+    </button>
+    {this.state.showMenu && ([
+    <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className="sk-button info">
+      <div className="sk-label"> Help </div>
+    </button>
+    ])}
+    {this.state.showMenu && ([
+    <button type="button" id="settingsButton" onClick={this.onToggleShowHelp} className="sk-button info">
+    <div className="sk-label"> Settings </div>
+    </button>
+    ])}
+    */
     return (
       <div tabIndex="0" className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
         <div id="header">
@@ -327,19 +342,9 @@ export default class AppendEditor extends React.Component {
             <button type="button" id="viewButton" onClick={this.onViewMode} className="sk-button info">
               <div className="sk-label"> View </div>
             </button>
-            <button type="button" id="menuButton" onClick={this.onToggleMenu} className="sk-button">
-              <div className="sk-label"> ••• </div>
-            </button>
-            {this.state.showMenu && ([
             <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className="sk-button info">
               <div className="sk-label"> Help </div>
             </button>
-            ])}
-            {this.state.showMenu && ([
-            <button type="button" id="settingsButton" onClick={this.onToggleShowHelp} className="sk-button info">
-              <div className="sk-label"> Settings </div>
-            </button>
-            ])}
           </div>
         </div>
         <div id="content">
