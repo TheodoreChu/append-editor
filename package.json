@@ -1,11 +1,11 @@
 {
-  "name": "sn-append-editor",
+  "name": "append-editor",
   "version": "1.0.0",
   "description": "A new way to take notes.",
   "keywords": [
     "Standard Notes",
     "Markdown",
-    "LaTeX"
+    "KaTeX"
   ],
   "main": "dist/dist.js",
   "scripts": {

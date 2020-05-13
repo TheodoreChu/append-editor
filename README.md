@@ -9,7 +9,7 @@
 </div>
 
 ## Introduction
-The Append Editor is a [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org).
+The Append Editor is an unofficial [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org).
 
 This editor follows the "read first" philosophy. The editor opens your notes in read/view mode so you don't accidentally edit old notes as you're reading them. While in view mode, you can easily add to the end of your notes with the Append box at the bottom. Support for Markdown and $\LaTeX/ \KaTeX$ are built-in. This editor is perfect for writing class notes and daily journals. 
 
