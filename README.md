@@ -41,9 +41,9 @@ This editor works best on the [Desktop app](https://standardnotes.org/download) 
 1. Click **Extensions** in the lower left corner.
 1. Click **Import Extension**.
 1. Paste this into the box: 
-  ```
-  https://notes.theochu.com/p/mEyBECVK7i
-  ```
+    ```
+    https://notes.theochu.com/p/mEyBECVK7i
+    ```
 1. Press Enter or Return on your keyboard.
 1. Click **Install**.
 1. At the top of your note, click **Editor**, then click **Append Editor - Beta**.
