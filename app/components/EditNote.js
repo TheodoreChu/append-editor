@@ -144,7 +144,7 @@ export default class EditNote extends React.Component {
         <div className="sk-panel-content edit">
           <textarea
             id="editTextArea"
-            name="front"
+            name="text"
             className="sk-input contrast textarea editnote"
             placeholder="Welcome to the Append Editor! 😄"
             rows="15"

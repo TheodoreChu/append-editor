@@ -12,26 +12,34 @@ export default class AppendText extends React.Component {
 
     this.state = {
       text: this.props.text,
+      newLine: true,
+      newParagraph: false,
       // This autoSave boolean is needed in order for Ctrl + S and Ctrl + Enter keyboard shortcuts to work
       // It might not be needed
       //autoSave: true,
     };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange = event => {
     const target = event.target;
-    const value = target.value
+    //const value = target.value
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
     this.setState({
-      text: value,
+      [name]: value,
     }
     // This callback is used to save the append text
     // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
     , () => {
-      try {
+      if (this.state.text) {
+        try {
         this.onSaveAppendText();
       }
-      catch (error) {
-        console.error(error);
+        catch (error) {
+          console.error(error);
+        }
       }
     });
   };
@@ -39,7 +47,18 @@ export default class AppendText extends React.Component {
   onAppend = (e) => {
     e.preventDefault();
     const { text } = this.state;
-    this.props.onAppend({text});
+    var appendText = '';
+    // We test for new paragraph first even though new line is on top and is on by default
+    if (this.state.newParagraph && text) {
+      appendText = '  \n\n' + text;
+    }
+    else if (this.state.newLine && text) {
+      appendText = '  \n' + text;
+    }
+    else {
+      appendText = text;
+    }
+    this.props.onAppend(appendText);
     this.setState({
       text: '',
     });
@@ -183,7 +202,7 @@ export default class AppendText extends React.Component {
         <div className="sk-panel-content edit">
           <textarea
             id="appendTextArea"
-            name="Append"
+            name="text"
             className="sk-input contrast textarea append"
             placeholder="Append to your note 🙂"
             rows="5"
@@ -198,6 +217,25 @@ export default class AppendText extends React.Component {
           />
         </div>
         <div className="sk-panel-row">
+          <form className="checkBoxForm">
+            <label>
+              <input
+                name="newLine"            
+                type="checkbox"
+                checked={this.state.newLine}
+                onChange={this.handleInputChange} />
+                New Line
+            </label>
+            <br />
+            <label>
+              <input
+                name="newParagraph"            
+                type="checkbox"
+                checked={this.state.newParagraph}
+                onChange={this.handleInputChange} />
+                New Paragraph
+            </label>
+          </form>
           <div className="sk-button-group stretch">
             <button 
             type="button" 

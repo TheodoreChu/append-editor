@@ -84,7 +84,7 @@ export default class AppendEditor extends React.Component {
 
   // Entry operations
 
-  onAppend = ({text}) => {
+  onAppend = (text) => {
     // Do nothing if there's no append text
     if (text) {
       /* 
