@@ -90,7 +90,7 @@ export default class ViewNote extends React.Component {
             <div className="note-content">
               <hr></hr>
               <h3>How do I use the Append Editor?</h3>
-              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">GitHub flavored Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">LaTeX via KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>. For the full list of keyboard shortcuts, please visit <a href="https://docs.standardnotes.org/usage/append-editor" target="_blank" rel="noreferrer noopener">docs.standardnotes.org/usage/append-editor</a>.
+              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>, syntax highlighting, inline HTML, and more. For the full list of features and keyboard shortcuts, please visit <a href="https://docs.theochu.com/append-editor" target="_blank" rel="noopener">docs.theochu.com/append-editor</a> or see the <a href="https://github.com/theodorechu/append-editor" target="_blank" rel="noreferrer noopener">README.md on GitHub</a>.
               <h3>What do I write about?</h3>
               Here are some questions to help you get started:
               <ul>
@@ -125,7 +125,7 @@ export default class ViewNote extends React.Component {
                 <summary><a>Give feedback</a></summary>
                 {this.state.showFeedback && ([
                 <div>
-                We love hearing from users. 🙂 Please visit <a href="https://standardnotes.org/help" target="_blank" rel="noreferrer noopener">standardnotes.org/help</a> with all of the questions, comments, and concerns that you may have. 👋
+                Feel free to <a href="https://theochu.com/contact" target="_blank" rel="noopener">contact me</a> if you have any questions, comments, concerns, or feedback. 👋
                 <br></br><br></br>
                 </div>
                 ])}
