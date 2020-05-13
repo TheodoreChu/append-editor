@@ -33,7 +33,7 @@ The Append Editor follows the "read first" philosophy. When you open your notes,
 
 The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down. 
 
-This editor works best on the [Desktop app](https://standardnotes.org/download) and [web](https://app.standardnotes.org) app on a Chromium browser (e.g., Google Chrome), this editor works best when used with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. 
+This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome), this editor works best when used with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. It currently does not work offline but will in the future. 
 
 ## Features
 - [Markdown](https://guides.github.com/features/mastering-markdown/) support via [Unified/Remark](https://github.com/remarkjs/remark)
