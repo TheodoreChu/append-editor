@@ -40,7 +40,10 @@ This editor works best on the [Desktop app](https://standardnotes.org/download) 
 1. Create an account at Standard Notes using the [Desktop App](https://standardnotes.org/download) or [Web app](https://app.standardnotes.org). 
 1. Click **Extensions** in the lower left corner.
 1. Click **Import Extension**
-1. Paste this into the box: `https://notes.theochu.com/p/mEyBECVK7i`
+1. Paste this into the box: 
+  ```
+  https://notes.theochu.com/p/mEyBECVK7i
+  ```
 1. Press Enter or Return on your keyboard.
 
 ## Keyboard Shortcuts
