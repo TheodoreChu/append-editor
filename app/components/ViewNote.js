@@ -90,7 +90,7 @@ export default class ViewNote extends React.Component {
             <div className="note-content">
               <hr></hr>
               <h3>How do I use the Append Editor?</h3>
-              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>, syntax highlighting, inline HTML, and more. For the full list of features and keyboard shortcuts, please visit <a href="https://docs.theochu.com/append-editor" target="_blank" rel="noopener">docs.theochu.com/append-editor</a> or see the <a href="https://github.com/theodorechu/append-editor" target="_blank" rel="noreferrer noopener">README.md on GitHub</a>.
+              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>, syntax highlighting, inline HTML, and more. For the full list of features and keyboard shortcuts, please visit the documentation at <a href="https://appendeditor.com" target="_blank" rel="noopener">appendeditor.com</a>.
               <h3>What do I write about?</h3>
               Here are some questions to help you get started:
               <ul>
@@ -125,7 +125,7 @@ export default class ViewNote extends React.Component {
                 <summary><a>Give feedback</a></summary>
                 {this.state.showFeedback && ([
                 <div>
-                Feel free to <a href="https://theochu.com/contact" target="_blank" rel="noopener">contact me</a> if you have any questions, comments, concerns, or feedback. 👋
+                Feel free to <a href="https://appendeditor.com/contact" target="_blank" rel="noopener">reach out</a> if you have any questions, comments, concerns, or feedback. 👋
                 <br></br><br></br>
                 </div>
                 ])}

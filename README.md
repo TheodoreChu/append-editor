@@ -9,7 +9,7 @@
 </div>
 
 ## Introduction
-The Append Editor is an unofficial [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org).
+The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org). You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com)
 
 This editor follows the "read first" philosophy. The editor opens your notes in read/view mode so you don't accidentally edit old notes as you're reading them. While in view mode, you can easily add to the end of your notes with the Append box at the bottom. Support for Markdown and $\LaTeX/ \KaTeX$ are built-in. This editor is perfect for writing class notes and daily journals. 
 
@@ -34,6 +34,14 @@ This editor works best on the [Desktop app](https://standardnotes.org/download) 
 - Option to turn View mode off to improve editor performance when editing long notes
 - Option to add new line or start new paragraph when appending
 - Helpful questions to prompt writing
+
+## Installation
+
+1. Create an account at Standard Notes using the [Desktop App](https://standardnotes.org/download) or [Web app](https://app.standardnotes.org). 
+1. Click **Extensions** in the lower left corner.
+1. Click **Import Extension**
+1. Paste this into the box: `https://notes.theochu.com/p/mEyBECVK7i`
+1. Press Enter or Return on your keyboard.
 
 ## Keyboard Shortcuts
 | Action                 | Shortcut                      
