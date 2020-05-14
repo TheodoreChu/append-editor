@@ -152,18 +152,3 @@ export default class EditNote extends React.Component {
     );
   }
 }
-
-/*
-        <div className="sk-panel-row">
-          <div className="sk-button-group stretch">
-            <button type="button" 
-            onClick={this.onSave}
-            className="sk-button info" 
-            id="save">
-              <div className="sk-label">
-                Save
-              </div>
-            </button>
-          </div>
-        </div>
-        */

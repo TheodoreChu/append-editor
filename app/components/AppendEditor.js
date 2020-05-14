@@ -9,6 +9,8 @@ import AppendText from './AppendText';
 const initialState = {
   text: '',
   appendText: '',
+  appendNewLine: false,
+  appendNewParagraph: false,
   appendMode: false,
   //editMode: false,
   viewMode: true,
@@ -57,17 +59,29 @@ export default class AppendEditor extends React.Component {
     this.editorKit.internal.componentManager.streamContextItem((note) => {
       this.setState({
         appendTextRetrieved: true,
-      })
-      if (note.content.appendText) {
+      });
+      // If either are true, then they are all defined, so we load them all
+      if (note.content.appendNewLine || note.content.appendNewParagraph) {
         this.setState({
         appendText: note.content.appendText,
-        },
-        () => {
-        console.log("loaded append text: " + this.state.appendText);
-        console.log("internal appendtext: " + this.editorKit.internal.note.content.appendText);
-        this.setState({
-        appendMode: true
+        appendNewLine: note.content.appendNewLine,
+        appendNewParagraph: note.content.appendNewParagraph,
+        }, () => {
+          this.setState({
+            appendMode: true
+          });
         });
+      }
+      // If both are false or undefined and appendText is not empty,
+      // Then user has made them both false or are still false by default
+      // Therefore we leave them as false (see above for the initial state)
+      else if (note.content.appendText) {
+        this.setState({
+        appendText: note.content.appendText,
+        }, () => {
+          this.setState({
+            appendMode: true
+          });
         });
       }
       else {
@@ -75,6 +89,11 @@ export default class AppendEditor extends React.Component {
         appendMode: true,
         });
       }
+      // For debugging:
+      //console.log("loaded append text: " + this.state.appendText);
+      //console.log("loaded append newline: " + this.state.newLine);
+      //console.log("loaded append new paragraph: " + this.state.newParagraph);
+      //console.log("internal appendText: " + this.editorKit.internal.note.content.appendText);
     })
   }
 
@@ -91,7 +110,8 @@ export default class AppendEditor extends React.Component {
       * We usually use this.editText() to save the main text
       * However, we want to save the main text and clear the appendText
       * Consecutive calls to the component manager does not work well,
-      * so we want to do both with one call to the component manager */
+      * so we want to do both with one call to the component manager 
+      * This means we need multiple versions of this function depending on what we want to save */
       this.setState({
         text: this.state.text.concat(text),
         appendText: '',
@@ -120,10 +140,27 @@ export default class AppendEditor extends React.Component {
     let note = this.editorKit.internal.note;
     if (note) {
       this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
-        note.content.appendText = text; // this.editorKit.internal.note.content.appendText
+        note.content.appendText = text;
       });
     }
-    console.log("onSaveAppendText completed: " + note.content.appendText);
+  }
+
+  onSaveAppendTextAndCheckboxes = (text, newLine, newParagraph) => {
+    // Here we save the appendText, appendNewLine, and appendNewParagraph
+    // We have an additional function for this because we only call it when the user clicks a checkbox
+    this.setState({
+      appendText: text,
+      appendNewLine: newLine,
+      appendNewParagraph: newParagraph,
+    })
+    let note = this.editorKit.internal.note;
+    if (note) {
+      this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
+        note.content.appendText = text;
+        note.content.appendNewLine = newLine;
+        note.content.appendNewParagraph = newParagraph
+      });
+    }
   }
 
   editText = (text) => {
@@ -412,7 +449,10 @@ export default class AppendEditor extends React.Component {
             <AppendText
               onAppend={this.onAppend}
               onSaveAppendText={this.onSaveAppendText}
+              onSaveAppendTextAndCheckboxes={this.onSaveAppendTextAndCheckboxes}
               text={this.state.appendText}
+              newLine={this.state.appendNewLine}
+              newParagraph={this.state.appendNewParagraph}
             />
           )}
           <button type="button" id="scrollToTopButton" onClick={this.scrollToTop} className="sk-button info">

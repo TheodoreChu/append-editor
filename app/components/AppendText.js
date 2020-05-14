@@ -12,8 +12,8 @@ export default class AppendText extends React.Component {
 
     this.state = {
       text: this.props.text,
-      newLine: true,
-      newParagraph: false,
+      newLine: this.props.newLine,
+      newParagraph: this.props.newParagraph,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -26,6 +26,25 @@ export default class AppendText extends React.Component {
     const name = target.name;
     this.setState({
       [name]: value,
+    }
+    // This callback is used to save the append text and checkboxes
+    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
+    , () => {
+        try {
+          this.onSaveAppendTextAndCheckboxes();
+        }
+        catch (error) {
+          console.error(error);
+        }
+    });
+  };
+
+  // This is an almost duplicate of the above editor. Here we don't save the checkboxes to improve performance
+  handleTextAreaChange = event => {
+    const target = event.target;
+    const value = target.value
+    this.setState({
+      text: value,
     }
     // This callback is used to save the append text
     // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
@@ -66,9 +85,18 @@ export default class AppendText extends React.Component {
     this.props.onSaveAppendText(text);
   };
 
+  onSaveAppendTextAndCheckboxes = () => {
+    //console.log("newline: " + this.state.newLine);
+    //console.log("new paragraph: " + this.state.newParagraph);
+    const text = this.state.text;
+    const newLine = this.state.newLine;
+    const newParagraph = this.state.newParagraph;
+    this.props.onSaveAppendTextAndCheckboxes(text, newLine, newParagraph);
+  };
+
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
-    console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
+    //console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
     
     // Click Append if 'Escape' is pressed
     if (keyMap.get('Escape')) {
@@ -171,7 +199,7 @@ export default class AppendText extends React.Component {
             rows="5"
             spellCheck="true"
             value={text}
-            onChange={this.handleInputChange}
+            onChange={this.handleTextAreaChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
             type="text"
