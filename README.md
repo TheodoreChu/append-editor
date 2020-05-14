@@ -11,20 +11,6 @@
 </div>
 
 ## Introduction
-The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org). You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com)
-
-This editor follows the "read first" p<div align="center">
-
-[![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/master/LICENSE)
-[![Maintenance](https://img.shields.io/badge/maintained%3F-yes-green.svg)](https://github.com/theodorechu/append-editor/graphs/commit-activity)
-[![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
-[![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
-[![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
-[![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
-
-</div>
-
-## Introduction
 The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, open-source, and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.  
 
 You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com).
