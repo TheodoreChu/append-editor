@@ -30,14 +30,12 @@ export default class AppendText extends React.Component {
     // This callback is used to save the append text
     // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
     , () => {
-      if (this.state.text) {
         try {
-        this.onSaveAppendText();
-      }
+          this.onSaveAppendText();
+        }
         catch (error) {
           console.error(error);
         }
-      }
     });
   };
 
