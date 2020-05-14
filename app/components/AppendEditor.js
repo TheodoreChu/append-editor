@@ -15,6 +15,8 @@ const initialState = {
   //editMode: false,
   viewMode: true,
   showMenu: false,
+  showHeader: true,
+  showAppendix: true,
   showHelp: false,
   refreshEdit: false,
   refreshView: false,
@@ -201,13 +203,14 @@ export default class AppendEditor extends React.Component {
           editTextArea.focus();
         });
     }
-    else if (this.state.editMode) {
+    // If edit mode is on and print mode is off, then turn edit mode off and turn view mode on
+    else if (this.state.editMode && !this.state.printMode) {
       this.setState({
       editMode: false,
       viewMode: true,
       }, () => {
-        var content = document.getElementById("editButton");
-        content.focus();
+        var editButton = document.getElementById("editButton");
+        editButton.focus();
         });
     }
     else if (!this.state.editMode) {
@@ -218,6 +221,14 @@ export default class AppendEditor extends React.Component {
         editTextArea.focus();
         });
     }
+    else {
+      this.setState({
+        editMode: !this.state.editMode,
+        }, () => {
+          var editButton = document.getElementById("editButton");
+          editButton.focus();
+        });
+    }
   };
 
   onAppendMode = () => {
@@ -226,12 +237,16 @@ export default class AppendEditor extends React.Component {
       this.setState({
       appendMode: true,
       editMode: false,
-      viewMode: true,
       }, () => {
       this.scrollToBottom();
       var appendTextArea = document.getElementById("appendTextArea");
       appendTextArea.focus();
       });
+      if (!this.state.printMode) {
+        this.setState({
+          viewMode: true
+        })
+      }
     }
     else if (this.state.appendMode) {
       this.setState({
@@ -246,6 +261,7 @@ export default class AppendEditor extends React.Component {
   onViewMode = () => {
     this.setState({
       viewMode: !this.state.viewMode,
+      printMode: false,
     });
   }
 
@@ -347,27 +363,29 @@ export default class AppendEditor extends React.Component {
     keyMap.set(e.key, false);
   }
 
-  printNote = () => {
-    //Get the HTML of div
-    var renderedNote = document.getElementById("renderedNote").innerHTML;
-    //Get the HTML of whole page
-    //var fullHTML = document.body.innerHTML;
-
-    //Reset the page's HTML with div's HTML only
-    document.body.innerHTML = 
-      "<html><head><title></title></head><body>" + 
-      renderedNote + "</body></html>";
-
-    //Print note
-    window.print();
-
-    //Restore the Editor
-    // TODO FIX ERROR: This extension is attempting to communicate with Standard Notes, 
-    // but an error is preventing it from doing so. Please restart this extension and try again.
-    //document.body.innerHTML = fullHTML;
-    //location = location; // doesn't help
-    location.reload(false);
-    // this.forceUpdate(); // doesn't help
+  onPrintMode = () => {
+    if (!this.state.printMode) {
+      this.setState({
+      showHeader: false,
+      showAppendix: false,
+      editMode: false,
+      printMode: true,
+      viewMode: false,
+      refreshView: !this.state.refreshView,
+      }, () => {
+        window.print();
+        this.setState({
+          showHeader: true,
+          showAppendix: true,
+        })
+      });
+    }
+    else if (this.state.printMode) {
+      this.setState({
+        viewMode: true,
+        printMode: false,
+      })
+    }
   }
 
   render() {
@@ -391,6 +409,7 @@ export default class AppendEditor extends React.Component {
     */
     return (
       <div tabIndex="0" className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+        {this.state.showHeader && ([
         <div id="header">
           <div className="sk-button-group">
             <button type="button" id="editButton" onClick={this.onEditMode} className={"sk-button info " + (this.state.editMode ? 'on' : 'off' )}>
@@ -405,38 +424,41 @@ export default class AppendEditor extends React.Component {
             <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className={"sk-button info " + (this.state.showHelp ? 'on' : 'off' )}>
               <div className="sk-label"> Help </div>
             </button>
-            {this.state.viewMode && this.state.text && ([
-            <button type="button" id="printButton" onClick={this.printNote} className="sk-button info off">
+            <button type="button" id="printButton" onClick={this.onPrintMode} className={"sk-button info " + (this.state.printMode ? 'on' : 'off' )}>
               <div className="sk-label"> Print </div>
             </button>
-            ])}
           </div>
         </div>
-        <div id="content">
+        ])}
+        <div id="content" className={ "content "  + (this.state.printMode ? 'printModeOn' : 'printModeOff' )}>
           {this.state.editMode && !this.state.refreshEdit && (
             <EditNote
               text={this.state.text}
               onSave={this.onSave}
+              printMode={this.state.printMode}
             />
           )}
           {this.state.editMode && this.state.refreshEdit && (
             <EditNote
               text={this.state.text}
               onSave={this.onSave}
+              printMode={this.state.printMode}
             />
           )}
-          {this.state.viewMode && !this.state.refreshView && (
+          {(this.state.viewMode || this.state.printMode) && !this.state.refreshView && (
             <ViewNote
               text={this.state.text}
               viewMode={this.state.viewMode}
               showHelp={this.state.showHelp}
+              printMode={this.state.printMode}
             />
           )}
-          {this.state.viewMode && this.state.refreshView && (
+          {(this.state.viewMode || this.state.printMode) && this.state.refreshView && (
             <ViewNote
               text={this.state.text}
               viewMode={this.state.viewMode}
               showHelp={this.state.showHelp}
+              printMode={this.state.printMode}
             />
           )}
           {this.state.confirmOpenEdit && (
@@ -472,7 +494,8 @@ export default class AppendEditor extends React.Component {
             />
           )}
         </div>
-        <div id="appendix">
+        {this.state.showAppendix && ([
+        <div id="appendix" className={ "appendix "  + (this.state.printMode ? 'printModeOn' : 'printModeOff' )}>
           {this.state.appendMode && (
             <AppendText
               onAppend={this.onAppend}
@@ -481,6 +504,7 @@ export default class AppendEditor extends React.Component {
               text={this.state.appendText}
               newLine={this.state.appendNewLine}
               newParagraph={this.state.appendNewParagraph}
+              printMode={this.state.printMode}
             />
           )}
           <button type="button" id="scrollToTopButton" onClick={this.scrollToTop} className="sk-button info">
@@ -490,6 +514,7 @@ export default class AppendEditor extends React.Component {
             <div className="sk-label"> ▼ </div>
           </button>
         </div>
+        ])}
       </div>
     );
   }

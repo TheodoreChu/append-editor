@@ -65,7 +65,7 @@ export default class ViewNote extends React.Component {
     const { text } = this.props;
 
     return (
-      <div className="sk-panel main">
+      <div className={"sk-panel main view " + (this.props.printMode ? 'printModeOn' : 'printModeOff' )}>
         <div className="sk-panel-content view">
           <div className="sk-panel-section">
           <div className="note-entry">

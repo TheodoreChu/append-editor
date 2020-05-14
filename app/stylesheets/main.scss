@@ -25,6 +25,12 @@
   }
 }
 
+@media print {
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+}
+
 body,
 html {
   font-family: var(--sn-stylekit-sans-serif-font);
@@ -60,11 +66,24 @@ html {
       margin: 0;
     }
   }
-
   .sk-panel.main.edit, .sk-panel.main.appendix {
     @media screen and (max-width: 725px) {
       border-top: none;
     }
+  }
+
+  .sk-panel.main.printModeOn {
+    border: 1px var(--sn-stylekit-background-color);
+    box-shadow: none;
+  }
+
+  .sk-panel.main.view.printModeOn {
+    max-width: none;
+    margin-bottom: 0px;
+  }
+
+  .sk-panel.main.edit.printModeOn, .sk-panel.main.appendix.printModeOn {
+    background-color: var(--sn-stylekit-background-color);
   }
   
   .sk-panel-content {
@@ -209,6 +228,10 @@ html {
   }
 }
 
+.content.printModeOn{
+  background-color: var(--sn-stylekit-background-color) !important;
+}
+
 #content {
   background-color: var(--sn-stylekit-contrast-background-color);
   flex: 1;
@@ -227,7 +250,7 @@ html {
   margin: 10px 0 0 0 !important;
   //padding: 28px 14px 28px 28px !important;
   padding: 21px 14px 21px 28px !important; //top left bottom right 
-}*/
+}
 
 .note-dialog {
   max-width: 450px;
@@ -254,7 +277,7 @@ html {
   display: flex;
   flex-direction: column;
   width: 700px;
-}
+}*/
 
 /* entry default styles */
 .note-entry {
@@ -407,7 +430,7 @@ html {
       }
     }
   }
-
+  /*
   .note-options {
     color: var(--sn-stylekit-contrast-foreground-color);
     overflow: visible;
@@ -425,13 +448,17 @@ html {
     .sk-menu-panel {
       /*position: absolute;
       right: 0;
-      z-index: 200;*/
+      z-index: 200;
 
       .sk-menu-panel-row {
         padding: .5rem 1rem;
       }
     }
-  }
+  }*/
+}
+
+.appendix.printModeOn{
+  background-color: var(--sn-stylekit-background-color) !important;
 }
 
 #appendix {
@@ -525,7 +552,7 @@ html {
     }
   }
 }
-
+/*
 // Save note notification
 .note-saved-notification {
   position: absolute;
@@ -550,4 +577,4 @@ html {
     opacity: 0;
     transition: visibility 0s 500ms, opacity 500ms ease-out;
   }
-}
+}*/
