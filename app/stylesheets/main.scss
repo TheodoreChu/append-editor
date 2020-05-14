@@ -79,6 +79,7 @@ html {
 
   .sk-panel.main.view.printModeOn {
     max-width: none;
+    margin-top: 0px;
     margin-bottom: 0px;
   }
 
@@ -380,7 +381,7 @@ html {
       }
 
       img {
-        max-width: 645.500px;
+        max-width: 100%; // 645.500px;
       }
 
       table {
