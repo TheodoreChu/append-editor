@@ -29,6 +29,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Table of Contents (links don't work on mobile) via [Remark TOC](https://github.com/remarkjs/remark-toc)
 - Footnotes (links don't work on mobile) via [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
 - Inline HTML for underlining and highlighting
+- Print/Save to PDF in rendered form (works best on Chromium browsers)
 - Buttons to scroll to top and bottom of the note
 - Read notes by default to prevent accidentally editing previous notes
 - Append text to notes without exposing previous notes
@@ -205,6 +206,9 @@ isn’t indented.
 [^5]: This is the fifth footnote.
 ```
 
+## Printing
+
+Printing and saving to PDF are available on the desktop and web apps. On Windows, the feature works best on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) because you can choose to add Background Images. Links in saved PDFs are currently not clickable.  
 
 ## Development
 
