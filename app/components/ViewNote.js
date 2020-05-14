@@ -135,9 +135,9 @@ export default class ViewNote extends React.Component {
             </div>
           ])}
           { text && ([
-            <div className="note-content">
+            <div id="renderedNote" className="note-content">
               {processor.processSync(text).result}
-              </div>,
+            </div>,
             ])}
           </div>
           </div>

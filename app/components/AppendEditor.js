@@ -347,6 +347,29 @@ export default class AppendEditor extends React.Component {
     keyMap.set(e.key, false);
   }
 
+  printNote = () => {
+    //Get the HTML of div
+    var renderedNote = document.getElementById("renderedNote").innerHTML;
+    //Get the HTML of whole page
+    //var fullHTML = document.body.innerHTML;
+
+    //Reset the page's HTML with div's HTML only
+    document.body.innerHTML = 
+      "<html><head><title></title></head><body>" + 
+      renderedNote + "</body></html>";
+
+    //Print note
+    window.print();
+
+    //Restore the Editor
+    // TODO FIX ERROR: This extension is attempting to communicate with Standard Notes, 
+    // but an error is preventing it from doing so. Please restart this extension and try again.
+    //document.body.innerHTML = fullHTML;
+    //location = location; // doesn't help
+    location.reload(false);
+    // this.forceUpdate(); // doesn't help
+  }
+
   render() {
     if (!this.state.appendTextRetrieved) {
       this.getAppendText();
@@ -382,6 +405,11 @@ export default class AppendEditor extends React.Component {
             <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className={"sk-button info " + (this.state.showHelp ? 'on' : 'off' )}>
               <div className="sk-label"> Help </div>
             </button>
+            {this.state.viewMode && this.state.text && ([
+            <button type="button" id="printButton" onClick={this.printNote} className="sk-button info off">
+              <div className="sk-label"> Print </div>
+            </button>
+            ])}
           </div>
         </div>
         <div id="content">
