@@ -333,16 +333,16 @@ export default class AppendEditor extends React.Component {
       <div tabIndex="0" className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
         <div id="header">
           <div className="sk-button-group">
-            <button type="button" id="editButton" onClick={this.onEditMode} className="sk-button info">
+            <button type="button" id="editButton" onClick={this.onEditMode} className={"sk-button info " + (this.state.editMode ? 'on' : 'off' )}>
               <div className="sk-label"> Edit </div>
             </button>
-            <button type="button" id="appendButton" onClick={this.onAppendMode} className="sk-button info">
+            <button type="button" id="appendButton" onClick={this.onAppendMode} className={"sk-button info " + (this.state.appendMode ? 'on' : 'off' )}>
               <div className="sk-label"> Append </div>
             </button>
-            <button type="button" id="viewButton" onClick={this.onViewMode} className="sk-button info">
+            <button type="button" id="viewButton" onClick={this.onViewMode} className={"sk-button info " + (this.state.viewMode ? 'on' : 'off' )}>
               <div className="sk-label"> View </div>
             </button>
-            <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className="sk-button info">
+            <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className={"sk-button info " + (this.state.showHelp ? 'on' : 'off' )}>
               <div className="sk-label"> Help </div>
             </button>
           </div>

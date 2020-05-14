@@ -199,6 +199,13 @@ html {
       background-color: inherit;
       color: inherit;
     }
+    .sk-button.info.off {
+      color: var(--sn-stylekit-info-color);
+      background-color: transparent;
+    }
+    .sk-button.info.off::before {
+      background-color: transparent;
+    }
   }
 }
 
