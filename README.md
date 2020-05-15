@@ -208,7 +208,7 @@ isn’t indented.
 
 ## Printing
 
-Printing and saving to PDF are available on the desktop and web apps. On Windows, the feature works best on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) because you can choose to add Background Images. Links in saved PDFs are currently not clickable.  
+Printing and saving to PDF are available on the desktop and web apps. On Windows, the feature works best on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) because you add Background Images. To make your links clickable in the PDF, click **Save to PDF** instead of "Microsoft Print to PDF" when choosing your printer.
 
 ## Development
 
