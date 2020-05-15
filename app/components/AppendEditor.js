@@ -293,6 +293,7 @@ export default class AppendEditor extends React.Component {
   onToggleShowHelp = () => {
     this.setState({
       showHelp: !this.state.showHelp,
+      viewMode: true,
     })
     this.onRefreshView();
   }
