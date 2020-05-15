@@ -162,7 +162,7 @@ export default class AppendText extends React.Component {
       e.preventDefault();
       document.execCommand("insertText", false, "\n- ")
     }
-    // Add strikethrough if Control + Alt + u are pressed
+    // Add strike through if Control + Alt + u are pressed
     else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u')) {
       e.preventDefault();
       document.execCommand("insertText", false, "~~")
@@ -196,7 +196,7 @@ export default class AppendText extends React.Component {
             name="text"
             className="sk-input contrast textarea append"
             placeholder="Append to your note 🙂"
-            rows="5"
+            rows={this.props.rows}
             spellCheck="true"
             value={text}
             onChange={this.handleTextAreaChange}

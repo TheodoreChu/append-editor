@@ -1,9 +1,13 @@
 {
-    "identifier": "org.standardnotes.append-editor",
-    "name": "Append Editor",
-    "content_type": "SN|Component",
-    "area": "editor-editor",
-    "version": "1.0.0",
-    "description": "A new way to edit take notes",
-    "url": "http://localhost:8003/dist/index.html"
+  "identifier": "com.theochu.append-editor",
+  "name": "Append Editor - Beta Local",
+  "content_type": "SN|Component",
+  "area": "editor-editor",
+  "version": "1.0.0",
+  "description": "Append to your notes",
+  "url": "http://localhost:8003/dist/index.html",
+  "download_url": "",
+  "latest_url": "",
+  "marketing_url": "https://appendeditor.com",
+  "thumbnail_url": ""
 }

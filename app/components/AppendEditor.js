@@ -23,6 +23,7 @@ const initialState = {
   confirmPrintURL: false,
   printURL: true,
   appendTextRetrieved: false,
+  appendRows: 5,
 };
 
 // TODO: Use a single global keyMap (currently there is also one in EditNote.js and ViewNote.js)
@@ -379,6 +380,20 @@ export default class AppendEditor extends React.Component {
       var viewButton = document.getElementById("viewButton");
       viewButton.click();
     }
+    else if (keyMap.get('Control') && keyMap.get('.')) {
+      e.preventDefault();
+      this.setState({
+        appendRows: this.state.appendRows + 1,
+      });
+    }
+    else if (keyMap.get('Control') && keyMap.get(',')) {
+      e.preventDefault();
+      if (this.state.appendRows > 5) {
+        this.setState({
+          appendRows: this.state.appendRows - 1,
+        });
+      }
+    }
     // TODO: If you close it with Ctrl + W and open it again, the Ctrl event key isn't set to false
     // So, if you have minimize to tray on, then it'll open with Ctrl still down
   }
@@ -486,6 +501,7 @@ export default class AppendEditor extends React.Component {
               newLine={this.state.appendNewLine}
               newParagraph={this.state.appendNewParagraph}
               printMode={this.state.printMode}
+              rows={this.state.appendRows}
             />
           )}
           <button type="button" id="scrollToTopButton" onClick={this.scrollToTop} className="sk-button info">

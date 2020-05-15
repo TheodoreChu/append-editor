@@ -7,6 +7,7 @@
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
 [![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
+[![GitHub Stars](https://img.shields.io/github/stars/theodorechu/append-editor?style=social)](https://github.com/theodorechu/append-editor)
 
 </div>
 
@@ -63,8 +64,13 @@ After you have installed the editor on the web or desktop app, it will automatic
 | Toggle Edit Mode       | Ctrl/⌘ + E                        
 | Toggle Append Mode     | Ctrl/⌘ + U                      
 | Toggle View Mode       | Ctrl/⌘ + P                      
-| Escape Edit/View Mode  | Escape                      
-| Save/Append Text       | Ctrl/⌘ + S and Ctrl/⌘ + Enter            
+| Escape Edit/View Mode^  | Escape                      
+| Save/Append Text^       | Ctrl/⌘ + S and Ctrl/⌘ + Enter      
+| Increase number of rows in Append box | Ctrl/⌘ + `.` (period)
+| Decrease number of rows in Append box** | Ctrl/⌘ + `,` (comma)
+
+^ Perform in the Edit or Append box  
+** The Append box has a minimum of 5 rows
 
 ## Style Guide
 | Result             | Markdown                                     | Shortcut*          |
@@ -75,7 +81,7 @@ After you have installed the editor on the web or desktop app, it will automatic
 | Link 	             | [text]\(http://) 	                          | Ctrl/⌘ + K
 | Image              | ![text]\(http://) 	                          | Ctrl/⌘ + Alt + I
 | `Inline Code` 	   | \`code\` 	                                  | Ctrl/⌘ + Alt + K
-| Code Block 	       | \`\`\`code\`\`\` 	                          | 4 spaces 
+| Code Block 	       | \`\`\`language <br></br>code <br></br>\`\`\` | 4 spaces or Ctrl/⌘ + Tab
 | Unordered List     | * item <br></br> - item <br></br> + item     | 	Ctrl/⌘ + L
 | Ordered List 	     | 1. item                                      | Ctrl/⌘ + Alt + L 
 | Task List          | `- [ ] Task` or `- [x] Task`                 | N/A
@@ -219,12 +225,15 @@ When you click **Print**, you get to choose whether to print the URLs or not. Pr
 
 The instructions for local setup can be found [here](https://docs.standardnotes.org/extensions/local-setup). All commands are performed in the root directory:
 
-1. Run `npm install` to locally install the packages in `package.json`
-2. Create `ext.json` as shown [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:8003/dist/index.html"`. Optionally, create your `ext.json` as a copy of `ext.json.sample`.
-3. Install http-server using `sudo npm install -g http-server`
-4. Start the server at `http://localhost:8003` using `npm run server`
-5. Import the extension into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:8003/ext.json`.
-6. To build the editor, open another command window and run `npm run build`. For live builds, use `npm run watch`. You can also run `npm run start` and open the editor at `http://localhost:8080`.
+1. Fork the [repository](https://github.com/theodorechu/append-editor) on GitHub
+2. [Clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) your fork of the repository
+3. Type `cd append-editor`
+4. Run `npm install` to locally install the packages in `package.json`
+5. Create `ext.json` as shown [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:8003/dist/index.html"`. Optionally, create your `ext.json` as a copy of `ext.json.sample`.
+6. Install http-server using `sudo npm install -g http-server`
+7. Start the server at `http://localhost:8003` using `npm run server`
+8. Import the extension into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:8003/ext.json`.
+9. To build the editor, open another command window and run `npm run build`. For live builds, use `npm run watch`. You can also run `npm run start` and open the editor at `http://localhost:8080`.
 
 ## License
 Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https://github.com/TheodoreChu/append-editor/blob/master/LICENSE).
