@@ -226,6 +226,13 @@ html {
     .sk-button.info.off::before {
       background-color: transparent;
     }
+    .sk-button.info.off:hover {
+      color: var(--sn-stylekit-info-contrast-color);
+      background-color: var(--sn-stylekit-info-color);
+    }
+    .sk-button.info.off::before:hover {
+      background-color: var(--sn-stylekit-info-color);
+    }
   }
 }
 
