@@ -229,5 +229,6 @@ Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https
 - [GitHub](https://github.com/theodorechu/append-editor)
 - [Docs](https://docs.theochu.com/append-editor)
 - [Contact](https://theochu.com/contact)
-- [To do List](https://notes.theochu.com/13704/append-editor-todo)
-- [Standard Notes Help Files](https://standardnotes.org/help) (for issues related to unrelated to this editor)
+- [Append Editor To do List](https://notes.theochu.com/13704/append-editor-todo)
+- [Standard Notes Slack](https://standardnotes.org/slack) (for connecting with the Standard Notes Community)
+- [Standard Notes Help Files](https://standardnotes.org/help) (for issues related to Standard Notes but unrelated to this editor)
