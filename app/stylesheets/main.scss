@@ -26,8 +26,10 @@
 }
 
 @media print {
-  a[href]:after {
-    content: " (" attr(href) ")";
+  .printURL {
+    a[href]:after {
+      content: " (" attr(href) ")";
+    }
   }
 }
 
@@ -252,7 +254,7 @@ html {
   }
 }
 
-/*.sk-notification {
+.sk-notification {
   // Hacking sk-notification style
   overflow: visible !important; // We need this for the dropdown menu
   margin: 10px 0 0 0 !important;
@@ -268,6 +270,51 @@ html {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 200;
+
+  button {
+    border-width: 0px;
+    font-family: var(--sn-stylekit-sans-serif-font);
+    font-size: 14px;
+    @media screen and (max-width: 650px) {
+      font-size: 17px;
+    }
+    .sk-label { 
+      font-weight: normal !important;
+      font-size: 14px;
+    }
+  }
+
+  .sk-panel-header {
+    .sk-button.info {
+      color: var(--sn-stylekit-info-color);
+      background-color: transparent;
+      a {
+        color: var(--sn-stylekit-info-color);
+        font-weight: normal !important;
+        font-size: 14px;
+        text-decoration: none;
+        @media screen and (max-width: 650px) {
+          font-size: 17px;
+        }
+      }
+    }
+    .sk-button.info::before {
+      background-color: transparent;
+    }
+    .sk-button.info:hover {
+      color: var(--sn-stylekit-info-contrast-color);
+      background-color: var(--sn-stylekit-info-color);
+      a {
+        color: var(--sn-stylekit-info-contrast-color);
+      }
+    }
+    .sk-button.info::before:hover {
+      background-color: var(--sn-stylekit-info-color);
+    }
+  }
+  .sk-panel-section.sk-panel-hero {
+    padding-top: 1.6rem;
+  }
 }
 
 .note-overlay {
@@ -280,7 +327,7 @@ html {
   bottom: 0;
   z-index: 100;
 }
-
+/*
 .note-list {
   display: flex;
   flex-direction: column;

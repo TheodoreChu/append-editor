@@ -20,9 +20,8 @@ const initialState = {
   showHelp: false,
   refreshEdit: false,
   refreshView: false,
-  confirmOpenEdit: false,
-  confirmStopEdit: false,
-  confirmOpenAppend: false,
+  confirmPrintURL: false,
+  printURL: true,
   appendTextRetrieved: false,
 };
 
@@ -258,6 +257,26 @@ export default class AppendEditor extends React.Component {
     }
   }
 
+  onPrintMode = () => {
+    this.setState({
+    showHeader: false,
+    showAppendix: false,
+    editMode: false,
+    printMode: true,
+    viewMode: false,
+    refreshView: !this.state.refreshView,
+    }, () => {
+      window.print();
+      this.setState({
+        showHeader: true,
+        showAppendix: true,
+      }, () => {
+        var printButton = document.getElementById("printButton");
+        printButton.focus();
+      })
+    });
+  }
+
   onViewMode = () => {
     this.setState({
       viewMode: !this.state.viewMode,
@@ -278,43 +297,48 @@ export default class AppendEditor extends React.Component {
     this.onRefreshView();
   }
 
-  onConfirmOpenEdit = () => {
+  onUndoPrint = () => {
     this.setState({
-      confirmOpenEdit: false,
-      editMode: true,
+      confirmPrintURL: false,
+      printMode: false,
+    }, () => {
+      var printButton = document.getElementById("printButton");
+      printButton.focus();
     });
   }
-
-  onCancelOpenEdit = () => {
-    this.setState({
-      confirmOpenEdit: false,
-    });
+  
+  confirmPrintURL = () => {
+    if (!this.state.printMode) {
+      this.setState({
+        confirmPrintURL: true,
+      }, () => {
+        var printHelpButton = document.getElementById("printHelpButton");
+        printHelpButton.focus();
+      });
+    }
+    else if (this.state.printMode) {
+      this.setState({
+        printMode: false,
+        viewMode: true,
+        confirmPrintURL: false,
+      });
+    }
   }
 
-  onConfirmStopEdit = () => {
+  onConfirmPrintURL = () => {
     this.setState({
-      confirmStopEdit: false,
-      editMode: false,
+      confirmPrintURL: false,
+      printURL: true,
     });
+    this.onPrintMode();
   }
 
-  onCancelStopEdit = () => {
+  onCancelPrintURL = () => {
     this.setState({
-      confirmStopEdit: false,
+      confirmPrintURL: false,
+      printURL: false,
     });
-  }
-
-  onConfirmOpenAppend = () => {
-    this.setState({
-      confirmOpenAppend: false,
-      appendMode: true,
-    });
-  }
-
-  onCancelOpenAppend = () => {
-    this.setState({
-      confirmOpenAppend: false,
-    });
+    this.onPrintMode();
   }
 
   // Need both content and appendix for mobile
@@ -363,31 +387,6 @@ export default class AppendEditor extends React.Component {
     keyMap.set(e.key, false);
   }
 
-  onPrintMode = () => {
-    if (!this.state.printMode) {
-      this.setState({
-      showHeader: false,
-      showAppendix: false,
-      editMode: false,
-      printMode: true,
-      viewMode: false,
-      refreshView: !this.state.refreshView,
-      }, () => {
-        window.print();
-        this.setState({
-          showHeader: true,
-          showAppendix: true,
-        })
-      });
-    }
-    else if (this.state.printMode) {
-      this.setState({
-        viewMode: true,
-        printMode: false,
-      })
-    }
-  }
-
   render() {
     if (!this.state.appendTextRetrieved) {
       this.getAppendText();
@@ -424,7 +423,7 @@ export default class AppendEditor extends React.Component {
             <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className={"sk-button info " + (this.state.showHelp ? 'on' : 'off' )}>
               <div className="sk-label"> Help </div>
             </button>
-            <button type="button" id="printButton" onClick={this.onPrintMode} className={"sk-button info " + (this.state.printMode ? 'on' : 'off' )}>
+            <button type="button" id="printButton" onClick={this.confirmPrintURL} className={"sk-button info " + ((this.state.printMode) ? 'on' : 'off' )}>
               <div className="sk-label"> Print </div>
             </button>
           </div>
@@ -451,6 +450,7 @@ export default class AppendEditor extends React.Component {
               viewMode={this.state.viewMode}
               showHelp={this.state.showHelp}
               printMode={this.state.printMode}
+              printURL={this.state.printURL}
             />
           )}
           {(this.state.viewMode || this.state.printMode) && this.state.refreshView && (
@@ -459,38 +459,19 @@ export default class AppendEditor extends React.Component {
               viewMode={this.state.viewMode}
               showHelp={this.state.showHelp}
               printMode={this.state.printMode}
+              printURL={this.state.printURL}
             />
           )}
-          {this.state.confirmOpenEdit && (
+          {this.state.confirmPrintURL && (
             <ConfirmDialog
-              title={`⚠️ Warning ⚠️`}
-              message="You have unsaved text in your Append Box. Editing and Appending simultaneously may result in data loss. Would you still like to open the Edit box?"
-              onConfirm={this.onConfirmOpenEdit}
-              onCancel={this.onCancelOpenEdit}
-            />
-          )}
-          {this.state.confirmStopEdit && (
-            <ConfirmDialog
-              title={`⚠️ Warning ⚠️`}
-              message="You have unsaved changes in your Edit box. Would you still like to close it?"
-              onConfirm={this.onConfirmStopEdit}
-              onCancel={this.onCancelStopEdit}
-            />
-          )}
-          {this.state.confirmOpenAppend && (
-            <ConfirmDialog
-              title={`⚠️ Warning ⚠️`}
-              message="You have unsaved changes in your Edit Box. Editing and Appending simultaneously may result in data loss. Would you still like to open the Append box?"
-              onConfirm={this.onConfirmOpenAppend}
-              onCancel={this.onCancelOpenAppend}
-            />
-          )}
-          {this.state.confirmHideAppend && (
-            <ConfirmDialog
-              title={`⚠️ Warning ⚠️`}
-              message="You have unsaved text in your Append box. Would you still like to close it?"
-              onConfirm={this.onConfirmHideAppend}
-              onCancel={this.onCancelHideAppend}
+              title={`Preparing to print...`}
+              message="Would you like to print URLs?"
+              onUndo={this.onUndoPrint}
+              onConfirm={this.onConfirmPrintURL}
+              onCancel={this.onCancelPrintURL}
+              helpLink={"https://appendeditor.com/#printing"}
+              confirmText="Yes"
+              cancelText="No"
             />
           )}
         </div>
