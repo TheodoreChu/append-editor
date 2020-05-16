@@ -89,21 +89,32 @@ After you have installed the editor on the web or desktop app, it will automatic
 | H1 	               | # Heading 	                                  | Ctrl/⌘ + H
 | H2 	               | ## Heading 	                                | Ctrl/⌘ + H (×2)
 | H3 	               | ### Heading 	                                | Ctrl/⌘ + H (×3)
+| H4                 | #### Heading                                 | Ctrl/⌘ + H (×4)
 
 *The shortcuts are currently available only on the Desktop app and Chrome based web apps such as Google Chrome and the latest Microsoft Edge. 
 
-The Append Editor also supports inline HTML.  
-You can create underlined text using the following format: 
+### Inline HTML
+The Append Editor also supports inline HTML. You can use `<div> </div>` tags for formatting sections and `<span></span>` for formatting text inline. Here are some examples. 
 
-```html
-<u> Text to be underlined </u>
-```
+1. Underlined text: 
 
-You can create highlighted text using the following format: 
+  ```html
+  <u> Text to be underlined </u>
+  ```
 
-```html 
-<span style="background-color: rgb(255, 255, 0);"> Text to be highlighted </span>
-```
+1. Highlighted text: 
+
+  ```html 
+  <span style="background-color: rgb(255, 255, 0);"> Text to be highlighted </span>
+  ```
+
+1. Different font families and sizes:
+  ```html
+  This is inline <span style="font-family: consolas; font-size: 14px"> monospace</span> text. 
+  <div style="font-family: Times New Roman; font-size: 12pt"> 
+  This is 12pt Times New Roman for writing papers.
+  </div>
+  ``` 
 
 ## Line Breaks
 To have a line break without a paragraph, you will need to add two spaces, called trailing spaces, to the end of your sentence. This line is separate, but is considered to be within the same paragraph. To create a new paragraph, skip two lines.
@@ -130,7 +141,7 @@ $$
 
 ### $\KaTeX$ Tables
 
-The tables for $\KaTeX$ are availble [here](https://katex.org/docs/supported.html) and [here](https://katex.org/docs/support_table.html).
+The tables for $\KaTeX$ are available [here](https://katex.org/docs/supported.html) and [here](https://katex.org/docs/support_table.html).
 
 ## Table of Contents
 You can create a table of contents: 
@@ -151,16 +162,16 @@ The Append Editor supports unordered and ordered lists, but does not mix them we
   a. Two spaces for lettered list  
   b. Add two trailing spaces to create new lettered item  
   c. Third lettered list
-   - Three or four spaces for unordered sub sublist  
-   - Three or four spaces for unordered sub sublist  
-   1. Three or four spaces for ordered sub sublist  
+   - Three or four spaces for unordered sub sub list  
+   - Three or four spaces for unordered sub sub list  
+   1. Three or four spaces for ordered sub sub list  
   a. Lettered list  
   b. Lettered list  
     1. Ordered list on same level  
 * Unordered List  
-   1. Ordered sublist  
-    - Unordered sub sublist  
-      - Unordered sublist   
+   1. Ordered sub list  
+    - Unordered sub sub list  
+      - Unordered sub list   
         1. Seven spaces for ordered sub sub sub sub list  
         1. Seven spaces for ordered sub sub sub sub list  
   1. Numbered list doesn't resume  
