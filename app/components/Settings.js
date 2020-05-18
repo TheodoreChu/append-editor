@@ -133,14 +133,14 @@ export default class Settings extends React.Component  {
             </datalist>
         <div className="sk-panel-row">
           <div className="sk-h1"><h2>{title}</h2></div>
-          <button id="undoDialog" onClick={onCancel}>
+          <button id="undoDialog" onClick={onCancel} title="Close">
             <img src="icons/ic-close.svg"/>
           </button>
         </div>
         <div className="sk-panel-row">
             <div className="sk-h2">Need help? Check out the <a href={helpLink}target="_blank" rel="noopener">documentation</a>. <br></br>For the default settings, click&nbsp;
-            <button onClick={this.clearAllSettings}>
-              <img src="icons/ic-undo.svg"/>
+            <button onClick={this.clearAllSettings} title="Reset all Settings">
+              <img src="icons/ic-undo.svg" />
             </button>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default class Settings extends React.Component  {
                 //onKeyDown={this.onKeyDown}
                 //onKeyUp={this.onKeyUp}
                 />
-              <button onClick={this.clearFontEdit}>
+              <button onClick={this.clearFontEdit} title="Reset font for Edit/Append">
               <img src="icons/ic-undo.svg"/>
             </button>
             </div>
@@ -173,7 +173,7 @@ export default class Settings extends React.Component  {
               //onKeyDown={this.onKeyDown}
               //onKeyUp={this.onKeyUp}
             />
-            <button onClick={this.clearFontView}>
+            <button onClick={this.clearFontView} title="Reset font for View/Print">
             <img src="icons/ic-undo.svg"/>
             </button>
           </div>

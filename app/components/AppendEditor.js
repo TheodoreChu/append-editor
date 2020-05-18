@@ -537,17 +537,17 @@ export default class AppendEditor extends React.Component {
             <button type="button" id="viewButton" onClick={this.onViewMode} className={"sk-button info " + (this.state.viewMode ? 'on' : 'off' )}>
               <div className="sk-label"> View </div>
             </button>
-            <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className={"sk-button " + (this.state.showHelp ? 'info on' : 'off' )}>
+            <button type="button" id="helpButton" onClick={this.onToggleShowHelp} title="Help" className={"sk-button " + (this.state.showHelp ? 'info on' : 'off' )}>
               <div className="sk-label">
                 <img src="icons/ic-help.svg"/>
               </div>
             </button>
-            <button type="button" id="printButton" onClick={this.onConfirmPrintURL} className={"sk-button " + ((this.state.printMode) ? 'info on' : 'off' )}>
+            <button type="button" id="printButton" onClick={this.onConfirmPrintURL} title="Print" className={"sk-button " + ((this.state.printMode) ? 'info on' : 'off' )}>
               <div className="sk-label"> 
                 <img src="icons/ic-print.svg"/>
               </div>
             </button>
-              <button type="button" id="settingsButton" onClick={this.onToggleShowSettings} className={"sk-button " + ((this.state.showSettings) ? 'info on' : 'off' )}>
+              <button type="button" id="settingsButton" onClick={this.onToggleShowSettings} title="Settings" className={"sk-button " + ((this.state.showSettings) ? 'info on' : 'off' )}>
               <div className="sk-label">
                 <img src="icons/ic-settings.svg"/>
               </div>

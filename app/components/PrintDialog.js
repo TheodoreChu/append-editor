@@ -7,7 +7,7 @@ const ConfirmDialog = ({ title, onUndo, onConfirm, onCancel, confirmText, cancel
         <div className="sk-panel-section">
         <div className="sk-panel-row">
           <div className="sk-h1"><h3>{title}</h3></div>
-        <button id="undoDialog" onClick={onUndo}>
+        <button id="undoDialog" onClick={onUndo} title="Close">
           <img src="icons/ic-close.svg"/>
         </button>
         </div>

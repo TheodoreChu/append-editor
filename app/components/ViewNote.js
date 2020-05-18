@@ -82,7 +82,7 @@ export default class ViewNote extends React.Component {
               <br></br>      
               Click <strong>Edit</strong> at the top ⬆️ or <strong>Append</strong> at the bottom ⬇️ to add to your note. 📝
               <br></br><br></br>
-              Click&nbsp;<img src="icons/ic-help.svg" onClick={this.onToggleShowHelp}/>&nbsp;in the top menu to learn more about this editor.
+              Click&nbsp;<img src="icons/ic-help.svg" onClick={this.onToggleShowHelp} title="Help"/>&nbsp;in the top menu to learn more about this editor.
               <br></br><br></br>
               Happy note-taking! 😄
               </details>
@@ -133,7 +133,7 @@ export default class ViewNote extends React.Component {
                 </div>
                 ])}
               </details>
-              Click&nbsp;<img src="icons/ic-help.svg" onClick={this.onToggleShowHelp}/>&nbsp;in the top menu to close this section.
+              Click&nbsp;<img src="icons/ic-help.svg" onClick={this.onToggleShowHelp} title="Help"/>&nbsp;in the top menu to close this section.
               <hr></hr>
             </div>
           ])}
