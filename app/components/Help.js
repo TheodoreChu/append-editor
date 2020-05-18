@@ -1,39 +1,10 @@
 import React from 'react';
-import unified from 'unified'
-import parse from 'remark-parse'
-import remark2rehype from 'remark-rehype'
-import rehype2react from 'rehype-react'
 
-const math = require('remark-math');
-const rehypeKatex = require('rehype-katex')
-const highlight = require('rehype-highlight');
-const emoji = require('remark-emoji');
-const externalLinks = require('remark-external-links');
-const toc = require('remark-toc');
-const footnotes = require('remark-footnotes');
-const slug = require('remark-slug');
-const raw = require('rehype-raw');
-
-var processor = unified()
-  .use(parse)
-  .use(slug)
-  .use(toc, {maxDepth:6})
-  .use(externalLinks)
-  .use(footnotes, {inlineNotes: true})
-  .use(remark2rehype, {allowDangerousHtml: true})
-  .use(raw)
-  .use(math)
-  .use(rehypeKatex) 
-  .use(highlight, {ignoreMissing: true})
-  .use(emoji)
-  .use(rehype2react, {createElement: React.createElement})
-
-export default class ViewNote extends React.Component {
+export default class Help extends React.Component {
   constructor(props) {
   super(props);
 
   this.state = {
-    showHelp: this.props.showHelp,
     showFeelings: false,
     showMoreQuestions: false,
     showFeedback: false,
@@ -59,14 +30,7 @@ export default class ViewNote extends React.Component {
     });
   };
 
-  onToggleShowHelp = () => {
-    var helpButton = document.getElementById("helpButton");
-    helpButton.click();
-  }
-
   render() {
-    const { text } = this.props;
-
     return (
       <div className={"sk-panel main view " + (this.props.printMode ? 'printModeOn' : 'printModeOff' ) + (this.props.printURL ? ' printURL' : ' printURLOff')}>
         <div className="sk-panel-content view">
@@ -74,26 +38,10 @@ export default class ViewNote extends React.Component {
           <div className="note-entry">
           <div className="note-details">
           <div className="note-info">
-          { (!text) && ([
-            <div className="note-content">
-              <div style={{textAlign: "center"}}>
-              <details><summary>
-              Welcome to the Append Editor! 👋 Your note is empty. 🙂</summary>
-              <br></br>      
-              Click <strong>Edit</strong> at the top ⬆️ or <strong>Append</strong> at the bottom ⬇️ to add to your note. 📝
-              <br></br><br></br>
-              Click&nbsp;<img src="icons/ic-help.svg" onClick={this.onToggleShowHelp}/>&nbsp;in the top menu to learn more about this editor.
-              <br></br><br></br>
-              Happy note-taking! 😄
-              </details>
-              </div>
-            </div>
-          ])}
-          { this.state.showHelp && ([
             <div className="note-content">
               <hr></hr>
               <h3>How do I use the Append Editor?</h3>
-              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">emoji codes</a>, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing, and more. For the full list of features and keyboard shortcuts, please visit the documentation at <a href="https://appendeditor.com" target="_blank" rel="noopener">appendeditor.com</a>.
+              This editor supports <a href="https://guides.github.com/features/mastering-markdown/" target="_blank" rel="nofollow noreferrer noopener">Markdown</a>, <a href="https://katex.org/docs/support_table.html" target="_blank" rel="nofollow noreferrer noopener">KaTeX</a>, and <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md" target="_blank" rel="nofollow noreferrer noopener">Emoji codes</a>, syntax highlighting, inline HTML, and more. For the full list of features and keyboard shortcuts, please visit the documentation at <a href="https://appendeditor.com" target="_blank" rel="noopener">appendeditor.com</a>.
               <h3>What do I write about?</h3>
               Here are some questions to help you get started:
               <ul>
@@ -133,18 +81,10 @@ export default class ViewNote extends React.Component {
                 </div>
                 ])}
               </details>
-              Click&nbsp;<img src="icons/ic-help.svg" onClick={this.onToggleShowHelp}/>&nbsp;in the top menu to close this section.
+              Click&nbsp;<strong>Help</strong>&nbsp;in the top menu to close this section.
               <hr></hr>
             </div>
-          ])}
-            <div id="renderedNote" className="note-content" 
-            style={{fontFamily:this.props.fontView}}
-            >
-              {processor.processSync(text).result}
-            </div>
           </div>
-          </div>
-          <div className="note-options">
           </div>
           </div>
           </div>

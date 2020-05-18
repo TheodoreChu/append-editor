@@ -146,6 +146,7 @@ export default class EditNote extends React.Component {
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
             type="text"
+            style={{fontFamily: this.props.fontEdit}}
           />
         </div>
       </div>

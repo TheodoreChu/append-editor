@@ -49,6 +49,22 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+button {
+  font-family: var(--sn-stylekit-sans-serif-font);
+  background-color: transparent;
+}
+
+button:hover {
+  background-color: var(--sn-stylekit-contrast-background-color);
+}
+
+button:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+  outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+  outline-width: 1px;
+}
+
 .sn-component {
   display: flex;
   flex-direction: column;
@@ -89,7 +105,7 @@ html {
     background-color: var(--sn-stylekit-background-color);
   }
   
-  .sk-panel-content {
+  .sk-panel-content.view {
     //height: inherit !important;
     //padding: 1.6rem 2rem !important;
     padding: 1rem 1.25rem !important;
@@ -97,25 +113,17 @@ html {
     //width: 700px;
     @media screen and (max-width: 725px) {
       padding: .16rem .2rem !important;
-      padding-bottom: 0px !important;
-      //padding: 0px !important;
     }
-  }
-  .sk-panel-content.view {
     .sk-panel-section {
       padding: 9px 10px;
       border: 1px transparent;
       border-style: solid;
     }
   }
-  
-  /*.sk-panel-content.view {
-    @media screen and (max-width: 996px) {
-    padding: .8rem 1rem !important; // 1.6rem 2rem
-    }
-  }*/
 
   .sk-panel-content.edit {
+    padding: 1rem 1.25rem !important;
+    padding-bottom: 0px !important;
     @media screen and (max-width: 725px) {
       //padding: .16rem .2rem !important;
       padding-left: 0px !important;
@@ -198,16 +206,8 @@ html {
     //justify-content: space-between;
     //width: 60%;
 
-    :focus {
-      outline: -webkit-focus-ring-color auto 1px;
-      outline-color: -webkit-focus-ring-color;
-      outline-style: auto;
-      outline-width: 1px;
-    }
-
     button {
       border-width: 0px;
-      font-family: var(--sn-stylekit-sans-serif-font);
       font-size: 15px;
       @media screen and (max-width: 650px) {
         font-size: 16px;
@@ -229,11 +229,13 @@ html {
       background-color: transparent;
     }
     .sk-button.info.off:hover {
-      color: var(--sn-stylekit-info-contrast-color);
-      background-color: var(--sn-stylekit-info-color);
+      //color: var(--sn-stylekit-info-contrast-color);
+      //background-color: var(--sn-stylekit-info-color);
+      background-color: var(--sn-stylekit-contrast-background-color);
     }
     .sk-button.info.off::before:hover {
-      background-color: var(--sn-stylekit-info-color);
+      //background-color: var(--sn-stylekit-info-color);
+      background-color: var(--sn-stylekit-contrast-background-color);
     }
   }
 }
@@ -252,6 +254,109 @@ html {
   @media screen and (max-width: 725px) {
     padding: 0;
   }
+
+  .hljs {
+    color: unset;
+  }
+  
+  code, pre {
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,
+  }
+  code {
+    box-sizing: border-box;
+    word-wrap: break-word;
+    padding: .2em .4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);
+    border-radius: 3px;
+  }
+
+  pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
+    border-radius: 3px;
+    word-wrap: normal;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  
+  pre > code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    max-width: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: initial;
+    border: 0;
+  }
+
+  a {
+    color: #086dd6;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  blockquote {
+    margin: 0;
+    margin-top: 0;
+    margin-bottom: 16px;
+    padding: 0 1em;
+    color: #6a737d;
+    border-left: .25em solid #dfe2e5;
+  }
+
+  hr {
+    border: 0.5px solid var(--sn-stylekit-border-color);
+  }
+
+  img {
+    max-width: 100%; // 645.500px;
+  }
+
+  table {
+
+    display: block;
+    width: 100%;
+    overflow: auto;
+    margin-top: 0;
+    margin-bottom: 16px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    
+    tr {
+      background-color: transparent; // #fff;
+      border-top: 1px solid #c6cbd1;
+    }
+
+    td, th {
+      padding: 6px 13px;
+      border: 1px solid #dfe2e5;
+    }
+
+    tr:nth-child(2n) {
+      background-color: var(--sn-stylekit-contrast-background-color)// #f6f8fa;
+    }
+  }
 }
 
 .sk-notification {
@@ -263,7 +368,7 @@ html {
 }
 
 .note-dialog {
-  max-width: 450px;
+  max-width: 700px;
   width: 100%;
   position: absolute;
   top: 50%;
@@ -273,7 +378,6 @@ html {
 
   button {
     border-width: 0px;
-    font-family: var(--sn-stylekit-sans-serif-font);
     font-size: 14px;
     @media screen and (max-width: 650px) {
       font-size: 17px;
@@ -288,15 +392,6 @@ html {
     .sk-button.info {
       color: var(--sn-stylekit-info-color);
       background-color: transparent;
-      a {
-        color: var(--sn-stylekit-info-color);
-        font-weight: normal !important;
-        font-size: 14px;
-        text-decoration: none;
-        @media screen and (max-width: 650px) {
-          font-size: 17px;
-        }
-      }
     }
     .sk-button.info::before {
       background-color: transparent;
@@ -312,8 +407,22 @@ html {
       background-color: var(--sn-stylekit-info-color);
     }
   }
-  .sk-panel-section.sk-panel-hero {
-    padding-top: 1.6rem;
+
+  .sk-panel-row.settings {
+    input {
+      min-width: 250px;
+      font-size: 16px;
+      padding: 0.5rem
+    }
+  // Collapse on mobile
+  @media screen and (max-width: 480px) {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+
+      input {
+        margin-top: 1rem;
+      }
+    }
   }
 }
 
@@ -358,110 +467,6 @@ html {
     .note-info {
       min-width: inherit;
       width: 100%;
-
-      .hljs {
-        color: unset;
-      }
-      
-      code, pre {
-        font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,
-      }
-      code {
-        box-sizing: border-box;
-        word-wrap: break-word;
-        padding: .2em .4em;
-        margin: 0;
-        font-size: 85%;
-        background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);
-        border-radius: 3px;
-      }
-
-      pre {
-        padding: 16px;
-        overflow: auto;
-        font-size: 85%;
-        line-height: 1.45;
-        background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
-        border-radius: 3px;
-        word-wrap: normal;
-        margin-top: 0;
-        margin-bottom: 16px;
-      }
-      
-      pre > code {
-        padding: 0;
-        margin: 0;
-        font-size: 100%;
-        word-break: normal;
-        white-space: pre;
-        background: transparent;
-        background-color: transparent;
-        border: 0;
-      }
-
-      pre code {
-        display: inline;
-        max-width: auto;
-        padding: 0;
-        margin: 0;
-        overflow: visible;
-        line-height: inherit;
-        word-wrap: normal;
-        background-color: initial;
-        border: 0;
-        
-      }
-
-      a {
-        color: #086dd6;
-        text-decoration: none;
-      }
-
-      a:hover {
-        text-decoration: underline;
-      }
-
-      blockquote {
-        margin: 0;
-        margin-top: 0;
-        margin-bottom: 16px;
-        padding: 0 1em;
-        color: #6a737d;
-        border-left: .25em solid #dfe2e5;
-      }
-
-      hr {
-        border: 0.5px solid var(--sn-stylekit-border-color);
-      }
-
-      img {
-        max-width: 100%; // 645.500px;
-      }
-
-      table {
-
-        display: block;
-        width: 100%;
-        overflow: auto;
-        margin-top: 0;
-        margin-bottom: 16px;
-        border-spacing: 0;
-        border-collapse: collapse;
-        
-        tr {
-          background-color: transparent; // #fff;
-          border-top: 1px solid #c6cbd1;  
-        }
-
-        td, th {
-          padding: 6px 13px;
-          border: 1px solid #dfe2e5;
-        }
-
-        tr:nth-child(2n) {
-          background-color: var(--sn-stylekit-contrast-background-color)// #f6f8fa;
-        }
-      }
 
       .note-bar hr {
         border: 0.5px solid var(--sn-stylekit-border-color);
@@ -576,7 +581,6 @@ html {
   
   button {
     border-width: 0px;
-    font-family: var(--sn-stylekit-sans-serif-font);
     font-size: 14px;
     @media screen and (max-width: 650px) {
       font-size: 17px;
