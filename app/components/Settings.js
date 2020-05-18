@@ -47,24 +47,27 @@ export default class Settings extends React.Component  {
   }
 
   clearFontEdit = () =>  {
-    var fontEdit = document.getElementById("fontEdit");
-    fontEdit.value = "";
     this.setState({
       fontEdit: "",
     });
+    var fontEdit = document.getElementById("fontEdit");
+    fontEdit.value = "";
+    fontEdit.focus();
   }
 
   clearFontView = () =>  {
-    var fontView = document.getElementById("fontView");
-    fontView.value = "";
     this.setState({
       fontView: "",
     });
+    var fontView = document.getElementById("fontView");
+    fontView.value = "";
+    fontView.focus();
   }
 
   clearAllSettings = () => {
-    this.clearFontEdit();
+    // We clear fontView before fontEdit so the focus afterwards is on fontEdit (the first setting)
     this.clearFontView();
+    this.clearFontEdit();
   }
 
   onKeyDown = (e) => {
@@ -96,6 +99,7 @@ export default class Settings extends React.Component  {
       <div className="sk-panel-content">
         <div className="sk-panel-section">
         <datalist id="fonts">, 
+              <option value="Monospace"/>
               <option value="Arial"/>
               <option value="Arial Black"/>
               <option value="-apple-system"/>
