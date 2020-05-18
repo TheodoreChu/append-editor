@@ -238,7 +238,9 @@ When you click **Print**, you get to choose whether to print the URLs or not. Pr
 
 ## Settings
 
-You can choose your own custom fonts for the Edit/Append and View/Print modes. The Settings Menu has a predefined list of fonts but you can type in a different one if it's not on the list. If you choose a font that is unavailable on your device or browser, then the editor might use your device or browser's default font such as Times New Roman. 
+You can choose your own custom fonts for the Edit/Append and View/Print modes. The Settings Menu has a predefined list of fonts to help you with your selection, but you can type in a different one if it's not on the list. If you choose a font that is unavailable on your device or browser, then the editor might use your device or browser's default font such as Times New Roman. 
+
+You can define multiple fonts in the order of your preference and separate them by commas. The editor will automatically display the next font if your preferred font is unavailable. For example, if you want to use a monospace font on all your devices but would prefer not to use `Courier New` if other monospace fonts are available, then you can submit a list of fonts such as `SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace`. This is useful if you use many devices with many different operating systems.
 
 Settings are currently saved on a per-note basis. Saving your settings as default may be available in the future. Please let me know if you want to add another font to the list.
 

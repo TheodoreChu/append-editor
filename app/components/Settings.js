@@ -99,8 +99,8 @@ export default class Settings extends React.Component  {
       <div className="sk-panel-content">
         <div className="sk-panel-section">
         <datalist id="fonts">, 
-              <option value="Monospace"/>
-              <option value="Georgia"/>
+              <option value="SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace"/>
+              <option value="Times New Roman"/>
               <option value="Arial"/>
               <option value="Arial Black"/>
               <option value="-apple-system"/>
@@ -135,6 +135,14 @@ export default class Settings extends React.Component  {
               <option value="Helvetica"/>
               <option value="Helvetica Neue"/>
               <option value="Impact"/>
+              <option value="KaTeX_AMS"/>
+              <option value="KaTeX_Caligraphic"/>
+              <option value="KaTeX_Fraktur"/>
+              <option value="KaTeX_Main"/>
+              <option value="KaTeX_Math"/>
+              <option value="KaTeX_SansSerif"/>
+              <option value="KaTeX_Script"/>
+              <option value="KaTeX_Typewriter"/>
               <option value="Lato"/>
               <option value="Liberation Mono"/>
               <option value="Lucida Caligraphy"/>
