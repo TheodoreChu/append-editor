@@ -185,6 +185,10 @@ export default class AppendText extends React.Component {
     keyMap.set(e.key, false);
   }
 
+  onBlur = (e) => {
+    keyMap.clear();
+  }
+
   render() {
     const {text} = this.state;
 
@@ -202,6 +206,7 @@ export default class AppendText extends React.Component {
             onChange={this.handleTextAreaChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
+            onBlur={this.onBlur}
             style={{fontFamily: this.props.fontEdit}}
             type="text"
           />

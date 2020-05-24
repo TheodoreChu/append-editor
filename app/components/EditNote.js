@@ -128,6 +128,10 @@ export default class EditNote extends React.Component {
     keyMap.set(e.key, false);
   }
 
+  onBlur = (e) => {
+    keyMap.clear();
+  }
+
   render() {
     const {text} = this.state;
     
@@ -145,6 +149,7 @@ export default class EditNote extends React.Component {
             onChange={this.handleInputChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
+            onBlur={this.onBlur}
             type="text"
             style={{fontFamily: this.props.fontEdit}}
           />

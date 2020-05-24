@@ -479,11 +479,11 @@ export default class AppendEditor extends React.Component {
         });
       }
     }
-    else if (keyMap.get('Control') && !keyMap.get('Shift') && keyMap.get('ArrowUp')) {
+    else if (keyMap.get('Control') && !keyMap.get('Alt') && !keyMap.get('Shift') && keyMap.get('ArrowUp')) {
       e.preventDefault();
       this.scrollToTop();
     }
-    else if (keyMap.get('Control') && !keyMap.get('Shift') && keyMap.get('ArrowDown')) {
+    else if (keyMap.get('Control') && !keyMap.get('Alt') && !keyMap.get('Shift') && keyMap.get('ArrowDown')) {
       e.preventDefault();
       this.scrollToBottom();
     }
