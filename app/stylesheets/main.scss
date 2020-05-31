@@ -308,7 +308,7 @@ button:focus {
   }
 
   a {
-    color: #086dd6;
+    color: var(--sn-stylekit-info-color); // #086dd6;
     text-decoration: none;
   }
 
@@ -354,7 +354,10 @@ button:focus {
     }
 
     tr:nth-child(2n) {
-      background-color: var(--sn-stylekit-contrast-background-color)// #f6f8fa;
+      background-color: var(--sn-stylekit-contrast-background-color); // #f6f8fa;
+      code, pre {
+        background-color: var(--sn-stylekit-background-color);
+      }
     }
   }
 }
