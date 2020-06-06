@@ -224,14 +224,12 @@ Make sure to count your variable[^variable] footnotes.[^5]
 [^1]: Here's a footnote.
 [^2]: Here’s a footnote with multiple blocks.
 
-  Subsequent paragraphs are indented to show that they
+    Subsequent paragraphs are indented to show that they belong to the previous footnote.
 
-belong to the previous footnote.
-
-        { eight spaces for some code }
+      { eight spaces for some code }
 
     The whole paragraph can be indented, or just the first
-    line.  In this way, multi-paragraph footnotes work like
+    line. In this way, multi-paragraph footnotes work like
     multi-paragraph list items.
 
 This paragraph won’t be part of the footnote, because it
