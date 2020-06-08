@@ -19,15 +19,15 @@ export default class Settings extends React.Component  {
     this.setState({
       [name]: event.target.value
     });
-    console.log("name" + event.target.name)
+    //console.log("name" + event.target.name)
   }
 
   handleSubmit(event) {
     event.preventDefault();
     var fontEditMessage = "";
     var fontViewMessage = "";
-    console.log("fontEdit: " + this.state.fontEdit);
-    console.log("fontView: " + this.state.fontView)
+    //console.log("fontEdit: " + this.state.fontEdit);
+    //console.log("fontView: " + this.state.fontView)
     if (this.state.fontEdit === "" || this.state.fontEdit === undefined) {
       fontEditMessage = "Default";
     }
@@ -72,7 +72,7 @@ export default class Settings extends React.Component  {
 
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
-    console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
+    //console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
     
     // Save settings if Control and 's' are pressed
     if (keyMap.get('Control') && keyMap.get('s')) {

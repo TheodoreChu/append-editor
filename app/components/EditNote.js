@@ -39,7 +39,7 @@ export default class EditNote extends React.Component {
 
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
-    console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
+    //console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
     
     // Click Edit if 'Escape' is pressed
     if (keyMap.get('Escape')) {

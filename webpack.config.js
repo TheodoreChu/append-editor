@@ -29,10 +29,10 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.s?css$/,
         include: path.resolve(__dirname, 'app'),
-        loader: [MiniCssExtractPlugin.loader, 'css-loader', 'style-loader!css-loader']
-      },
+        loader: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      },/*
       {
         test: /\.s[ac]ss$/i,
         use: [
@@ -43,7 +43,7 @@ module.exports = {
           // Compiles Sass to CSS
           'sass-loader',
         ],
-      },
+      },*/
       {
         test: /\.js[x]?$/,
         include: [
@@ -72,10 +72,16 @@ module.exports = {
     }
   },
   plugins: [
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin(
+      {
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: 'dist.css',
+      }
+    ),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new CopyWebpackPlugin([{ from: './app/index.html', to: 'index.html' }])
+    new CopyWebpackPlugin({ patterns: [{from: './app/index.html', to: 'index.html' }]})
   ]
 };

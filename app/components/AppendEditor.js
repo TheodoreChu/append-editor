@@ -176,7 +176,7 @@ export default class AppendEditor extends React.Component {
 
   editText = (text) => {
     this.saveNote(text);
-    console.log("text saved:" + text );
+    //console.log("text saved:" + text );
     this.setState({
       text: text,
     });
@@ -494,7 +494,7 @@ export default class AppendEditor extends React.Component {
       e.preventDefault();
       this.skipToBottom();
     }
-    console.log("")
+    //console.log("")
     // TODO: If you close it with Ctrl + W and open it again, the Ctrl event key isn't set to false
     // So, if you have minimize to tray on, then it'll open with Ctrl still down
   }
@@ -527,13 +527,13 @@ export default class AppendEditor extends React.Component {
         {this.state.showHeader && ([
         <div id="header">
           <div className="sk-button-group">
-            <button type="button" id="editButton" onClick={this.onEditMode} className={"sk-button info " + (this.state.editMode ? 'on' : 'off' )}>
+            <button type="button" id="editButton" onClick={this.onEditMode} title="Toggle Edit" className={"sk-button info " + (this.state.editMode ? 'on' : 'off' )}>
               <div className="sk-label"> Edit </div>
             </button>
-            <button type="button" id="appendButton" onClick={this.onAppendMode} className={"sk-button info " + (this.state.appendMode ? 'on' : 'off' )}>
+            <button type="button" id="appendButton" onClick={this.onAppendMode} title="Toggle Append" className={"sk-button info " + (this.state.appendMode ? 'on' : 'off' )}>
               <div className="sk-label"> Append </div>
             </button>
-            <button type="button" id="viewButton" onClick={this.onViewMode} className={"sk-button info " + (this.state.viewMode ? 'on' : 'off' )}>
+            <button type="button" id="viewButton" onClick={this.onViewMode} title="Toggle View" className={"sk-button info " + (this.state.viewMode ? 'on' : 'off' )}>
               <div className="sk-label"> View </div>
             </button>
             <button type="button" id="helpButton" onClick={this.onToggleShowHelp} title="Help" className={"sk-button"}>
