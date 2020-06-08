@@ -245,6 +245,7 @@ button:focus {
 }
 
 #content {
+  font-size: var(--sn-stylekit-font-size-editor);
   background-color: var(--sn-stylekit-contrast-background-color);
   flex: 1;
   //padding: 0 10px;
@@ -260,7 +261,7 @@ button:focus {
   }
   
   code, pre {
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace,
+    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
   }
   code {
     box-sizing: border-box;
@@ -417,6 +418,10 @@ button:focus {
       font-size: 16px;
       padding: 0.5rem
     }
+    textarea { // This seems to make the textarea blurry on Firefox
+      white-space: pre;
+      overflow-x: auto;
+    }
   // Collapse on mobile
   @media screen and (max-width: 480px) {
       flex-direction: column !important;
@@ -482,7 +487,6 @@ button:focus {
       }
 
       .note-content {
-        font-size: var(--sn-stylekit-font-size-editor);
         margin-left: auto;
         margin-right: auto;
         width: 100%;

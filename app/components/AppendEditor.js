@@ -13,21 +13,23 @@ const initialState = {
   appendNewLine: false,
   appendNewParagraph: false,
   appendMode: false,
+  appendTextRetrieved: false,
+  appendRows: 5,
+  confirmPrintURL: false,
+  customStyles: "",
+  customStylesActivated: false,
   //editMode: false,
-  viewMode: true,
   //showMenu: false,
+  fontEdit: undefined,
+  fontView: undefined,
+  printURL: true,
+  refreshEdit: false,
+  refreshView: false,
   showHeader: true,
   showAppendix: true,
   showHelp: false,
   showSettings: false,
-  fontEdit: undefined,
-  fontView: undefined,
-  refreshEdit: false,
-  refreshView: false,
-  confirmPrintURL: false,
-  printURL: true,
-  appendTextRetrieved: false,
-  appendRows: 5,
+  viewMode: true,
 };
 
 let keyMap = new Map();
@@ -65,11 +67,14 @@ export default class AppendEditor extends React.Component {
       this.setState({
         appendTextRetrieved: true,
       });
-      if (note.content.appendEditorFontEdit || note.content.appendEditorFontView) {
+      if (note.content.appendEditorFontEdit || note.content.appendEditorFontView || note.content.appendEditorCustomStyles) {
         this.setState({
+          customStyles: note.content.appendEditorCustomStyles,
           fontEdit: note.content.appendEditorFontEdit,
           fontView: note.content.appendEditorFontView,
-        })
+        }, () => {
+          this.activateStyles();
+        });
       }
       // If either are true, then they are all defined, so we load them all
       if (note.content.appendNewLine || note.content.appendNewParagraph) {
@@ -199,7 +204,7 @@ export default class AppendEditor extends React.Component {
     // if Append box is empty, close it and open Edit mode
     // if Edit mode is on, then close it, open View mode, and Append mode
     if (this.state.appendMode && !this.state.editMode) {
-      var appendTextArea = document.getElementById("appendTextArea");
+      const appendTextArea = document.getElementById("appendTextArea");
       if (!appendTextArea.value) { 
         this.setState({
           appendMode: false,
@@ -208,7 +213,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
         editMode: true,
         }, () => {
-          var editTextArea = document.getElementById("editTextArea");
+          const editTextArea = document.getElementById("editTextArea");
           editTextArea.focus();
         });
     }
@@ -218,7 +223,7 @@ export default class AppendEditor extends React.Component {
       editMode: false,
       viewMode: true,
       }, () => {
-        var editButton = document.getElementById("editButton");
+        const editButton = document.getElementById("editButton");
         editButton.focus();
         });
     }
@@ -226,7 +231,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
       editMode: !this.state.editMode,
       }, () => {
-        var editTextArea = document.getElementById("editTextArea");
+        const editTextArea = document.getElementById("editTextArea");
         editTextArea.focus();
         });
     }
@@ -234,7 +239,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
         editMode: !this.state.editMode,
         }, () => {
-          var editButton = document.getElementById("editButton");
+          const editButton = document.getElementById("editButton");
           editButton.focus();
         });
     }
@@ -248,7 +253,7 @@ export default class AppendEditor extends React.Component {
       editMode: false,
       }, () => {
       this.scrollToBottom();
-      var appendTextArea = document.getElementById("appendTextArea");
+      const appendTextArea = document.getElementById("appendTextArea");
       appendTextArea.focus();
       });
       if (!this.state.printMode) {
@@ -261,7 +266,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
         appendMode: false,
       }, () => {
-        var content = document.getElementById("appendButton");
+        const content = document.getElementById("appendButton");
         content.focus();
         });
     }
@@ -281,7 +286,7 @@ export default class AppendEditor extends React.Component {
         showHeader: true,
         showAppendix: true,
       }, () => {
-        var printButton = document.getElementById("printButton");
+        const printButton = document.getElementById("printButton");
         printButton.focus();
       })
     });
@@ -309,7 +314,7 @@ export default class AppendEditor extends React.Component {
       showHelp: !this.state.showHelp,
     }, () => {
       this.onRefreshView();
-      var helpButton = document.getElementById("helpButton");
+      const helpButton = document.getElementById("helpButton");
       helpButton.focus();
     });
   }
@@ -319,7 +324,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
         showSettings: false,
       }, () => {
-        var settingsButton = document.getElementById("settingsButton");
+        const settingsButton = document.getElementById("settingsButton");
         settingsButton.focus();
       });
     }
@@ -327,32 +332,51 @@ export default class AppendEditor extends React.Component {
       this.setState({
         showSettings: !this.state.showSettings,
       }, () => {
-        var undoDialog = document.getElementById("undoDialog");
+        const undoDialog = document.getElementById("undoDialog");
         undoDialog.focus();
       });
     }
   }
 
-  onConfirmSettings = ({fontEdit}, {fontView}) => {
+  onConfirmSettings = ({fontEdit}, {fontView}, {customStyles}) => {
     this.setState({
+      customStyles: customStyles,
       fontEdit: fontEdit,
       fontView: fontView,
       showSettings: false,
+    }, () => {
+      this.activateStyles();
     });
     let note = this.editorKit.internal.note;
     if (note) {
       this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
+        note.content.appendEditorCustomStyles = customStyles;
         note.content.appendEditorFontEdit = fontEdit;
         note.content.appendEditorFontView = fontView;
       });
     }
   }
 
+  activateStyles = () => {
+    if (this.state.customStylesActivated) {
+      const sheetToBeRemoved = document.getElementById('customStyleSheet');
+      const sheetParent = sheetToBeRemoved.parentNode;
+      sheetParent.removeChild(sheetToBeRemoved);
+    }
+    const sheet = document.createElement('style');
+    sheet.setAttribute("id", "customStyleSheet");
+    sheet.innerHTML = this.state.customStyles;
+    document.body.appendChild(sheet);
+    this.setState({
+      customStylesActivated: true,
+    });
+  }
+
   onCancelPrint = () => {
     this.setState({
       confirmPrintURL: false,
     }, () => {
-      var printButton = document.getElementById("printButton");
+      const printButton = document.getElementById("printButton");
       printButton.focus();
     });
   }
@@ -362,7 +386,7 @@ export default class AppendEditor extends React.Component {
       this.setState({
         confirmPrintURL: true,
       }, () => {
-        var undoDialog = document.getElementById("undoDialog");
+        const undoDialog = document.getElementById("undoDialog");
         undoDialog.focus();
       });
     }
@@ -371,7 +395,7 @@ export default class AppendEditor extends React.Component {
         printMode: false,
         viewMode: true,
       }, () => {
-        var printButton = document.getElementById("printButton");
+        const printButton = document.getElementById("printButton");
         printButton.focus();
       });
     }
@@ -395,10 +419,10 @@ export default class AppendEditor extends React.Component {
 
   // Need both content and appendix for mobile
   scrollToBottom = () => {
-    var content = document.getElementById("content");
-    var appendix = document.getElementById("appendix");
+    const content = document.getElementById("content");
+    const appendix = document.getElementById("appendix");
     if (this.state.editMode) {
-      var textarea = document.getElementById("editTextArea");
+      const textarea = document.getElementById("editTextArea");
       textarea.scrollTop = 10000000;
     }
     document.body.scrollTop = 10000000; // for Safari
@@ -409,10 +433,10 @@ export default class AppendEditor extends React.Component {
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToBottom = () => {
-    var content = document.getElementById("content");
-    var appendix = document.getElementById("appendix");
+    const content = document.getElementById("content");
+    const appendix = document.getElementById("appendix");
     if (this.state.editMode) {
-      var textarea = document.getElementById("editTextArea");
+      const textarea = document.getElementById("editTextArea");
       textarea.scrollTop = 10000000;
     }
     document.body.scrollTop = 10000000; // for Safari
@@ -422,10 +446,10 @@ export default class AppendEditor extends React.Component {
 
   // Need both content and appendix for mobile
   scrollToTop = () => {
-    var content = document.getElementById("content")
-    var header = document.getElementById("header");
+    const content = document.getElementById("content")
+    const header = document.getElementById("header");
     if (this.state.editMode) {
-      var textarea = document.getElementById("editTextArea");
+      const textarea = document.getElementById("editTextArea");
       textarea.scrollTop = 0;
     }
     document.body.scrollTop = 0; // for Safari
@@ -436,10 +460,10 @@ export default class AppendEditor extends React.Component {
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToTop = () => {
-    var content = document.getElementById("content")
-    var header = document.getElementById("header");
+    const content = document.getElementById("content")
+    const header = document.getElementById("header");
     if (this.state.editMode) {
-      var textarea = document.getElementById("editTextArea");
+      const textarea = document.getElementById("editTextArea");
       textarea.scrollTop = 0;
     }
     document.body.scrollTop = 0; // for Safari
@@ -604,8 +628,10 @@ export default class AppendEditor extends React.Component {
               helpLink={"https://appendeditor.com/#settings"}
               confirmText="Save"
               cancelText="Cancel"
+              customStyles={this.state.customStyles}
               fontEdit={this.state.fontEdit}
               fontView={this.state.fontView}
+              rows={this.state.appendRows}
             />
           )}
           {this.state.confirmPrintURL && (

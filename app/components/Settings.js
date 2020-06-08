@@ -1,6 +1,6 @@
 import React from 'react';
 
-var keyMap = new Map();
+let keyMap = new Map();
 
 export default class Settings extends React.Component  {
   constructor(props) {
@@ -8,6 +8,7 @@ export default class Settings extends React.Component  {
     this.state = {
       fontEdit: this.props.fontEdit,
       fontView: this.props.fontView,
+      customStyles: this.props.customStyles,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -22,10 +23,9 @@ export default class Settings extends React.Component  {
     //console.log("name" + event.target.name)
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    var fontEditMessage = "";
-    var fontViewMessage = "";
+  handleSubmit() {
+    let fontEditMessage = "";
+    let fontViewMessage = "";
     //console.log("fontEdit: " + this.state.fontEdit);
     //console.log("fontView: " + this.state.fontView)
     if (this.state.fontEdit === "" || this.state.fontEdit === undefined) {
@@ -40,17 +40,17 @@ export default class Settings extends React.Component  {
     else if (this.state.fontView) {
       fontViewMessage = this.state.fontView;
     }
-    const {fontEdit, fontView} = this.state
-    alert('Your chosen font for Edit/Append is: ' + fontEditMessage + "\n" +
-    'Your chosen font for View/Print is: ' + fontViewMessage);
-    this.props.onConfirm({fontEdit}, {fontView});
+    const {fontEdit, fontView, customStyles} = this.state
+    //alert('Your chosen font for Edit/Append is: ' + fontEditMessage + "\n" +
+    //'Your chosen font for View/Print is: ' + fontViewMessage);
+    this.props.onConfirm({fontEdit}, {fontView}, {customStyles});
   }
 
   clearFontEdit = () =>  {
     this.setState({
       fontEdit: "",
     });
-    var fontEdit = document.getElementById("fontEdit");
+    const fontEdit = document.getElementById("fontEdit");
     fontEdit.value = "";
     fontEdit.focus();
   }
@@ -59,13 +59,23 @@ export default class Settings extends React.Component  {
     this.setState({
       fontView: "",
     });
-    var fontView = document.getElementById("fontView");
+    const fontView = document.getElementById("fontView");
     fontView.value = "";
     fontView.focus();
   }
 
+  clearCustomStyles = () =>  {
+    this.setState({
+      customStyles: "",
+    });
+    const customStyles = document.getElementById("customStyles");
+    customStyles.value = "";
+    customStyles.focus();
+  }
+
   clearAllSettings = () => {
     // We clear fontView before fontEdit so the focus afterwards is on fontEdit (the first setting)
+    this.clearCustomStyles();
     this.clearFontView();
     this.clearFontEdit();
   }
@@ -73,21 +83,24 @@ export default class Settings extends React.Component  {
   onKeyDown = (e) => {
     keyMap.set(e.key, true);
     //console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
-    
     // Save settings if Control and 's' are pressed
     if (keyMap.get('Control') && keyMap.get('s')) {
       e.preventDefault();
-      this.handleSubmit(e);
+      this.handleSubmit();
     }
     // Save settings if Control and Enter are pressed
     else if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
-      this.handleSubmit(e);
+      this.handleSubmit();
     }
   }
 
   onKeyUp = (e) => {
     keyMap.set(e.key, false);
+  }
+
+  onBlur = (e) => {
+    keyMap.clear();
   }
   
   render () {
@@ -95,7 +108,7 @@ export default class Settings extends React.Component  {
     const { title, onCancel, confirmText, cancelText, helpLink } = this.props
     return (
   <div className="note-overlay">
-    <div className="note-dialog sk-panel">
+    <div className="note-dialog sk-panel" onBlur={this.onBlur}>
       <div className="sk-panel-content">
         <div className="sk-panel-section">
         <datalist id="fonts">, 
@@ -188,8 +201,8 @@ export default class Settings extends React.Component  {
                 name="fontEdit" 
                 value={this.state.fontEdit} 
                 onChange={this.handleChange}
-                //onKeyDown={this.onKeyDown}
-                //onKeyUp={this.onKeyUp}
+                onKeyDown={this.onKeyDown}
+                onKeyUp={this.onKeyUp}
                 />
               <button onClick={this.clearFontEdit} title="Reset font for Edit/Append">
               <img src="icons/ic-undo.svg"/>
@@ -205,13 +218,31 @@ export default class Settings extends React.Component  {
               name="fontView" 
               value={this.state.fontView} 
               onChange={this.handleChange}
-              //onKeyDown={this.onKeyDown}
-              //onKeyUp={this.onKeyUp}
+              onKeyDown={this.onKeyDown}
+              onKeyUp={this.onKeyUp}
             />
             <button onClick={this.clearFontView} title="Reset font for View/Print">
             <img src="icons/ic-undo.svg"/>
             </button>
           </div>
+        </div>
+        <div className="sk-panel-row settings">
+          <div className="sk-h2">Add custom styles (CSS): </div>
+        </div>
+        <div className="sk-panel-row settings">
+        <textarea 
+              id="customStyles" 
+              name="customStyles" 
+              className="sk-input contrast textarea"
+              rows={this.props.rows}
+              value={this.state.customStyles} 
+              onChange={this.handleChange}
+              onKeyDown={this.onKeyDown}
+              onKeyUp={this.onKeyUp}
+            />
+            <button onClick={this.clearCustomStyles} title="Reset custom styles">
+            <img src="icons/ic-undo.svg"/>
+            </button>
         </div>
         </div>
       </div>

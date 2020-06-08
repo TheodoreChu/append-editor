@@ -98,6 +98,7 @@ After you have installed the editor on the web or desktop app, it will automatic
 | H2                 | ## Heading                                   | Ctrl/⌘ + H (×2)          |
 | H3                 | ### Heading                                  | Ctrl/⌘ + H (×3)          |
 | H4                 | #### Heading                                 | Ctrl/⌘ + H (×4)          |
+| Section Breaks     | `---` or `***`                               | N/A                      |
 
 \*The shortcuts are currently available only on the Desktop app and Chrome based web apps such as Google Chrome and the latest Microsoft Edge.
 
@@ -226,7 +227,7 @@ Make sure to count your variable[^variable] footnotes.[^5]
 
     Subsequent paragraphs are indented to show that they belong to the previous footnote.
 
-      { eight spaces for some code }
+        { eight spaces for some code }
 
     The whole paragraph can be indented, or just the first
     line. In this way, multi-paragraph footnotes work like
@@ -253,7 +254,30 @@ You can choose your own custom fonts for the Edit/Append and View/Print modes. T
 
 You can define multiple fonts in the order of your preference and separate them by commas. The editor will automatically display the next font if your preferred font is unavailable. For example, if you want to use a monospace font on all your devices but would prefer not to use `Courier New` if other monospace fonts are available, then you can submit a list of fonts such as `SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace`. This is useful if you use many devices with many different operating systems.
 
-Settings are currently saved on a per-note basis. Saving your settings as default may be available in the future. Please let me know if you want to add another font to the list.
+You can also add finer-tuned Custom Styles via CSS. The custom fonts settings take precedence over Custom Styles because they are in-line. For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+```
+
+Then update your fonts using the fonts settings or like this: 
+
+```css
+#content, #content textarea, #appendix textarea {
+font-family: 'Open Sans';}
+```
+
+If you want to edit the font-sizes for the view, edit, and append textareas, you can use this (default is 16px): 
+
+```css
+:root {
+  --sn-stylekit-font-size-editor: 16px;
+}
+```
+
+Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. If you accidentally add hide your settings with CSS (e.g., `#content {display: none;}`), then open the developer inspector, temporarily remove the custom styles, and adjust your Settings. 
+
+Settings are currently saved on a per-note basis. Saving your settings as default may be available in the future. Please let me know if you want to add another font to the list or need help implementing custom styles.
 
 ## Development
 
