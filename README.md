@@ -1,5 +1,7 @@
 # Append Editor
 
+#### Table of Contents
+
 <div align="center">
 
 [![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/master/LICENSE)
@@ -22,7 +24,7 @@ The Append Editor follows the "read first" philosophy. When you open your notes,
 
 The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing/saving to PDF (with and without URLs), custom fonts, and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down.
 
-This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome), this editor works best when used with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. It currently does not work offline but will in the future.
+This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. It currently does not work offline but will in the future.
 
 ## Features
 
