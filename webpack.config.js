@@ -3,8 +3,6 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ProposalClassProperties = require('@babel/plugin-proposal-class-properties');
-//const ExtractTextPlugin = require('extract-text-webpack-plugin');
-//const uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
 module.exports = {
   mode: 'production',
@@ -22,9 +20,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: './dist.js'
-  },
-  externals: {
-    'filesafe-js': 'filesafe-js'
   },
   module: {
     rules: [
@@ -58,6 +53,9 @@ module.exports = {
       }
     ]
   },
+  externals: {
+    'filesafe-js': 'filesafe-js',
+  },
   resolve: {
     modules: [
       "node_modules",
@@ -82,6 +80,11 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
     }),
-    new CopyWebpackPlugin({ patterns: [{from: './app/index.html', to: 'index.html' }]})
+    new CopyWebpackPlugin({ patterns: [
+      {from: './app/index.html', to: 'index.html'}, 
+      {from: path.resolve(__dirname, './node_modules/react/umd'), to: 'react/umd'},
+      {from: path.resolve(__dirname, './node_modules/react-dom/umd'), to: 'react-dom/umd'},
+      {from: path.resolve(__dirname, './node_modules/katex/dist'), to: 'katex'},
+    ]})
   ]
 };

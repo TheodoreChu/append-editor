@@ -257,7 +257,7 @@ button:focus {
   }
 
   .hljs {
-    color: unset;
+    color: var(--sn-stylekit-contrast-foreground-color);
   }
   
   code, pre {
@@ -346,12 +346,12 @@ button:focus {
     
     tr {
       background-color: transparent; // #fff;
-      border-top: 1px solid #c6cbd1;
+      border-top: 1px solid var(--sn-stylekit-contrast-border-color); // #c6cbd1;
     }
 
     td, th {
       padding: 6px 13px;
-      border: 1px solid #dfe2e5;
+      border: 1px solid var(--sn-stylekit-contrast-border-color); // #dfe2e5;
     }
 
     tr:nth-child(2n) {
