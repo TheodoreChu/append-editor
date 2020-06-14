@@ -20,20 +20,22 @@ The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org
 
 You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com).
 
-The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in read/view mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
+The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in 'read/view only' mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
-The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing/saving to PDF (with and without URLs), custom fonts, and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down.
+The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, search and replace, and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down.
 
 This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. It currently does not work offline but will in the future.
 
 ## Features
 
-- [Markdown](https://guides.github.com/features/mastering-markdown/) support via [Unified/Remark](https://github.com/remarkjs/remark)
-- $\LaTeX/\KaTeX$ via hosted [KaTeX](https://github.com/KaTeX/KaTeX)
-- Emojis via [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
-- Google Code and GitHub Gist flavored Syntax Highlighting via [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
-- Table of Contents (links don't work on mobile) via [Remark TOC](https://github.com/remarkjs/remark-toc)
-- Footnotes (links don't work on mobile) via [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
+- [Markdown](https://guides.github.com/features/mastering-markdown/) support provided by [Unified/Remark](https://github.com/remarkjs/remark)
+- $\LaTeX/\KaTeX$ provided by hosted [KaTeX](https://github.com/KaTeX/KaTeX)
+- Emojis provided by [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- Google Code and GitHub Gist flavored Syntax Highlighting  provided by [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
+- Table of Contents (links don't work on mobile) provided by [Remark TOC](https://github.com/remarkjs/remark-toc)
+- Footnotes (links don't work on mobile) provided by [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
+- Optional in-line formatting provided by [CodeMirror](https://codemirror.net)
+- Search and replace when in-line formatting is enabled
 - Inline HTML for underlining and highlighting
 - Print/Save to PDF in rendered form with or without URLs (works best on Chromium browsers)
 - Buttons to scroll to top and bottom of the note
@@ -256,7 +258,13 @@ You can choose your own custom fonts for the Edit/Append and View/Print modes. T
 
 You can define multiple fonts in the order of your preference and separate them by commas. The editor will automatically display the next font if your preferred font is unavailable. For example, if you want to use a monospace font on all your devices but would prefer not to use `Courier New` if other monospace fonts are available, then you can submit a list of fonts such as `SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace`. This is useful if you use many devices with many different operating systems.
 
-You can also add finer-tuned Custom Styles via CSS. The custom fonts settings take precedence over Custom Styles because they are in-line. For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
+You can also add finer-tuned Custom Styles via CSS. 
+
+:::warning
+Custom styles from third parties can potentially betray your privacy. Only use styles from trusted sources.
+:::
+
+The custom fonts settings take precedence over Custom Styles because they are in-line. For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -265,16 +273,13 @@ You can also add finer-tuned Custom Styles via CSS. The custom fonts settings ta
 Then update your fonts using the fonts settings or like this: 
 
 ```css
-#content, #content textarea, #appendix textarea {
-font-family: 'Open Sans';}
+.CodeMirror, #editTextArea, #appendTextArea {font-family: 'Open Sans';}
 ```
 
 If you want to edit the font-sizes for the view, edit, and append textareas, you can use this (default is 16px): 
 
 ```css
-:root {
-  --sn-stylekit-font-size-editor: 16px;
-}
+.CodeMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: 16px;}
 ```
 
 Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. If you accidentally add hide your settings with CSS (e.g., `#content {display: none;}`), then open the developer inspector, temporarily remove the custom styles, and adjust your Settings. 
