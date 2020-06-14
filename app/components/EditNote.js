@@ -1,6 +1,6 @@
 import React from 'react';
 
-const editTextAreaID = "editTextArea";
+const editTextAreaID = 'editTextArea';
 
 export default class EditNote extends React.Component {
   static defaultProps = {
@@ -22,7 +22,8 @@ export default class EditNote extends React.Component {
     this.setState(
       {
         text: value,
-      }, () => {
+      },
+      () => {
         this.saveText(event);
       }
     );
@@ -31,7 +32,7 @@ export default class EditNote extends React.Component {
   saveText = (e) => {
     e.preventDefault();
     const { text } = this.state;
-    this.props.saveText( text );
+    this.props.saveText(text);
   };
 
   onKeyDown = (e) => {
@@ -67,7 +68,7 @@ export default class EditNote extends React.Component {
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
             type="text"
-            style={{fontFamily: this.props.fontEdit}}
+            style={{ fontFamily: this.props.fontEdit }}
           />
         </div>
       </div>

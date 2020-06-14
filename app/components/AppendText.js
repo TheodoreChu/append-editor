@@ -1,9 +1,9 @@
 import React from 'react';
 
-const appendButtonID = "appendButton";
-const appendTextAreaID = "appendTextArea";
-const newLineID = "newLine";
-const newParagraphID = "newParagraph";
+const appendButtonID = 'appendButton';
+const appendTextAreaID = 'appendTextArea';
+const newLineID = 'newLine';
+const newParagraphID = 'newParagraph';
 
 export default class AppendText extends React.Component {
   static defaultProps = {
@@ -76,7 +76,12 @@ export default class AppendText extends React.Component {
   onKeyDown = (e) => {
     this.props.keyMap.set(e.key, true);
     if (this.props.debugMode) {
-      console.log('Keys pressed: ' + e.key + 'KeyMap for key: ' + this.props.keyMap.get(e.key));
+      console.log(
+        'Keys pressed: ' +
+          e.key +
+          'KeyMap for key: ' +
+          this.props.keyMap.get(e.key)
+      );
       console.log('Append Text Value: ' + this.state.text);
     }
 
@@ -148,7 +153,7 @@ export default class AppendText extends React.Component {
             onChange={this.handleTextAreaChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
-            style={{fontFamily: this.props.fontEdit}}
+            style={{ fontFamily: this.props.fontEdit }}
             type="text"
           />
         </div>
@@ -179,12 +184,12 @@ export default class AppendText extends React.Component {
           <div className="sk-button-group stretch">
             <button
               type="button"
-            type="button" 
+              type="button"
               type="button"
               id="appendTextButton"
               onClick={this.appendTextToNote}
               className="sk-button info"
-            className="sk-button info" 
+              className="sk-button info"
               className="sk-button info"
             >
               <div className="sk-label">Append</div>
