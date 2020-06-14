@@ -66,6 +66,18 @@ module.exports = {
       stylekit: path.join(
         __dirname,
         'node_modules/sn-stylekit/dist/stylekit.css'
+      ),
+      codemirror: path.join(
+        __dirname,
+        'node_modules/codemirror/'
+      ),
+      codemirrordialog: path.join(
+        __dirname,
+        'node_modules/codemirror/addon/dialog/dialog.css'
+      ),
+      codemirrormatchesonscrollbar: path.join(
+        __dirname,
+        'node_modules/codemirror/addon/search/matchesonscrollbar.css'
       )
     }
   },
@@ -82,9 +94,9 @@ module.exports = {
     }),
     new CopyWebpackPlugin({ patterns: [
       {from: './app/index.html', to: 'index.html'}, 
+      {from: path.resolve(__dirname, './node_modules/katex/dist'), to: 'katex'},
       {from: path.resolve(__dirname, './node_modules/react/umd'), to: 'react/umd'},
       {from: path.resolve(__dirname, './node_modules/react-dom/umd'), to: 'react-dom/umd'},
-      {from: path.resolve(__dirname, './node_modules/katex/dist'), to: 'katex'},
     ]})
   ]
 };

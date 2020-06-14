@@ -68,7 +68,7 @@ After you have installed the editor on the web or desktop app, it will automatic
 | Action                                    | Shortcut                       |
 | :---------------------------------------- | :----------------------------- |
 | Toggle Edit Mode                          | Ctrl/⌘ + E                     |
-| Toggle Append Mode                        | Ctrl/⌘ + U                     |
+| Toggle Append Mode                        | Ctrl/⌘ + U or Ctrl/⌘ + M      |
 | Toggle View Mode                          | Ctrl/⌘ + P                     |
 | Escape Edit/View Mode^                    | Escape                         |
 | Save/Append Text^                         | Ctrl/⌘ + S and Ctrl/⌘ + Enter  |

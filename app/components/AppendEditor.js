@@ -1,5 +1,4 @@
 import React from 'react';
-import update from 'immutability-helper';
 import { EditorKit, EditorKitDelegate } from 'sn-editor-kit';
 import PrintDialog from './PrintDialog';
 import EditNote from './EditNote';
@@ -7,30 +6,62 @@ import ViewNote from './ViewNote';
 import AppendText from './AppendText';
 import Settings from './Settings';
 
+import CodeMirror from 'codemirror';
+import 'codemirror/lib/codemirror';
+import 'codemirror/mode/gfm/gfm';
+import 'codemirror/mode/javascript/javascript';
+import 'codemirror/mode/xml/xml';
+
+// CodeMirror addons
+
+// For markdown
+import 'codemirror/addon/edit/continuelist';
+
+// For search
+import 'codemirror/addon/search/jump-to-line';
+import 'codemirror/addon/search/match-highlighter';
+import 'codemirror/addon/search/matchesonscrollbar';
+import 'codemirror/addon/search/search';
+import 'codemirror/addon/search/searchcursor';
+import 'codemirror/addon/dialog/dialog'
+
+const appendButtonID = "appendButton";
+const editButtonID = "editButton";
+const helpButtonID = "helpButton";
+const printButtonID = "printButton";
+const settingsButtonID = "settingsButton";
+const viewButtonID = "viewButton";
+
+const editTextAreaID = "editTextArea";
+const appendTextAreaID = "appendTextArea";
+
 const initialState = {
-  text: '',
-  appendText: '',
+  text: "",
+  appendText: "",
   appendNewLine: false,
   appendNewParagraph: false,
   appendMode: false,
-  appendTextRetrieved: false,
   appendRows: 5,
   confirmPrintURL: false,
   customStyles: "",
-  customStylesActivated: false,
   //editMode: false,
   //showMenu: false,
-  fontEdit: undefined,
-  fontView: undefined,
+  fontEdit: "",
+  fontSize: "",
+  fontView: "",
+  loadedMetaData: false,
   printURL: true,
   refreshEdit: false,
   refreshView: false,
   showHeader: true,
   showAppendix: true,
+  settingsMode: false,
   showHelp: false,
-  showSettings: false,
+  useCodeMirror: false,
   viewMode: true,
 };
+
+const debugMode = false;
 
 let keyMap = new Map();
 
@@ -41,14 +72,15 @@ export default class AppendEditor extends React.Component {
     this.state = initialState;
   }
 
-  configureEditorKit() {
+  configureEditorKit = () => {
     let delegate = new EditorKitDelegate({
       setEditorRawText: text => {
         this.setState({
           ...initialState,
           text,
         }, () => {
-          this.onRefreshEdit();
+          this.refreshEdit();
+          this.activateStyles();
         });
       },
       clearUndoHistory: () => {},
@@ -62,74 +94,98 @@ export default class AppendEditor extends React.Component {
     });
   }
 
-  getAppendText = () => {
+  // This loads the Append Text, settings, and useCodeMirror
+  loadMetaData = () => {
     this.editorKit.internal.componentManager.streamContextItem((note) => {
-      this.setState({
-        appendTextRetrieved: true,
-      });
-      if (note.content.appendEditorFontEdit || note.content.appendEditorFontView || note.content.appendEditorCustomStyles) {
+      // Load editor settings
+      if (note.content.appendEditorCustomStyles ||
+          note.content.appendEditorFontEdit ||
+          note.content.appendEditorFontSize ||
+          note.content.appendEditorFontView || 
+          note.content.appendEditorUseCodeMirror
+          ) {
         this.setState({
           customStyles: note.content.appendEditorCustomStyles,
           fontEdit: note.content.appendEditorFontEdit,
+          fontSize: note.content.appendEditorFontSize,
           fontView: note.content.appendEditorFontView,
+          useCodeMirror: note.content.appendEditorUseCodeMirror,
         }, () => {
+          this.refreshEdit();
           this.activateStyles();
         });
       }
-      // If either are true, then they are all defined, so we load them all
+      // Load append settings
       if (note.content.appendNewLine || note.content.appendNewParagraph) {
         this.setState({
-        appendText: note.content.appendText,
         appendNewLine: note.content.appendNewLine,
         appendNewParagraph: note.content.appendNewParagraph,
-        }, () => {
-          this.setState({
-            appendMode: true
-          });
         });
       }
-      // If both are false or undefined and appendText is not empty,
-      // Then user has made them both false or are still false by default
-      // Therefore we leave them as false (see above for the initial state)
-      else if (note.content.appendText) {
-        this.setState({
+      // Finally, load appendText
+      this.setState({
         appendText: note.content.appendText,
-        }, () => {
-          this.setState({
-            appendMode: true
-          });
-        });
+        loadedMetaData: true,
+      }, () => {
+        const scrollDown = false;
+        const closeEdit = false;
+        this.onAppendMode(scrollDown, closeEdit);
+      });
+      if (debugMode) {
+        console.log("loaded append text: " + this.state.appendText);
+        console.log("loaded append newline: " + this.state.newLine);
+        console.log("loaded append new paragraph: " + this.state.newParagraph);
+        console.log("internal appendText: " + this.editorKit.internal.note.content.appendText);
       }
-      else {
-        this.setState({
-        appendMode: true,
-        });
+    });
+  }
+
+  saveText = (text) => {
+    this.saveNote(text);
+    this.setState({
+      text: text,
+    }, () => {
+      if (debugMode) {
+        console.log("saved text in AppendEditor.js: " + this.state.text);
       }
-      // For debugging:
-      //console.log("loaded append text: " + this.state.appendText);
-      //console.log("loaded append newline: " + this.state.newLine);
-      //console.log("loaded append new paragraph: " + this.state.newParagraph);
-      //console.log("internal appendText: " + this.editorKit.internal.note.content.appendText);
-    })
+    });
   }
 
   saveNote = (text) => {
-    this.editorKit.onEditorValueChanged(text);
+    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
+    try {
+      this.editorKit.onEditorValueChanged(text);
+    }
+    catch (error) {
+      console.error(error);
+    }
   }
 
   // Entry operations
 
-  onAppend = (text) => {
+  appendTextToNote = () => {
     // Do nothing if there's no append text
-    if (text) {
+    if (this.state.appendText) {
       /* 
       * We usually use this.editText() to save the main text
       * However, we want to save the main text and clear the appendText
       * Consecutive calls to the component manager does not work well,
       * so we want to do both with one call to the component manager 
       * This means we need multiple versions of this function depending on what we want to save */
+     const { appendText } = this.state;
+     let textToAppend = '';
+     // We test for new paragraph first even though new line is on top and is on by default
+     if (this.state.newParagraph) {
+      textToAppend = '  \n\n' + appendText;
+     }
+     else if (this.state.newLine) {
+      textToAppend = '  \n' + appendText;
+     }
+     else {
+      textToAppend = appendText;
+     }
       this.setState({
-        text: this.state.text.concat(text),
+        text: this.state.text.concat(textToAppend),
         appendText: '',
       }, () => {
         let note = this.editorKit.internal.note;
@@ -139,29 +195,35 @@ export default class AppendEditor extends React.Component {
             note.content.appendText = this.state.appendText; // this.editorKit.internal.note.content.appendText
           });
         }
-        this.onRefreshEdit();
+        this.refreshEdit();
       });
+    }
+    // Refresh appendCodeMirror
+    if (this.state.appendCodeMirror && this.state.useCodeMirror) {
+      this.state.appendCodeMirror.setValue("");
     }
   }
 
-  onSave = ({text}) => {
-    this.editText(text);
-  }
-
-  onSaveAppendText = (text) => {
+  autoSaveAppendText = (text) => {
     // This code is similar to this.onAppend();, but we only save the appendText and not the main text
     this.setState({
       appendText: text,
     });
-    let note = this.editorKit.internal.note;
-    if (note) {
-      this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
-        note.content.appendText = text;
-      });
+    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
+    try {
+      let note = this.editorKit.internal.note;
+      if (note) {
+        this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
+          note.content.appendText = text;
+        });
+      }
+    }
+    catch (error) {
+      console.error(error);
     }
   }
 
-  onSaveAppendTextAndCheckboxes = (text, newLine, newParagraph) => {
+  autoSaveAppendTextAndCheckboxes = (text, newLine, newParagraph) => {
     // Here we save the appendText, appendNewLine, and appendNewParagraph
     // We have an additional function for this because we only call it when the user clicks a checkbox
     this.setState({
@@ -169,27 +231,33 @@ export default class AppendEditor extends React.Component {
       appendNewLine: newLine,
       appendNewParagraph: newParagraph,
     })
-    let note = this.editorKit.internal.note;
-    if (note) {
-      this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
-        note.content.appendText = text;
-        note.content.appendNewLine = newLine;
-        note.content.appendNewParagraph = newParagraph
-      });
+    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
+    try {
+      let note = this.editorKit.internal.note;
+      if (note) {
+        this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
+          note.content.appendText = text;
+          note.content.appendNewLine = newLine;
+          note.content.appendNewParagraph = newParagraph
+        });
+      }
+    }
+    catch (error) {
+      console.error(error);
     }
   }
 
-  editText = (text) => {
-    this.saveNote(text);
-    //console.log("text saved:" + text );
-    this.setState({
-      text: text,
-    });
-  };
-
-  onRefreshEdit = () => {
+  refreshEdit = () => {
     this.setState({
       refreshEdit: !this.state.refreshEdit,
+    }, () => {
+      // We could also check for this.state.editMode,
+      // but it might not be loaded yet.
+      // Checking for editTextArea checks whether editMode has loaded
+      const editTextArea = document.getElementById(editTextAreaID);
+      if (this.state.useCodeMirror && editTextArea) {
+        this.configureCodeMirror(editTextAreaID);
+      }
     });
   }
 
@@ -199,62 +267,142 @@ export default class AppendEditor extends React.Component {
     });
   }
 
+  configureCodeMirror = (id) => {
+    if (id === editTextAreaID) {
+      if (debugMode) {
+        console.log("this.state.text: " + this.state.text);
+      }
+      const editCodeMirror = CodeMirror.fromTextArea(document.getElementById(id), {
+        autocorrect: true,
+        autocapitalize: true,
+        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList", "Alt-F": "findPersistent"},
+        lineNumbers: false,
+        lineWrapping: true,
+        mode: "gfm",
+        spellcheck: true,
+        tabindex: 0,
+        theme: "default",
+        value: this.state.text,
+      });
+      editCodeMirror.setSize("100%", "100%");
+      editCodeMirror.on("change", () => {
+        const editCodeMirrorText = editCodeMirror.getValue();
+        if (debugMode) {
+          console.log("editCodeMirror value: " + editCodeMirrorText)
+        }
+        editCodeMirror.save();
+        this.saveText(editCodeMirrorText);
+      });
+      editCodeMirror.on("keydown", () => {
+        this.onKeyDown(event);
+        this.onKeyDownEditTextArea(event);
+        this.onKeyDownTextArea(event);
+      })
+      editCodeMirror.on("keyup", () => {
+        this.onKeyUp(event);
+      })
+      this.setState({
+        editCodeMirror: editCodeMirror
+      });
+    }
+    else if (id === appendTextAreaID) {
+      const appendCodeMirror = CodeMirror.fromTextArea(document.getElementById(id), {
+        autocorrect: true,
+        autocapitalize: true,
+        extraKeys: {"Enter": "newlineAndIndentContinueMarkdownList", "Alt-F": "findPersistent"},
+        lineNumbers: false,
+        lineWrapping: true,
+        mode: "gfm",
+        spellcheck: true,
+        tabindex: 0,
+        theme: "default",
+        value: this.state.appendText,
+      });
+      appendCodeMirror.setSize("100%", "100%");
+      appendCodeMirror.on("change", () => {
+        const appendCodeMirrorText = appendCodeMirror.getValue();
+        appendCodeMirror.save();
+        this.autoSaveAppendText(appendCodeMirrorText);
+      });
+      appendCodeMirror.on("keydown", () => {
+        this.onKeyDown(event);
+        this.onKeyDownAppendTextArea(event);
+        this.onKeyDownTextArea(event);
+      })
+      appendCodeMirror.on("keyup", () => {
+        this.onKeyUp(event);
+      })
+      this.setState({
+        appendCodeMirror: appendCodeMirror
+      });
+    }
+  }
+
   // Event Handlers
   onEditMode = () => {
     // if Append box is empty, close it and open Edit mode
     // if Edit mode is on, then close it, open View mode, and Append mode
-    if (this.state.appendMode && !this.state.editMode) {
-      const appendTextArea = document.getElementById("appendTextArea");
-      if (!appendTextArea.value) { 
-        this.setState({
-          appendMode: false,
-        });
+    if (!this.state.editMode) {
+      if (this.state.appendMode) {
+        const appendTextArea = document.getElementById(appendTextAreaID);
+        if (!appendTextArea.value) { 
+          this.setState({
+            appendMode: false,
+          });
+        }
       }
       this.setState({
         editMode: true,
         }, () => {
-          const editTextArea = document.getElementById("editTextArea");
+          const editTextArea = document.getElementById(editTextAreaID);
           editTextArea.focus();
-        });
+          if (this.state.useCodeMirror && editTextArea) {
+            this.configureCodeMirror(editTextAreaID);
+          }
+      });
     }
-    // If edit mode is on and print mode is off, then turn edit mode off and turn view mode on
-    else if (this.state.editMode && !this.state.printMode) {
-      this.setState({
-      editMode: false,
-      viewMode: true,
-      }, () => {
-        const editButton = document.getElementById("editButton");
-        editButton.focus();
+    else if (this.state.editMode) {
+    // If edit mode is on and print mode is off, 
+    // then turn edit mode off and turn view mode on
+    // this automatically renders the text
+      if (!this.state.printMode) {
+        this.setState({
+        viewMode: true,
         });
-    }
-    else if (!this.state.editMode) {
+      }
+      if (this.state.editCodeMirror) {
+        this.state.editCodeMirror.toTextArea();
+      }
       this.setState({
-      editMode: !this.state.editMode,
-      }, () => {
-        const editTextArea = document.getElementById("editTextArea");
-        editTextArea.focus();
-        });
-    }
-    else {
-      this.setState({
-        editMode: !this.state.editMode,
+        editMode: false,
         }, () => {
-          const editButton = document.getElementById("editButton");
-          editButton.focus();
+          // if not using append mode, focus on editButton
+          if (!this.state.appendMode) {
+            const editButton = document.getElementById(editButtonID);
+            editButton.focus();
+          }
         });
     }
   };
 
-  onAppendMode = () => {
+  onAppendMode = (scrollDown = true, closeEdit = true) => {
     if (!this.state.appendMode) {
-      this.getAppendText();
+      if (closeEdit) {
+        this.setState({
+          editMode: false,
+        })
+      };
       this.setState({
-      appendMode: true,
-      editMode: false,
-      }, () => {
-      this.scrollToBottom();
-      const appendTextArea = document.getElementById("appendTextArea");
-      appendTextArea.focus();
+        appendMode: true,
+        }, () => {
+        if (scrollDown) {
+          this.scrollToBottom();
+          const appendTextArea = document.getElementById(appendTextAreaID);
+          appendTextArea.focus();
+        }
+        if (this.state.useCodeMirror) {
+          this.configureCodeMirror(appendTextAreaID);
+        }
       });
       if (!this.state.printMode) {
         this.setState({
@@ -263,10 +411,13 @@ export default class AppendEditor extends React.Component {
       }
     }
     else if (this.state.appendMode) {
+      if (this.state.appendCodeMirror) {
+        this.state.appendCodeMirror.toTextArea();
+      }
       this.setState({
         appendMode: false,
       }, () => {
-        const content = document.getElementById("appendButton");
+        const content = document.getElementById(appendButtonID);
         content.focus();
         });
     }
@@ -286,21 +437,28 @@ export default class AppendEditor extends React.Component {
         showHeader: true,
         showAppendix: true,
       }, () => {
-        const printButton = document.getElementById("printButton");
+        const printButton = document.getElementById(printButtonID);
         printButton.focus();
       })
     });
   }
 
   onViewMode = () => {
-    this.setState({
-      viewMode: !this.state.viewMode,
-      printMode: false,
-    }, () => {
-      if (this.state.appendMode && !this.state.editMode) {
-        this.skipToBottom();
-      }
-    });
+    if (!this.state.viewMode) {
+      this.setState({
+        viewMode: true,
+        printMode: false,
+      }, () => {
+        if (this.state.appendMode && !this.state.editMode) {
+          this.skipToBottom();
+        }
+      })
+    }
+    if (this.state.viewMode) {
+      this.setState({
+        viewMode: false,
+      })
+    }
   }
 
   onToggleMenu = () => {
@@ -314,36 +472,60 @@ export default class AppendEditor extends React.Component {
       showHelp: !this.state.showHelp,
     }, () => {
       this.onRefreshView();
-      const helpButton = document.getElementById("helpButton");
+      const helpButton = document.getElementById(helpButtonID);
       helpButton.focus();
     });
   }
 
-  onToggleShowSettings = () => {
-    if (this.state.showSettings) {
+  onSettingsMode = () => {
+    // Here we save the current state. We reload the current state if we cancel
+    if (!this.state.settingsMode) {
       this.setState({
-        showSettings: false,
+        currentState: this.state,
       }, () => {
-        const settingsButton = document.getElementById("settingsButton");
-        settingsButton.focus();
+        this.setState({
+          showHeader: false,
+          appendMode: false,
+          editMode: false,
+          printMode: false,
+          viewMode: false,
+          settingsMode: true,
+          }, () => {
+          const undoDialog = document.getElementById("undoDialog");
+          if (undoDialog) {
+            undoDialog.focus();
+          }
+        })
       });
     }
-    else if (!this.state.showSettings) {
+    else if (this.state.settingsMode) {
       this.setState({
-        showSettings: !this.state.showSettings,
+        ...this.state.currentState,
+        showHeader: true,
+        viewMode: true,
+        settingsMode: false,
       }, () => {
-        const undoDialog = document.getElementById("undoDialog");
-        undoDialog.focus();
+        const settingsButton = document.getElementById(settingsButtonID);
+        if (settingsButton) {
+          settingsButton.focus();
+        }
       });
     }
   }
-
-  onConfirmSettings = ({fontEdit}, {fontView}, {customStyles}) => {
+  
+  // We don't save the current state and reload it after confirm settings are saved
+  // This requires us to manually reload editMode and appendMode
+  // This is important for settings, especially useCodeMirror
+  onSaveSettings = ({customStyles}, {fontEdit}, {fontSize}, {fontView}, {useCodeMirror}) => {
     this.setState({
       customStyles: customStyles,
       fontEdit: fontEdit,
+      fontSize: fontSize,
       fontView: fontView,
-      showSettings: false,
+      useCodeMirror: useCodeMirror,
+      showHeader: true,
+      settingsMode: false,
+      viewMode: true,
     }, () => {
       this.activateStyles();
     });
@@ -352,24 +534,31 @@ export default class AppendEditor extends React.Component {
       this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
         note.content.appendEditorCustomStyles = customStyles;
         note.content.appendEditorFontEdit = fontEdit;
+        note.content.appendEditorFontSize = fontSize;
         note.content.appendEditorFontView = fontView;
+        note.content.appendEditorUseCodeMirror = useCodeMirror;
       });
     }
   }
 
   activateStyles = () => {
-    if (this.state.customStylesActivated) {
-      const sheetToBeRemoved = document.getElementById('customStyleSheet');
+    const sheetToBeRemoved = document.getElementById('customStyleSheet');
+    if (sheetToBeRemoved) {
       const sheetParent = sheetToBeRemoved.parentNode;
       sheetParent.removeChild(sheetToBeRemoved);
     }
     const sheet = document.createElement('style');
     sheet.setAttribute("id", "customStyleSheet");
-    sheet.innerHTML = this.state.customStyles;
+
+    const fontEditStyle = ".CodeMirror, #editTextArea, #appendTextArea {font-family: " 
+    + this.state.fontEdit + ";}";
+    const fontSizeStyle = '.CodeMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' 
+    + this.state.fontSize + ";}" ;
+    const fontViewStyle = "#renderedNote {font-family: " + this.state.fontView + ";}";
+    sheet.innerHTML = this.state.customStyles + "\n" + fontEditStyle + "\n" 
+    + fontSizeStyle + "\n" + fontViewStyle + "\n";
+
     document.body.appendChild(sheet);
-    this.setState({
-      customStylesActivated: true,
-    });
   }
 
   onCancelPrint = () => {
@@ -479,12 +668,12 @@ export default class AppendEditor extends React.Component {
       this.onEditMode();
     }
     // Click the top Append if 'Control' and 'u' are pressed
-    else if (keyMap.get('Control') && !keyMap.get('Alt') && keyMap.get('u')) {
+    else if (keyMap.get('Control') && !keyMap.get('Alt') && (keyMap.get('u') || keyMap.get('m'))) {
       e.preventDefault();
       this.onAppendMode();
     }
     // Click view if 'Control' and 'p' are pressed
-    else if (keyMap.get('Control') && keyMap.get('p')) {
+    else if (keyMap.get('Control') && !keyMap.get('Alt') && keyMap.get('p')) {
       e.preventDefault();
       this.onViewMode();
     }
@@ -518,66 +707,180 @@ export default class AppendEditor extends React.Component {
       e.preventDefault();
       this.skipToBottom();
     }
-    //console.log("")
     // TODO: If you close it with Ctrl + W and open it again, the Ctrl event key isn't set to false
     // So, if you have minimize to tray on, then it'll open with Ctrl still down
+    else if (keyMap.get('Control') && !keyMap.get('Alt') && !keyMap.get('Shift') && keyMap.get('w')) {
+      keyMap.delete('w');
+    }
+    // TODO: Update keyboard shortcuts
+  }
+
+  onKeyDownAppendTextArea = (e) => {
+    // Close Append Mode if 'Escape' is pressed
+    if (keyMap.get('Escape')) {
+      e.preventDefault();
+      keyMap.set('Escape', false);
+      this.onAppendMode();
+    }
+    // Save note if Control and Enter are pressed
+    else if (keyMap.get('Control') && keyMap.get('Enter')) {
+      e.preventDefault();
+      this.appendTextToNote();
+    }
+    // Save note if Control and S are pressed
+    else if (keyMap.get('Control') && keyMap.get('s')) {
+      e.preventDefault();
+      this.appendTextToNote();
+    }
+  }
+
+  onKeyDownEditTextArea = (e) => {
+    // Close EditMode if 'Escape' is pressed
+    if (keyMap.get('Escape')) {
+      e.preventDefault();
+      keyMap.set('Escape', false);
+      this.onEditMode();
+    }
+  }
+
+  onKeyDownTextArea = (e) => {
+    // Add two spaces and line break if Shift and Enter are pressed
+    if (keyMap.get('Shift') && keyMap.get('Enter')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "  \n")
+    }
+    // Add two stars if Control + b are pressed
+    else if (keyMap.get('Control') && keyMap.get('b')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "**")
+    }
+    // Add header when pressing Control + H
+    else if (keyMap.get('Control') && keyMap.get('h')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "#")
+    }
+    // Add image code if Control + Alt and i are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('i')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "![]()")
+    }
+    // Add one stars if Control + i is pressed
+    else if (keyMap.get('Control') && keyMap.get('i')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "*")
+    }
+    // Add inline code if Control + Alt and k are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('k')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\`")
+    }
+    // Add link if Control + k are pressed
+    else if (keyMap.get('Control') && keyMap.get('k')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "[]()")
+    }
+    // Add ordered list item if Control + Alt + l are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('l')){
+      e.preventDefault();
+      document.execCommand("insertText", false, "\n1. ")
+    }
+    // Add unordered list item if Control + l are pressed
+    else if (keyMap.get('Control') && keyMap.get('l')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\n- ")
+    }
+    // Add strike through if Control + Alt + u are pressed
+    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u')) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "~~")
+    }
+    // Add quote Control + q, Control + ' or Control + " are pressed
+    else if ((keyMap.get('Control') && keyMap.get('q')) ||
+     (keyMap.get('Control') && keyMap.get('\'')) ||
+     (keyMap.get('Control') && keyMap.get('\"'))) {
+      e.preventDefault();
+      document.execCommand("insertText", false, "\n> ")
+    }
   }
 
   onKeyUp = (e) => {
-    keyMap.set(e.key, false);
+    keyMap.delete(e.key);
+  }
+
+  onBlur = (e) => {
+    keyMap.clear();
   }
 
   render() {
-    if (!this.state.appendTextRetrieved) {
-      this.getAppendText();
+    if (!this.state.loadedMetaData) {
+      this.loadMetaData();
     }
-    /*
-    <button type="button" id="menuButton" onClick={this.onToggleMenu} className="sk-button">
-      <div className="sk-label"> ••• </div>
-    </button>
-    {this.state.showMenu && ([
-    <button type="button" id="helpButton" onClick={this.onToggleShowHelp} className="sk-button info">
-      <div className="sk-label"> Help </div>
-    </button>
-    ])}
-    {this.state.showMenu && ([
-    <button type="button" id="settingsButton" onClick={this.onToggleShowHelp} className="sk-button info">
-    <div className="sk-label"> Settings </div>
-    </button>
-    ])}
-    */
     return (
-      <div tabIndex="0" className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp}>
+      <div tabIndex="0" className="sn-component" onKeyDown={this.onKeyDown} onKeyUp={this.onKeyUp} onBlur={this.onBlur}>
         {this.state.showHeader && ([
         <div id="header">
           <div className="sk-button-group">
-            <button type="button" id="editButton" onClick={this.onEditMode} title="Toggle Edit" className={"sk-button info " + (this.state.editMode ? 'on' : 'off' )}>
-              <div className="sk-label"> Edit </div>
+            <button type="button" id={viewButtonID} onClick={this.onViewMode} title="Toggle View Mode" className={"sk-button " + (this.state.viewMode ? 'on' : 'off' )}>
+            <svg role="button" aria-label="Eye icon to indicate viewing" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9.99992 7.5C9.33688 7.5 8.70099 7.76339 8.23215 8.23223C7.76331 8.70107 7.49992 9.33696 7.49992 10C7.49992 10.663 7.76331 11.2989 8.23215 11.7678C8.70099 12.2366 9.33688 12.5 9.99992 12.5C10.663 12.5 11.2988 12.2366 11.7677 11.7678C12.2365 11.2989 12.4999 10.663 12.4999 10C12.4999 9.33696 12.2365 8.70107 11.7677 8.23223C11.2988 7.76339 10.663 7.5 9.99992 7.5ZM9.99992 14.1667C8.89485 14.1667 7.83504 13.7277 7.05364 12.9463C6.27224 12.1649 5.83325 11.1051 5.83325 10C5.83325 8.89493 6.27224 7.83512 7.05364 7.05372C7.83504 6.27232 8.89485 5.83333 9.99992 5.83333C11.105 5.83333 12.1648 6.27232 12.9462 7.05372C13.7276 7.83512 14.1666 8.89493 14.1666 10C14.1666 11.1051 13.7276 12.1649 12.9462 12.9463C12.1648 13.7277 11.105 14.1667 9.99992 14.1667ZM9.99992 3.75C5.83325 3.75 2.27492 6.34167 0.833252 10C2.27492 13.6583 5.83325 16.25 9.99992 16.25C14.1666 16.25 17.7249 13.6583 19.1666 10C17.7249 6.34167 14.1666 3.75 9.99992 3.75Z" fill={((this.state.viewMode) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
+            </svg>
             </button>
-            <button type="button" id="appendButton" onClick={this.onAppendMode} title="Toggle Append" className={"sk-button info " + (this.state.appendMode ? 'on' : 'off' )}>
-              <div className="sk-label"> Append </div>
+            <button type="button" id={editButtonID} onClick={this.onEditMode} title="Toggle Edit Mode" className={"sk-button " + (this.state.editMode ? 'on' : 'off' )}>
+            <svg role="button" aria-label="Pencil icon to toggle edit mode" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.7167 7.5L12.5 8.28333L4.93333 15.8333H4.16667V15.0667L11.7167 7.5ZM14.7167 2.5C14.5083 2.5 14.2917 2.58333 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667C17.5833 5.54167 17.5833 5 17.2583 4.69167L15.3083 2.74167C15.1417 2.575 14.9333 2.5 14.7167 2.5ZM11.7167 5.15833L2.5 14.375V17.5H5.625L14.8417 8.28333L11.7167 5.15833Z" fill={((this.state.editMode) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
+            </svg>
             </button>
-            <button type="button" id="viewButton" onClick={this.onViewMode} title="Toggle View" className={"sk-button info " + (this.state.viewMode ? 'on' : 'off' )}>
-              <div className="sk-label"> View </div>
+            <button type="button" id={appendButtonID} onClick={this.onAppendMode} title="Toggle Append Mode" className={"sk-button " + (this.state.appendMode ? 'on' : 'off' )}>
+            <svg role="button" aria-label="Plus icon to toggle append mode" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.385 11.385H15.615C16.3799 11.385 17 10.7649 17 10C17 9.23507 16.3799 8.61497 15.615 8.61497H11.385V4.38503C11.385 3.6201 10.7649 3 10 3C9.23507 3 8.61497 3.6201 8.61497 4.38503V8.61497H4.38503C3.6201 8.61497 3 9.23507 3 10C3 10.7649 3.6201 11.385 4.38503 11.385H8.61497V15.615C8.61497 16.3799 9.23507 17 10 17C10.7649 17 11.385 16.3799 11.385 15.615V11.385Z" fill={((this.state.appendMode) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
+            </svg>
             </button>
-            <button type="button" id="helpButton" onClick={this.onToggleShowHelp} title="Help" className={"sk-button"}>
+            <div className="sk-button divider">
+                <div className="sk-label"> 
+                <svg role="img" aria-label="Vertical line divider" width="1" height="24" viewBox="0 0 1 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1" height="24" fill={"var(--sn-stylekit-foreground-color)"}/>
+                </svg>
+                </div>
+            </div>
+            <button type="button" id={helpButtonID} onClick={this.onToggleShowHelp} title="Help" className={"sk-button " + (this.state.showHelp ? 'on' : 'off' )}>
               <div className="sk-label">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg role="button" aria-label="Help icon to show help" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M9.16675 15.0001H10.8334V13.3334H9.16675V15.0001ZM10.0001 1.66675C8.90573 1.66675 7.8221 1.8823 6.81105 2.30109C5.80001 2.71987 4.88135 3.3337 4.10753 4.10753C2.54472 5.67033 1.66675 7.78995 1.66675 10.0001C1.66675 12.2102 2.54472 14.3298 4.10753 15.8926C4.88135 16.6665 5.80001 17.2803 6.81105 17.6991C7.8221 18.1179 8.90573 18.3334 10.0001 18.3334C12.2102 18.3334 14.3298 17.4554 15.8926 15.8926C17.4554 14.3298 18.3334 12.2102 18.3334 10.0001C18.3334 8.90573 18.1179 7.8221 17.6991 6.81105C17.2803 5.80001 16.6665 4.88135 15.8926 4.10753C15.1188 3.3337 14.2002 2.71987 13.1891 2.30109C12.1781 1.8823 11.0944 1.66675 10.0001 1.66675ZM10.0001 16.6668C6.32508 16.6668 3.33342 13.6751 3.33342 10.0001C3.33342 6.32508 6.32508 3.33342 10.0001 3.33342C13.6751 3.33342 16.6668 6.32508 16.6668 10.0001C16.6668 13.6751 13.6751 16.6668 10.0001 16.6668ZM10.0001 5.00008C9.11603 5.00008 8.26818 5.35127 7.64306 5.97639C7.01794 6.60151 6.66675 7.44936 6.66675 8.33342H8.33342C8.33342 7.89139 8.50901 7.46747 8.82157 7.1549C9.13413 6.84234 9.55806 6.66675 10.0001 6.66675C10.4421 6.66675 10.866 6.84234 11.1786 7.1549C11.4912 7.46747 11.6667 7.89139 11.6667 8.33342C11.6667 10.0001 9.16675 9.79175 9.16675 12.5001H10.8334C10.8334 10.6251 13.3334 10.4167 13.3334 8.33342C13.3334 7.44936 12.9822 6.60151 12.3571 5.97639C11.732 5.35127 10.8841 5.00008 10.0001 5.00008Z" fill={((this.state.showHelp) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
               </svg>
               </div>
             </button>
-            <button type="button" id="printButton" onClick={this.onConfirmPrintURL} title="Print" className={"sk-button"}>
+            <button type="button" id={printButtonID} onClick={this.onConfirmPrintURL} title="Print" className={"sk-button " + (this.state.printMode ? 'on' : 'off' )}>
               <div className="sk-label"> 
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg role="button" aria-label="Printer icon to toggle printer" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M15.0001 2.5H5.00008V5.83333H15.0001V2.5ZM15.8334 10C15.6124 10 15.4004 9.9122 15.2442 9.75592C15.0879 9.59964 15.0001 9.38768 15.0001 9.16667C15.0001 8.94565 15.0879 8.73369 15.2442 8.57741C15.4004 8.42113 15.6124 8.33333 15.8334 8.33333C16.0544 8.33333 16.2664 8.42113 16.4227 8.57741C16.579 8.73369 16.6668 8.94565 16.6668 9.16667C16.6668 9.38768 16.579 9.59964 16.4227 9.75592C16.2664 9.9122 16.0544 10 15.8334 10ZM13.3334 15.8333H6.66675V11.6667H13.3334V15.8333ZM15.8334 6.66667H4.16675C3.50371 6.66667 2.86782 6.93006 2.39898 7.3989C1.93014 7.86774 1.66675 8.50363 1.66675 9.16667V14.1667H5.00008V17.5H15.0001V14.1667H18.3334V9.16667C18.3334 8.50363 18.07 7.86774 17.6012 7.3989C17.1323 6.93006 16.4965 6.66667 15.8334 6.66667Z" fill={((this.state.printMode) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
               </svg>
               </div>
             </button>
-              <button type="button" id="settingsButton" onClick={this.onToggleShowSettings} title="Settings" className={"sk-button"}>
+              <button type="button" id={settingsButtonID} onClick={this.onSettingsMode} title="Settings" className={"sk-button " + (this.state.settingsMode ? 'on' : 'off' )}>
               <div className="sk-label">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.0001 6.66675C10.8842 6.66675 11.732 7.01794 12.3571 7.64306C12.9823 8.26818 13.3334 9.11603 13.3334 10.0001C13.3334 10.8841 12.9823 11.732 12.3571 12.3571C11.732 12.9822 10.8842 13.3334 10.0001 13.3334C9.11606 13.3334 8.26821 12.9822 7.64309 12.3571C7.01797 11.732 6.66678 10.8841 6.66678 10.0001C6.66678 9.11603 7.01797 8.26818 7.64309 7.64306C8.26821 7.01794 9.11606 6.66675 10.0001 6.66675ZM10.0001 8.33342C9.55808 8.33342 9.13416 8.50901 8.8216 8.82157C8.50904 9.13413 8.33344 9.55805 8.33344 10.0001C8.33344 10.4421 8.50904 10.866 8.8216 11.1786C9.13416 11.4912 9.55808 11.6667 10.0001 11.6667C10.4421 11.6667 10.8661 11.4912 11.1786 11.1786C11.4912 10.866 11.6668 10.4421 11.6668 10.0001C11.6668 9.55805 11.4912 9.13413 11.1786 8.82157C10.8661 8.50901 10.4421 8.33342 10.0001 8.33342ZM8.33344 18.3334C8.12511 18.3334 7.95011 18.1834 7.91678 17.9834L7.60844 15.7751C7.08344 15.5667 6.63344 15.2834 6.20011 14.9501L4.12511 15.7917C3.94178 15.8584 3.71678 15.7917 3.61678 15.6084L1.95011 12.7251C1.84178 12.5417 1.89178 12.3167 2.05011 12.1917L3.80844 10.8084L3.75011 10.0001L3.80844 9.16675L2.05011 7.80841C1.89178 7.68341 1.84178 7.45841 1.95011 7.27508L3.61678 4.39175C3.71678 4.20841 3.94178 4.13341 4.12511 4.20842L6.20011 5.04175C6.63344 4.71675 7.08344 4.43341 7.60844 4.22508L7.91678 2.01675C7.95011 1.81675 8.12511 1.66675 8.33344 1.66675H11.6668C11.8751 1.66675 12.0501 1.81675 12.0834 2.01675L12.3918 4.22508C12.9168 4.43341 13.3668 4.71675 13.8001 5.04175L15.8751 4.20842C16.0584 4.13341 16.2834 4.20841 16.3834 4.39175L18.0501 7.27508C18.1584 7.45841 18.1084 7.68341 17.9501 7.80841L16.1918 9.16675L16.2501 10.0001L16.1918 10.8334L17.9501 12.1917C18.1084 12.3167 18.1584 12.5417 18.0501 12.7251L16.3834 15.6084C16.2834 15.7917 16.0584 15.8667 15.8751 15.7917L13.8001 14.9584C13.3668 15.2834 12.9168 15.5667 12.3918 15.7751L12.0834 17.9834C12.0501 18.1834 11.8751 18.3334 11.6668 18.3334H8.33344ZM9.37511 3.33341L9.06678 5.50841C8.06678 5.71675 7.18344 6.25008 6.54178 6.99175L4.53344 6.12508L3.90844 7.20841L5.66678 8.50008C5.33344 9.47508 5.33344 10.5334 5.66678 11.5001L3.90011 12.8001L4.52511 13.8834L6.55011 13.0167C7.19178 13.7501 8.06678 14.2834 9.05844 14.4834L9.36678 16.6667H10.6334L10.9418 14.4917C11.9334 14.2834 12.8084 13.7501 13.4501 13.0167L15.4751 13.8834L16.1001 12.8001L14.3334 11.5084C14.6668 10.5334 14.6668 9.47508 14.3334 8.50008L16.0918 7.20841L15.4668 6.12508L13.4584 6.99175C12.8168 6.25008 11.9334 5.71675 10.9334 5.51675L10.6251 3.33341H9.37511Z" fill={((this.state.showSettings) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
+              <svg role="button" aria-label="Settings gear icon to toggle settings" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.0001 6.66675C10.8842 6.66675 11.732 7.01794 12.3571 7.64306C12.9823 8.26818 13.3334 9.11603 13.3334 10.0001C13.3334 10.8841 12.9823 11.732 12.3571 12.3571C11.732 12.9822 10.8842 13.3334 10.0001 13.3334C9.11606 13.3334 8.26821 12.9822 7.64309 12.3571C7.01797 11.732 6.66678 10.8841 6.66678 10.0001C6.66678 9.11603 7.01797 8.26818 7.64309 7.64306C8.26821 7.01794 9.11606 6.66675 10.0001 6.66675ZM10.0001 8.33342C9.55808 8.33342 9.13416 8.50901 8.8216 8.82157C8.50904 9.13413 8.33344 9.55805 8.33344 10.0001C8.33344 10.4421 8.50904 10.866 8.8216 11.1786C9.13416 11.4912 9.55808 11.6667 10.0001 11.6667C10.4421 11.6667 10.8661 11.4912 11.1786 11.1786C11.4912 10.866 11.6668 10.4421 11.6668 10.0001C11.6668 9.55805 11.4912 9.13413 11.1786 8.82157C10.8661 8.50901 10.4421 8.33342 10.0001 8.33342ZM8.33344 18.3334C8.12511 18.3334 7.95011 18.1834 7.91678 17.9834L7.60844 15.7751C7.08344 15.5667 6.63344 15.2834 6.20011 14.9501L4.12511 15.7917C3.94178 15.8584 3.71678 15.7917 3.61678 15.6084L1.95011 12.7251C1.84178 12.5417 1.89178 12.3167 2.05011 12.1917L3.80844 10.8084L3.75011 10.0001L3.80844 9.16675L2.05011 7.80841C1.89178 7.68341 1.84178 7.45841 1.95011 7.27508L3.61678 4.39175C3.71678 4.20841 3.94178 4.13341 4.12511 4.20842L6.20011 5.04175C6.63344 4.71675 7.08344 4.43341 7.60844 4.22508L7.91678 2.01675C7.95011 1.81675 8.12511 1.66675 8.33344 1.66675H11.6668C11.8751 1.66675 12.0501 1.81675 12.0834 2.01675L12.3918 4.22508C12.9168 4.43341 13.3668 4.71675 13.8001 5.04175L15.8751 4.20842C16.0584 4.13341 16.2834 4.20841 16.3834 4.39175L18.0501 7.27508C18.1584 7.45841 18.1084 7.68341 17.9501 7.80841L16.1918 9.16675L16.2501 10.0001L16.1918 10.8334L17.9501 12.1917C18.1084 12.3167 18.1584 12.5417 18.0501 12.7251L16.3834 15.6084C16.2834 15.7917 16.0584 15.8667 15.8751 15.7917L13.8001 14.9584C13.3668 15.2834 12.9168 15.5667 12.3918 15.7751L12.0834 17.9834C12.0501 18.1834 11.8751 18.3334 11.6668 18.3334H8.33344ZM9.37511 3.33341L9.06678 5.50841C8.06678 5.71675 7.18344 6.25008 6.54178 6.99175L4.53344 6.12508L3.90844 7.20841L5.66678 8.50008C5.33344 9.47508 5.33344 10.5334 5.66678 11.5001L3.90011 12.8001L4.52511 13.8834L6.55011 13.0167C7.19178 13.7501 8.06678 14.2834 9.05844 14.4834L9.36678 16.6667H10.6334L10.9418 14.4917C11.9334 14.2834 12.8084 13.7501 13.4501 13.0167L15.4751 13.8834L16.1001 12.8001L14.3334 11.5084C14.6668 10.5334 14.6668 9.47508 14.3334 8.50008L16.0918 7.20841L15.4668 6.12508L13.4584 6.99175C12.8168 6.25008 11.9334 5.71675 10.9334 5.51675L10.6251 3.33341H9.37511Z" fill={((this.state.settingsMode) ? "var(--sn-stylekit-info-color)" : "var(--sn-stylekit-foreground-color)")}/>
+              </svg>
+              </div>
+              </button>
+              <div className="sk-button divider">
+                <div className="sk-label"> 
+                <svg role="img" aria-label="Vertical line divider" width="1" height="24" viewBox="0 0 1 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="1" height="24" fill={"var(--sn-stylekit-foreground-color)"}/>
+                </svg>
+                </div>
+            </div>
+            <button type="button" id="scrollToBottomButtonHeader" onClick={this.skipToBottom} title="Scroll to Bottom" className={"sk-button off"}>
+              <div className="sk-label">
+              <svg role="button" aria-label="Arrow pointing down for scroll to bottom button" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.17622 7.15015L10.0012 10.9751L13.8262 7.15015L15.0012 8.33348L10.0012 13.3335L5.00122 8.33348L6.17622 7.15015Z" fill={"var(--sn-stylekit-foreground-color)"}/>
+              </svg>
+              </div>
+              </button>
+            <button type="button" id="scrollToTopButtonHeader" onClick={this.skipToTop} title="Scroll to Top" className={"sk-button off"}>
+              <div className="sk-label">
+              <svg role="button" aria-label="Arrow pointing up for scroll to top button"  width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.826 13.3335L10.001 9.5085L6.17597 13.3335L5.00097 12.1502L10.001 7.15017L15.001 12.1502L13.826 13.3335Z" fill={"var(--sn-stylekit-foreground-color)"}/>
               </svg>
               </div>
               </button>
@@ -586,20 +889,47 @@ export default class AppendEditor extends React.Component {
         ])}
         <div id="content" 
         className={ "content "  + (this.state.printMode ? 'printModeOn' : 'printModeOff' )}>
+          {this.state.settingsMode && (
+              <Settings
+              cancelText="Cancel"
+              confirmText="Save"
+              customStyles={this.state.customStyles}
+              fontEdit={this.state.fontEdit}
+              fontSize={this.state.fontSize}
+              fontView={this.state.fontView}
+              helpLink={"https://appendeditor.com/#settings"}
+              keyMap={keyMap}
+              onConfirm={this.onSaveSettings}
+              onCancel={this.onSettingsMode}
+              rows={this.state.appendRows}
+              title={`Settings`}
+              useCodeMirror={this.state.useCodeMirror}
+            />
+          )}
           {this.state.editMode && !this.state.refreshEdit && (
             <EditNote
-              text={this.state.text}
-              onSave={this.onSave}
-              printMode={this.state.printMode}
               fontEdit={this.state.fontEdit}
+              keyMap={keyMap}
+              onKeyDown={this.onKeyDown}
+              onKeyDownEditTextArea={this.onKeyDownEditTextArea}
+              onKeyDownTextArea={this.onKeyDownTextArea}
+              onKeyUp={this.onKeyUp}
+              printMode={this.state.printMode}
+              saveText={this.saveText}
+              text={this.state.text}
             />
           )}
           {this.state.editMode && this.state.refreshEdit && (
             <EditNote
-              text={this.state.text}
-              onSave={this.onSave}
-              printMode={this.state.printMode}
-              fontEdit={this.state.fontEdit}
+            fontEdit={this.state.fontEdit}
+            keyMap={keyMap}
+            onKeyDown={this.onKeyDown}
+            onKeyDownEditTextArea={this.onKeyDownEditTextArea}
+            onKeyDownTextArea={this.onKeyDownTextArea}
+            onKeyUp={this.onKeyUp}
+            printMode={this.state.printMode}
+            saveText={this.saveText}
+            text={this.state.text}
             />
           )}
           {(this.state.viewMode || this.state.printMode) && !this.state.refreshView && (
@@ -620,20 +950,6 @@ export default class AppendEditor extends React.Component {
               fontView={this.state.fontView}
             />
           )}
-          {this.state.showSettings && (
-              <Settings
-              title={`Settings`}
-              onConfirm={this.onConfirmSettings}
-              onCancel={this.onToggleShowSettings}
-              helpLink={"https://appendeditor.com/#settings"}
-              confirmText="Save"
-              cancelText="Cancel"
-              customStyles={this.state.customStyles}
-              fontEdit={this.state.fontEdit}
-              fontView={this.state.fontView}
-              rows={this.state.appendRows}
-            />
-          )}
           {this.state.confirmPrintURL && (
             <PrintDialog
               title={`Would you like to print URLs?`}
@@ -650,15 +966,20 @@ export default class AppendEditor extends React.Component {
         <div id="appendix" className={ "appendix "  + (this.state.printMode ? 'printModeOn' : 'printModeOff' )}>
           {this.state.appendMode && (
             <AppendText
-              onAppend={this.onAppend}
-              onSaveAppendText={this.onSaveAppendText}
-              onSaveAppendTextAndCheckboxes={this.onSaveAppendTextAndCheckboxes}
-              text={this.state.appendText}
+              appendTextToNote={this.appendTextToNote}
+              autoSaveAppendText={this.autoSaveAppendText}
+              autoSaveAppendTextAndCheckboxes={this.autoSaveAppendTextAndCheckboxes}
+              debugMode={debugMode}
+              fontEdit={this.state.fontEdit}
+              keyMap={keyMap}
               newLine={this.state.appendNewLine}
               newParagraph={this.state.appendNewParagraph}
+              onKeyDown={this.onKeyDown}
+              onKeyDownTextArea={this.onKeyDownTextArea}
+              onKeyUp={this.onKeyUp}
               printMode={this.state.printMode}
               rows={this.state.appendRows}
-              fontEdit={this.state.fontEdit}
+              text={this.state.appendText}
             />
           )}
           <button type="button" id="scrollToTopButton" onClick={this.scrollToTop} className="sk-button info">

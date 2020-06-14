@@ -1,7 +1,11 @@
 @import '~stylekit';
+@import '~codemirror';
+@import '~codemirrordialog';
+@import '~codemirrormatchesonscrollbar';
 
 :root {
   --sn-stylekit-font-size-editor: 16px;
+  --sn-stylekit-monospace-font: SFMono-Regular, Consolas, Liberation Mono, Menlo, "Ubuntu Mono", courier, monospace;
 }
 
 @media screen and (max-width: 650px) {
@@ -9,19 +13,7 @@
     --sn-stylekit-font-size-editor: 18px;
   }
   h1 {
-    font-size: 32px;
-  }
-  h2 {
-    font-size: 28px;
-  }
-  h3 {
-    font-size: 24px;
-  }
-  h4 {
-    font-size: 18px;
-  }
-  h5 {
-    font-size: 16px;
+    font-size: 1.75em; // is usually 2em
   }
 }
 
@@ -84,7 +76,7 @@ button:focus {
       margin: 0;
     }
   }
-  .sk-panel.main.edit, .sk-panel.main.appendix {
+  .sk-panel.main.edit {
     @media screen and (max-width: 725px) {
       border-top: none;
     }
@@ -197,6 +189,12 @@ button:focus {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+
+  svg::after {
+    content: "";
+    background: var(--sn-stylekit-info-color);
+    opacity: 0.1;
+  }
   
   .sk-button-group {
     max-width: 700px;
@@ -217,9 +215,16 @@ button:focus {
         font-weight: inherit;
       }
     }
-    #menuButton {
-      background-color: inherit;
-      color: inherit;
+    .sk-button.off {
+      opacity: 0.75;
+    }
+    .sk-button.divider {
+      opacity: 0.25;
+      cursor: unset;
+      margin-right: 0px;
+      @media screen and (max-width: 379px) {
+        display: none;
+      }
     }
     .sk-button.info.off {
       color: var(--sn-stylekit-info-color);
@@ -254,58 +259,6 @@ button:focus {
 
   @media screen and (max-width: 725px) {
     padding: 0;
-  }
-
-  .hljs {
-    color: var(--sn-stylekit-contrast-foreground-color);
-  }
-  
-  code, pre {
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-  }
-  code {
-    box-sizing: border-box;
-    word-wrap: break-word;
-    padding: .2em .4em;
-    margin: 0;
-    font-size: 85%;
-    background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);
-    border-radius: 3px;
-  }
-
-  pre {
-    padding: 16px;
-    overflow: auto;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
-    border-radius: 3px;
-    word-wrap: normal;
-    margin-top: 0;
-    margin-bottom: 16px;
-  }
-  
-  pre > code {
-    padding: 0;
-    margin: 0;
-    font-size: 100%;
-    word-break: normal;
-    white-space: pre;
-    background: transparent;
-    background-color: transparent;
-    border: 0;
-  }
-
-  pre code {
-    display: inline;
-    max-width: auto;
-    padding: 0;
-    margin: 0;
-    overflow: visible;
-    line-height: inherit;
-    word-wrap: normal;
-    background-color: initial;
-    border: 0;
   }
 
   a {
@@ -363,6 +316,60 @@ button:focus {
   }
 }
 
+#renderedNote{
+  code, pre {
+    font-family: var(--sn-stylekit-monospace-font);
+  }
+  .hljs {
+    color: var(--sn-stylekit-contrast-foreground-color);
+  }
+
+  code {
+    box-sizing: border-box;
+    word-wrap: break-word;
+    padding: .2em .4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);
+    border-radius: 3px;
+  }
+
+  pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: var(--sn-stylekit-contrast-background-color); // rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
+    border-radius: 3px;
+    word-wrap: normal;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+  
+  pre > code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    max-width: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: initial;
+    border: 0;
+  }
+}
+
 .sk-notification {
   // Hacking sk-notification style
   overflow: visible !important; // We need this for the dropdown menu
@@ -379,7 +386,9 @@ button:focus {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 200;
+}
 
+#content .note-dialog, .sk-panel.main.settings {
   button {
     border-width: 0px;
     font-size: 14px;
@@ -416,11 +425,15 @@ button:focus {
     input {
       min-width: 250px;
       font-size: 16px;
-      padding: 0.5rem
+      padding: 0.5rem;
+      background-color: var(--sn-stylekit-contrast-background-color);
+      border-color: var(--sn-stylekit-border-color);
+      color: var(--sn-stylekit-foreground-color);
     }
     textarea { // This seems to make the textarea blurry on Firefox
       white-space: pre;
       overflow-x: auto;
+      font-family: var(--sn-stylekit-monospace-font);
     }
   // Collapse on mobile
   @media screen and (max-width: 480px) {
@@ -556,6 +569,7 @@ button:focus {
     position: absolute;
     label {
       font-size: 13px;
+      cursor: pointer;
     }
     padding-left: 25px;
     @media screen and (max-width: 600px) {
@@ -644,3 +658,72 @@ button:focus {
     transition: visibility 0s 500ms, opacity 500ms ease-out;
   }
 }*/
+
+.CodeMirror {
+  //fix : margin left is 30px;
+  font-family: var(--sn-stylekit-sans-serif-font);
+  font-size: var(--sn-stylekit-font-size-editor);
+  background: inherit;
+  color: inherit;
+  .CodeMirror-scroll, .CodeMirror-sizer, .CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber {
+    background: inherit;
+  }
+  .CodeMirror-linenumber {
+    font-family: var(--sn-stylekit-monospace-font);
+  }
+  .cm-attribute {
+    color: var(--sn-stylekit-success-color);
+  }
+  .cm-comment {
+    color: var(--sn-stylekit-contrast-foreground-color);
+    font-family: var(--sn-stylekit-monospace-font);
+    background-color: var(--sn-stylekit-contrast-background-color);
+  }
+  .cm-error {
+    color: var(--sn-stylekit-danger-color);
+  }
+  .cm-header {
+    color: var(--sn-stylekit-success-color);
+  }
+  .cm-header.cm-header-1 {
+    font-size: 2em;
+  }
+  .cm-header.cm-header-2 {
+    font-size: 1.5em;
+  }
+  .cm-header.cm-header-3 {
+    font-size: 1.17em;
+  }
+  .cm-header.cm-header-4 {
+    font-size: 1em;
+  }
+  .cm-variable-2 {
+    color: var(--sn-stylekit-foreground-color);
+  }
+  .cm-link, .cm-link.cm-variable-2 {
+    color: var(--sn-stylekit-info-color);
+  }
+  .cm-string, .cm-string.cm-url.cm-variable-2 {
+    color: var(--sn-stylekit-warning-color);
+  }
+  .cm-tag, .cm-tag.cm-bracket{
+    color: var(--sn-stylekit-neutral-color);
+  }
+  .CodeMirror-selected { 
+    background: var(--sn-stylekit-input-placeholder-color);
+    opacity: 0.5;
+  }
+}
+.CodeMirror-cursor {
+  border-left: 1px solid var(--sn-stylekit-info-color);
+  border-right: none;
+  width: 0;
+}
+.CodeMirror-focused .CodeMirror-selected { 
+  background: var(--sn-stylekit-info-color);
+  opacity: 0.5;
+}
+.CodeMirror-dialog {
+  position: fixed;
+  background: var(--sn-stylekit-background-color);
+}

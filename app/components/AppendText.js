@@ -1,6 +1,9 @@
 import React from 'react';
 
-let keyMap = new Map();
+const appendButtonID = "appendButton";
+const appendTextAreaID = "appendTextArea";
+const newLineID = "newLine";
+const newParagraphID = "newParagraph";
 
 export default class AppendText extends React.Component {
   static defaultProps = {
@@ -19,194 +22,132 @@ export default class AppendText extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
-  handleInputChange = event => {
+  handleInputChange = (event) => {
     const target = event.target;
-    //const value = target.value
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    this.setState({
-      [name]: value,
-    }
-    // This callback is used to save the append text and checkboxes
-    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
-    , () => {
-        try {
-          this.onSaveAppendTextAndCheckboxes();
-        }
-        catch (error) {
-          console.error(error);
-        }
-    });
+    this.setState(
+      {
+        [name]: value,
+      },
+      () => {
+        // This callback saves the append text and checkboxes
+        this.autoSaveAppendTextAndCheckboxes();
+      }
+    );
   };
 
   // This is an almost duplicate of the above editor. Here we don't save the checkboxes to improve performance
-  handleTextAreaChange = event => {
+  handleTextAreaChange = (event) => {
     const target = event.target;
-    const value = target.value
-    this.setState({
-      text: value,
-    }
-    // This callback is used to save the append text
-    // This will work in an SN context, but breaks the standalone editor, so we need to catch the error
-    , () => {
-        try {
-          this.onSaveAppendText();
-        }
-        catch (error) {
-          console.error(error);
-        }
-    });
+    const value = target.value;
+    this.setState(
+      {
+        text: value,
+      },
+      () => {
+        // This callback saves the append text
+        this.autoSaveAppendText();
+      }
+    );
   };
 
-  onAppend = (e) => {
-    e.preventDefault();
-    const { text } = this.state;
-    var appendText = '';
-    // We test for new paragraph first even though new line is on top and is on by default
-    if (this.state.newParagraph && text) {
-      appendText = '  \n\n' + text;
-    }
-    else if (this.state.newLine && text) {
-      appendText = '  \n' + text;
-    }
-    else {
-      appendText = text;
-    }
-    this.props.onAppend(appendText);
+  appendTextToNote = () => {
+    this.props.appendTextToNote();
     this.setState({
       text: '',
     });
-    const appendTextArea = document.getElementById("appendTextArea");
+    const appendTextArea = document.getElementById(appendTextAreaID);
     appendTextArea.focus();
   };
 
-  onSaveAppendText = () => {
+  autoSaveAppendText = () => {
     const text = this.state.text;
-    this.props.onSaveAppendText(text);
+    this.props.autoSaveAppendText(text);
   };
 
-  onSaveAppendTextAndCheckboxes = () => {
-    //console.log("newline: " + this.state.newLine);
-    //console.log("new paragraph: " + this.state.newParagraph);
+  autoSaveAppendTextAndCheckboxes = () => {
     const text = this.state.text;
     const newLine = this.state.newLine;
     const newParagraph = this.state.newParagraph;
-    this.props.onSaveAppendTextAndCheckboxes(text, newLine, newParagraph);
+    this.props.autoSaveAppendTextAndCheckboxes(text, newLine, newParagraph);
   };
 
   onKeyDown = (e) => {
-    keyMap.set(e.key, true);
-    //console.log("Keys pressed: " + e.key + "KeyMap for key: " + keyMap.get(e.key)) + "KeyMap for Shift: " + keyMap.get('Shift');
-    
-    // Click Append if 'Escape' is pressed
-    if (keyMap.get('Escape')) {
-      e.preventDefault();
-      keyMap.set('Escape', false);
-      var appendButton = document.getElementById("appendButton");
-      appendButton.click();
+    this.props.keyMap.set(e.key, true);
+    if (this.props.debugMode) {
+      console.log('Keys pressed: ' + e.key + 'KeyMap for key: ' + this.props.keyMap.get(e.key));
+      console.log('Append Text Value: ' + this.state.text);
     }
-    // Add four spaces if Control and Tab are pressed without Shift
-    else if (keyMap.get('Control') && !keyMap.get('Shift') && keyMap.get('Tab')) {
-      e.preventDefault();
-      // Using document.execCommand gives us undo support
-      document.execCommand("insertText", false, "\t")
-        // document.execCommand works great on Chrome/Safari but not Firefox
-    }
-    // Add two spaces and line break if Shift and Enter are pressed
-    else if (keyMap.get('Shift') && keyMap.get('Enter')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "  \n")
-    }
-    // Append text if Control and Enter are pressed
-    else if (keyMap.get('Control') && keyMap.get('Enter')) {
-      e.preventDefault();
-      this.onAppend(e);
-    }
-    // Add two stars if Control + b are pressed
-    else if (keyMap.get('Control') && keyMap.get('b')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "**")
-    }
-    // Add header when pressing Control + H
-    else if (keyMap.get('Control') && keyMap.get('h')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "#")
-    }
-    // Add image code if Control + Alt and i are pressed
-    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('i')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "![]()")
-    }
-    // Add one stars if Control + i is pressed
-    else if (keyMap.get('Control') && keyMap.get('i')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "*")
-    }
-    // Add inline code if Control + Alt and k are pressed
-    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('k')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "\`")
-    }
-    // Add link if Control + k are pressed
-    else if (keyMap.get('Control') && keyMap.get('k')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "[]()")
-    }
-    // Add ordered list item if Control + Alt + l are pressed
-    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('l')){
-      e.preventDefault();
-      document.execCommand("insertText", false, "\n1. ")
-    }
-    // Add unordered list item if Control + l are pressed
-    else if (keyMap.get('Control') && keyMap.get('l')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "\n- ")
-    }
-    // Add strike through if Control + Alt + u are pressed
-    else if (keyMap.get('Control') && keyMap.get('Alt') && keyMap.get('u')) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "~~")
-    }
-    // Add quote Control + q, Control + ' or Control + " are pressed
-    else if ((keyMap.get('Control') && keyMap.get('q')) ||
-     (keyMap.get('Control') && keyMap.get('\'')) ||
-     (keyMap.get('Control') && keyMap.get('\"'))) {
-      e.preventDefault();
-      document.execCommand("insertText", false, "\n> ")
-    }
-    // Append text if Control and S are pressed
-    else if (keyMap.get('Control') && keyMap.get('s')) {
-      e.preventDefault();
-      this.onAppend(e);
-    }
-  }
 
-  onKeyUp = (e) => {
-    keyMap.set(e.key, false);
-  }
+    this.props.onKeyDown(e);
+    this.props.onKeyDownTextArea(e);
+    // Click Edit if 'Escape' is pressed
+    if (this.props.keyMap.get('Escape')) {
+      e.preventDefault();
+      this.props.keyMap.delete('Escape');
+      const appendButton = document.getElementById(appendButtonID);
+      if (appendButton) {
+        appendButton.click();
+      }
+    }
+    // Append Text if Ctrl and 'Enter' are pressed
+    if (this.props.keyMap.get('Control') && this.props.keyMap.get('Enter')) {
+      e.preventDefault();
+      this.appendTextToNote();
+    }
+    // Append Text if Ctrl and 's' are pressed
+    else if (this.props.keyMap.get('Control') && this.props.keyMap.get('s')) {
+      e.preventDefault();
+      this.appendTextToNote();
+    }
+    // TODO: Fix this
+    /*
+    // Toggle Append New Line if Ctrl + Alt + N are pressed
+    else if (this.props.keyMap.get('Control') && !this.props.keyMap.get('Shift') && this.props.keyMap.get('Alt') && this.props.keyMap.get('n')) {
+      e.preventDefault();
+      const newLine = document.getElementById(newLineID);
+      if (newLine) {
+        newLine.click();
+      }
+    }
+    // Toggle Append New Line if Ctrl + Alt + P are pressed
+    else if (this.props.keyMap.get('Control') && !this.props.keyMap.get('Shift') && this.props.keyMap.get('Alt') && this.props.keyMap.get('p')) {
+      e.preventDefault();
+      const newParagraph = document.getElementById(newParagraphID);
+      if (newParagraph) {
+        newParagraph.click();
+      }
+    }*/
+  };
 
-  onBlur = (e) => {
-    keyMap.clear();
-  }
+  onKeyUp = (event) => {
+    this.props.keyMap.delete(event.key);
+    this.props.onKeyUp(event);
+  };
 
   render() {
-    const {text} = this.state;
+    const { text } = this.state;
 
     return (
-      <div className={"sk-panel main appendix " + (this.props.printMode ? 'printModeOn' : 'printModeOff' )}>
+      <div
+        className={
+          'sk-panel main appendix ' +
+          (this.props.printMode ? 'printModeOn' : 'printModeOff')
+        }
+      >
         <div className="sk-panel-content edit">
           <textarea
-            id="appendTextArea"
+            id={appendTextAreaID}
             name="text"
             className="sk-input contrast textarea append"
-            placeholder="Append to your note 🙂"
+            placeholder="Append to your note"
             rows={this.props.rows}
             spellCheck="true"
             value={text}
             onChange={this.handleTextAreaChange}
             onKeyDown={this.onKeyDown}
             onKeyUp={this.onKeyUp}
-            onBlur={this.onBlur}
             style={{fontFamily: this.props.fontEdit}}
             type="text"
           />
@@ -215,32 +156,38 @@ export default class AppendText extends React.Component {
           <form className="checkBoxForm">
             <label>
               <input
-                name="newLine"            
+                id={newLineID}
+                name="newLine"
                 type="checkbox"
                 checked={this.state.newLine}
-                onChange={this.handleInputChange} />
-                New Line
+                onChange={this.handleInputChange}
+              />
+              New Line
             </label>
             <br />
             <label>
               <input
-                name="newParagraph"            
+                id={newParagraphID}
+                name="newParagraph"
                 type="checkbox"
                 checked={this.state.newParagraph}
-                onChange={this.handleInputChange} />
-                New Paragraph
+                onChange={this.handleInputChange}
+              />
+              New Paragraph
             </label>
           </form>
           <div className="sk-button-group stretch">
-            <button 
+            <button
+              type="button"
             type="button" 
-            id="appendTextButton"
-            onClick={this.onAppend}
+              type="button"
+              id="appendTextButton"
+              onClick={this.appendTextToNote}
+              className="sk-button info"
             className="sk-button info" 
+              className="sk-button info"
             >
-              <div className="sk-label">
-                Append
-              </div>
+              <div className="sk-label">Append</div>
             </button>
           </div>
         </div>
