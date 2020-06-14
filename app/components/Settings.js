@@ -7,8 +7,6 @@ const useCodeMirrorID = 'useCodeMirror';
 const customStylesID = 'customStyles';
 const resetAllSettingsID = 'resetAllSettings';
 
-const debugMode = true;
-
 export default class Settings extends React.Component {
   constructor(props) {
     super(props);
@@ -31,13 +29,13 @@ export default class Settings extends React.Component {
     this.setState({
       [name]: value,
     });
-    if (debugMode) {
+    if (this.props.debugMode) {
       console.log('Settings event name: ' + event.target.name);
     }
   };
 
   handleSubmit = () => {
-    if (debugMode) {
+    if (this.props.debugMode) {
       let fontEditMessage = '';
       let fontViewMessage = '';
       console.log('Settings fontEdit: ' + this.state.fontEdit);

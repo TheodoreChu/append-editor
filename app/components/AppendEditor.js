@@ -1229,6 +1229,7 @@ export default class AppendEditor extends React.Component {
               cancelText="Cancel"
               confirmText="Save"
               customStyles={this.state.customStyles}
+              debugMode={debugMode}
               fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}
               fontView={this.state.fontView}
