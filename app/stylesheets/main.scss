@@ -76,7 +76,7 @@ button:focus {
       margin: 0;
     }
   }
-  .sk-panel.main.edit {
+  .sk-panel.main.edit, .sk-panel.main.appendix {
     @media screen and (max-width: 725px) {
       border-top: none;
     }
@@ -665,6 +665,9 @@ button:focus {
   font-size: var(--sn-stylekit-font-size-editor);
   background: inherit;
   color: inherit;
+  @media screen and (max-width: 725px) {
+    border-top: 1px solid var(--sn-stylekit-border-color);
+  }
   .CodeMirror-scroll, .CodeMirror-sizer, .CodeMirror-gutter, .CodeMirror-gutters, .CodeMirror-linenumber {
     background: inherit;
   }
