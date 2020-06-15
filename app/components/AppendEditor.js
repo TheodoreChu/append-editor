@@ -32,8 +32,15 @@ const printButtonID = 'printButton';
 const settingsButtonID = 'settingsButton';
 const viewButtonID = 'viewButton';
 
+const headerID = 'header';
+const contentID = 'content';
+const appendixID = 'appendix';
+
 const editTextAreaID = 'editTextArea';
 const appendTextAreaID = 'appendTextArea';
+
+const newLineID = 'newLine';
+const newParagraphID = 'newParagraph';
 
 const initialState = {
   text: '',
@@ -191,9 +198,9 @@ export default class AppendEditor extends React.Component {
       const { appendText } = this.state;
       let textToAppend = '';
       // We test for new paragraph first even though new line is on top and is on by default
-      if (this.state.newParagraph) {
+      if (this.state.appendNewParagraph) {
         textToAppend = '  \n\n' + appendText;
-      } else if (this.state.newLine) {
+      } else if (this.state.appendNewLine) {
         textToAppend = '  \n' + appendText;
       } else {
         textToAppend = appendText;
@@ -245,11 +252,10 @@ export default class AppendEditor extends React.Component {
     }
   };
 
-  autoSaveAppendTextAndCheckboxes = (text, newLine, newParagraph) => {
+  autoSaveCheckBoxes = (newLine, newParagraph) => {
     // Here we save the appendText, appendNewLine, and appendNewParagraph
     // We have an additional function for this because we only call it when the user clicks a checkbox
     this.setState({
-      appendText: text,
       appendNewLine: newLine,
       appendNewParagraph: newParagraph,
     });
@@ -260,7 +266,6 @@ export default class AppendEditor extends React.Component {
         this.editorKit.internal.componentManager.saveItemWithPresave(
           note,
           () => {
-            note.content.appendText = text;
             note.content.appendNewLine = newLine;
             note.content.appendNewParagraph = newParagraph;
           }
@@ -454,11 +459,6 @@ export default class AppendEditor extends React.Component {
           }
         }
       );
-      if (!this.state.printMode) {
-        this.setState({
-          viewMode: true,
-        });
-      }
     } else if (this.state.appendMode) {
       if (this.state.appendCodeMirror) {
         this.state.appendCodeMirror.toTextArea();
@@ -553,6 +553,7 @@ export default class AppendEditor extends React.Component {
         () => {
           this.setState(
             {
+              showAppendix: false, // Hides the scroll up/down buttons
               showHeader: false,
               appendMode: false,
               editMode: false,
@@ -573,7 +574,6 @@ export default class AppendEditor extends React.Component {
       this.setState(
         {
           ...this.state.currentState,
-          showHeader: true,
           viewMode: true,
           settingsMode: false,
         },
@@ -604,6 +604,7 @@ export default class AppendEditor extends React.Component {
         fontSize: fontSize,
         fontView: fontView,
         useCodeMirror: useCodeMirror,
+        showAppendix: true,
         showHeader: true,
         settingsMode: false,
         viewMode: true,
@@ -711,13 +712,21 @@ export default class AppendEditor extends React.Component {
 
   // Need both content and appendix for mobile
   scrollToBottom = () => {
-    const content = document.getElementById('content');
-    const appendix = document.getElementById('appendix');
-    if (this.state.editMode) {
-      const textarea = document.getElementById('editTextArea');
-      textarea.scrollTop = 10000000;
-    }
     document.body.scrollTop = 10000000; // for Safari
+    if (this.state.editMode) {
+      const editTextArea = document.getElementById(editTextAreaID);
+      if (editTextArea) {
+        editTextArea.scrollTop = 10000000;
+      }
+    }
+    if (this.state.appendMode) {
+      const appendTextArea = document.getElementById(appendTextAreaID);
+      if (appendTextArea) {
+        appendTextArea.scrollTop = 10000000;
+      }
+    }
+    const content = document.getElementById(contentID);
+    const appendix = document.getElementById(appendixID);
     content.scrollIntoView({
       behavior: 'smooth',
       block: 'end',
@@ -733,66 +742,100 @@ export default class AppendEditor extends React.Component {
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToBottom = () => {
-    const content = document.getElementById('content');
-    const appendix = document.getElementById('appendix');
-    if (this.state.editMode) {
-      const textarea = document.getElementById('editTextArea');
-      textarea.scrollTop = 10000000;
-    }
     document.body.scrollTop = 10000000; // for Safari
-    content.scrollIntoView({
-      behavior: 'auto',
-      block: 'end',
-      inline: 'nearest',
-    }); // Bottom
-    appendix.scrollIntoView({
-      behavior: 'auto',
-      block: 'end',
-      inline: 'nearest',
-    }); // Bottom
+    if (this.state.editMode) {
+      const editTextArea = document.getElementById(editTextAreaID);
+      editTextArea.scrollTop = 10000000;
+    }
+    if (this.state.appendMode) {
+      const appendTextArea = document.getElementById(appendTextAreaID);
+      if (appendTextArea) {
+        appendTextArea.scrollTop = 10000000;
+      }
+    }
+    // We have both content and appendix so the skip works in PrintMode
+    const content = document.getElementById(contentID);
+    const appendix = document.getElementById(appendixID);
+    if (content) {
+      content.scrollIntoView({
+        behavior: 'auto',
+        block: 'end',
+        inline: 'nearest',
+      }); // Bottom
+    }
+    if (appendix) {
+      appendix.scrollIntoView({
+        behavior: 'auto',
+        block: 'end',
+        inline: 'nearest',
+      }); // Bottom
+    }
   };
 
-  // Need both content and appendix for mobile
   scrollToTop = () => {
-    const content = document.getElementById('content');
-    const header = document.getElementById('header');
     if (this.state.editMode) {
-      const textarea = document.getElementById('editTextArea');
-      textarea.scrollTop = 0;
+      const editTextArea = document.getElementById(editTextAreaID);
+      if (editTextArea) {
+        editTextArea.scrollTop = 0;
+      }
+    }
+    if (this.state.appendMode) {
+      const appendTextArea = document.getElementById(appendTextAreaID);
+      if (appendTextArea) {
+        appendTextArea.scrollTop = 0;
+      }
     }
     document.body.scrollTop = 0; // for Safari
-    content.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-      inline: 'nearest',
-    }); // Top
-    header.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-      inline: 'nearest',
-    }); // Top
+    const content = document.getElementById(contentID);
+    const header = document.getElementById(headerID);
+    if (content) {
+      content.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      }); // Top
+    }
+    if (header) {
+      header.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest',
+      }); // Top
+    }
   };
 
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToTop = () => {
-    const content = document.getElementById('content');
-    const header = document.getElementById('header');
     if (this.state.editMode) {
-      const textarea = document.getElementById('editTextArea');
-      textarea.scrollTop = 0;
+      const editTextArea = document.getElementById(editTextAreaID);
+      if (editTextArea) {
+        editTextArea.scrollTop = 0;
+      }
+    }
+    if (this.state.appendMode) {
+      const appendTextArea = document.getElementById(appendTextAreaID);
+      if (appendTextArea) {
+        appendTextArea.scrollTop = 0;
+      }
     }
     document.body.scrollTop = 0; // for Safari
-    content.scrollIntoView({
-      behavior: 'auto',
-      block: 'start',
-      inline: 'nearest',
-    }); // Top
-    header.scrollIntoView({
-      behavior: 'auto',
-      block: 'start',
-      inline: 'nearest',
-    }); // Top
+    const content = document.getElementById(contentID);
+    const header = document.getElementById(headerID);
+    if (content) {
+      content.scrollIntoView({
+        behavior: 'auto',
+        block: 'start',
+        inline: 'nearest',
+      }); // Top
+    }
+    if (header) {
+      header.scrollIntoView({
+        behavior: 'auto',
+        block: 'start',
+        inline: 'nearest',
+      }); // Top
+    }
   };
 
   onKeyDown = (e) => {
@@ -827,6 +870,28 @@ export default class AppendEditor extends React.Component {
           appendRows: this.state.appendRows - 1,
         });
       }
+    } else if (keyMap.get('Control') && keyMap.get('<')) {
+      // Edit only mode
+      e.preventDefault();
+        this.setState({
+          appendMode: false,
+          editMode: false,
+          printMode: false,
+          viewMode:false,
+        }, () => {
+          this.onEditMode();
+        });
+    } else if (keyMap.get('Control') && keyMap.get('>')) {
+      // Append only mode
+      e.preventDefault();
+        this.setState({
+          appendMode: false,
+          editMode: false,
+          printMode: false,
+          viewMode:false,
+        }, () => {
+          this.onAppendMode();
+        });
     } else if (keyMap.get('Control') && keyMap.get('{')) {
       e.preventDefault();
       this.scrollToTop();
@@ -857,18 +922,48 @@ export default class AppendEditor extends React.Component {
     // Close Append Mode if 'Escape' is pressed
     if (keyMap.get('Escape')) {
       e.preventDefault();
-      keyMap.set('Escape', false);
+      keyMap.delete('Escape');
       this.onAppendMode();
     }
     // Save note if Control and Enter are pressed
     else if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
-      this.appendTextToNote();
+      if (this.state.useCodeMirror) {
+        this.appendTextToNote();
+      }
     }
     // Save note if Control and S are pressed
     else if (keyMap.get('Control') && keyMap.get('s')) {
       e.preventDefault();
-      this.appendTextToNote();
+      if (this.state.useCodeMirror) {
+        this.appendTextToNote();
+      }
+    }
+    // Toggle Append New Line if Ctrl + Alt + N are pressed
+    else if (
+      keyMap.get('Control') &&
+      !keyMap.get('Shift') &&
+      keyMap.get('Alt') &&
+      keyMap.get('n')
+    ) {
+      e.preventDefault();
+      const newLine = document.getElementById(newLineID);
+      if (newLine) {
+        newLine.click();
+      }
+    }
+    // Toggle Append New Line if Ctrl + Alt + P are pressed
+    else if (
+      keyMap.get('Control') &&
+      !keyMap.get('Shift') &&
+      keyMap.get('Alt') &&
+      keyMap.get('p')
+    ) {
+      e.preventDefault();
+      const newParagraph = document.getElementById(newParagraphID);
+      if (newParagraph) {
+        newParagraph.click();
+      }
     }
   };
 
@@ -1303,15 +1398,14 @@ export default class AppendEditor extends React.Component {
               <AppendText
                 appendTextToNote={this.appendTextToNote}
                 autoSaveAppendText={this.autoSaveAppendText}
-                autoSaveAppendTextAndCheckboxes={
-                  this.autoSaveAppendTextAndCheckboxes
-                }
+                autoSaveCheckBoxes={this.autoSaveCheckBoxes}
                 debugMode={debugMode}
                 fontEdit={this.state.fontEdit}
                 keyMap={keyMap}
-                newLine={this.state.appendNewLine}
-                newParagraph={this.state.appendNewParagraph}
+                appendNewLine={this.state.appendNewLine}
+                appendNewParagraph={this.state.appendNewParagraph}
                 onKeyDown={this.onKeyDown}
+                onKeyDownAppendTextArea={this.onKeyDownAppendTextArea}
                 onKeyDownTextArea={this.onKeyDownTextArea}
                 onKeyUp={this.onKeyUp}
                 printMode={this.state.printMode}

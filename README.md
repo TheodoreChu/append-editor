@@ -69,18 +69,24 @@ After you have installed the editor on the web or desktop app, it will automatic
 
 | Action                                    | Shortcut                       |
 | :---------------------------------------- | :----------------------------- |
-| Toggle Edit Mode                          | Ctrl/⌘ + E                     |
-| Toggle Append Mode                        | Ctrl/⌘ + U or Ctrl/⌘ + M      |
-| Toggle View Mode                          | Ctrl/⌘ + P                     |
+| Toggle Edit Mode                          | Ctrl/⌘ + `E`                     |
+| Toggle Append Mode                        | Ctrl/⌘ + `U` or Ctrl/⌘ + `M`      |
+| Toggle View Mode                          | Ctrl/⌘ + `P`                     |
+| Toggle View and Edit Modes (for Edit Only)| Ctrl/⌘ + `<`                  |
+| Toggle View and Append Modes              | Ctrl/⌘ + `>`                  | 
 | Escape Edit/View Mode^                    | Escape                         |
-| Save/Append Text^                         | Ctrl/⌘ + S and Ctrl/⌘ + Enter  |
+| Save/Append Text^                         | Ctrl/⌘ + `S` and Ctrl/⌘ + Enter  |
+| Toggle Append New Line^                   | Ctrl/⌘ + Alt + `N`             |
+| Toggle Append New Paragraph^              | Ctrl/⌘ + Alt + `P`            |
 | Increase number of rows in Append box     | Ctrl/⌘ + `.` (period)          |
 | Decrease number of rows in Append box\*\* | Ctrl/⌘ + `,` (comma)           |
 | Scroll to Top/Bottom (smooth)             | Ctrl/⌘ + `{` and `}`           |
 | Skip to Top/Bottom (fast)                 | Ctrl/⌘ + `[` and `]`           |
 | Skip to beginning or end of text area^    | Ctrl/⌘ + Home and Ctrl/⌘ + End |
+| Open Search (in-line formatting mode)     | Ctrl/⌘ + `F` or Alt + `F` (for persistent use)
+| Close Search                              | Escape or same as open search
 
-^ Perform in the Edit or Append box  
+^ Perform in corresponding edit box
 \*\* The Append box has a minimum of 5 rows
 
 ## Style Guide

@@ -1,6 +1,5 @@
 import React from 'react';
 
-const appendButtonID = 'appendButton';
 const appendTextAreaID = 'appendTextArea';
 const newLineID = 'newLine';
 const newParagraphID = 'newParagraph';
@@ -15,11 +14,9 @@ export default class AppendText extends React.Component {
 
     this.state = {
       text: this.props.text,
-      newLine: this.props.newLine,
-      newParagraph: this.props.newParagraph,
+      newLine: this.props.appendNewLine,
+      newParagraph: this.props.appendNewParagraph,
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   handleInputChange = (event) => {
@@ -31,8 +28,8 @@ export default class AppendText extends React.Component {
         [name]: value,
       },
       () => {
-        // This callback saves the append text and checkboxes
-        this.autoSaveAppendTextAndCheckboxes();
+        // This callback saves the checkboxes
+        this.autoSaveCheckBoxes();
       }
     );
   };
@@ -58,7 +55,9 @@ export default class AppendText extends React.Component {
       text: '',
     });
     const appendTextArea = document.getElementById(appendTextAreaID);
-    appendTextArea.focus();
+    if (appendTextArea) {
+      appendTextArea.focus();
+    }
   };
 
   autoSaveAppendText = () => {
@@ -66,11 +65,10 @@ export default class AppendText extends React.Component {
     this.props.autoSaveAppendText(text);
   };
 
-  autoSaveAppendTextAndCheckboxes = () => {
-    const text = this.state.text;
+  autoSaveCheckBoxes = () => {
     const newLine = this.state.newLine;
     const newParagraph = this.state.newParagraph;
-    this.props.autoSaveAppendTextAndCheckboxes(text, newLine, newParagraph);
+    this.props.autoSaveCheckBoxes(newLine, newParagraph);
   };
 
   onKeyDown = (e) => {
@@ -86,16 +84,8 @@ export default class AppendText extends React.Component {
     }
 
     this.props.onKeyDown(e);
+    this.props.onKeyDownAppendTextArea(e);
     this.props.onKeyDownTextArea(e);
-    // Click Edit if 'Escape' is pressed
-    if (this.props.keyMap.get('Escape')) {
-      e.preventDefault();
-      this.props.keyMap.delete('Escape');
-      const appendButton = document.getElementById(appendButtonID);
-      if (appendButton) {
-        appendButton.click();
-      }
-    }
     // Append Text if Ctrl and 'Enter' are pressed
     if (this.props.keyMap.get('Control') && this.props.keyMap.get('Enter')) {
       e.preventDefault();
@@ -106,24 +96,6 @@ export default class AppendText extends React.Component {
       e.preventDefault();
       this.appendTextToNote();
     }
-    // TODO: Fix this
-    /*
-    // Toggle Append New Line if Ctrl + Alt + N are pressed
-    else if (this.props.keyMap.get('Control') && !this.props.keyMap.get('Shift') && this.props.keyMap.get('Alt') && this.props.keyMap.get('n')) {
-      e.preventDefault();
-      const newLine = document.getElementById(newLineID);
-      if (newLine) {
-        newLine.click();
-      }
-    }
-    // Toggle Append New Line if Ctrl + Alt + P are pressed
-    else if (this.props.keyMap.get('Control') && !this.props.keyMap.get('Shift') && this.props.keyMap.get('Alt') && this.props.keyMap.get('p')) {
-      e.preventDefault();
-      const newParagraph = document.getElementById(newParagraphID);
-      if (newParagraph) {
-        newParagraph.click();
-      }
-    }*/
   };
 
   onKeyUp = (event) => {

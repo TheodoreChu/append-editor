@@ -96,8 +96,6 @@ module.exports = {
       {from: './app/index.html', to: 'index.html'}, 
       // You don't need to do this every time, only after you update dependencies
       {from: path.resolve(__dirname, './node_modules/katex/dist'), to: 'katex'},
-      {from: path.resolve(__dirname, './node_modules/react/umd'), to: 'react/umd'},
-      {from: path.resolve(__dirname, './node_modules/react-dom/umd'), to: 'react-dom/umd'},
     ]})
   ]
 };
