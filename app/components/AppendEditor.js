@@ -138,7 +138,8 @@ export default class AppendEditor extends React.Component {
         () => {
           const scrollDown = false;
           const closeEdit = false;
-          this.onAppendMode(scrollDown, closeEdit);
+          const focus = false;
+          this.onAppendMode(scrollDown, closeEdit, focus);
         }
       );
       if (debugMode) {
@@ -429,7 +430,7 @@ export default class AppendEditor extends React.Component {
     }
   };
 
-  onAppendMode = (scrollDown = true, closeEdit = true) => {
+  onAppendMode = (scrollDown = true, closeEdit = true, focus = true) => {
     if (!this.state.appendMode) {
       if (closeEdit) {
         this.setState({
@@ -443,6 +444,8 @@ export default class AppendEditor extends React.Component {
         () => {
           if (scrollDown) {
             this.scrollToBottom();
+          }
+          if (focus) {
             const appendTextArea = document.getElementById(appendTextAreaID);
             appendTextArea.focus();
           }
@@ -465,8 +468,10 @@ export default class AppendEditor extends React.Component {
           appendMode: false,
         },
         () => {
-          const content = document.getElementById(appendButtonID);
-          content.focus();
+          if (focus) {
+            const appendButton = document.getElementById(appendButtonID);
+            appendButton.focus();
+          }
         }
       );
     }
