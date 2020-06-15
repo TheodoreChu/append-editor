@@ -323,6 +323,9 @@ button:focus {
   .hljs {
     color: var(--sn-stylekit-contrast-foreground-color);
   }
+  .hljs-tag {
+    color: var(--sn-stylekit-foreground-color);
+}
 
   code {
     box-sizing: border-box;
@@ -665,6 +668,7 @@ button:focus {
   font-size: var(--sn-stylekit-font-size-editor);
   background: inherit;
   color: inherit;
+  line-height: 1.9rem;
   @media screen and (max-width: 725px) {
     border-top: 1px solid var(--sn-stylekit-border-color);
   }
@@ -677,13 +681,8 @@ button:focus {
   .cm-attribute {
     color: var(--sn-stylekit-success-color);
   }
-  .cm-comment {
-    color: var(--sn-stylekit-contrast-foreground-color);
-    font-family: var(--sn-stylekit-monospace-font);
-    background-color: var(--sn-stylekit-contrast-background-color);
-  }
-  .cm-error {
-    color: var(--sn-stylekit-danger-color);
+  .cm-builtin {
+    color: var(--sn-stylekit-warning-color);
   }
   .cm-header {
     color: var(--sn-stylekit-success-color);
@@ -700,11 +699,28 @@ button:focus {
   .cm-header.cm-header-4 {
     font-size: 1em;
   }
+  .cm-comment {
+    background-color: var(--sn-stylekit-contrast-background-color);
+    color: var(--sn-stylekit-contrast-foreground-color);
+    font-family: var(--sn-stylekit-monospace-font);
+    font-size: 85%;
+    margin: 0;
+    padding: .2em .4em;
+  }
+  .cm-comment.CodeMirror-selectedtext, .cm-comment.cm-link.CodeMirror-selectedtext {
+    background-color: unset;
+  }
+  .cm-error {
+    color: var(--sn-stylekit-danger-color);
+  }
   .cm-variable-2 {
     color: var(--sn-stylekit-foreground-color);
   }
   .cm-link, .cm-link.cm-variable-2 {
     color: var(--sn-stylekit-info-color);
+  }
+  .cm-quote {
+    color: #6a737d;
   }
   .cm-string, .cm-string.cm-url.cm-variable-2 {
     color: var(--sn-stylekit-warning-color);
@@ -714,19 +730,19 @@ button:focus {
   }
   .CodeMirror-selected { 
     background: var(--sn-stylekit-input-placeholder-color);
-    opacity: 0.5;
   }
 }
 .CodeMirror-cursor {
-  border-left: 1px solid var(--sn-stylekit-info-color);
-  border-right: none;
-  width: 0;
+  border-color: var(--sn-stylekit-info-color);
 }
 .CodeMirror-focused .CodeMirror-selected { 
   background: var(--sn-stylekit-info-color);
-  opacity: 0.5;
 }
 .CodeMirror-dialog {
   position: fixed;
   background: var(--sn-stylekit-background-color);
+}
+.CodeMirror-selectedtext {
+  color: var(--sn-stylekit-info-contrast-color) !important;
+  background: transparent;
 }

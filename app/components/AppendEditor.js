@@ -25,6 +25,9 @@ import 'codemirror/addon/search/search';
 import 'codemirror/addon/search/searchcursor';
 import 'codemirror/addon/dialog/dialog';
 
+// For styling selected text
+import 'codemirror/addon/selection/mark-selection';
+
 const appendButtonID = 'appendButton';
 const editButtonID = 'editButton';
 const helpButtonID = 'helpButton';
@@ -318,6 +321,7 @@ export default class AppendEditor extends React.Component {
           lineWrapping: true,
           mode: 'gfm',
           spellcheck: true,
+          styleSelectedText: true,
           tabindex: 0,
           theme: 'default',
           value: this.state.text,
@@ -358,6 +362,7 @@ export default class AppendEditor extends React.Component {
           lineWrapping: true,
           mode: 'gfm',
           spellcheck: true,
+          styleSelectedText: true,
           tabindex: 0,
           theme: 'default',
           value: this.state.appendText,
@@ -611,6 +616,10 @@ export default class AppendEditor extends React.Component {
       },
       () => {
         this.activateStyles();
+        const settingsButton = document.getElementById(settingsButtonID);
+        if (settingsButton) {
+          settingsButton.focus();
+        }
       }
     );
     let note = this.editorKit.internal.note;
@@ -873,25 +882,31 @@ export default class AppendEditor extends React.Component {
     } else if (keyMap.get('Control') && keyMap.get('<')) {
       // Edit only mode
       e.preventDefault();
-        this.setState({
+      this.setState(
+        {
           appendMode: false,
           editMode: false,
           printMode: false,
-          viewMode:false,
-        }, () => {
+          viewMode: false,
+        },
+        () => {
           this.onEditMode();
-        });
+        }
+      );
     } else if (keyMap.get('Control') && keyMap.get('>')) {
       // Append only mode
       e.preventDefault();
-        this.setState({
+      this.setState(
+        {
           appendMode: false,
           editMode: false,
           printMode: false,
-          viewMode:false,
-        }, () => {
+          viewMode: false,
+        },
+        () => {
           this.onAppendMode();
-        });
+        }
+      );
     } else if (keyMap.get('Control') && keyMap.get('{')) {
       e.preventDefault();
       this.scrollToTop();
