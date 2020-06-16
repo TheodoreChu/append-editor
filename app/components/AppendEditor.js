@@ -316,7 +316,6 @@ export default class AppendEditor extends React.Component {
             Enter: 'newlineAndIndentContinueMarkdownList',
             'Alt-F': 'findPersistent',
           },
-          inputStyle: 'textarea',
           lineNumbers: false,
           lineWrapping: true,
           mode: 'gfm',
@@ -357,7 +356,6 @@ export default class AppendEditor extends React.Component {
             Enter: 'newlineAndIndentContinueMarkdownList',
             'Alt-F': 'findPersistent',
           },
-          inputStyle: 'textarea',
           lineNumbers: false,
           lineWrapping: true,
           mode: 'gfm',
@@ -387,6 +385,35 @@ export default class AppendEditor extends React.Component {
       });
     }
   };
+
+  makeContentEditable = () => {
+    const content = document.getElementById(contentID);
+    if (content) {
+      content.setAttribute("contenteditable", "true");
+      content.setAttribute("spellcheck", "true");
+    }
+    const appendix = document.getElementById(appendixID);
+    if (appendix) {
+      appendix.setAttribute("contenteditable", "true");
+      appendix.setAttribute("spellcheck", "true");
+    }
+    // Change contenteditable to false for rendered note
+    const renderedNote = document.getElementById('renderedNote');
+    if (renderedNote) {
+      renderedNote.setAttribute("contenteditable", "false");
+    }
+    const appendCustom = document.getElementById('appendCustom');
+    if (appendCustom) {
+      appendCustom.setAttribute("contenteditable", "false");
+    }
+  }
+
+  removeContentEditable = (id) => {
+    const container = document.getElementById(id);
+    if (container) {
+      container.setAttribute("contenteditable", "false");
+    }
+  }
 
   // Event Handlers
   onEditMode = () => {
@@ -1074,7 +1101,7 @@ export default class AppendEditor extends React.Component {
         onBlur={this.onBlur}
       >
         {this.state.showHeader && [
-          <div id="header">
+          <div id={headerID}>
             <div className="sk-button-group">
               <button
                 type="button"
@@ -1320,7 +1347,7 @@ export default class AppendEditor extends React.Component {
           </div>,
         ]}
         <div
-          id="content"
+          id={contentID}
           className={
             'content ' + (this.state.printMode ? 'printModeOn' : 'printModeOff')
           }
@@ -1403,7 +1430,7 @@ export default class AppendEditor extends React.Component {
         </div>
         {this.state.showAppendix && [
           <div
-            id="appendix"
+            id={appendixID}
             className={
               'appendix ' +
               (this.state.printMode ? 'printModeOn' : 'printModeOff')
