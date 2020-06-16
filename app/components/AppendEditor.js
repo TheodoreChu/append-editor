@@ -934,12 +934,6 @@ export default class AppendEditor extends React.Component {
           this.onAppendMode();
         }
       );
-    } else if (keyMap.get('Control') && keyMap.get('{')) {
-      e.preventDefault();
-      this.scrollToTop();
-    } else if (keyMap.get('Control') && keyMap.get('}')) {
-      e.preventDefault();
-      this.scrollToBottom();
     } else if (keyMap.get('Control') && keyMap.get('[')) {
       e.preventDefault();
       this.skipToTop();

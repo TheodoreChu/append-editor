@@ -80,7 +80,6 @@ After you have installed the editor on the web or desktop app, it will automatic
 | Toggle Append New Paragraph^              | Ctrl/⌘ + Alt + `P`            |
 | Increase number of rows in Append box     | Ctrl/⌘ + `.` (period)          |
 | Decrease number of rows in Append box\*\* | Ctrl/⌘ + `,` (comma)           |
-| Scroll to Top/Bottom (smooth)             | Ctrl/⌘ + `{` and `}`           |
 | Skip to Top/Bottom (fast)                 | Ctrl/⌘ + `[` and `]`           |
 | Skip to beginning or end of text area^    | Ctrl/⌘ + Home and Ctrl/⌘ + End |
 | Open Search (in-line formatting mode)     | Ctrl/⌘ + `F` or Alt + `F` (for persistent use)
