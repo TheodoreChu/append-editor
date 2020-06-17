@@ -662,6 +662,14 @@ button:focus {
   }
 }*/
 
+#content .CodeMirror {
+  max-height: calc(100% - 1rem);
+}
+
+#appendix .CodeMirror {
+  max-height: calc(100% - 2px);
+}
+
 .CodeMirror {
   //fix : margin left is 30px;
   font-family: var(--sn-stylekit-sans-serif-font);
@@ -669,6 +677,10 @@ button:focus {
   background: inherit;
   color: inherit;
   line-height: 1.9rem;
+  min-height: 8.25em;
+  border: 1px solid var(--sn-stylekit-contrast-border-color);
+  background-color: var(--sn-stylekit-contrast-background-color);
+
   @media screen and (max-width: 725px) {
     border-top: 1px solid var(--sn-stylekit-border-color);
   }
