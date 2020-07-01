@@ -1,6 +1,6 @@
-import "regenerator-runtime/runtime";
+import 'regenerator-runtime/runtime';
 import React from 'react';
-import AppendEditor from "./components/AppendEditor";
+import AppendEditor from './components/AppendEditor';
 
 export default class App extends React.Component {
   constructor(props) {

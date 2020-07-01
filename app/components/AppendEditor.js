@@ -389,31 +389,31 @@ export default class AppendEditor extends React.Component {
   makeContentEditable = () => {
     const content = document.getElementById(contentID);
     if (content) {
-      content.setAttribute("contenteditable", "true");
-      content.setAttribute("spellcheck", "true");
+      content.setAttribute('contenteditable', 'true');
+      content.setAttribute('spellcheck', 'true');
     }
     const appendix = document.getElementById(appendixID);
     if (appendix) {
-      appendix.setAttribute("contenteditable", "true");
-      appendix.setAttribute("spellcheck", "true");
+      appendix.setAttribute('contenteditable', 'true');
+      appendix.setAttribute('spellcheck', 'true');
     }
     // Change contenteditable to false for rendered note
     const renderedNote = document.getElementById('renderedNote');
     if (renderedNote) {
-      renderedNote.setAttribute("contenteditable", "false");
+      renderedNote.setAttribute('contenteditable', 'false');
     }
     const appendCustom = document.getElementById('appendCustom');
     if (appendCustom) {
-      appendCustom.setAttribute("contenteditable", "false");
+      appendCustom.setAttribute('contenteditable', 'false');
     }
-  }
+  };
 
   removeContentEditable = (id) => {
     const container = document.getElementById(id);
     if (container) {
-      container.setAttribute("contenteditable", "false");
+      container.setAttribute('contenteditable', 'false');
     }
-  }
+  };
 
   // Event Handlers
   onEditMode = () => {
@@ -1099,32 +1099,6 @@ export default class AppendEditor extends React.Component {
             <div className="sk-button-group">
               <button
                 type="button"
-                id={viewButtonID}
-                onClick={this.onViewMode}
-                title="Toggle View Mode"
-                className={'sk-button ' + (this.state.viewMode ? 'on' : 'off')}
-              >
-                <svg
-                  role="button"
-                  aria-label="Eye icon to indicate viewing"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.99992 7.5C9.33688 7.5 8.70099 7.76339 8.23215 8.23223C7.76331 8.70107 7.49992 9.33696 7.49992 10C7.49992 10.663 7.76331 11.2989 8.23215 11.7678C8.70099 12.2366 9.33688 12.5 9.99992 12.5C10.663 12.5 11.2988 12.2366 11.7677 11.7678C12.2365 11.2989 12.4999 10.663 12.4999 10C12.4999 9.33696 12.2365 8.70107 11.7677 8.23223C11.2988 7.76339 10.663 7.5 9.99992 7.5ZM9.99992 14.1667C8.89485 14.1667 7.83504 13.7277 7.05364 12.9463C6.27224 12.1649 5.83325 11.1051 5.83325 10C5.83325 8.89493 6.27224 7.83512 7.05364 7.05372C7.83504 6.27232 8.89485 5.83333 9.99992 5.83333C11.105 5.83333 12.1648 6.27232 12.9462 7.05372C13.7276 7.83512 14.1666 8.89493 14.1666 10C14.1666 11.1051 13.7276 12.1649 12.9462 12.9463C12.1648 13.7277 11.105 14.1667 9.99992 14.1667ZM9.99992 3.75C5.83325 3.75 2.27492 6.34167 0.833252 10C2.27492 13.6583 5.83325 16.25 9.99992 16.25C14.1666 16.25 17.7249 13.6583 19.1666 10C17.7249 6.34167 14.1666 3.75 9.99992 3.75Z"
-                    fill={
-                      this.state.viewMode
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
-              </button>
-              <button
-                type="button"
                 id={editButtonID}
                 onClick={this.onEditMode}
                 title="Toggle Edit Mode"
@@ -1143,6 +1117,32 @@ export default class AppendEditor extends React.Component {
                     d="M11.7167 7.5L12.5 8.28333L4.93333 15.8333H4.16667V15.0667L11.7167 7.5ZM14.7167 2.5C14.5083 2.5 14.2917 2.58333 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667C17.5833 5.54167 17.5833 5 17.2583 4.69167L15.3083 2.74167C15.1417 2.575 14.9333 2.5 14.7167 2.5ZM11.7167 5.15833L2.5 14.375V17.5H5.625L14.8417 8.28333L11.7167 5.15833Z"
                     fill={
                       this.state.editMode
+                        ? 'var(--sn-stylekit-info-color)'
+                        : 'var(--sn-stylekit-foreground-color)'
+                    }
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                id={viewButtonID}
+                onClick={this.onViewMode}
+                title="Toggle View Mode"
+                className={'sk-button ' + (this.state.viewMode ? 'on' : 'off')}
+              >
+                <svg
+                  role="button"
+                  aria-label="Eye icon to indicate viewing"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.99992 7.5C9.33688 7.5 8.70099 7.76339 8.23215 8.23223C7.76331 8.70107 7.49992 9.33696 7.49992 10C7.49992 10.663 7.76331 11.2989 8.23215 11.7678C8.70099 12.2366 9.33688 12.5 9.99992 12.5C10.663 12.5 11.2988 12.2366 11.7677 11.7678C12.2365 11.2989 12.4999 10.663 12.4999 10C12.4999 9.33696 12.2365 8.70107 11.7677 8.23223C11.2988 7.76339 10.663 7.5 9.99992 7.5ZM9.99992 14.1667C8.89485 14.1667 7.83504 13.7277 7.05364 12.9463C6.27224 12.1649 5.83325 11.1051 5.83325 10C5.83325 8.89493 6.27224 7.83512 7.05364 7.05372C7.83504 6.27232 8.89485 5.83333 9.99992 5.83333C11.105 5.83333 12.1648 6.27232 12.9462 7.05372C13.7276 7.83512 14.1666 8.89493 14.1666 10C14.1666 11.1051 13.7276 12.1649 12.9462 12.9463C12.1648 13.7277 11.105 14.1667 9.99992 14.1667ZM9.99992 3.75C5.83325 3.75 2.27492 6.34167 0.833252 10C2.27492 13.6583 5.83325 16.25 9.99992 16.25C14.1666 16.25 17.7249 13.6583 19.1666 10C17.7249 6.34167 14.1666 3.75 9.99992 3.75Z"
+                    fill={
+                      this.state.viewMode
                         ? 'var(--sn-stylekit-info-color)'
                         : 'var(--sn-stylekit-foreground-color)'
                     }

@@ -12,7 +12,8 @@
     "build": "webpack",
     "start": "webpack-dev-server --devtool eval --progress --hot --content-base app",
     "watch": "webpack --watch",
-    "server": "http-server -p 8003 --cors"
+    "server": "http-server -p 8003 --cors",
+    "pretty": "prettier --write 'app/**/*.{js,json}'"
   },
   "author": "Theodore Chu <github@theochu.com>",
   "license": "AGPL-3.0-or-later",
@@ -28,7 +29,7 @@
     "main": "dist/index.html"
   },
   "dependencies": {
-    "codemirror": "^5.54.0",
+    "codemirror": "^5.55.0",
     "rehype-highlight": "^4.0.0",
     "rehype-katex": "^3.0.0",
     "rehype-raw": "^4.0.2",
@@ -45,23 +46,24 @@
     "unified": "^9.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.10.2",
-    "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/preset-env": "^7.10.2",
-    "@babel/preset-react": "^7.10.1",
+    "@babel/core": "7.10.4",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
     "ajv": "6.12.2",
     "babel-eslint": "10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-runtime": "6.23.0",
     "babel-runtime": "6.x",
-    "copy-webpack-plugin": "^6.0.2",
+    "copy-webpack-plugin": "^6.0.3",
     "css-loader": "~3.6.0",
-    "eslint": "7.2.0",
-    "highlight.js": "^10.1.0",
+    "eslint": "7.3.1",
+    "highlight.js": "^10.1.1",
     "immutability-helper": "^3.1.1",
     "katex": "^0.11.1",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
+    "prettier": "^2.0.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "regenerator-runtime": "^0.13.5",
@@ -71,7 +73,7 @@
     "sn-stylekit": "2.0.22",
     "style-loader": "~1.2.1",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
   }
 }
