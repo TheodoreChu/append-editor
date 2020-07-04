@@ -307,7 +307,7 @@ The instructions for local setup can be found [here](https://docs.standardnotes.
 
 ## License
 
-Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https://github.com/TheodoreChu/append-editor/blob/master/LICENSE).
+Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https://github.com/TheodoreChu/append-editor/blob/master/LICENSE) or later.
 
 ## Further Resources
 
