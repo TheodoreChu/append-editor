@@ -67,7 +67,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "regenerator-runtime": "^0.13.5",
-    "sass-loader": "^9.0.1",
+    "sass-loader": "^9.0.2",
     "sn-components-api": "1.2.8",
     "sn-editor-kit": "1.0.6",
     "sn-stylekit": "2.0.22",
