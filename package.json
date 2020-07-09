@@ -70,7 +70,7 @@
     "sass-loader": "^9.0.1",
     "sn-components-api": "1.2.8",
     "sn-editor-kit": "1.0.6",
-    "sn-stylekit": "2.0.22",
+    "sn-stylekit": "2.1.0",
     "style-loader": "~1.2.1",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12",
