@@ -473,12 +473,6 @@ button:focus {
   bottom: 0;
   z-index: 100;
 }
-/*
-.note-list {
-  display: flex;
-  flex-direction: column;
-  width: 700px;
-}*/
 
 /* entry default styles */
 .note-entry {
@@ -505,16 +499,6 @@ button:focus {
       min-width: inherit;
       width: 100%;
 
-      .note-bar hr {
-        border: 0.5px solid var(--sn-stylekit-border-color);
-        max-width: 300px;
-        width: 100%;
-      }
-
-      .note-section-title {
-        font-size: var(--sn-stylekit-font-size-h3);
-      }
-
       .note-content {
         margin-left: auto;
         margin-right: auto;
@@ -526,31 +510,6 @@ button:focus {
       }
     }
   }
-  /*
-  .note-options {
-    color: var(--sn-stylekit-contrast-foreground-color);
-    overflow: visible;
-    margin-bottom: 8px;
-    align-self: flex-start;
-
-    .note-menu > .sk-button {
-      display: flex;
-      flex-direction: column;
-      .sk-label {
-        text-align:right;
-      }
-    }
-
-    .sk-menu-panel {
-      /*position: absolute;
-      right: 0;
-      z-index: 200;
-
-      .sk-menu-panel-row {
-        padding: .5rem 1rem;
-      }
-    }
-  }*/
 }
 
 .appendix.printModeOn {
@@ -632,7 +591,6 @@ button:focus {
     right: 25px;
     bottom: 45px;
     @media screen and (max-width: 725px) {
-      //display: none;
       right: 15px;
       bottom: 5.2px;
     }
@@ -642,38 +600,11 @@ button:focus {
     right: 25px;
     bottom: 10px;
     @media screen and (max-width: 725px) {
-      //display: none;
       right: 55px;
       bottom: 5.2px;
     }
   }
 }
-/*
-// Save note notification
-.note-saved-notification {
-  position: absolute;
-  left: 50%;
-  bottom: 20px;
-  transform: translateX(-50%);
-  z-index: 200;
-
-  .sk-panel {
-    border-radius: 4px;
-    padding: 4px;
-  }
-
-  &.visible {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 200ms ease-in;
-  }
-
-  &.hidden {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s 500ms, opacity 500ms ease-out;
-  }
-}*/
 
 #content .CodeMirror {
   max-height: calc(100% - 1rem);
