@@ -5,7 +5,6 @@
 <div align="center">
 
 [![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/master/LICENSE)
-[![Maintenance](https://img.shields.io/badge/maintained%3F-yes-green.svg)](https://github.com/theodorechu/append-editor/graphs/commit-activity)
 [![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
