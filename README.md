@@ -118,27 +118,27 @@ The Append Editor also supports inline HTML. You can use `<div> </div>` tags for
 
 1. Underlined text:
 
-```html
-<u> Text to be underlined </u>
-```
+   ```html
+   <u> Text to be underlined </u>
+   ```
 
 1. Highlighted text:
 
-```html
-<span style="background-color: rgb(255, 255, 0);">
-  Text to be highlighted
-</span>
-```
+   ```html
+   <span style="background-color: rgb(255, 255, 0);">
+     Text to be highlighted
+   </span>
+   ```
 
 1. Different font families and sizes:
 
-```html
-This is inline
-<span style="font-family: consolas; font-size: 14px"> monospace</span> text.
-<div style="font-family: Times New Roman; font-size: 12pt">
-  This is 12pt Times New Roman for writing papers.
-</div>
-```
+   ```html
+   This is inline
+   <span style="font-family: consolas; font-size: 14px"> monospace</span> text.
+   <div style="font-family: Times New Roman; font-size: 12pt">
+     This is 12pt Times New Roman for writing papers.
+   </div>
+   ```
 
 ## Line Breaks
 
