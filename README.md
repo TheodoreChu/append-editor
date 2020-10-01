@@ -23,14 +23,14 @@ The Append Editor follows the "read first" philosophy. When you open your notes,
 
 The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, search and replace, and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down.
 
-This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme. It currently does not work offline but will in the future.
+This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme.
 
 ## Features
 
 - [Markdown](https://guides.github.com/features/mastering-markdown/) support provided by [Unified/Remark](https://github.com/remarkjs/remark)
 - $\LaTeX/\KaTeX$ provided by hosted [KaTeX](https://github.com/KaTeX/KaTeX)
 - Emojis provided by [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
-- Google Code and GitHub Gist flavored Syntax Highlighting  provided by [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
+- Google Code and GitHub Gist flavored Syntax Highlighting provided by [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
 - Table of Contents (links don't work on mobile) provided by [Remark TOC](https://github.com/remarkjs/remark-toc)
 - Footnotes (links don't work on mobile) provided by [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
 - Optional in-line formatting provided by [CodeMirror](https://codemirror.net)
@@ -66,23 +66,23 @@ After you have installed the editor on the web or desktop app, it will automatic
 
 ## Keyboard Shortcuts
 
-| Action                                    | Shortcut                       |
-| :---------------------------------------- | :----------------------------- |
-| Toggle Edit Mode                          | Ctrl/⌘ + `E`                     |
-| Toggle Append Mode                        | Ctrl/⌘ + `U` or Ctrl/⌘ + `M`      |
-| Toggle View Mode                          | Ctrl/⌘ + `P`                     |
-| Toggle View and Edit Modes (for Edit Only)| Ctrl/⌘ + `<`                  |
-| Toggle View and Append Modes              | Ctrl/⌘ + `>`                  | 
-| Escape Edit/View Mode^                    | Escape                         |
-| Save/Append Text^                         | Ctrl/⌘ + `S` and Ctrl/⌘ + Enter  |
-| Toggle Append New Line^                   | Ctrl/⌘ + Alt + `N`             |
-| Toggle Append New Paragraph^              | Ctrl/⌘ + Alt + `P`            |
-| Increase number of rows in Append box     | Ctrl/⌘ + `.` (period)          |
-| Decrease number of rows in Append box\*\* | Ctrl/⌘ + `,` (comma)           |
-| Skip to Top/Bottom (fast)                 | Ctrl/⌘ + `[` and `]`           |
-| Skip to beginning or end of text area^    | Ctrl/⌘ + Home and Ctrl/⌘ + End |
-| Open Search (in-line formatting mode)     | Ctrl/⌘ + `F` or Alt + `F` (for persistent use)
-| Close Search                              | Escape or same as open search
+| Action                                     | Shortcut                                       |
+| :----------------------------------------- | :--------------------------------------------- |
+| Toggle Edit Mode                           | Ctrl/⌘ + `E`                                   |
+| Toggle Append Mode                         | Ctrl/⌘ + `U` or Ctrl/⌘ + `M`                   |
+| Toggle View Mode                           | Ctrl/⌘ + `P`                                   |
+| Toggle View and Edit Modes (for Edit Only) | Ctrl/⌘ + `<`                                   |
+| Toggle View and Append Modes               | Ctrl/⌘ + `>`                                   |
+| Escape Edit/View Mode^                     | Escape                                         |
+| Save/Append Text^                          | Ctrl/⌘ + `S` and Ctrl/⌘ + Enter                |
+| Toggle Append New Line^                    | Ctrl/⌘ + Alt + `N`                             |
+| Toggle Append New Paragraph^               | Ctrl/⌘ + Alt + `P`                             |
+| Increase number of rows in Append box      | Ctrl/⌘ + `.` (period)                          |
+| Decrease number of rows in Append box\*\*  | Ctrl/⌘ + `,` (comma)                           |
+| Skip to Top/Bottom (fast)                  | Ctrl/⌘ + `[` and `]`                           |
+| Skip to beginning or end of text area^     | Ctrl/⌘ + Home and Ctrl/⌘ + End                 |
+| Open Search (in-line formatting mode)      | Ctrl/⌘ + `F` or Alt + `F` (for persistent use) |
+| Close Search                               | Escape or same as open search                  |
 
 ^ Perform in corresponding edit box
 \*\* The Append box has a minimum of 5 rows
@@ -208,7 +208,7 @@ $$
 
 Please see [here](https://katex.org/docs/supported.html) and [here](https://katex.org/docs/support_table.html) for tables of all the functions and symbols that $\KaTeX$ supports.
 
-## []() Table of Contents
+## [](/#table-of-contents) Table of Contents
 
 You can create a table of contents:
 
@@ -262,7 +262,7 @@ You can choose your own custom fonts for the Edit/Append and View/Print modes. T
 
 You can define multiple fonts in the order of your preference and separate them by commas. The editor will automatically display the next font if your preferred font is unavailable. For example, if you want to use a monospace font on all your devices but would prefer not to use `Courier New` if other monospace fonts are available, then you can submit a list of fonts such as `SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace`. This is useful if you use many devices with many different operating systems.
 
-You can also add finer-tuned Custom Styles via CSS. 
+You can also add finer-tuned Custom Styles via CSS.
 
 :::warning
 Custom styles from third parties can potentially betray your privacy. Only use styles from trusted sources.
@@ -274,19 +274,28 @@ The custom fonts settings take precedence over Custom Styles because they are in
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 ```
 
-Then update your fonts using the fonts settings or like this: 
+Then update your fonts using the fonts settings or like this:
 
 ```css
-.CodeMirror, #editTextArea, #appendTextArea {font-family: 'Open Sans';}
+.CodeMirror,
+#editTextArea,
+#appendTextArea {
+  font-family: 'Open Sans';
+}
 ```
 
-If you want to edit the font-sizes for the view, edit, and append textareas, you can use this (default is 16px): 
+If you want to edit the font-sizes for the view, edit, and append textareas, you can use this (default is 16px):
 
 ```css
-.CodeMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: 16px;}
+.CodeMirror,
+#editTextArea,
+#appendTextArea,
+#renderedNote {
+  font-size: 16px;
+}
 ```
 
-Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. If you accidentally add hide your settings with CSS (e.g., `#content {display: none;}`), then open the developer inspector, temporarily remove the custom styles, and adjust your Settings. 
+Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. If you accidentally add hide your settings with CSS (e.g., `#content {display: none;}`), then open the developer inspector, temporarily remove the custom styles, and adjust your Settings.
 
 Settings are currently saved on a per-note basis. Saving your settings as default may be available in the future. Please let me know if you want to add another font to the list or need help implementing custom styles.
 
