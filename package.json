@@ -71,7 +71,7 @@
     "sn-components-api": "1.2.8",
     "sn-editor-kit": "1.0.6",
     "sn-stylekit": "2.1.0",
-    "style-loader": "^1.3.0",
+    "style-loader": "^2.0.0",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
