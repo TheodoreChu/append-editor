@@ -34,7 +34,5 @@ If applicable, add screenshots to help explain your problem.
  - Browser [e.g. stock browser, safari]
  - Version [e.g. 22]
 
-**Have you checked if the bug has already been recorded on the [to do list](https://notes.theochu.com/13704/append-editor-todo)?**
-
 **Additional context**
 Add any other context about the problem here.
