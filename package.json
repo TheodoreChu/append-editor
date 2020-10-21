@@ -61,7 +61,7 @@
     "highlight.js": "^10.2.1",
     "immutability-helper": "^3.1.1",
     "katex": "^0.12.0",
-    "mini-css-extract-plugin": "^0.12.0",
+    "mini-css-extract-plugin": "^1.1.1",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.2",
     "react": "16.13.1",
