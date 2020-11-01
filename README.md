@@ -5,7 +5,7 @@
 <div align="center">
 
 [![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg?style=flat&maxAge=3600)](https://github.com/theodorechu/append-editor/releases)
-[![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/master/LICENSE)
+[![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/main/LICENSE)
 [![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
@@ -362,7 +362,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## License
 
-Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https://github.com/TheodoreChu/append-editor/blob/master/LICENSE) or later.
+Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https://github.com/TheodoreChu/append-editor/blob/main/LICENSE) or later.
 
 ## Further Resources
 
