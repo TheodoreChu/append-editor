@@ -24,9 +24,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "npm run build",
-    "deploy-dev": "gh-pages -b dev -d build",
-    "deploy-stable": "gh-pages -b gh-pages -d build",
+    "predeploy": "yarn run build",
+    "deploy-dev": "yarn run build && gh-pages -b dev -d build",
+    "deploy-stable": "yarn run build && gh-pages -b gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s -p 3000 build",
