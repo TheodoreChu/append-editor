@@ -4,7 +4,7 @@
 
 <div align="center">
 
-[![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg?style=flat&maxAge=3600)](https://github.com/theodorechu/append-editor/releases)
+[![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/releases)
 [![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/main/LICENSE)
 [![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
@@ -232,7 +232,7 @@ but you'll need to manually number your superscripts.
 Make sure to count your variable[^variable] footnotes.[^5]
 
 [^1]: Here's a footnote.
-[^2]: Here’s a footnote with multiple blocks.
+[^2]: Here's a footnote with multiple blocks.
 
     Subsequent paragraphs are indented to show that they belong to the previous footnote.
 
@@ -242,8 +242,8 @@ Make sure to count your variable[^variable] footnotes.[^5]
     line. In this way, multi-paragraph footnotes work like
     multi-paragraph list items.
 
-This paragraph won’t be part of the footnote, because it
-isn’t indented.
+This paragraph won't be part of the footnote, because it
+isn't indented.
 
 [^variable]: The variable footnote is the fourth footnote.
 [^5]: This is the fifth footnote.
@@ -350,13 +350,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 #### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
 #### Learn More
 
