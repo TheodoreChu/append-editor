@@ -19,8 +19,9 @@
     "url": "https://github.com/TheodoreChu/append-editor/issues"
   },
   "sn": {
-    "main": "build/index.html"
+    "main": "index.html"
   },
+  "homepage": ".",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
