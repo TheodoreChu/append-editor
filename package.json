@@ -24,13 +24,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "predeploy": "yarn run build",
-    "deploy-dev": "yarn run build && gh-pages -b dev -d build",
-    "deploy-stable": "yarn run build && gh-pages -b gh-pages -d build",
+    "predeploy": "yarn run pretty && cp README.md public/README.md && cp LICENSE public/LICENSE && yarn run build",
+    "deploy-dev": "yarn run predeploy && gh-pages -b dev -d build",
+    "deploy-stable": "yarn run predeploy && gh-pages -b gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "serve": "serve -s -p 3000 build",
-    "server": "http-server -p 3000 --cors",
+    "serve-public": "http-server -p 3000 --cors",
+    "serve-root": "http-server ./ -p 3000 --cors",
+    "server": "http-server ./build -p 3000 --cors",
     "pretty": "prettier --write 'src/**/*.{html,css,scss,js,jsx,ts,tsx,json}'"
   },
   "dependencies": {
