@@ -310,13 +310,14 @@ The general instructions setting up an environment to develop Standard Notes ext
 2. [Clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) your fork of the repository.
 3. Run `cd append-editor` to enter the `append-editor` directory.
 4. Run `yarn install` to install the dependencies on your machine as they are described in `yarn.lock`.
-5. Create `ext.json` as shown [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/dist/index.html"`. Optionally, create your `ext.json` as a copy of `sample.ext.json` or use the sample.
-6. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/ext.json`.
-7. To run the app in development mode, run `yarn start`. Press `ctrl/cmd + C` to exit development mode.
-8. To make the source code prettier, run `yarn pretty`.
-9. To build the app, run `yarn build`.
-10. To test the build, install serve using `sudo npm install -g serve` or http-server using `sudo npm install -g http-server`. Then start the server at `http://localhost:3000` using `yarn serve` or `yarn server`. Press `ctrl/cmd + C` to shut down the server.
-11. To the deploy the build into the `gh-pages` branch of your repository on GitHub, run `yarn deploy-stable`.
+5. In the `public` directory, create `ext.json` as explained [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`, create `ext.json` as a copy of `sample.ext.json` or use the sample.
+6. Install http-server using `sudo npm install -g http-server` then run `yarn serve-public` to serve the `./public` directory at http://localhost:3000.
+7. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
+8. To run the app in development mode, run `yarn start`. Press `ctrl/cmd + C` to exit development mode.
+9. To make the source code prettier, run `yarn pretty`.
+10. To build the app, run `yarn build`.
+11. To test the build, run `yarn server` or install serve using `sudo npm install -g serve` and run `yarn serve` then visit http://localhost:3000. Press `ctrl/cmd + C` to shut down the server.
+12. To the deploy the build into the `gh-pages` branch of your repository on GitHub, run `yarn deploy-stable`.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

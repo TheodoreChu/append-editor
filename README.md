@@ -310,7 +310,7 @@ The general instructions setting up an environment to develop Standard Notes ext
 2. [Clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) your fork of the repository.
 3. Run `cd append-editor` to enter the `append-editor` directory.
 4. Run `yarn install` to install the dependencies on your machine as they are described in `yarn.lock`.
-5. Create `ext.json` as shown [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/dist/index.html"`. Optionally, create your `ext.json` as a copy of `sample.ext.json` or use the sample.
+5. In the `public` directory, create `ext.json` as explained [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`, create `ext.json` as a copy of `sample.ext.json` or use the sample.
 6. Install http-server using `sudo npm install -g http-server` then run `yarn serve-public` to serve the `./public` directory at http://localhost:3000.
 7. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
 8. To run the app in development mode, run `yarn start`. Press `ctrl/cmd + C` to exit development mode.
