@@ -493,10 +493,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         }
       );
     } else if (this.state.editMode) {
-      // If edit mode is on and print mode is off,
-      // then turn edit mode off and turn view mode on
-      // this automatically renders the text
-      if (!this.state.printMode) {
+      /**If edit mode is on and
+       * print mode and use codemirror are off,
+       * then turn edit mode off and turn view mode on
+       * this automatically renders the text
+       */
+      if (!this.state.printMode && !this.state.useMonacoEditor) {
         this.setState({
           viewMode: true,
         });
@@ -603,6 +605,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           printMode: false,
         },
         () => {
+          if (this.state.useMonacoEditor) {
+            this.refreshEdit();
+          }
           if (this.state.appendMode && !this.state.editMode) {
             this.skipToBottom();
           }
@@ -610,9 +615,16 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       );
     }
     if (this.state.viewMode) {
-      this.setState({
-        viewMode: false,
-      });
+      this.setState(
+        {
+          viewMode: false,
+        },
+        () => {
+          if (this.state.useMonacoEditor) {
+            this.refreshEdit();
+          }
+        }
+      );
     }
   };
 

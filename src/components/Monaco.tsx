@@ -1,6 +1,7 @@
 /**
  * This component is derived from the "browser-esm-webpack-typescript-react" found
- * at https://github.com/microsoft/monaco-editor-samples, which is released under MIT.
+ * at https://github.com/microsoft/monaco-editor-samples,
+ * which is released under MIT, Copyright (c) 2016 Microsoft Corporation.
  * This modified version is released under AGPL-3.0 as indicated in the README.md
  * in the root directory. A copy of AGPL-3.0 is available there.
  * */
@@ -52,12 +53,21 @@ export const MonacoEditor = ({
         wrappingStrategy: 'advanced',
         fontSize: 16,
       });
+      // Keyboard Events
+      /*
       editor.onKeyDown((e: monaco.IKeyboardEvent) => {
         saveText(editor.getValue());
       });
       editor.onKeyUp((e: monaco.IKeyboardEvent) => {
         saveText(editor.getValue());
       });
+      */
+      // Content Change Events
+      editor.onDidChangeModelContent(
+        (e: monaco.editor.IModelContentChangedEvent) => {
+          saveText(editor.getValue());
+        }
+      );
     }
     return () => {
       editor.dispose();
