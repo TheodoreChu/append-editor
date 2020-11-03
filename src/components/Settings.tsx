@@ -5,6 +5,7 @@ const fontEditID = 'fontEdit';
 const fontSizeID = 'fontSize';
 const fontViewID = 'fontView';
 const useCodeMirrorID = 'useCodeMirror';
+const useMonacoEditorID = 'useMonacoEditor';
 const customStylesID = 'customStyles';
 const resetAllSettingsID = 'resetAllSettings';
 
@@ -26,6 +27,7 @@ interface ChildState {
   fontSize: string;
   fontView: string;
   useCodeMirror: boolean;
+  useMonacoEditor: boolean;
   [x: number]: any;
 }
 
@@ -38,6 +40,7 @@ export default class Settings extends React.Component<any, ChildState> {
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
       useCodeMirror: this.props.useCodeMirror,
+      useMonacoEditor: this.props.useMonacoEditor,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -90,13 +93,15 @@ export default class Settings extends React.Component<any, ChildState> {
       fontSize,
       fontView,
       useCodeMirror,
+      useMonacoEditor,
     } = this.state;
     this.props.onConfirm(
       { customStyles },
       { fontEdit },
       { fontSize },
       { fontView },
-      { useCodeMirror }
+      { useCodeMirror },
+      { useMonacoEditor }
     );
   };
 
@@ -151,12 +156,24 @@ export default class Settings extends React.Component<any, ChildState> {
     useCodeMirror.focus();
   };
 
+  clearUseMonacoEditor = () => {
+    this.setState({
+      useMonacoEditor: false,
+    });
+    const useMonacoEditor = document.getElementById(
+      useMonacoEditorID
+    ) as HTMLInputElement;
+    useMonacoEditor.checked = false;
+    useMonacoEditor.focus();
+  };
+
   clearAllSettings = () => {
     // We clear fontView before fontEdit so the focus afterwards is on fontEdit (the first setting)
     this.clearCustomStyles();
     this.clearFontView();
     this.clearFontEdit();
     this.clearFontSize();
+    this.clearUseMonacoEditor();
     this.clearUseCodeMirror();
     const resetAllSettings = document.getElementById(resetAllSettingsID);
     if (resetAllSettings) {
@@ -346,12 +363,14 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </div>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">Enable in-line formatting: </div>
+              <div className="sk-h2">
+                Enable in-line formatting with CodeMirror:{' '}
+              </div>
               <div>
                 <label>
                   <input
-                    id="useCodeMirror"
-                    name="useCodeMirror"
+                    id={useCodeMirrorID}
+                    name={useCodeMirrorID}
                     type="checkbox"
                     checked={this.state.useCodeMirror}
                     onChange={this.handleInputChange}
@@ -359,7 +378,40 @@ export default class Settings extends React.Component<any, ChildState> {
                 </label>
                 <button
                   onClick={this.clearUseCodeMirror}
-                  title="Turn off in-line formatting"
+                  title="Turn off CodeMirror"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                      fill={'var(--sn-stylekit-foreground-color)'}
+                    />
+                  </svg>
+                </button>
+              </div>
+            </section>
+            <section className="sk-panel-row settings">
+              <div className="sk-h2">
+                Enable in-line formatting with Monaco:{' '}
+              </div>
+              <div>
+                <label>
+                  <input
+                    id={useMonacoEditorID}
+                    name={useMonacoEditorID}
+                    type="checkbox"
+                    checked={this.state.useMonacoEditor}
+                    onChange={this.handleInputChange}
+                  />
+                </label>
+                <button
+                  onClick={this.clearUseMonacoEditor}
+                  title="Turn off Monaco Editor"
                 >
                   <svg
                     width="20"

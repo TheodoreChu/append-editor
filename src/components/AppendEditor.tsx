@@ -77,6 +77,7 @@ const initialState = {
   showHelp: false,
   settingsMode: false,
   useCodeMirror: false,
+  useMonacoEditor: false,
   viewMode: true,
 };
 
@@ -110,6 +111,7 @@ export interface AppendInterface {
   showHelp: boolean;
   settingsMode: boolean;
   useCodeMirror: boolean;
+  useMonacoEditor: boolean;
   viewMode: boolean;
 }
 
@@ -156,7 +158,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontEdit ||
         note.content.appendEditorFontSize ||
         note.content.appendEditorFontView ||
-        note.content.appendEditorUseCodeMirror
+        note.content.appendEditorUseCodeMirror ||
+        note.content.appendEditorUseMonacoEditor
       ) {
         this.setState(
           {
@@ -165,6 +168,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontSize: note.content.appendEditorFontSize,
             fontView: note.content.appendEditorFontView,
             useCodeMirror: note.content.appendEditorUseCodeMirror,
+            useMonacoEditor: note.content.appendEditorUseMonacoEditor,
           },
           () => {
             this.refreshEdit();
@@ -679,15 +683,17 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     { fontEdit }: AppendInterface,
     { fontSize }: AppendInterface,
     { fontView }: AppendInterface,
-    { useCodeMirror }: AppendInterface
+    { useCodeMirror }: AppendInterface,
+    { useMonacoEditor }: AppendInterface
   ) => {
     this.setState(
       {
-        customStyles: customStyles,
-        fontEdit: fontEdit,
-        fontSize: fontSize,
-        fontView: fontView,
-        useCodeMirror: useCodeMirror,
+        customStyles,
+        fontEdit,
+        fontSize,
+        fontView,
+        useCodeMirror,
+        useMonacoEditor,
         showAppendix: true,
         showHeader: true,
         settingsMode: false,
@@ -709,6 +715,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontSize = fontSize;
         note.content.appendEditorFontView = fontView;
         note.content.appendEditorUseCodeMirror = useCodeMirror;
+        note.content.appendEditorUseMonacoEditor = useMonacoEditor;
       });
     }
   };
@@ -1428,6 +1435,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               appendRows={this.state.appendRows}
               title={`Settings`}
               useCodeMirror={this.state.useCodeMirror}
+              useMonacoEditor={this.state.useMonacoEditor}
             />
           )}
           {this.state.editMode && !this.state.refreshEdit && (
@@ -1441,6 +1449,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               printMode={this.state.printMode}
               saveText={this.saveText}
               text={this.state.text}
+              useMonacoEditor={this.state.useMonacoEditor}
             />
           )}
           {this.state.editMode && this.state.refreshEdit && (
@@ -1454,6 +1463,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               printMode={this.state.printMode}
               saveText={this.saveText}
               text={this.state.text}
+              useMonacoEditor={this.state.useMonacoEditor}
             />
           )}
           {(this.state.viewMode || this.state.printMode) &&

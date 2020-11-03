@@ -741,3 +741,11 @@ button:focus {
   background: transparent;
   color: var(--sn-stylekit-info-contrast-color);
 }
+
+.MonacoEditorContainer {
+  width: 100%;
+  height: 100%;
+  max-width: inherit;
+  max-height: inherit;
+  //border: 1px solid #ccc;
+}

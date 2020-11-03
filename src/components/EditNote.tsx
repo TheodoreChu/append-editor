@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppendInterface } from './AppendEditor';
+import { MonacoEditor } from './Monaco';
 
 const editTextAreaID = 'editTextArea';
 
@@ -39,15 +40,20 @@ export default class EditNote extends React.Component<any, ChildState> {
         text: value,
       },
       () => {
-        this.saveText(event);
+        this.props.saveText(this.state.text);
       }
     );
   };
 
-  saveText = (e: React.KeyboardEvent) => {
-    e.preventDefault();
-    const { text } = this.state;
-    this.props.saveText(text);
+  saveText = (text: string) => {
+    this.setState(
+      {
+        text,
+      },
+      () => {
+        this.props.saveText(this.state.text);
+      }
+    );
   };
 
   onKeyDown = (e: React.KeyboardEvent) => {
@@ -71,20 +77,24 @@ export default class EditNote extends React.Component<any, ChildState> {
         }
       >
         <div className="sk-panel-content edit">
-          <textarea
-            id={editTextAreaID}
-            name="text"
-            className="sk-input contrast textarea editnote"
-            placeholder="Welcome to the Append Editor! 😄"
-            rows={15}
-            spellCheck="true"
-            value={text}
-            onChange={this.handleInputChange}
-            onKeyDown={this.onKeyDown}
-            onKeyUp={this.onKeyUp}
-            //type="text"
-            style={{ fontFamily: this.props.fontEdit }}
-          />
+          {this.props.useMonacoEditor ? (
+            <MonacoEditor text={text} saveText={this.saveText} />
+          ) : (
+            <textarea
+              id={editTextAreaID}
+              name="text"
+              className="sk-input contrast textarea editnote"
+              placeholder="Welcome to the Append Editor! 😄"
+              rows={15}
+              spellCheck="true"
+              value={text}
+              onChange={this.handleInputChange}
+              onKeyDown={this.onKeyDown}
+              onKeyUp={this.onKeyUp}
+              //type="text"
+              style={{ fontFamily: this.props.fontEdit }}
+            />
+          )}
         </div>
       </div>
     );
