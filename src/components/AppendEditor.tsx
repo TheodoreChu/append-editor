@@ -6,7 +6,7 @@ import ViewNote from './ViewNote';
 import AppendText from './AppendText';
 import Settings from './Settings';
 
-import CodeMirror from 'codemirror';
+import CodeMirror, { Editor } from 'codemirror';
 import 'codemirror/lib/codemirror';
 import 'codemirror/mode/gfm/gfm';
 import 'codemirror/mode/javascript/javascript';
@@ -53,7 +53,6 @@ const newParagraphID = 'newParagraph';
 
 const initialState = {
   text: '',
-  //appendCodeMirror: null, // optional
   appendNewLine: false,
   appendNewParagraph: false,
   appendMode: false,
@@ -61,9 +60,6 @@ const initialState = {
   appendText: '',
   confirmPrintURL: false,
   customStyles: '',
-  //currentState: {}, // optional
-  //editMode: undefined, // optional
-  //editCodeMirror: null, // optional
   fontEdit: '',
   fontSize: '',
   fontView: '',
@@ -101,6 +97,7 @@ export interface AppendInterface {
   fontEdit: string;
   fontSize: string;
   fontView: string;
+  keyMap?: Object;
   loadedMetaData: boolean;
   printMode: boolean;
   printURL: boolean;
@@ -380,13 +377,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           editCodeMirror.save();
           this.saveText(editCodeMirrorText);
         });
-        editCodeMirror.on('keydown', () => {
-          //this.onKeyDown(event);
-          //this.onKeyDownEditTextArea(event);
-          //this.onKeyDownTextArea(event);
+        editCodeMirror.on('keydown', (cm: Editor, event: KeyboardEvent) => {
+          this.onKeyDown(event);
+          this.onKeyDownEditTextArea(event);
+          this.onKeyDownTextArea(event);
         });
-        editCodeMirror.on('keyup', () => {
-          //this.onKeyUp(event);
+        editCodeMirror.on('keyup', (cm: Editor, event: KeyboardEvent) => {
+          this.onKeyUp(event);
         });
         this.setState({
           editCodeMirror: editCodeMirror,
@@ -419,13 +416,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           appendCodeMirror.save();
           this.autoSaveAppendText(appendCodeMirrorText);
         });
-        appendCodeMirror.on('keydown', () => {
-          //this.onKeyDown(event);
-          //this.onKeyDownAppendTextArea(event);
-          //this.onKeyDownTextArea(event);
+        appendCodeMirror.on('keydown', (cm: Editor, event: KeyboardEvent) => {
+          this.onKeyDown(event);
+          this.onKeyDownAppendTextArea(event);
+          this.onKeyDownTextArea(event);
         });
-        appendCodeMirror.on('keyup', () => {
-          //this.onKeyUp(event);
+        appendCodeMirror.on('keyup', (cm: Editor, event: KeyboardEvent) => {
+          this.onKeyUp(event);
         });
         this.setState({
           appendCodeMirror: appendCodeMirror,
@@ -959,7 +956,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  onKeyDown = (e: React.KeyboardEvent) => {
+  onKeyDown = (e: React.KeyboardEvent | KeyboardEvent) => {
     keyMap.set(e.key, true);
     // Click the top Append if 'Control' and 'e' are pressed
     if (keyMap.get('Control') && keyMap.get('e')) {
@@ -1039,7 +1036,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     // TODO: Update keyboard shortcuts
   };
 
-  onKeyDownAppendTextArea = (e: React.KeyboardEvent) => {
+  onKeyDownAppendTextArea = (e: React.KeyboardEvent | KeyboardEvent) => {
     // Close Append Mode if 'Escape' is pressed
     if (keyMap.get('Escape')) {
       e.preventDefault();
@@ -1088,7 +1085,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  onKeyDownEditTextArea = (e: React.KeyboardEvent) => {
+  onKeyDownEditTextArea = (e: React.KeyboardEvent | KeyboardEvent) => {
     // Close EditMode if 'Escape' is pressed
     if (keyMap.get('Escape')) {
       e.preventDefault();
@@ -1097,7 +1094,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  onKeyDownTextArea = (e: React.KeyboardEvent) => {
+  onKeyDownTextArea = (e: React.KeyboardEvent | KeyboardEvent) => {
     // Add two spaces and line break if Shift and Enter are pressed
     if (keyMap.get('Shift') && keyMap.get('Enter')) {
       e.preventDefault();
@@ -1159,7 +1156,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  onKeyUp = (e: React.KeyboardEvent) => {
+  onKeyUp = (e: React.KeyboardEvent | KeyboardEvent) => {
     keyMap.delete(e.key);
   };
 
