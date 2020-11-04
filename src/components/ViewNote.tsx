@@ -5,7 +5,7 @@ import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
 
 import { AppendInterface } from './AppendEditor';
-
+const gfm = require('remark-gfm');
 const breaks = require('remark-breaks');
 const math = require('remark-math');
 const rehypeKatex = require('rehype-katex');
@@ -19,6 +19,7 @@ const raw = require('rehype-raw');
 
 const processor = unified()
   .use(parse)
+  .use(gfm)
   .use(breaks)
   .use(slug)
   .use(toc, { maxDepth: 6 })
