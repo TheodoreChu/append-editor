@@ -335,6 +335,10 @@ button:focus {
   }
 }
 
+#renderedNote > div > :nth-child(1) {
+  margin-top: 0px;
+}
+
 #renderedNote {
   code,
   pre {
