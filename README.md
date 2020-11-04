@@ -18,7 +18,7 @@
 
 The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, open-source, and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
 
-You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com).
+You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com) the alpha demo at [dev.appendeditor.com](https://dev.appendeditor.com).
 
 The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in 'read/view only' mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
@@ -34,7 +34,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Google Code and GitHub Gist flavored Syntax Highlighting provided by [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
 - Table of Contents (links don't work on mobile) provided by [Remark TOC](https://github.com/remarkjs/remark-toc)
 - Footnotes (links don't work on mobile) provided by [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
-- Optional in-line formatting provided by [CodeMirror](https://codemirror.net)
+- Optional in-line formatting provided by [Monaco Editor](https://microsoft.github.io/monaco-editor/) and [CodeMirror](https://codemirror.net)
 - Search and replace when in-line formatting is enabled
 - Inline HTML for underlining and highlighting
 - Print/Save to PDF in rendered form with or without URLs (works best on Chromium browsers)
