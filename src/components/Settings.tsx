@@ -29,7 +29,7 @@ interface ChildState {
   fontView: string;
   useCodeMirror: boolean;
   useMonacoEditor: boolean;
-  [x: number]: any;
+  [x: string]: string | boolean;
 }
 
 export default class Settings extends React.Component<any, ChildState> {
@@ -47,7 +47,7 @@ export default class Settings extends React.Component<any, ChildState> {
     //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleInputChange = (event: any) => {
+  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;

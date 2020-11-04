@@ -21,7 +21,7 @@ interface ChildState {
   text: string;
   newLine: boolean;
   newParagraph: boolean;
-  [x: number]: any;
+  [x: string]: string | boolean;
 }
 
 export default class AppendText extends React.Component<any, ChildState> {
@@ -39,7 +39,7 @@ export default class AppendText extends React.Component<any, ChildState> {
     };
   }
 
-  handleInputChange = (event: any) => {
+  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;

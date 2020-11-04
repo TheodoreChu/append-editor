@@ -31,7 +31,7 @@ export default class EditNote extends React.Component<any, ChildState> {
     };
   }
 
-  handleInputChange = (event: any) => {
+  handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const target = event.target;
     const value = target.value;
 
