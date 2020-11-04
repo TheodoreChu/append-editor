@@ -11,8 +11,9 @@ import * as monaco from 'monaco-editor';
 const debugMode = false;
 const MonacoEditorContainerID = 'MonacoEditorContainer';
 
+/*eslint no-restricted-globals: ["error", "event", "monaco"]*/
 // @ts-ignore
-window.self.MonacoEnvironment = {
+self.MonacoEnvironment = {
   getWorkerUrl: function (_moduleId: any, label: string) {
     if (label === 'json') {
       return './json.worker.bundle.js';
@@ -42,21 +43,22 @@ const onKeyUp = (keyCode: string, debugMode = false) => {
   }
 };
 
-//export const Editor: React.FC = () => {
-export const MonacoEditor = ({
-  id = MonacoEditorContainerID,
-  language = 'markdown',
-  saveText,
-  text,
-  theme = 'vs-dark',
-}: {
+interface MonacoEditorTypes {
   id?: string;
   language?: string;
   onKeyDown?: Function;
   onKeyUp?: Function;
-  saveText: Function;
+  saveText?: Function;
   text: string;
   theme?: string;
+}
+
+export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
+  id = MonacoEditorContainerID,
+  language = 'css',
+  saveText,
+  text,
+  theme = 'vs-dark',
 }) => {
   const divEl = useRef<HTMLDivElement>(null);
   let editor: monaco.editor.IStandaloneCodeEditor;
@@ -89,7 +91,9 @@ export const MonacoEditor = ({
       // Content Change Events
       editor.onDidChangeModelContent(
         (e: monaco.editor.IModelContentChangedEvent) => {
-          saveText(editor.getValue());
+          if (saveText) {
+            saveText(editor.getValue());
+          }
         }
       );
     }
