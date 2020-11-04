@@ -432,6 +432,10 @@ button:focus {
       font-size: 14px;
     }
   }
+  button:hover,
+  input[type='checkbox' i]:hover {
+    cursor: pointer;
+  }
 
   .sk-panel-header {
     .sk-button.info {

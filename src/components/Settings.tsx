@@ -370,23 +370,23 @@ export default class Settings extends React.Component<any, ChildState> {
             </div>
             <section className="sk-panel-row settings">
               <div className="sk-h2">
-                <label htmlFor={useCodeMirrorID}>
-                  Enable in-line formatting with CodeMirror:{' '}
+                <label htmlFor={useMonacoEditorID}>
+                  Enable in-line formatting with Monaco:{' '}
                 </label>
               </div>
               <div>
                 <label>
                   <input
-                    id={useCodeMirrorID}
-                    name={useCodeMirrorID}
+                    id={useMonacoEditorID}
+                    name={useMonacoEditorID}
                     type="checkbox"
-                    checked={this.state.useCodeMirror}
+                    checked={this.state.useMonacoEditor}
                     onChange={this.handleInputChange}
                   />
                 </label>
                 <button
-                  onClick={this.clearUseCodeMirror}
-                  title="Turn off CodeMirror"
+                  onClick={this.clearUseMonacoEditor}
+                  title="Turn off Monaco Editor"
                 >
                   <svg
                     width="20"
@@ -405,23 +405,23 @@ export default class Settings extends React.Component<any, ChildState> {
             </section>
             <section className="sk-panel-row settings">
               <div className="sk-h2">
-                <label htmlFor={useMonacoEditorID}>
-                  Enable in-line formatting with Monaco:{' '}
+                <label htmlFor={useCodeMirrorID}>
+                  Enable in-line formatting with CodeMirror:{' '}
                 </label>
               </div>
               <div>
                 <label>
                   <input
-                    id={useMonacoEditorID}
-                    name={useMonacoEditorID}
+                    id={useCodeMirrorID}
+                    name={useCodeMirrorID}
                     type="checkbox"
-                    checked={this.state.useMonacoEditor}
+                    checked={this.state.useCodeMirror}
                     onChange={this.handleInputChange}
                   />
                 </label>
                 <button
-                  onClick={this.clearUseMonacoEditor}
-                  title="Turn off Monaco Editor"
+                  onClick={this.clearUseCodeMirror}
+                  title="Turn off CodeMirror"
                 >
                   <svg
                     width="20"
