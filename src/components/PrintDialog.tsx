@@ -19,7 +19,7 @@ const ConfirmDialog = ({
   helpLink: string;
 }) => (
   <div className="note-overlay">
-    <div tabIndex={0} className="note-dialog sk-panel">
+    <div className="note-dialog sk-panel">
       <div className="sk-panel-content">
         <div className="sk-panel-section">
           <div className="sk-panel-row">
