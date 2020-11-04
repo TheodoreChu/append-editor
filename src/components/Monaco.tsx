@@ -55,7 +55,7 @@ interface MonacoEditorTypes {
 
 export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   id = MonacoEditorContainerID,
-  language = 'css',
+  language = 'markdown',
   saveText,
   text,
   theme = 'vs-dark',

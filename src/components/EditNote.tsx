@@ -76,7 +76,7 @@ export default class EditNote extends React.Component<any, ChildState> {
           (this.props.printMode
             ? 'printModeOn'
             : this.props.useMonacoEditor
-            ? ' MonacoEditor printModeOff'
+            ? 'MonacoEditor printModeOff'
             : 'printModeOff')
         }
       >

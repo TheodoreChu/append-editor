@@ -41,6 +41,7 @@ const appendixID = 'appendix';
 
 const editTextAreaID = 'editTextArea';
 const appendTextAreaID = 'appendTextArea';
+const MonacoEditorContainerID = 'MonacoEditorContainer';
 
 const newLineID = 'newLine';
 const newParagraphID = 'newParagraph';
@@ -53,7 +54,7 @@ const newParagraphID = 'newParagraph';
 
 const initialState = {
   text: '',
-  appendNewLine: false,
+  appendNewLine: true,
   appendNewParagraph: false,
   appendMode: false,
   appendRows: 8,
@@ -469,7 +470,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         const appendTextArea = document.getElementById(
           appendTextAreaID
         ) as HTMLInputElement;
-        if (appendTextArea && !appendTextArea.value) {
+        if (
+          (appendTextArea && !appendTextArea.value) ||
+          !this.state.appendText
+        ) {
           this.setState({
             appendMode: false,
           });
@@ -555,6 +559,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           appendMode: false,
         },
         () => {
+          this.refreshEdit();
           if (focus) {
             const appendButton = document.getElementById(appendButtonID);
             if (appendButton) {
@@ -1528,6 +1533,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 printMode={this.state.printMode}
                 appendRows={this.state.appendRows}
                 text={this.state.appendText}
+                useMonacoEditor={this.state.useMonacoEditor}
               />
             )}
             <button

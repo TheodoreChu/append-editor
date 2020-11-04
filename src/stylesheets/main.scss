@@ -85,7 +85,8 @@ button:focus {
       border-top: none;
     }
   }
-  .sk-panel.main.edit.MonacoEditor {
+  .sk-panel.main.edit.MonacoEditor,
+  .sk-panel.main.appendix.MonacoEditor {
     max-width: 800px;
   }
   .sk-panel.main.printModeOn {
@@ -753,13 +754,18 @@ button:focus {
 }
 
 .MonacoEditorContainer {
-  width: calc(100% - 12px);
-  height: calc(100% - 24px);
+  min-height: 200px;
+  width: calc(100% - 1.5px);
   max-width: inherit;
   max-height: inherit;
-  //border: 1px solid #ccc;
 }
 
-.settings .MonacoEditorContainer {
-  height: 250px;
+.edit .MonacoEditorContainer {
+  min-height: 200px;
+  height: calc(100% - 25px);
+  margin-bottom: 25px;
+}
+
+#appendix .MonacoEditorContainer {
+  height: 400px;
 }

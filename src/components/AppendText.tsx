@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppendInterface } from './AppendEditor';
+import { MonacoEditor } from './Monaco';
 
 const appendTextAreaID = 'appendTextArea';
 const newLineID = 'newLine';
@@ -36,6 +37,7 @@ export default class AppendText extends React.Component<any, ChildState> {
       text: this.props.text,
       newLine: this.props.appendNewLine,
       newParagraph: this.props.appendNewParagraph,
+      useMonacoEditor: this.props.useMonacoEditor,
     };
   }
 
@@ -69,6 +71,17 @@ export default class AppendText extends React.Component<any, ChildState> {
     );
   };
 
+  saveText = (text: string) => {
+    this.setState(
+      {
+        text,
+      },
+      () => {
+        this.props.autoSaveAppendText(this.state.text);
+      }
+    );
+  };
+
   appendTextToNote = () => {
     this.props.appendTextToNote();
     this.setState({
@@ -77,6 +90,18 @@ export default class AppendText extends React.Component<any, ChildState> {
     const appendTextArea = document.getElementById(appendTextAreaID);
     if (appendTextArea) {
       appendTextArea.focus();
+    }
+    if (this.state.useMonacoEditor) {
+      this.setState(
+        {
+          useMonacoEditor: false,
+        },
+        () => {
+          this.setState({
+            useMonacoEditor: true,
+          });
+        }
+      );
     }
   };
 
@@ -130,24 +155,32 @@ export default class AppendText extends React.Component<any, ChildState> {
       <div
         className={
           'sk-panel main appendix ' +
-          (this.props.printMode ? 'printModeOn' : 'printModeOff')
+          (this.props.printMode
+            ? 'printModeOn'
+            : this.props.useMonacoEditor
+            ? 'MonacoEditor printModeOff'
+            : 'printModeOff')
         }
       >
-        <div className="sk-panel-content edit">
-          <textarea
-            id={appendTextAreaID}
-            name="text"
-            className="sk-input contrast textarea append"
-            placeholder="Append to your note"
-            rows={this.props.appendRows}
-            spellCheck="true"
-            value={text}
-            onChange={this.handleTextAreaChange}
-            onKeyDown={this.onKeyDown}
-            onKeyUp={this.onKeyUp}
-            style={{ fontFamily: this.props.fontEdit }}
-            //type="text"
-          />
+        <div className={'sk-panel-content edit'}>
+          {this.state.useMonacoEditor ? (
+            <MonacoEditor text={text} saveText={this.saveText} />
+          ) : (
+            <textarea
+              id={appendTextAreaID}
+              name="text"
+              className="sk-input contrast textarea append"
+              placeholder="Append to your note"
+              rows={this.props.appendRows}
+              spellCheck="true"
+              value={text}
+              onChange={this.handleTextAreaChange}
+              onKeyDown={this.onKeyDown}
+              onKeyUp={this.onKeyUp}
+              style={{ fontFamily: this.props.fontEdit }}
+              //type="text"
+            />
+          )}
         </div>
         <div className="sk-panel-row">
           <form className="checkBoxForm">
