@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppendInterface } from './AppendEditor';
+import { MonacoEditor } from './Monaco';
 
 const fontEditID = 'fontEdit';
 const fontSizeID = 'fontSize';
@@ -42,9 +43,8 @@ export default class Settings extends React.Component<any, ChildState> {
       useCodeMirror: this.props.useCodeMirror,
       useMonacoEditor: this.props.useMonacoEditor,
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleInputChange = this.handleInputChange.bind(this);
+    //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange = (event: any) => {
@@ -57,6 +57,12 @@ export default class Settings extends React.Component<any, ChildState> {
     if (this.props.debugMode) {
       console.log('Settings event name: ' + event.target.name);
     }
+  };
+
+  saveText = (text: string) => {
+    this.setState({
+      customStyles: text,
+    });
   };
 
   handleSubmit = () => {
@@ -168,8 +174,8 @@ export default class Settings extends React.Component<any, ChildState> {
   };
 
   clearAllSettings = () => {
-    // We clear fontView before fontEdit so the focus afterwards is on fontEdit (the first setting)
-    this.clearCustomStyles();
+    // We clear from bottom settings to top settings so the focus afterwards is on top
+    //this.clearCustomStyles();
     this.clearFontView();
     this.clearFontEdit();
     this.clearFontSize();
@@ -215,7 +221,7 @@ export default class Settings extends React.Component<any, ChildState> {
     //<h3>↶</h3>
     const { title, onCancel, confirmText, cancelText, helpLink } = this.props;
     return (
-      <div tabIndex={0} className="sk-panel main settings" onBlur={this.onBlur}>
+      <div className="sk-panel main settings">
         <div className="sk-panel-content">
           <div className="sk-panel-section">
             <datalist id="fonts">
@@ -364,7 +370,9 @@ export default class Settings extends React.Component<any, ChildState> {
             </div>
             <section className="sk-panel-row settings">
               <div className="sk-h2">
-                Enable in-line formatting with CodeMirror:{' '}
+                <label htmlFor={useCodeMirrorID}>
+                  Enable in-line formatting with CodeMirror:{' '}
+                </label>
               </div>
               <div>
                 <label>
@@ -397,7 +405,9 @@ export default class Settings extends React.Component<any, ChildState> {
             </section>
             <section className="sk-panel-row settings">
               <div className="sk-h2">
-                Enable in-line formatting with Monaco:{' '}
+                <label htmlFor={useMonacoEditorID}>
+                  Enable in-line formatting with Monaco:{' '}
+                </label>
               </div>
               <div>
                 <label>
@@ -462,7 +472,11 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">Choose a font for Edit/Append: </div>
+              <div className="sk-h2">
+                <label htmlFor={fontEditID}>
+                  Choose a font for Edit/Append:{' '}
+                </label>
+              </div>
               <div>
                 <input
                   list="fonts"
@@ -493,7 +507,11 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">Choose a font for View/Print: </div>
+              <div className="sk-h2">
+                <label htmlFor={fontViewID}>
+                  Choose a font for View/Print:{' '}
+                </label>
+              </div>
               <div>
                 <input
                   list="fonts"
@@ -527,33 +545,12 @@ export default class Settings extends React.Component<any, ChildState> {
               <div className="sk-h2">Add custom styles (CSS): </div>
             </section>
             <section className="sk-panel-row settings">
-              <textarea
-                id={customStylesID}
-                name={customStylesID}
-                className="sk-input contrast textarea"
-                rows={this.props.appendRows}
-                value={this.state.customStyles}
-                onChange={this.handleInputChange}
+              <MonacoEditor
+                text={this.state.customStyles}
                 onKeyDown={this.onKeyDown}
                 onKeyUp={this.onKeyUp}
+                saveText={this.saveText}
               />
-              <button
-                onClick={this.clearCustomStyles}
-                title="Reset custom styles"
-              >
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                    fill={'var(--sn-stylekit-foreground-color)'}
-                  />
-                </svg>
-              </button>
             </section>
           </div>
         </div>

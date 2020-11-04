@@ -8,6 +8,9 @@
 import React, { useRef, useEffect } from 'react';
 import * as monaco from 'monaco-editor';
 
+const debugMode = false;
+const MonacoEditorContainerID = 'MonacoEditorContainer';
+
 // @ts-ignore
 window.self.MonacoEnvironment = {
   getWorkerUrl: function (_moduleId: any, label: string) {
@@ -27,13 +30,33 @@ window.self.MonacoEnvironment = {
   },
 };
 
+const onKeyDown = (keyCode: string, debugMode = false) => {
+  if (debugMode) {
+    console.log('IKeyboardEvent Up: ' + keyCode);
+  }
+};
+
+const onKeyUp = (keyCode: string, debugMode = false) => {
+  if (debugMode) {
+    console.log('IKeyboardEvent Up: ' + keyCode);
+  }
+};
+
 //export const Editor: React.FC = () => {
 export const MonacoEditor = ({
-  text,
+  id = MonacoEditorContainerID,
+  language = 'markdown',
   saveText,
+  text,
+  theme = 'vs-dark',
 }: {
-  text: string;
+  id?: string;
+  language?: string;
+  onKeyDown?: Function;
+  onKeyUp?: Function;
   saveText: Function;
+  text: string;
+  theme?: string;
 }) => {
   const divEl = useRef<HTMLDivElement>(null);
   let editor: monaco.editor.IStandaloneCodeEditor;
@@ -42,8 +65,8 @@ export const MonacoEditor = ({
     if (divEl.current) {
       editor = monaco.editor.create(divEl.current, {
         value: [text].join('\n'),
-        language: 'markdown',
-        theme: 'vs-dark',
+        language: language,
+        theme: theme,
 
         autoClosingOvertype: 'auto',
         wordWrap: 'on',
@@ -54,14 +77,15 @@ export const MonacoEditor = ({
         fontSize: 16,
       });
       // Keyboard Events
-      /*
       editor.onKeyDown((e: monaco.IKeyboardEvent) => {
-        saveText(editor.getValue());
+        onKeyDown(e.code, debugMode);
+        if (e.ctrlKey && e.code === 'KeyS') {
+          e.preventDefault();
+        }
       });
       editor.onKeyUp((e: monaco.IKeyboardEvent) => {
-        saveText(editor.getValue());
+        onKeyUp(e.code, debugMode);
       });
-      */
       // Content Change Events
       editor.onDidChangeModelContent(
         (e: monaco.editor.IModelContentChangedEvent) => {
@@ -73,5 +97,5 @@ export const MonacoEditor = ({
       editor.dispose();
     };
   }, []);
-  return <div className="MonacoEditorContainer" ref={divEl}></div>;
+  return <div id={id} className={MonacoEditorContainerID} ref={divEl}></div>;
 };

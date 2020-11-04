@@ -1022,10 +1022,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     } else if (keyMap.get('Control') && keyMap.get(']')) {
       e.preventDefault();
       this.skipToBottom();
-    }
-    // TODO: If you close it with Ctrl + W and open it again, the Ctrl event key isn't set to false
-    // So, if you have minimize to tray on, then it'll open with Ctrl still down
-    else if (
+    } else if (
       keyMap.get('Control') &&
       !keyMap.get('Alt') &&
       !keyMap.get('Shift') &&
@@ -1033,7 +1030,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     ) {
       keyMap.delete('w');
     }
-    // TODO: Update keyboard shortcuts
   };
 
   onKeyDownAppendTextArea = (e: React.KeyboardEvent | KeyboardEvent) => {
@@ -1442,7 +1438,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               onConfirm={this.onSaveSettings}
               onCancel={this.onSettingsMode}
               appendRows={this.state.appendRows}
-              title={`Settings`}
+              title={`Append Editor Settings`}
               useCodeMirror={this.state.useCodeMirror}
               useMonacoEditor={this.state.useMonacoEditor}
             />
