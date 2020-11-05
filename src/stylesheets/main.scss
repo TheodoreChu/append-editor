@@ -340,7 +340,8 @@ button:focus {
   margin-top: 0px;
 }
 
-#renderedNote {
+#renderedNote,
+#settings {
   code,
   pre {
     font-family: var(--sn-stylekit-monospace-font);
@@ -536,6 +537,12 @@ button:focus {
         }
       }
     }
+  }
+}
+
+#settings {
+  h1 {
+    margin: 0.2em 0px;
   }
 }
 

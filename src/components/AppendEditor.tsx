@@ -60,7 +60,7 @@ const initialState = {
   appendRows: 8,
   appendText: '',
   confirmPrintURL: false,
-  customStyles: '',
+  customStyles: '```css\n\n\n\n```',
   fontEdit: '',
   fontSize: '',
   fontView: '',
@@ -756,7 +756,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     const fontViewStyle =
       '#renderedNote {font-family: ' + this.state.fontView + ';}';
     sheet.innerHTML =
-      this.state.customStyles +
+      this.state.customStyles.replace('```css', '').replace('```', '') +
       '\n' +
       fontEditStyle +
       '\n' +

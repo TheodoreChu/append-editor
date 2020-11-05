@@ -49,6 +49,7 @@ interface MonacoEditorTypes {
   onKeyDown?: Function;
   onKeyUp?: Function;
   saveText?: Function;
+  tabSize?: number;
   text: string;
   theme?: string;
 }
@@ -57,6 +58,7 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   id = MonacoEditorContainerID,
   language = 'markdown',
   saveText,
+  tabSize = 4,
   text,
   theme = 'vs-dark',
 }) => {
@@ -77,6 +79,7 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
 
         wrappingStrategy: 'advanced',
         fontSize: 16,
+        tabSize: tabSize,
       });
       // Keyboard Events
       editor.onKeyDown((e: monaco.IKeyboardEvent) => {

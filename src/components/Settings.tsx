@@ -28,6 +28,7 @@ interface ChildState {
   fontSize: string;
   fontView: string;
   useCodeMirror: boolean;
+  showCustomStyles: boolean;
   useMonacoEditor: boolean;
   [x: string]: string | boolean;
 }
@@ -42,6 +43,7 @@ export default class Settings extends React.Component<any, ChildState> {
       fontView: this.props.fontView,
       useCodeMirror: this.props.useCodeMirror,
       useMonacoEditor: this.props.useMonacoEditor,
+      showCustomStyles: true,
     };
     //this.handleInputChange = this.handleInputChange.bind(this);
     //this.handleSubmit = this.handleSubmit.bind(this);
@@ -112,9 +114,23 @@ export default class Settings extends React.Component<any, ChildState> {
   };
 
   clearCustomStyles = () => {
-    this.setState({
-      customStyles: '',
-    });
+    this.setState(
+      {
+        customStyles: '```css\n\n\n\n```',
+      },
+      () => {
+        this.setState(
+          {
+            showCustomStyles: !this.state.showCustomStyles,
+          },
+          () => {
+            this.setState({
+              showCustomStyles: !this.state.showCustomStyles,
+            });
+          }
+        );
+      }
+    );
     const customStyles = document.getElementById(
       customStylesID
     ) as HTMLTextAreaElement;
@@ -175,7 +191,7 @@ export default class Settings extends React.Component<any, ChildState> {
 
   clearAllSettings = () => {
     // We clear from bottom settings to top settings so the focus afterwards is on top
-    //this.clearCustomStyles();
+    this.clearCustomStyles();
     this.clearFontView();
     this.clearFontEdit();
     this.clearFontSize();
@@ -221,7 +237,7 @@ export default class Settings extends React.Component<any, ChildState> {
     //<h3>↶</h3>
     const { title, onCancel, confirmText, cancelText, helpLink } = this.props;
     return (
-      <div className="sk-panel main settings">
+      <div id="settings" className="sk-panel main settings">
         <div className="sk-panel-content">
           <div className="sk-panel-section">
             <datalist id="fonts">
@@ -323,8 +339,8 @@ export default class Settings extends React.Component<any, ChildState> {
               <option value="30px" />
             </datalist>
             <div className="sk-panel-row">
-              <div className="sk-h1">
-                <h2>{title}</h2>
+              <div>
+                <h1>{title}</h1>
               </div>
               <button id="undoDialog" onClick={onCancel} title="Close">
                 <svg
@@ -342,12 +358,12 @@ export default class Settings extends React.Component<any, ChildState> {
               </button>
             </div>
             <div className="sk-panel-row">
-              <div className="sk-h2">
+              <div>
                 Need help? Check out the{' '}
                 <a href={helpLink} target="_blank" rel="noopener noreferrer">
                   documentation
                 </a>
-                . <br></br>For the default settings, click&nbsp;
+                . For the default settings, click undo:&nbsp;
                 <button
                   onClick={this.clearAllSettings}
                   title="Reset all Settings"
@@ -369,11 +385,9 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </div>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">
-                <label htmlFor={useMonacoEditorID}>
-                  Enable in-line formatting with Monaco:{' '}
-                </label>
-              </div>
+              <label htmlFor={useMonacoEditorID}>
+                Enable in-line formatting with Monaco:{' '}
+              </label>
               <div>
                 <label>
                   <input
@@ -404,11 +418,9 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">
-                <label htmlFor={useCodeMirrorID}>
-                  Enable in-line formatting with CodeMirror:{' '}
-                </label>
-              </div>
+              <label htmlFor={useCodeMirrorID}>
+                Enable in-line formatting with CodeMirror:{' '}
+              </label>
               <div>
                 <label>
                   <input
@@ -439,9 +451,7 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">
-                <label htmlFor={fontSizeID}>Choose a base font size: </label>
-              </div>
+              <label htmlFor={fontSizeID}>Choose a base font size: </label>
               <div>
                 <input
                   list="fontSizes"
@@ -472,11 +482,9 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">
-                <label htmlFor={fontEditID}>
-                  Choose a font for Edit/Append:{' '}
-                </label>
-              </div>
+              <label htmlFor={fontEditID}>
+                Choose a font for Edit/Append:{' '}
+              </label>
               <div>
                 <input
                   list="fonts"
@@ -507,11 +515,7 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">
-                <label htmlFor={fontViewID}>
-                  Choose a font for View/Print:{' '}
-                </label>
-              </div>
+              <label htmlFor={fontViewID}>Choose a font for View/Print: </label>
               <div>
                 <input
                   list="fonts"
@@ -542,15 +546,38 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div className="sk-h2">Add custom styles (CSS): </div>
+              <div>
+                Add custom styles (CSS) between <code>```css</code> and{' '}
+                <code>```</code>: &nbsp;
+                <button
+                  onClick={this.clearCustomStyles}
+                  title="Reset font for View/Print"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                      fill={'var(--sn-stylekit-foreground-color)'}
+                    />
+                  </svg>
+                </button>
+              </div>
             </section>
             <section className="sk-panel-row settings">
-              <MonacoEditor
-                text={this.state.customStyles}
-                onKeyDown={this.onKeyDown}
-                onKeyUp={this.onKeyUp}
-                saveText={this.saveText}
-              />
+              {this.state.showCustomStyles && (
+                <MonacoEditor
+                  tabSize={2}
+                  text={this.state.customStyles}
+                  onKeyDown={this.onKeyDown}
+                  onKeyUp={this.onKeyUp}
+                  saveText={this.saveText}
+                />
+              )}
             </section>
           </div>
         </div>
