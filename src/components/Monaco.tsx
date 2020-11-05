@@ -10,6 +10,7 @@ import * as monaco from 'monaco-editor';
 
 const debugMode = false;
 const MonacoEditorContainerID = 'MonacoEditorContainer';
+const MonacoDiffEditorContainerID = 'MonacoDiffEditorContainer';
 
 /*eslint no-restricted-globals: ["error", "event", "monaco"]*/
 // @ts-ignore
@@ -106,3 +107,89 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   }, []);
   return <div id={id} className={MonacoEditorContainerID} ref={divEl}></div>;
 };
+
+export const MonacoDiffEditor: React.FC<MonacoEditorTypes> = ({
+  id = MonacoDiffEditorContainerID,
+  language = 'markdown',
+  saveText,
+  tabSize = 4,
+  text,
+  theme = 'vs-dark',
+}) => {
+  const divEl = useRef<HTMLDivElement>(null);
+  let diffEditor: monaco.editor.IStandaloneDiffEditor;
+  useEffect(() => {
+    if (divEl.current) {
+      const originalModel = monaco.editor.createModel(
+        'heLLo world!',
+        'markdown'
+      );
+      const modifiedModel = monaco.editor.createModel(
+        'hello orlando!',
+        'markdown'
+      );
+      diffEditor = monaco.editor.createDiffEditor(divEl.current, {
+        originalEditable: true, // for left panel
+        readOnly: true, // for right panel
+        autoClosingOvertype: 'auto',
+        wordWrap: 'on',
+        fontSize: 16,
+      });
+      diffEditor.setModel({
+        original: originalModel,
+        modified: modifiedModel,
+      });
+    }
+    return () => {
+      diffEditor.dispose();
+    };
+  }, []);
+  return (
+    <div id={id} className={MonacoDiffEditorContainerID} ref={divEl}></div>
+  );
+};
+
+export default class DiffEditor extends React.Component<{}, {}> {
+  initMonaco() {
+    //@ts-ignore
+    require.config({ paths: { vs: 'monaco-editor/min/vs' } });
+    //@ts-ignore
+    window.require(['vs/editor/editor.main'], function () {
+      const originalModel = monaco.editor.createModel('heLLo world!', 'python');
+      const modifiedModel = monaco.editor.createModel(
+        'hello orlando!',
+        'python'
+      );
+      var diffEditor = monaco.editor.createDiffEditor(
+        //@ts-ignore
+        document.getElementById('monaco_container')
+      );
+      diffEditor.setModel({
+        original: originalModel,
+        modified: modifiedModel,
+      });
+    });
+  }
+  // @ts-ignore
+
+  destroyMonaco() {
+    // @ts-ignore
+    if (typeof this.editor != 'undefined') this.editor.destroy();
+  }
+
+  componentDidMount() {
+    this.initMonaco();
+  }
+
+  componentWillUnmount() {
+    this.destroyMonaco();
+  }
+  render() {
+    return (
+      <div
+        id="monaco_container"
+        style={{ height: '900px', width: '600px' }}
+      ></div>
+    );
+  }
+}

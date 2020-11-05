@@ -27,11 +27,32 @@
     integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous" />
   <link rel="stylesheet" href="%PUBLIC_URL%/highlight.js/10.2.1/styles/googlecode.min.css" />
   <link rel="stylesheet" href="%PUBLIC_URL%/highlight.js/10.2.1/styles/github-gist.min.css" />
+  <script src="monaco-editor/min/vs/loader.js"></script>
   <title>Append Editor</title>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="container" style="width: 800px; height: 600px; border: 1px solid grey"></div>
+  <script>
+    require.config({ paths: { vs: 'monaco-editor/min/vs' } });
+
+    require(['vs/editor/editor.main'], function () {
+      const originalModel = monaco.editor.createModel(
+        'heLLo world!',
+        'python'
+      );
+      const modifiedModel = monaco.editor.createModel(
+        'hello orlando!',
+        'python'
+      );
+      var diffEditor = monaco.editor.createDiffEditor(document.getElementById('container'));
+      diffEditor.setModel({
+        original: originalModel,
+        modified: modifiedModel
+      });
+    });
+  </script>
   <div id="root"></div>
   <!--
       This HTML file is a template.

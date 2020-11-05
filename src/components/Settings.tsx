@@ -236,6 +236,32 @@ export default class Settings extends React.Component<any, ChildState> {
   render() {
     //<h3>↶</h3>
     const { title, onCancel, confirmText, cancelText, helpLink } = this.props;
+    const scriptElement = document.createElement('script');
+    scriptElement.innerHTML = `    require.config({ paths: { vs: 'monaco-editor/min/vs' } });
+
+    require(['vs/editor/editor.main'], function () {
+      const originalModel = monaco.editor.createModel(
+        'heLLo world!',
+        'python'
+      );
+      const modifiedModel = monaco.editor.createModel(
+        'hello orlando!',
+        'python'
+      );
+      var diffEditor = monaco.editor.createDiffEditor(document.getElementById('diff-container'));
+      diffEditor.setModel({
+        original: originalModel,
+        modified: modifiedModel
+      });
+    });`;
+    const styleElement = document.createElement('div');
+    styleElement.setAttribute('id', 'diff-container');
+    styleElement.setAttribute(
+      'style',
+      'width: 800px; height: 600px; border: 1px solid grey'
+    );
+    document.body.appendChild(styleElement);
+    document.head.appendChild(scriptElement);
     return (
       <div id="settings" className="sk-panel main settings">
         <div className="sk-panel-content">
@@ -569,7 +595,7 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              {this.state.showCustomStyles && (
+              {!this.state.showCustomStyles && (
                 <MonacoEditor
                   tabSize={2}
                   text={this.state.customStyles}

@@ -131,3 +131,4 @@ yarn-debug.log*
 yarn-error.log*
 
 ext.json
+public/monaco-editor

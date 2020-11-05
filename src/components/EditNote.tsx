@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppendInterface } from './AppendEditor';
-import { MonacoEditor } from './Monaco';
+import DiffEditor, { MonacoEditor, MonacoDiffEditor } from './Monaco';
 
 const editTextAreaID = 'editTextArea';
 
@@ -82,7 +82,7 @@ export default class EditNote extends React.Component<any, ChildState> {
       >
         <div className={'sk-panel-content edit'}>
           {this.props.useMonacoEditor ? (
-            <MonacoEditor text={text} saveText={this.saveText} />
+            [<DiffEditor />]
           ) : (
             <textarea
               id={editTextAreaID}
