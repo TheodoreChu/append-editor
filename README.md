@@ -53,21 +53,30 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 ## Installation
 
 1. Register for an account at Standard Notes using the [Desktop App](https://standardnotes.org/download) or [Web app](https://app.standardnotes.org). Remember to use a strong and memorable password.
-1. Click **Extensions** in the lower left corner.
-1. Click **Import Extension**.
-1. Paste this into the box:
+2. In the bottom left corner of the app, click **Extensions**.
+3. Click **Import Extension**.
+4. To install the Beta version, paste this into the input box:
    ```
    https://notes.theochu.com/p/mEyBECVK7i
    ```
-1. To use Alpha, use this link on **desktop**:
+   or paste this into the input box on **desktop**:
+   ```
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+   ```
+5. To install the Alpha version, paste this into the input box:
+   ```
+   https://notes.theochu.com/p/wVH1OyOI0Y
+   ```
+   or paste this into the input box on **desktop**:
    ```
    https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/alpha.ext.json
    ```
-1. Press Enter or Return on your keyboard.
-1. Click **Install**.
-1. At the top of your note, click **Editor**, then click **Append Editor - Beta**.
+6. Press Enter or Return on your keyboard.
+7. Click **Install**.
+8. At the top of your note, click **Editor**, then click **Append Editor - Beta** (or **Alpha**).
+9. When prompted to activate the extension, click **Continue**.
 
-After you have installed the editor on the web or desktop app, it will automatically sync to your [mobile app](https://standardnotes.org/download) after you log in.
+After you have installed the editor on the web or desktop app, it will automatically sync to your [mobile app](https://standardnotes.org/download) after you sign in.
 
 ## Keyboard Shortcuts
 
