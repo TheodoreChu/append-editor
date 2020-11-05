@@ -54,7 +54,7 @@ const newParagraphID = 'newParagraph';
 
 const initialState = {
   text: '',
-  appendNewLine: true,
+  appendNewLine: false,
   appendNewParagraph: false,
   appendMode: false,
   appendRows: 8,

@@ -177,43 +177,115 @@ export default class ViewNote extends React.Component<any, ChildState> {
                   {this.state.showHelp && [
                     <div className="note-content">
                       <hr></hr>
+                      <h2>Append Editor Help</h2>
+                      <p>
+                        The Append Editor is an <b>unofficial</b>{' '}
+                        <a
+                          href="https://standardnotes.org/help/77/what-are-editors"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          Custom Editor
+                        </a>{' '}
+                        for{' '}
+                        <a
+                          href="https://standardnotes.org/"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          Standard Notes
+                        </a>
+                        , a free, open-source, and{' '}
+                        <a
+                          href="https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          end-to-end encrypted
+                        </a>{' '}
+                        notes app. The source code is available on{' '}
+                        <a
+                          href="https://github.com/TheodoreChu/append-editor"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          GitHub
+                        </a>
+                        .
+                      </p>
                       <h3>How do I use the Append Editor?</h3>
-                      This editor supports{' '}
-                      <a
-                        href="https://guides.github.com/features/mastering-markdown/"
-                        target="_blank"
-                        rel="nofollow noreferrer noopener"
-                      >
-                        Markdown
-                      </a>
-                      ,{' '}
-                      <a
-                        href="https://katex.org/docs/support_table.html"
-                        target="_blank"
-                        rel="nofollow noreferrer noopener"
-                      >
-                        KaTeX
-                      </a>
-                      , and{' '}
-                      <a
-                        href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md"
-                        target="_blank"
-                        rel="nofollow noreferrer noopener"
-                      >
-                        emoji codes
-                      </a>
-                      , syntax highlighting, in-line HTML, table of contents,
-                      footnotes, auto-linking, printing, and more. For the full
-                      list of features and keyboard shortcuts, please visit the
-                      documentation at{' '}
-                      <a
-                        href="https://appendeditor.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        appendeditor.com
-                      </a>
-                      .<h3>What do I write about?</h3>
+                      <p>
+                        This editor supports{' '}
+                        <a
+                          href="https://guides.github.com/features/mastering-markdown/"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          Markdown
+                        </a>
+                        ,{' '}
+                        <a
+                          href="https://katex.org/docs/support_table.html"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          KaTeX
+                        </a>
+                        , and{' '}
+                        <a
+                          href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          emoji codes
+                        </a>
+                        , syntax highlighting, in-line HTML, table of contents,
+                        footnotes, auto-linking, printing, and more. For the
+                        full list of features and keyboard shortcuts, please
+                        visit the documentation at{' '}
+                        <a
+                          href="https://appendeditor.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          appendeditor.com
+                        </a>
+                        .
+                      </p>
+                      <h3>
+                        How do I Install the Append Editor in Standard Notes?
+                      </h3>
+                      <ol>
+                        <li>
+                          Download and sign into the Standard Notes{' '}
+                          <a
+                            href="https://standardnotes.org/download"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Desktop
+                          </a>{' '}
+                          app.
+                        </li>
+                        <li>
+                          In the bottom left hand corner of the app, click{' '}
+                          <b>Extensions</b>.
+                        </li>
+                        <li>
+                          Click <b>Import Extensions</b> and paste the following
+                          link into the input box. If you want to use the alpha
+                          version, replace <code>beta</code> with{' '}
+                          <code>alpha</code>:{' '}
+                          <a
+                            href="https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+                          </a>
+                        </li>
+                      </ol>
+                      <h3>What do I write about?</h3>
                       Here are some questions to help you get started:
                       <ul>
                         <li>How are you? What's happening?</li>
@@ -288,10 +360,10 @@ export default class ViewNote extends React.Component<any, ChildState> {
                       </ul>
                       <details onToggle={this.onToggleShowFeedback}>
                         <summary>
-                          <p className="link">Give feedback</p>
+                          <p className="link">Need more help?</p>
                         </summary>
                         {this.state.showFeedback && [
-                          <div>
+                          <p>
                             Feel free to{' '}
                             <a
                               href="https://appendeditor.com/contact"
@@ -305,9 +377,21 @@ export default class ViewNote extends React.Component<any, ChildState> {
                             <span role="img" aria-label="wave emoji">
                               👋
                             </span>
-                            <br></br>
-                            <br></br>
-                          </div>,
+                            <br />
+                            If you find any bugs or have a feature request,
+                            please{' '}
+                            <a
+                              href="https://github.com/TheodoreChu/append-editor/issues"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              open an issue on GitHub
+                            </a>
+                            .{' '}
+                            <span role="img" aria-label="smile emoji">
+                              🙂
+                            </span>
+                          </p>,
                         ]}
                       </details>
                       Click&nbsp;

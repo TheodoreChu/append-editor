@@ -2,8 +2,6 @@
 @import '~codemirror/lib/codemirror.css';
 @import '~codemirror/addon/dialog/dialog.css';
 @import '~codemirror/addon/search/matchesonscrollbar.css';
-//@import '~codemirrordialog';
-//@import '~codemirrormatchesonscrollbar';
 
 :root {
   --sn-stylekit-font-size-editor: 16px;
@@ -339,7 +337,7 @@ button:focus {
 #renderedNote > div > :nth-child(1) {
   margin-top: 0px;
 }
-
+.note-content,
 #renderedNote,
 #settings {
   code,
