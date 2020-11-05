@@ -1,9 +1,9 @@
 {
   "identifier": "com.append-editor.dev",
-  "name": "Append Editor - Beta Local",
+  "name": "Append Editor - Develop Local",
   "content_type": "SN|Component",
   "area": "editor-editor",
-  "version": "1.1.0",
+  "version": "1.1.0-alpha.1",
   "description": "Append to your notes",
   "url": "http://localhost:3000/index.html",
   "download_url": "",
