@@ -257,7 +257,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
                       </h3>
                       <ol>
                         <li>
-                          Download and sign into the Standard Notes{' '}
+                          Download, install, and sign in to the Standard Notes{' '}
                           <a
                             href="https://standardnotes.org/download"
                             target="_blank"
@@ -268,7 +268,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
                           app.
                         </li>
                         <li>
-                          In the bottom left hand corner of the app, click{' '}
+                          In the bottom left corner of the app, click{' '}
                           <b>Extensions</b>.
                         </li>
                         <li>
@@ -276,13 +276,15 @@ export default class ViewNote extends React.Component<any, ChildState> {
                           link into the input box. If you want to use the alpha
                           version, replace <code>beta</code> with{' '}
                           <code>alpha</code>:{' '}
-                          <a
-                            href="https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
-                          </a>
+                          <code>
+                            <a
+                              href="https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+                            </a>
+                          </code>
                         </li>
                       </ol>
                       <h3>What do I write about?</h3>
