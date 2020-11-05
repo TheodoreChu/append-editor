@@ -18,7 +18,7 @@
 
 The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, open-source, and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
 
-You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com) the alpha demo at [dev.appendeditor.com](https://dev.appendeditor.com).
+You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com) the alpha demo at [alpha.appendeditor.com](https://alpha.appendeditor.com).
 
 The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in 'read/view only' mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
@@ -58,6 +58,10 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 1. Paste this into the box:
    ```
    https://notes.theochu.com/p/mEyBECVK7i
+   ```
+1. To use Alpha, use this link on **desktop**:
+   ```
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/alpha.ext.json
    ```
 1. Press Enter or Return on your keyboard.
 1. Click **Install**.

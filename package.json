@@ -19,7 +19,7 @@
     "url": "https://github.com/TheodoreChu/append-editor/issues"
   },
   "sn": {
-    "main": "index.html"
+    "main": "build/index.html"
   },
   "homepage": ".",
   "scripts": {

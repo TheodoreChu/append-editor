@@ -117,7 +117,8 @@ dist
 /coverage
 
 # production
-/build
+# build is enable for Standard Notes
+# /build
 
 # misc
 .DS_Store
@@ -129,5 +130,3 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-ext.json
