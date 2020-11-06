@@ -33,11 +33,16 @@ interface ChildState {
   [x: string]: string | boolean;
 }
 
+const startRegExp = new RegExp(/```css\n/gm);
+const cssRegExp = new RegExp(/```css/gm);
+const endRegExp = new RegExp(/\n```/gm);
+const codeRegExp = new RegExp(/```/gm);
+
 export default class Settings extends React.Component<any, ChildState> {
   constructor(props: PropsState) {
     super(props);
     this.state = {
-      customStyles: this.props.customStyles,
+      customStyles: '```css\n' + this.props.customStyles + '\n```',
       fontEdit: this.props.fontEdit,
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
@@ -59,6 +64,14 @@ export default class Settings extends React.Component<any, ChildState> {
     if (this.props.debugMode) {
       console.log('Settings event name: ' + event.target.name);
     }
+  };
+
+  cleanCustomStyles = (text: string) => {
+    return text
+      .replace(startRegExp, '')
+      .replace(cssRegExp, '')
+      .replace(endRegExp, '')
+      .replace(codeRegExp, '');
   };
 
   saveText = (text: string) => {
@@ -84,7 +97,10 @@ export default class Settings extends React.Component<any, ChildState> {
         fontViewMessage = this.state.fontView;
       }
       console.log(
-        'Your useCodeMirror is: ' +
+        'Your useMonacoEditor is: ' +
+          this.state.useMonacoEditor +
+          '\n' +
+          'Your useCodeMirror is: ' +
           this.state.useCodeMirror +
           '\n' +
           'Your chosen font for Edit/Append is: ' +
@@ -95,28 +111,39 @@ export default class Settings extends React.Component<any, ChildState> {
           '\n'
       );
     }
-    const {
-      customStyles,
-      fontEdit,
-      fontSize,
-      fontView,
-      useCodeMirror,
-      useMonacoEditor,
-    } = this.state;
-    this.props.onConfirm(
-      { customStyles },
-      { fontEdit },
-      { fontSize },
-      { fontView },
-      { useCodeMirror },
-      { useMonacoEditor }
+    this.setState(
+      {
+        // clean the custom styles prior to saving them
+        customStyles: this.cleanCustomStyles(this.state.customStyles),
+      },
+      () => {
+        if (this.props.debugMode) {
+          console.log('Your custom styles: ' + this.state.customStyles);
+        }
+        const {
+          customStyles,
+          fontEdit,
+          fontSize,
+          fontView,
+          useCodeMirror,
+          useMonacoEditor,
+        } = this.state;
+        this.props.onConfirm(
+          { customStyles },
+          { fontEdit },
+          { fontSize },
+          { fontView },
+          { useCodeMirror },
+          { useMonacoEditor }
+        );
+      }
     );
   };
 
   clearCustomStyles = () => {
     this.setState(
       {
-        customStyles: '```css\n\n\n\n```',
+        customStyles: '```css\n\n```',
       },
       () => {
         this.setState(
@@ -127,6 +154,7 @@ export default class Settings extends React.Component<any, ChildState> {
             this.setState({
               showCustomStyles: !this.state.showCustomStyles,
             });
+            console.log('customStyles reset: ' + this.state.customStyles);
           }
         );
       }
