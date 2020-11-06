@@ -58,7 +58,7 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   id = MonacoEditorContainerID,
   language = 'markdown',
   saveText,
-  tabSize = 4,
+  tabSize = 2,
   text,
   theme = 'vs-dark',
 }) => {
