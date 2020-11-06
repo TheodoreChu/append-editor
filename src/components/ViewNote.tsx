@@ -393,6 +393,8 @@ export default class ViewNote extends React.Component<any, ChildState> {
                             <span role="img" aria-label="smile emoji">
                               🙂
                             </span>
+                            <br />
+                            You are using version <code>1.1.0-alpha.4</code>.
                           </p>,
                         ]}
                       </details>
