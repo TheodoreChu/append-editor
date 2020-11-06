@@ -48,7 +48,7 @@ export default class Settings extends React.Component<any, ChildState> {
       fontView: this.props.fontView,
       useCodeMirror: this.props.useCodeMirror,
       useMonacoEditor: this.props.useMonacoEditor,
-      showCustomStyles: true,
+      showCustomStyles: false, // false by default for a mobile-first experience
     };
     //this.handleInputChange = this.handleInputChange.bind(this);
     //this.handleSubmit = this.handleSubmit.bind(this);
@@ -64,6 +64,12 @@ export default class Settings extends React.Component<any, ChildState> {
     if (this.props.debugMode) {
       console.log('Settings event name: ' + event.target.name);
     }
+  };
+
+  toggleShowCustomStyles = () => {
+    this.setState({
+      showCustomStyles: !this.state.showCustomStyles,
+    });
   };
 
   cleanCustomStyles = (text: string) => {
@@ -574,13 +580,11 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <div>
-                Add custom styles (CSS) between <code>```css</code> and{' '}
-                <code>```</code>: &nbsp;
-                <button
-                  onClick={this.clearCustomStyles}
-                  title="Reset font for View/Print"
-                >
+              <button
+                className="toggle-button"
+                onClick={this.toggleShowCustomStyles}
+              >
+                {this.state.showCustomStyles ? (
                   <svg
                     width="20"
                     height="20"
@@ -589,23 +593,63 @@ export default class Settings extends React.Component<any, ChildState> {
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                      d="M6.17622 7.15015L10.0012 10.9751L13.8262 7.15015L15.0012 8.33348L10.0012 13.3335L5.00122 8.33348L6.17622 7.15015Z"
                       fill={'var(--sn-stylekit-foreground-color)'}
                     />
                   </svg>
-                </button>
-              </div>
+                ) : (
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.90918 14.0667L10.7342 10.2417L6.90918 6.4167L8.09251 5.2417L13.0925 10.2417L8.09251 15.2417L6.90918 14.0667Z"
+                      fill={'var(--sn-stylekit-foreground-color)'}
+                    />
+                  </svg>
+                )}
+                <p className={'button-caption'}>Add custom styles (CSS)</p>
+              </button>
             </section>
             <section className="sk-panel-row settings">
-              {this.state.showCustomStyles && (
+              {' '}
+              {this.state.showCustomStyles && [
+                <div>
+                  Add CSS between <code>```css</code> and <code>```</code> (they
+                  are removed automatically): &nbsp;
+                  <button
+                    onClick={this.clearCustomStyles}
+                    title="Reset font for View/Print"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                        fill={'var(--sn-stylekit-foreground-color)'}
+                      />
+                    </svg>
+                  </button>
+                </div>,
+              ]}
+            </section>
+            <section className="sk-panel-row settings">
+              {this.state.showCustomStyles && [
                 <MonacoEditor
                   tabSize={2}
                   text={this.state.customStyles}
                   onKeyDown={this.onKeyDown}
                   onKeyUp={this.onKeyUp}
                   saveText={this.saveText}
-                />
-              )}
+                />,
+              ]}
             </section>
           </div>
         </div>
