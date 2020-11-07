@@ -95,7 +95,6 @@ export default class EditNote extends React.Component<any, ChildState> {
               onChange={this.handleInputChange}
               onKeyDown={this.onKeyDown}
               onKeyUp={this.onKeyUp}
-              //type="text"
               style={{ fontFamily: this.props.fontEdit }}
             />
           )}

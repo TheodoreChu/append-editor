@@ -5,6 +5,7 @@ import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
 
 import { AppendInterface } from './AppendEditor';
+
 const gfm = require('remark-gfm');
 const breaks = require('remark-breaks');
 const math = require('remark-math');
@@ -147,7 +148,6 @@ export default class ViewNote extends React.Component<any, ChildState> {
                             role="button"
                             aria-label="toggle show help"
                             onClick={this.onToggleShowHelp}
-                            //title="Help"
                             width="20"
                             height="20"
                             viewBox="0 0 20 20"
@@ -403,7 +403,6 @@ export default class ViewNote extends React.Component<any, ChildState> {
                         role="button"
                         aria-label="toggle show help"
                         onClick={this.onToggleShowHelp}
-                        //title="Help"
                         width="20"
                         height="20"
                         viewBox="0 0 20 20"

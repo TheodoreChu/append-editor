@@ -91,6 +91,7 @@ export default class AppendText extends React.Component<any, ChildState> {
     if (appendTextArea) {
       appendTextArea.focus();
     }
+    // Refresh Monaco Editor after appending text to note
     if (this.state.useMonacoEditor) {
       this.setState(
         {
@@ -178,7 +179,6 @@ export default class AppendText extends React.Component<any, ChildState> {
               onKeyDown={this.onKeyDown}
               onKeyUp={this.onKeyUp}
               style={{ fontFamily: this.props.fontEdit }}
-              //type="text"
             />
           )}
         </div>

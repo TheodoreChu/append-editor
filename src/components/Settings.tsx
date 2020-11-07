@@ -12,7 +12,6 @@ const resetAllSettingsID = 'resetAllSettings';
 
 interface PropsState extends AppendInterface {
   onConfirm: Function;
-  /* For passing to child components */
   debugMode: boolean;
   keyMap: any;
   onCancel: any;
@@ -241,8 +240,8 @@ export default class Settings extends React.Component<any, ChildState> {
     this.clearFontView();
     this.clearFontEdit();
     this.clearFontSize();
-    this.clearUseMonacoEditor();
     this.clearUseCodeMirror();
+    this.clearUseMonacoEditor();
     const resetAllSettings = document.getElementById(resetAllSettingsID);
     if (resetAllSettings) {
       resetAllSettings.focus();
@@ -644,8 +643,8 @@ export default class Settings extends React.Component<any, ChildState> {
                 <p className={'button-caption'}>Add custom styles (CSS)</p>
               </button>
             </section>
-            <section className="sk-panel-row settings">
-              {this.state.showCustomStyles && [
+            {this.state.showCustomStyles && [
+              <section className="sk-panel-row settings">
                 <div className="text-and-undo-button">
                   <p>
                     Add CSS between <code>```css</code> and <code>```</code>{' '}
@@ -670,20 +669,20 @@ export default class Settings extends React.Component<any, ChildState> {
                       </svg>
                     </span>
                   </button>
-                </div>,
-              ]}
-            </section>
-            <section className="sk-panel-row settings">
-              {this.state.showCustomStyles && [
+                </div>
+              </section>,
+            ]}
+            {this.state.showCustomStyles && [
+              <section className="sk-panel-row settings">
                 <MonacoEditor
                   tabSize={2}
                   text={this.state.customStyles}
                   onKeyDown={this.onKeyDown}
                   onKeyUp={this.onKeyUp}
                   saveText={this.saveText}
-                />,
-              ]}
-            </section>
+                />
+              </section>,
+            ]}
           </div>
         </div>
         <div className="sk-panel-footer">
