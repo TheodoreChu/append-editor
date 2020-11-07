@@ -41,7 +41,6 @@ const appendixID = 'appendix';
 
 const editTextAreaID = 'editTextArea';
 const appendTextAreaID = 'appendTextArea';
-const MonacoEditorContainerID = 'MonacoEditorContainer';
 
 const newLineID = 'newLine';
 const newParagraphID = 'newParagraph';
@@ -106,6 +105,7 @@ export interface AppendInterface {
   showAppendix: boolean;
   showHeader: boolean;
   showHelp: boolean;
+  showMenu?: boolean;
   settingsMode: boolean;
   useCodeMirror: boolean;
   useMonacoEditor: boolean;
@@ -361,7 +361,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           lineWrapping: true,
           mode: 'gfm',
           spellcheck: true,
-          //styleSelectedText: true,
+          //@ts-ignore
+          styleSelectedText: true,
           tabindex: 0,
           theme: 'default',
           value: this.state.text,
@@ -403,7 +404,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           lineWrapping: true,
           mode: 'gfm',
           spellcheck: true,
-          //styleSelectedText: true,
+          //@ts-ignore
+          styleSelectedText: true,
           tabindex: 0,
           theme: 'default',
           value: this.state.appendText,
@@ -492,9 +494,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       );
     } else if (this.state.editMode) {
       /**If edit mode is on and
-       * print mode and use codemirror are off,
-       * then turn edit mode off and turn view mode on
-       * this automatically renders the text
+       * print mode is off, and Monaco Editor is off,
+       * then turn edit mode off and turn view mode on.
+       * This automatically renders the text. We do not
+       * do this when Monaco is on because refreshing edit Mode
+       * with Monaco Editor off allows resizing the Monaco Editor.
        */
       if (!this.state.printMode && !this.state.useMonacoEditor) {
         this.setState({
@@ -556,7 +560,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           appendMode: false,
         },
         () => {
-          this.refreshEdit();
+          if (this.state.useMonacoEditor) {
+            this.refreshEdit();
+          }
           if (focus) {
             const appendButton = document.getElementById(appendButtonID);
             if (appendButton) {
@@ -643,6 +649,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         }
       }
     );
+  };
+
+  onToggleShowMenu = () => {
+    this.setState({
+      showMenu: !this.state.showMenu,
+    });
   };
 
   onSettingsMode = () => {
