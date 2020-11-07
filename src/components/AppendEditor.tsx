@@ -622,6 +622,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           if (this.state.useMonacoEditor) {
             this.refreshEdit();
           }
+          if (!this.state.editMode && !this.state.appendMode) {
+            this.onEditMode();
+          }
         }
       );
     }
