@@ -429,9 +429,15 @@ button:focus {
     }
     &.toggle-button {
       padding-left: 0px;
+      display: flex;
+    }
+    svg,
+    .button-caption {
+      line-height: 20px;
+      margin-top: 5px;
+      margin-bottom: 5px;
     }
     .button-caption {
-      display: inline;
       color: var(--sn-stylekit-foreground-color);
     }
     .sk-label {
