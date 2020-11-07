@@ -75,7 +75,6 @@ const initialState = {
   settingsMode: false,
   useCodeMirror: false,
   useMonacoEditor: false,
-  viewMode: true,
 };
 
 const debugMode = false;
@@ -110,7 +109,7 @@ export interface AppendInterface {
   settingsMode: boolean;
   useCodeMirror: boolean;
   useMonacoEditor: boolean;
-  viewMode: boolean;
+  viewMode?: boolean;
 }
 
 export default class AppendEditor extends React.Component<{}, AppendInterface> {
@@ -121,6 +120,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.configureEditorKit();
     this.state = initialState;
   }
+
+  componentDidMount = () => {
+    if (!this.state.text && !this.state.appendText) {
+      this.setState({ viewMode: true });
+    }
+  };
 
   configureEditorKit = () => {
     let delegate = new EditorKitDelegate({
@@ -182,18 +187,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         });
       }
       // Finally, load appendText
-      this.setState(
-        {
-          appendText: note.content.appendText,
-          loadedMetaData: true,
-        },
-        () => {
-          const scrollDown = false;
-          const closeEdit = false;
-          const focus = false;
-          this.onAppendMode(scrollDown, closeEdit, focus);
-        }
-      );
+      this.setState({
+        appendText: note.content.appendText,
+        loadedMetaData: true,
+      });
       if (debugMode) {
         console.log('loaded append text: ' + this.state.appendText);
         console.log('loaded append newline: ' + this.state.appendNewLine);
