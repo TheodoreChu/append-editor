@@ -455,41 +455,43 @@ export default class Settings extends React.Component<any, ChildState> {
                 </button>
               </div>
             </section>
-            <section className="sk-panel-row settings">
-              <label htmlFor={useCodeMirrorID}>
-                Enable in-line formatting with CodeMirror:{' '}
-              </label>
-              <div>
-                <label>
-                  <input
-                    id={useCodeMirrorID}
-                    name={useCodeMirrorID}
-                    type="checkbox"
-                    checked={this.state.useCodeMirror}
-                    onChange={this.handleInputChange}
-                  />
+            {!this.state.useMonacoEditor && [
+              <section className="sk-panel-row settings">
+                <label htmlFor={useCodeMirrorID}>
+                  Enable in-line formatting with CodeMirror:{' '}
                 </label>
-                <button
-                  onClick={this.clearUseCodeMirror}
-                  title="Turn off CodeMirror"
-                >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </section>
+                <div>
+                  <label>
+                    <input
+                      id={useCodeMirrorID}
+                      name={useCodeMirrorID}
+                      type="checkbox"
+                      checked={this.state.useCodeMirror}
+                      onChange={this.handleInputChange}
+                    />
+                  </label>
+                  <button
+                    onClick={this.clearUseCodeMirror}
+                    title="Turn off CodeMirror"
+                  >
+                    <span className="undo-button">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                          fill={'var(--sn-stylekit-foreground-color)'}
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </section>,
+            ]}
             <section className="sk-panel-row settings">
               <label htmlFor={fontSizeID}>Choose a base font size: </label>
               <div>
