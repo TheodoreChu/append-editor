@@ -160,7 +160,9 @@ export default class Settings extends React.Component<any, ChildState> {
             this.setState({
               showCustomStyles: !this.state.showCustomStyles,
             });
-            console.log('customStyles reset: ' + this.state.customStyles);
+            if (this.props.debugMode) {
+              console.log('customStyles reset: ' + this.state.customStyles);
+            }
           }
         );
       }
@@ -179,8 +181,10 @@ export default class Settings extends React.Component<any, ChildState> {
       fontEdit: '',
     });
     const fontEdit = document.getElementById(fontEditID) as HTMLTextAreaElement;
-    fontEdit.value = '';
-    fontEdit.focus();
+    if (fontEdit) {
+      fontEdit.value = '';
+      fontEdit.focus();
+    }
   };
 
   clearFontSize = () => {
@@ -188,8 +192,10 @@ export default class Settings extends React.Component<any, ChildState> {
       fontSize: '',
     });
     const fontSize = document.getElementById(fontSizeID) as HTMLTextAreaElement;
-    fontSize.value = '';
-    fontSize.focus();
+    if (fontSize) {
+      fontSize.value = '';
+      fontSize.focus();
+    }
   };
 
   clearFontView = () => {
@@ -197,8 +203,10 @@ export default class Settings extends React.Component<any, ChildState> {
       fontView: '',
     });
     const fontView = document.getElementById(fontViewID) as HTMLTextAreaElement;
-    fontView.value = '';
-    fontView.focus();
+    if (fontView) {
+      fontView.value = '';
+      fontView.focus();
+    }
   };
 
   clearUseCodeMirror = () => {
@@ -208,8 +216,10 @@ export default class Settings extends React.Component<any, ChildState> {
     const useCodeMirror = document.getElementById(
       useCodeMirrorID
     ) as HTMLInputElement;
-    useCodeMirror.checked = false;
-    useCodeMirror.focus();
+    if (useCodeMirror) {
+      useCodeMirror.checked = false;
+      useCodeMirror.focus();
+    }
   };
 
   clearUseMonacoEditor = () => {
@@ -219,8 +229,10 @@ export default class Settings extends React.Component<any, ChildState> {
     const useMonacoEditor = document.getElementById(
       useMonacoEditorID
     ) as HTMLInputElement;
-    useMonacoEditor.checked = false;
-    useMonacoEditor.focus();
+    if (useMonacoEditor) {
+      useMonacoEditor.checked = false;
+      useMonacoEditor.focus();
+    }
   };
 
   clearAllSettings = () => {
