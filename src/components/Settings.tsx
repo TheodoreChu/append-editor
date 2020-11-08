@@ -216,7 +216,7 @@ export default class Settings extends React.Component<any, ChildState> {
     this.setState({
       fontSize: '',
     });
-    const fontSize = document.getElementById(fontSizeID) as HTMLTextAreaElement;
+    const fontSize = document.getElementById(fontSizeID) as HTMLSelectElement;
     if (fontSize) {
       fontSize.value = '';
       fontSize.focus();
@@ -398,31 +398,6 @@ export default class Settings extends React.Component<any, ChildState> {
               <option value="Verdana" />
               <option value="Yu Gothic" />
             </datalist>
-            <datalist id="fontSizes">
-              <option value="8px" />
-              <option value="9px" />
-              <option value="10px" />
-              <option value="11px" />
-              <option value="12px" />
-              <option value="13px" />
-              <option value="14px" />
-              <option value="15px" />
-              <option value="16px" />
-              <option value="17px" />
-              <option value="18px" />
-              <option value="19px" />
-              <option value="20px" />
-              <option value="21px" />
-              <option value="22px" />
-              <option value="23px" />
-              <option value="24px" />
-              <option value="25px" />
-              <option value="26px" />
-              <option value="27px" />
-              <option value="28px" />
-              <option value="29px" />
-              <option value="30px" />
-            </datalist>
             <div className="sk-panel-row title-section">
               <h1>{title}</h1>
               <button id="undoDialog" onClick={onCancel} title="Close">
@@ -507,7 +482,7 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <label htmlFor={useMonacoEditorID}>
+              <label htmlFor={MonacoEditorLanguageID}>
                 Monaco Editor Language:{' '}
               </label>
               <div>
@@ -652,15 +627,41 @@ export default class Settings extends React.Component<any, ChildState> {
             <section className="sk-panel-row settings">
               <label htmlFor={fontSizeID}>Choose a base font size: </label>
               <div>
-                <input
-                  list="fontSizes"
-                  id={fontSizeID}
-                  name={fontSizeID}
-                  value={this.state.fontSize}
-                  onChange={this.handleInputChange}
-                  onKeyDown={this.onKeyDown}
-                  onKeyUp={this.onKeyUp}
-                />
+                <label>
+                  <select
+                    id={fontSizeID}
+                    name={fontSizeID}
+                    value={this.state.fontSize}
+                    onChange={this.handleSelectChange}
+                  >
+                    <option></option>
+                    <option>6px</option>
+                    <option>7px</option>
+                    <option>8px</option>
+                    <option>9px</option>
+                    <option>10px</option>
+                    <option>11px</option>
+                    <option>12px</option>
+                    <option>13px</option>
+                    <option>14px</option>
+                    <option>15px</option>
+                    <option>16px</option>
+                    <option>17px</option>
+                    <option>18px</option>
+                    <option>19px</option>
+                    <option>20px</option>
+                    <option>21px</option>
+                    <option>22px</option>
+                    <option>23px</option>
+                    <option>24px</option>
+                    <option>25px</option>
+                    <option>26px</option>
+                    <option>27px</option>
+                    <option>28px</option>
+                    <option>29px</option>
+                    <option>30px</option>
+                  </select>
+                </label>
                 <button
                   onClick={this.clearFontSize}
                   title="Reset font size to 16px"
