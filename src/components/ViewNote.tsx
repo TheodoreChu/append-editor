@@ -394,7 +394,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
                               🙂
                             </span>
                             <br />
-                            You are using version <code>1.1.0-alpha.5</code>.
+                            You are using version <code>1.1.0-alpha.6</code>.
                           </p>,
                         ]}
                       </details>
