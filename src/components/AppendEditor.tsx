@@ -688,10 +688,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       this.setState(
         {
           ...this.state.currentState,
-          viewMode: true,
           settingsMode: false,
         },
         () => {
+          this.refreshEdit();
           const settingsButton = document.getElementById(settingsButtonID);
           if (settingsButton) {
             settingsButton.focus();
