@@ -6,7 +6,7 @@
   "version": "1.0.1",
   "description": "Append to your notes",
   "url": "https://beta.appendeditor.com",
-  "download_url": "https://github.com/TheodoreChu/append-editor/archive/1.0.1.zip",
+  "download_url": "https://github.com/TheodoreChu/append-editor/releases/download/1.0.1/append-editor-1.0.1.zip",
   "latest_url": "https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json",
   "marketing_url": "https://appendeditor.com",
   "thumbnail_url": ""
