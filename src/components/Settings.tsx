@@ -481,112 +481,114 @@ export default class Settings extends React.Component<any, ChildState> {
                 </button>
               </div>
             </section>
-            <section className="sk-panel-row settings">
-              <label htmlFor={MonacoEditorLanguageID}>
-                Monaco Editor Language:{' '}
-              </label>
-              <div>
-                <label>
-                  <select
-                    id={MonacoEditorLanguageID}
-                    name={MonacoEditorLanguageID}
-                    value={this.state.MonacoEditorLanguage}
-                    onChange={this.handleSelectChange}
-                  >
-                    <option>abap</option>
-                    <option>aes</option>
-                    <option>apex</option>
-                    <option>azcli</option>
-                    <option>bat</option>
-                    <option>c</option>
-                    <option>cameligo</option>
-                    <option>clojure</option>
-                    <option>coffeescript</option>
-                    <option>cpp</option>
-                    <option>csharp</option>
-                    <option>csp</option>
-                    <option>css</option>
-                    <option>dart</option>
-                    <option>dockerfile</option>
-                    <option>fsharp</option>
-                    <option>go</option>
-                    <option>graphql</option>
-                    <option>handlebars</option>
-                    <option>hcl</option>
-                    <option>html</option>
-                    <option>ini</option>
-                    <option>java</option>
-                    <option>javascript</option>
-                    <option>json</option>
-                    <option>julia</option>
-                    <option>kotlin</option>
-                    <option>less</option>
-                    <option>lexon</option>
-                    <option>lua</option>
-                    <option>markdown</option>
-                    <option>mips</option>
-                    <option>msdax</option>
-                    <option>mysql</option>
-                    <option>objective-c</option>
-                    <option>pascal</option>
-                    <option>pascaligo</option>
-                    <option>perl</option>
-                    <option>pgsql</option>
-                    <option>php</option>
-                    <option>plaintext</option>
-                    <option>postiats</option>
-                    <option>powerquery</option>
-                    <option>powershell</option>
-                    <option>pug</option>
-                    <option>python</option>
-                    <option>r</option>
-                    <option>razor</option>
-                    <option>redis</option>
-                    <option>redshift</option>
-                    <option>restructuredtext</option>
-                    <option>ruby</option>
-                    <option>rust</option>
-                    <option>sb</option>
-                    <option>scala</option>
-                    <option>scheme</option>
-                    <option>scss</option>
-                    <option>shell</option>
-                    <option>sol</option>
-                    <option>sql</option>
-                    <option>st</option>
-                    <option>swift</option>
-                    <option>systemverilog</option>
-                    <option>text/html</option>
-                    <option>tcl</option>
-                    <option>twig</option>
-                    <option>typescript</option>
-                    <option>vb</option>
-                    <option>verilog</option>
-                    <option>xml</option>
-                    <option>yaml</option>
-                  </select>
+            {this.state.useMonacoEditor && [
+              <section className="sk-panel-row settings">
+                <label htmlFor={MonacoEditorLanguageID}>
+                  Monaco Editor Language:{' '}
                 </label>
-                <button
-                  onClick={this.clearMonacoEditorLanguage}
-                  title="Reset Monaco Editor Language to Markdown "
-                >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
+                <div>
+                  <label>
+                    <select
+                      id={MonacoEditorLanguageID}
+                      name={MonacoEditorLanguageID}
+                      value={this.state.MonacoEditorLanguage}
+                      onChange={this.handleSelectChange}
                     >
-                      <path
-                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </section>
+                      <option>abap</option>
+                      <option>aes</option>
+                      <option>apex</option>
+                      <option>azcli</option>
+                      <option>bat</option>
+                      <option>c</option>
+                      <option>cameligo</option>
+                      <option>clojure</option>
+                      <option>coffeescript</option>
+                      <option>cpp</option>
+                      <option>csharp</option>
+                      <option>csp</option>
+                      <option>css</option>
+                      <option>dart</option>
+                      <option>dockerfile</option>
+                      <option>fsharp</option>
+                      <option>go</option>
+                      <option>graphql</option>
+                      <option>handlebars</option>
+                      <option>hcl</option>
+                      <option>html</option>
+                      <option>ini</option>
+                      <option>java</option>
+                      <option>javascript</option>
+                      <option>json</option>
+                      <option>julia</option>
+                      <option>kotlin</option>
+                      <option>less</option>
+                      <option>lexon</option>
+                      <option>lua</option>
+                      <option>markdown</option>
+                      <option>mips</option>
+                      <option>msdax</option>
+                      <option>mysql</option>
+                      <option>objective-c</option>
+                      <option>pascal</option>
+                      <option>pascaligo</option>
+                      <option>perl</option>
+                      <option>pgsql</option>
+                      <option>php</option>
+                      <option>plaintext</option>
+                      <option>postiats</option>
+                      <option>powerquery</option>
+                      <option>powershell</option>
+                      <option>pug</option>
+                      <option>python</option>
+                      <option>r</option>
+                      <option>razor</option>
+                      <option>redis</option>
+                      <option>redshift</option>
+                      <option>restructuredtext</option>
+                      <option>ruby</option>
+                      <option>rust</option>
+                      <option>sb</option>
+                      <option>scala</option>
+                      <option>scheme</option>
+                      <option>scss</option>
+                      <option>shell</option>
+                      <option>sol</option>
+                      <option>sql</option>
+                      <option>st</option>
+                      <option>swift</option>
+                      <option>systemverilog</option>
+                      <option>text/html</option>
+                      <option>tcl</option>
+                      <option>twig</option>
+                      <option>typescript</option>
+                      <option>vb</option>
+                      <option>verilog</option>
+                      <option>xml</option>
+                      <option>yaml</option>
+                    </select>
+                  </label>
+                  <button
+                    onClick={this.clearMonacoEditorLanguage}
+                    title="Reset Monaco Editor Language to Markdown "
+                  >
+                    <span className="undo-button">
+                      <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                          fill={'var(--sn-stylekit-foreground-color)'}
+                        />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </section>,
+            ]}
             {!this.state.useMonacoEditor && [
               <section className="sk-panel-row settings">
                 <label htmlFor={useCodeMirrorID}>
@@ -787,16 +789,10 @@ export default class Settings extends React.Component<any, ChildState> {
                     </svg>
                   </span>
                 )}
-                <p className={'button-caption'}>Add custom styles (CSS)</p>
+                <p className={'button-caption'}>Add custom styles (CSS):</p>
               </button>
-            </section>
-            {this.state.showCustomStyles && [
-              <section className="sk-panel-row settings">
+              {this.state.showCustomStyles && [
                 <div className="text-and-undo-button">
-                  <p>
-                    Add CSS between <code>```css</code> and <code>```</code>{' '}
-                    (they are removed automatically): &nbsp;
-                  </p>
                   <button
                     onClick={this.clearCustomStyles}
                     title="Reset custom styles (CSS)"
@@ -816,9 +812,9 @@ export default class Settings extends React.Component<any, ChildState> {
                       </svg>
                     </span>
                   </button>
-                </div>
-              </section>,
-            ]}
+                </div>,
+              ]}
+            </section>
             {this.state.showCustomStyles && [
               <section className="sk-panel-row settings">
                 <MonacoEditor

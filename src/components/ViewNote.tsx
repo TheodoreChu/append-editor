@@ -34,6 +34,12 @@ const processor = unified()
   .use(emoji)
   .use(rehype2react, { createElement: React.createElement });
 
+const languageProcessor = unified()
+  .use(parse)
+  .use(remark2rehype, { allowDangerousHtml: true })
+  .use(highlight, { ignoreMissing: true })
+  .use(rehype2react, { createElement: React.createElement });
+
 interface PropsState extends AppendInterface {
   keyMap: any;
 }
@@ -427,7 +433,17 @@ export default class ViewNote extends React.Component<any, ChildState> {
                     className="note-content"
                     style={{ fontFamily: this.props.fontView }}
                   >
-                    {processor.processSync(text).result as any}
+                    {this.props.useMonacoEditor &&
+                    this.props.MonacoEditorLanguage !== 'markdown' &&
+                    text
+                      ? (languageProcessor.processSync(
+                          '```' +
+                            this.props.MonacoEditorLanguage +
+                            '\n' +
+                            text +
+                            '\n```'
+                        ).result as any)
+                      : (processor.processSync(text).result as any)}
                   </div>
                 </div>
               </div>

@@ -1504,21 +1504,25 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {(this.state.viewMode || this.state.printMode) &&
             !this.state.refreshView && (
               <ViewNote
-                text={this.state.text}
-                showHelp={this.state.showHelp}
+                fontView={this.state.fontView}
+                MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 printMode={this.state.printMode}
                 printURL={this.state.printURL}
-                fontView={this.state.fontView}
+                showHelp={this.state.showHelp}
+                text={this.state.text}
+                useMonacoEditor={this.state.useMonacoEditor}
               />
             )}
           {(this.state.viewMode || this.state.printMode) &&
             this.state.refreshView && (
               <ViewNote
-                text={this.state.text}
-                showHelp={this.state.showHelp}
+                fontView={this.state.fontView}
+                MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 printMode={this.state.printMode}
                 printURL={this.state.printURL}
-                fontView={this.state.fontView}
+                showHelp={this.state.showHelp}
+                text={this.state.text}
+                useMonacoEditor={this.state.useMonacoEditor}
               />
             )}
           {this.state.confirmPrintURL && (
