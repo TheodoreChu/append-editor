@@ -163,8 +163,14 @@ export default class AppendText extends React.Component<any, ChildState> {
             : 'printModeOff')
         }
       >
-        <div className={'sk-panel-content edit'}>
+        <div
+          className={
+            'sk-panel-content edit ' +
+            (this.props.useMonacoEditor ? 'MonacoEditor' : '')
+          }
+        >
           {this.state.useMonacoEditor ? (
+            // We use this.state instead of this.props so we can easily refresh it on Append
             <MonacoEditor text={text} saveText={this.saveText} />
           ) : (
             <textarea

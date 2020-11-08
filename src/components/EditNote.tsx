@@ -80,7 +80,12 @@ export default class EditNote extends React.Component<any, ChildState> {
             : 'printModeOff')
         }
       >
-        <div className={'sk-panel-content edit'}>
+        <div
+          className={
+            'sk-panel-content edit ' +
+            (this.props.useMonacoEditor ? 'MonacoEditor' : '')
+          }
+        >
           {this.props.useMonacoEditor ? (
             <MonacoEditor text={text} saveText={this.saveText} />
           ) : (
