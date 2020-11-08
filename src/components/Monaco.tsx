@@ -10,6 +10,7 @@ import * as monaco from 'monaco-editor';
 
 const debugMode = false;
 const MonacoEditorContainerID = 'MonacoEditorContainer';
+const MonacoDiffEditorContainerID = 'MonacoDiffEditorContainer';
 
 /*eslint no-restricted-globals: ["error", "event", "monaco"]*/
 // @ts-ignore
@@ -71,15 +72,15 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
         value: [text].join('\n'),
         language: language,
         theme: theme,
-
-        autoClosingOvertype: 'auto',
-        wordWrap: 'on',
-        formatOnPaste: true,
-        formatOnType: true,
-
-        wrappingStrategy: 'advanced',
         fontSize: 16,
         tabSize: tabSize,
+
+        autoClosingOvertype: 'auto',
+        formatOnPaste: true,
+        formatOnType: true,
+        scrollBeyondLastLine: false,
+        wordWrap: 'on',
+        wrappingStrategy: 'advanced',
       });
       // Keyboard Events
       editor.onKeyDown((e: monaco.IKeyboardEvent) => {
@@ -105,4 +106,69 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
     };
   }, []);
   return <div id={id} className={MonacoEditorContainerID} ref={divEl}></div>;
+};
+
+interface MonacoDiffEditorTypes extends MonacoEditorTypes {
+  modifiedText: string;
+}
+
+export const MonacoDiffEditor: React.FC<MonacoDiffEditorTypes> = ({
+  id = MonacoDiffEditorContainerID,
+  language = 'markdown',
+  saveText,
+  text,
+  modifiedText,
+  theme = 'vs-dark',
+}) => {
+  const divEl = useRef<HTMLDivElement>(null);
+  let diffEditor: monaco.editor.IStandaloneDiffEditor;
+  useEffect(() => {
+    if (divEl.current) {
+      const originalModel = monaco.editor.createModel(
+        [text].join('\n'),
+        language
+      );
+      const modifiedModel = monaco.editor.createModel(
+        [modifiedText].join('\n'),
+        language
+      );
+
+      diffEditor = monaco.editor.createDiffEditor(divEl.current, {
+        // Same settings as above
+        theme: theme,
+        fontSize: 16,
+        // tabSize: tabSize, // not available in Diff Editor
+
+        autoClosingOvertype: 'auto',
+        formatOnPaste: true,
+        formatOnType: true,
+        scrollBeyondLastLine: false,
+        wordWrap: 'on',
+        wrappingStrategy: 'advanced',
+
+        // Specific to Diff Editor
+        originalEditable: true, // for left panel
+        readOnly: true, // for right panel
+      });
+      diffEditor.setModel({
+        original: originalModel,
+        modified: modifiedModel,
+      });
+
+      // Content Change Events
+      originalModel.onDidChangeContent(
+        (e: monaco.editor.IModelContentChangedEvent) => {
+          if (saveText) {
+            saveText(originalModel.getValue());
+          }
+        }
+      );
+    }
+    return () => {
+      diffEditor.dispose();
+    };
+  }, []);
+  return (
+    <div id={id} className={MonacoDiffEditorContainerID} ref={divEl}></div>
+  );
 };

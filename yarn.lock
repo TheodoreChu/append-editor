@@ -1785,7 +1785,7 @@
     "@svgr/plugin-svgo" "^5.4.0"
     loader-utils "^2.0.0"
 
-"@testing-library/dom@^7.26.4":
+"@testing-library/dom@^7.26.4", "@testing-library/dom@^7.26.5":
   version "7.26.5"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-7.26.5.tgz#804a74fc893bf6da1a7970dbca7b94c2bbfe983d"
   integrity sha512-2v/fv0s4keQjJIcD4bjfJMFtvxz5icartxUWdIZVNJR539WD9oxVrvIAPw+3Ydg4RLgxt0rvQx3L9cAjCci0Kg==
@@ -2076,10 +2076,10 @@
     "@types/prop-types" "*"
     csstype "^3.0.2"
 
-"@types/react@^16.9.55":
-  version "16.9.55"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.55.tgz#47078587f5bfe028a23b6b46c7b94ac0d436acff"
-  integrity sha512-6KLe6lkILeRwyyy7yG9rULKJ0sXplUsl98MGoCfpteXf9sPWFWWMknDcsvubcpaTdBuxtsLF6HDUwdApZL/xIg==
+"@types/react@^16.9.56":
+  version "16.9.56"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.56.tgz#ea25847b53c5bec064933095fc366b1462e2adf0"
+  integrity sha512-gIkl4J44G/qxbuC6r2Xh+D3CGZpJ+NdWTItAPmZbR5mUS+JQ8Zvzpl0ea5qT/ZT3ZNTUcDKUVqV3xBE8wv/DyQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"

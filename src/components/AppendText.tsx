@@ -171,7 +171,11 @@ export default class AppendText extends React.Component<any, ChildState> {
         >
           {this.state.useMonacoEditor ? (
             // We use this.state instead of this.props so we can easily refresh it on Append
-            <MonacoEditor text={text} saveText={this.saveText} />
+            <MonacoEditor
+              language={this.props.MonacoEditorLanguage}
+              saveText={this.saveText}
+              text={text}
+            />
           ) : (
             <textarea
               id={appendTextAreaID}

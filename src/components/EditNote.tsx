@@ -87,7 +87,11 @@ export default class EditNote extends React.Component<any, ChildState> {
           }
         >
           {this.props.useMonacoEditor ? (
-            <MonacoEditor text={text} saveText={this.saveText} />
+            <MonacoEditor
+              language={this.props.MonacoEditorLanguage}
+              saveText={this.saveText}
+              text={text}
+            />
           ) : (
             <textarea
               id={editTextAreaID}

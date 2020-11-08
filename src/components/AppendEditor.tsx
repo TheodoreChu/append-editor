@@ -5,6 +5,7 @@ import EditNote from './EditNote';
 import ViewNote from './ViewNote';
 import AppendText from './AppendText';
 import Settings from './Settings';
+import { MonacoDiffEditor } from './Monaco';
 
 import CodeMirror, { Editor } from 'codemirror';
 import 'codemirror/lib/codemirror';
@@ -64,6 +65,7 @@ const initialState = {
   fontSize: '',
   fontView: '',
   loadedMetaData: false,
+  MonacoEditorLanguage: 'markdown',
   printMode: false,
   printURL: true,
   refreshEdit: false,
@@ -71,6 +73,7 @@ const initialState = {
   showAppendix: true,
   showHeader: true,
   showHelp: false,
+  showDiff: false,
   settingsMode: false,
   useCodeMirror: false,
   useMonacoEditor: false,
@@ -98,11 +101,13 @@ export interface AppendInterface {
   fontView: string;
   keyMap?: Object;
   loadedMetaData: boolean;
+  MonacoEditorLanguage: string;
   printMode: boolean;
   printURL: boolean;
   refreshEdit: boolean;
   refreshView: boolean;
   showAppendix: boolean;
+  showDiff: boolean;
   showHeader: boolean;
   showHelp: boolean;
   showMenu?: boolean;
@@ -161,6 +166,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontEdit ||
         note.content.appendEditorFontSize ||
         note.content.appendEditorFontView ||
+        note.content.appendEditorMonacoEditorLanguage ||
         note.content.appendEditorUseCodeMirror ||
         note.content.appendEditorUseMonacoEditor
       ) {
@@ -170,6 +176,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontEdit: note.content.appendEditorFontEdit,
             fontSize: note.content.appendEditorFontSize,
             fontView: note.content.appendEditorFontView,
+            MonacoEditorLanguage: note.content.appendEditorMonacoEditorLanguage,
             useCodeMirror: note.content.appendEditorUseCodeMirror,
             useMonacoEditor: note.content.appendEditorUseMonacoEditor,
           },
@@ -213,7 +220,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         if (debugMode) {
-          console.log('saved text in AppendEditor.js: ' + this.state.text);
+          console.log('saved text in AppendEditor.tsx: ' + this.state.text);
         }
       }
     );
@@ -709,6 +716,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     { fontEdit }: AppendInterface,
     { fontSize }: AppendInterface,
     { fontView }: AppendInterface,
+    { MonacoEditorLanguage }: AppendInterface,
     { useCodeMirror }: AppendInterface,
     { useMonacoEditor }: AppendInterface
   ) => {
@@ -718,6 +726,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fontEdit,
         fontSize,
         fontView,
+        MonacoEditorLanguage,
         useCodeMirror,
         useMonacoEditor,
         showAppendix: true,
@@ -740,6 +749,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontEdit = fontEdit;
         note.content.appendEditorFontSize = fontSize;
         note.content.appendEditorFontView = fontView;
+        note.content.appendEditorMonacoEditorLanguage = MonacoEditorLanguage;
         note.content.appendEditorUseCodeMirror = useCodeMirror;
         note.content.appendEditorUseMonacoEditor = useMonacoEditor;
       });
@@ -1456,6 +1466,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               onCancel={this.onSettingsMode}
               appendRows={this.state.appendRows}
               title={`Append Editor Settings`}
+              MonacoEditorLanguage={this.state.MonacoEditorLanguage}
               useCodeMirror={this.state.useCodeMirror}
               useMonacoEditor={this.state.useMonacoEditor}
             />
@@ -1464,6 +1475,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             <EditNote
               fontEdit={this.state.fontEdit}
               keyMap={keyMap}
+              MonacoEditorLanguage={this.state.MonacoEditorLanguage}
               onKeyDown={this.onKeyDown}
               onKeyDownEditTextArea={this.onKeyDownEditTextArea}
               onKeyDownTextArea={this.onKeyDownTextArea}
@@ -1478,6 +1490,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             <EditNote
               fontEdit={this.state.fontEdit}
               keyMap={keyMap}
+              MonacoEditorLanguage={this.state.MonacoEditorLanguage}
               onKeyDown={this.onKeyDown}
               onKeyDownEditTextArea={this.onKeyDownEditTextArea}
               onKeyDownTextArea={this.onKeyDownTextArea}
@@ -1519,6 +1532,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               cancelText="No, thanks"
             />
           )}
+          {this.state.showDiff && [
+            <MonacoDiffEditor
+              text={this.state.text}
+              modifiedText={this.state.appendText}
+              saveText={this.saveText}
+            />,
+          ]}
         </div>
         {this.state.showAppendix && [
           <div
@@ -1538,6 +1558,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 keyMap={keyMap}
                 appendNewLine={this.state.appendNewLine}
                 appendNewParagraph={this.state.appendNewParagraph}
+                MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 onKeyDown={this.onKeyDown}
                 onKeyDownAppendTextArea={this.onKeyDownAppendTextArea}
                 onKeyDownTextArea={this.onKeyDownTextArea}

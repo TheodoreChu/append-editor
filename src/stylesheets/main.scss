@@ -499,7 +499,9 @@ button:focus {
 
   .sk-panel-row.settings {
     padding-top: 0.2rem;
-    input {
+    input,
+    select {
+      cursor: pointer;
       min-width: 250px;
       font-size: 16px;
       padding: 0.5rem;
@@ -793,14 +795,16 @@ button:focus {
   color: var(--sn-stylekit-info-contrast-color);
 }
 
-.MonacoEditorContainer {
+.MonacoEditorContainer,
+.MonacoDiffEditorContainer {
   min-height: 200px;
   width: calc(100% - 1.5px);
   max-width: inherit;
   max-height: inherit;
 }
 
-.edit .MonacoEditorContainer {
+.edit .MonacoEditorContainer,
+.edit .MonacoDiffEditorContainer {
   min-height: 200px;
   height: calc(100% - 25px);
   margin-bottom: 25px;
