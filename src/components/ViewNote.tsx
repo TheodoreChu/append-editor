@@ -400,7 +400,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
                               🙂
                             </span>
                             <br />
-                            You are using version <code>1.1.0-alpha.8</code>.
+                            You are using version <code>1.1.0-alpha.9</code>.
                             The release notes are available on{' '}
                             <a
                               href="https://github.com/TheodoreChu/append-editor/releases"

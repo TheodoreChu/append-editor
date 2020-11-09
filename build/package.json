@@ -1,6 +1,6 @@
 {
   "name": "append-editor",
-  "version": "1.1.0-alpha.8",
+  "version": "1.1.0-alpha.9",
   "description": "Append to your notes",
   "keywords": [
     "Append Editor",
@@ -20,6 +20,5 @@
   },
   "sn": {
     "main": "index.html"
-  },
-  "homepage": "."
+  }
 }
