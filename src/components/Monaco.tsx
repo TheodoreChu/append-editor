@@ -68,6 +68,9 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   const divEl = useRef<HTMLDivElement>(null);
   let editor: monaco.editor.IStandaloneCodeEditor;
 
+  if (fontSize === '') {
+    fontSize = '16px';
+  }
   useEffect(() => {
     if (divEl.current) {
       editor = monaco.editor.create(divEl.current, {
