@@ -17,7 +17,7 @@
 
 ## Introduction
 
-The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, open-source, and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
+The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, [open-source](https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software), and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
 
 You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com) the alpha demo at [alpha.appendeditor.com](https://alpha.appendeditor.com).
 

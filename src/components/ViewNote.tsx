@@ -201,7 +201,15 @@ export default class ViewNote extends React.Component<any, ChildState> {
                         >
                           Standard Notes
                         </a>
-                        , a free, open-source, and{' '}
+                        , a free,{' '}
+                        <a
+                          href="https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software"
+                          target="_blank"
+                          rel="nofollow noreferrer noopener"
+                        >
+                          open-source
+                        </a>
+                        , and{' '}
                         <a
                           href="https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption"
                           target="_blank"
