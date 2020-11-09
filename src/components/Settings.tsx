@@ -2,11 +2,13 @@ import React from 'react';
 import { AppendInterface } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
 
+const editingModeID = 'editingMode';
 const fontEditID = 'fontEdit';
 const fontSizeID = 'fontSize';
 const fontViewID = 'fontView';
 const useCodeMirrorID = 'useCodeMirror';
 const useMonacoEditorID = 'useMonacoEditor';
+const usePlainTextID = 'usePlainText';
 const MonacoEditorLanguageID = 'MonacoEditorLanguage';
 const customStylesID = 'customStyles';
 const resetAllSettingsID = 'resetAllSettings';
@@ -24,6 +26,7 @@ interface PropsState extends AppendInterface {
 
 interface ChildState {
   customStyles: string;
+  editingMode: 'usePlainText' | 'useMonacoEditor' | 'useCodeMirror';
   fontEdit: string;
   fontSize: string;
   fontView: string;
@@ -42,8 +45,19 @@ const codeRegExp = new RegExp(/```/gm);
 export default class Settings extends React.Component<any, ChildState> {
   constructor(props: PropsState) {
     super(props);
+    let initialEditingMode:
+      | 'usePlainText'
+      | 'useMonacoEditor'
+      | 'useCodeMirror';
+    initialEditingMode = usePlainTextID;
+    if (this.props.useCodeMirror) {
+      initialEditingMode = useCodeMirrorID;
+    } else if (this.props.useMonacoEditor) {
+      initialEditingMode = useMonacoEditorID;
+    }
     this.state = {
       customStyles: this.props.customStyles,
+      editingMode: initialEditingMode,
       fontEdit: this.props.fontEdit,
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
@@ -63,8 +77,31 @@ export default class Settings extends React.Component<any, ChildState> {
     this.setState({
       [name]: value,
     });
+    if (name === editingModeID) {
+      if (value === useMonacoEditorID) {
+        this.setState({
+          useCodeMirror: false,
+          useMonacoEditor: true,
+        });
+      } else if (value === useCodeMirrorID) {
+        this.setState({
+          useCodeMirror: true,
+          useMonacoEditor: false,
+        });
+      } else {
+        this.setState({
+          useCodeMirror: false,
+          useMonacoEditor: false,
+        });
+      }
+    }
     if (this.props.debugMode) {
-      console.log('Settings event name: ' + event.target.name);
+      console.log(
+        'Settings event name: ' +
+          event.target.name +
+          ' Value: ' +
+          event.target.value
+      );
     }
   };
 
@@ -234,30 +271,12 @@ export default class Settings extends React.Component<any, ChildState> {
     }
   };
 
-  clearUseCodeMirror = () => {
+  clearEditingMode = () => {
     this.setState({
+      editingMode: usePlainTextID,
       useCodeMirror: false,
-    });
-    const useCodeMirror = document.getElementById(
-      useCodeMirrorID
-    ) as HTMLInputElement;
-    if (useCodeMirror) {
-      useCodeMirror.checked = false;
-      useCodeMirror.focus();
-    }
-  };
-
-  clearUseMonacoEditor = () => {
-    this.setState({
       useMonacoEditor: false,
     });
-    const useMonacoEditor = document.getElementById(
-      useMonacoEditorID
-    ) as HTMLInputElement;
-    if (useMonacoEditor) {
-      useMonacoEditor.checked = false;
-      useMonacoEditor.focus();
-    }
   };
 
   clearMonacoEditorLanguage = () => {
@@ -279,9 +298,8 @@ export default class Settings extends React.Component<any, ChildState> {
     this.clearFontView();
     this.clearFontEdit();
     this.clearFontSize();
-    this.clearUseCodeMirror();
     this.clearMonacoEditorLanguage();
-    this.clearUseMonacoEditor();
+    this.clearEditingMode();
     const resetAllSettings = document.getElementById(resetAllSettingsID);
     if (resetAllSettings) {
       resetAllSettings.focus();
@@ -447,22 +465,11 @@ export default class Settings extends React.Component<any, ChildState> {
               </div>
             </section>
             <section className="sk-panel-row settings">
-              <label htmlFor={useMonacoEditorID}>
-                Enable in-line formatting with Monaco:{' '}
-              </label>
-              <div>
-                <label>
-                  <input
-                    id={useMonacoEditorID}
-                    name={useMonacoEditorID}
-                    type="checkbox"
-                    checked={this.state.useMonacoEditor}
-                    onChange={this.handleInputChange}
-                  />
-                </label>
+              <div className="text-and-undo-button">
+                <p>Editing Mode: </p>
                 <button
-                  onClick={this.clearUseMonacoEditor}
-                  title="Turn off Monaco Editor"
+                  onClick={this.clearEditingMode}
+                  title="Reset Editing Mode to Plain Textarea"
                 >
                   <span className="undo-button">
                     <svg
@@ -480,6 +487,49 @@ export default class Settings extends React.Component<any, ChildState> {
                   </span>
                 </button>
               </div>
+            </section>
+            <section className="sk-panel-row settings">
+              <label>
+                <input
+                  id={usePlainTextID}
+                  name={editingModeID}
+                  value={usePlainTextID}
+                  className="radio"
+                  type="radio"
+                  checked={this.state.editingMode === usePlainTextID}
+                  onChange={this.handleInputChange}
+                />
+                Plain Textarea: no formatting (default, mobile recommended)
+              </label>
+            </section>
+            <section className="sk-panel-row settings">
+              <label>
+                <input
+                  id={useCodeMirrorID}
+                  name={editingModeID}
+                  value={useCodeMirrorID}
+                  type="radio"
+                  className="radio"
+                  checked={this.state.editingMode === useCodeMirrorID}
+                  onChange={this.handleInputChange}
+                />
+                CodeMirror: in-line formatting for Markdown
+              </label>
+            </section>
+            <section className="sk-panel-row settings">
+              <label htmlFor={useMonacoEditorID}>
+                <input
+                  id={useMonacoEditorID}
+                  name={editingModeID}
+                  value={useMonacoEditorID}
+                  type="radio"
+                  className="radio"
+                  checked={this.state.editingMode === useMonacoEditorID}
+                  onChange={this.handleInputChange}
+                />
+                Monaco Editor: in-line formatting for many languages (desktop
+                recommended)
+              </label>
             </section>
             {this.state.useMonacoEditor && [
               <section className="sk-panel-row settings">
@@ -569,44 +619,7 @@ export default class Settings extends React.Component<any, ChildState> {
                   </label>
                   <button
                     onClick={this.clearMonacoEditorLanguage}
-                    title="Reset Monaco Editor Language to Markdown "
-                  >
-                    <span className="undo-button">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                          fill={'var(--sn-stylekit-foreground-color)'}
-                        />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-              </section>,
-            ]}
-            {!this.state.useMonacoEditor && [
-              <section className="sk-panel-row settings">
-                <label htmlFor={useCodeMirrorID}>
-                  Enable in-line formatting with CodeMirror:{' '}
-                </label>
-                <div>
-                  <label>
-                    <input
-                      id={useCodeMirrorID}
-                      name={useCodeMirrorID}
-                      type="checkbox"
-                      checked={this.state.useCodeMirror}
-                      onChange={this.handleInputChange}
-                    />
-                  </label>
-                  <button
-                    onClick={this.clearUseCodeMirror}
-                    title="Turn off CodeMirror"
+                    title="Reset Monaco Editor Language to Markdown"
                   >
                     <span className="undo-button">
                       <svg
@@ -629,41 +642,33 @@ export default class Settings extends React.Component<any, ChildState> {
             <section className="sk-panel-row settings">
               <label htmlFor={fontSizeID}>Choose a base font size: </label>
               <div>
-                <label>
-                  <select
-                    id={fontSizeID}
-                    name={fontSizeID}
-                    value={this.state.fontSize}
-                    onChange={this.handleSelectChange}
-                  >
-                    <option></option>
-                    <option>6px</option>
-                    <option>7px</option>
-                    <option>8px</option>
-                    <option>9px</option>
-                    <option>10px</option>
-                    <option>11px</option>
-                    <option>12px</option>
-                    <option>13px</option>
-                    <option>14px</option>
-                    <option>15px</option>
-                    <option>16px</option>
-                    <option>17px</option>
-                    <option>18px</option>
-                    <option>19px</option>
-                    <option>20px</option>
-                    <option>21px</option>
-                    <option>22px</option>
-                    <option>23px</option>
-                    <option>24px</option>
-                    <option>25px</option>
-                    <option>26px</option>
-                    <option>27px</option>
-                    <option>28px</option>
-                    <option>29px</option>
-                    <option>30px</option>
-                  </select>
-                </label>
+                <select
+                  id={fontSizeID}
+                  name={fontSizeID}
+                  value={this.state.fontSize}
+                  onChange={this.handleSelectChange}
+                >
+                  <option></option>
+                  <option>12px</option>
+                  <option>13px</option>
+                  <option>14px</option>
+                  <option>15px</option>
+                  <option>16px</option>
+                  <option>17px</option>
+                  <option>18px</option>
+                  <option>19px</option>
+                  <option>20px</option>
+                  <option>21px</option>
+                  <option>22px</option>
+                  <option>23px</option>
+                  <option>24px</option>
+                  <option>25px</option>
+                  <option>26px</option>
+                  <option>27px</option>
+                  <option>28px</option>
+                  <option>29px</option>
+                  <option>30px</option>
+                </select>
                 <button
                   onClick={this.clearFontSize}
                   title="Reset font size to 16px"
@@ -698,6 +703,7 @@ export default class Settings extends React.Component<any, ChildState> {
                   onChange={this.handleInputChange}
                   onKeyDown={this.onKeyDown}
                   onKeyUp={this.onKeyUp}
+                  type="text"
                 />
                 <button
                   onClick={this.clearFontEdit}
@@ -731,6 +737,7 @@ export default class Settings extends React.Component<any, ChildState> {
                   onChange={this.handleInputChange}
                   onKeyDown={this.onKeyDown}
                   onKeyUp={this.onKeyUp}
+                  type="text"
                 />
                 <button
                   onClick={this.clearFontView}

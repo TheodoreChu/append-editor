@@ -1474,6 +1474,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {this.state.editMode && !this.state.refreshEdit && (
             <EditNote
               fontEdit={this.state.fontEdit}
+              fontSize={this.state.fontSize}
               keyMap={keyMap}
               MonacoEditorLanguage={this.state.MonacoEditorLanguage}
               onKeyDown={this.onKeyDown}
@@ -1489,6 +1490,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {this.state.editMode && this.state.refreshEdit && (
             <EditNote
               fontEdit={this.state.fontEdit}
+              fontSize={this.state.fontSize}
               keyMap={keyMap}
               MonacoEditorLanguage={this.state.MonacoEditorLanguage}
               onKeyDown={this.onKeyDown}
@@ -1559,6 +1561,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 autoSaveCheckBoxes={this.autoSaveCheckBoxes}
                 debugMode={debugMode}
                 fontEdit={this.state.fontEdit}
+                fontSize={this.state.fontSize}
                 keyMap={keyMap}
                 appendNewLine={this.state.appendNewLine}
                 appendNewParagraph={this.state.appendNewParagraph}

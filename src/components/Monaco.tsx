@@ -45,6 +45,7 @@ const onKeyUp = (keyCode: string, debugMode = false) => {
 };
 
 interface MonacoEditorTypes {
+  fontSize?: string;
   id?: string;
   language?: string;
   onKeyDown?: Function;
@@ -56,6 +57,7 @@ interface MonacoEditorTypes {
 }
 
 export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
+  fontSize = '16',
   id = MonacoEditorContainerID,
   language = 'markdown',
   saveText,
@@ -72,7 +74,7 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
         value: [text].join('\n'),
         language: language,
         theme: theme,
-        fontSize: 16,
+        fontSize: parseInt(fontSize.replace('px', '')),
         tabSize: tabSize,
 
         autoClosingOvertype: 'auto',

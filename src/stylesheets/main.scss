@@ -500,15 +500,28 @@ button:focus {
 
   .sk-panel-row.settings {
     padding-top: 0.2rem;
+    label,
     input,
     select {
       cursor: pointer;
-      min-width: 250px;
+    }
+    input,
+    select {
       font-size: 16px;
       padding: 0.5rem;
       background-color: var(--sn-stylekit-contrast-background-color);
       border-color: var(--sn-stylekit-border-color);
       color: var(--sn-stylekit-foreground-color);
+    }
+    input[type='text'] {
+      min-width: 250px;
+    }
+    select {
+      min-width: 267px;
+    }
+    .radio {
+      margin-top: 3px;
+      margin-bottom: 3px;
     }
     textarea {
       // This seems to make the textarea blurry on Firefox

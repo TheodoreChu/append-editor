@@ -88,6 +88,7 @@ export default class EditNote extends React.Component<any, ChildState> {
         >
           {this.props.useMonacoEditor ? (
             <MonacoEditor
+              fontSize={this.props.fontSize}
               language={this.props.MonacoEditorLanguage}
               saveText={this.saveText}
               text={text}
