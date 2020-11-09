@@ -607,7 +607,6 @@ export default class Settings extends React.Component<any, ChildState> {
                       <option>st</option>
                       <option>swift</option>
                       <option>systemverilog</option>
-                      <option>text/html</option>
                       <option>tcl</option>
                       <option>twig</option>
                       <option>typescript</option>
