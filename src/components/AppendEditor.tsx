@@ -1485,6 +1485,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               saveText={this.saveText}
               text={this.state.text}
               useMonacoEditor={this.state.useMonacoEditor}
+              viewMode={this.state.viewMode}
             />
           )}
           {this.state.editMode && this.state.refreshEdit && (
@@ -1501,6 +1502,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               saveText={this.saveText}
               text={this.state.text}
               useMonacoEditor={this.state.useMonacoEditor}
+              viewMode={this.state.viewMode}
             />
           )}
           {(this.state.viewMode || this.state.printMode) &&

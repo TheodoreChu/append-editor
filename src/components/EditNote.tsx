@@ -92,6 +92,7 @@ export default class EditNote extends React.Component<any, ChildState> {
               language={this.props.MonacoEditorLanguage}
               saveText={this.saveText}
               text={text}
+              viewMode={this.props.viewMode}
             />
           ) : (
             <textarea

@@ -54,6 +54,7 @@ interface MonacoEditorTypes {
   tabSize?: number;
   text: string;
   theme?: string;
+  viewMode?: boolean;
 }
 
 export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
@@ -64,6 +65,7 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   tabSize = 2,
   text,
   theme = 'vs-dark',
+  viewMode = false,
 }) => {
   const divEl = useRef<HTMLDivElement>(null);
   let editor: monaco.editor.IStandaloneCodeEditor;
@@ -71,22 +73,31 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
   if (fontSize === '') {
     fontSize = '16px';
   }
+
+  let scrollBeyondLastLine = true;
+  if (viewMode) {
+    scrollBeyondLastLine = false;
+  }
+
   useEffect(() => {
     if (divEl.current) {
       editor = monaco.editor.create(divEl.current, {
-        value: [text].join('\n'),
-        language: language,
-        theme: theme,
+        // These are variable: customizable by user or dependent on props
         fontSize: parseInt(fontSize.replace('px', '')),
+        language: language,
         tabSize: tabSize,
+        theme: theme,
+        scrollBeyondLastLine: scrollBeyondLastLine,
+        value: [text].join('\n'),
 
+        // These are not customizable
         autoClosingOvertype: 'auto',
         formatOnPaste: true,
         formatOnType: true,
-        scrollBeyondLastLine: false,
         wordWrap: 'on',
         wrappingStrategy: 'advanced',
       });
+
       // Keyboard Events
       editor.onKeyDown((e: monaco.IKeyboardEvent) => {
         onKeyDown(e.code, debugMode);
@@ -97,6 +108,7 @@ export const MonacoEditor: React.FC<MonacoEditorTypes> = ({
       editor.onKeyUp((e: monaco.IKeyboardEvent) => {
         onKeyUp(e.code, debugMode);
       });
+
       // Content Change Events
       editor.onDidChangeModelContent(
         (e: monaco.editor.IModelContentChangedEvent) => {
@@ -118,6 +130,7 @@ interface MonacoDiffEditorTypes extends MonacoEditorTypes {
 }
 
 export const MonacoDiffEditor: React.FC<MonacoDiffEditorTypes> = ({
+  fontSize = '16',
   id = MonacoDiffEditorContainerID,
   language = 'markdown',
   saveText,
@@ -127,6 +140,11 @@ export const MonacoDiffEditor: React.FC<MonacoDiffEditorTypes> = ({
 }) => {
   const divEl = useRef<HTMLDivElement>(null);
   let diffEditor: monaco.editor.IStandaloneDiffEditor;
+
+  if (fontSize === '') {
+    fontSize = '16px';
+  }
+
   useEffect(() => {
     if (divEl.current) {
       const originalModel = monaco.editor.createModel(
@@ -140,14 +158,14 @@ export const MonacoDiffEditor: React.FC<MonacoDiffEditorTypes> = ({
 
       diffEditor = monaco.editor.createDiffEditor(divEl.current, {
         // Same settings as above
+        // These are variable: customizable by user or dependent on props
+        fontSize: parseInt(fontSize.replace('px', '')),
         theme: theme,
-        fontSize: 16,
-        // tabSize: tabSize, // not available in Diff Editor
 
+        // These are not customizable
         autoClosingOvertype: 'auto',
         formatOnPaste: true,
         formatOnType: true,
-        scrollBeyondLastLine: false,
         wordWrap: 'on',
         wrappingStrategy: 'advanced',
 

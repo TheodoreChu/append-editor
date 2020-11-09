@@ -27,6 +27,7 @@
     "build": "react-scripts build",
     "predeploy": "yarn run pretty && cp README.md public/README.txt && cp LICENSE public/LICENSE.txt && yarn run build",
     "deploy-dev": "yarn run predeploy && gh-pages -b dev -d build",
+    "deploy-build": "yarn run predeploy && gh-pages -b build -d build",
     "deploy-stable": "yarn run predeploy && gh-pages -b gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
