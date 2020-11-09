@@ -10,6 +10,7 @@
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
 [![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
+[![Downloads](https://img.shields.io/github/downloads/theodorechu/append-editor/total.svg?style=flat)](https://github.com/theodorechu/append-editor/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/theodorechu/append-editor?style=social)](https://github.com/theodorechu/append-editor)
 
 </div>
