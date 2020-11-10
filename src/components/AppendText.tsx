@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppendInterface } from './AppendEditor';
+import DynamicEditor from './DynamicEditor';
 import { MonacoEditor } from './Monaco';
 
 const appendTextAreaID = 'appendTextArea';
@@ -37,7 +38,7 @@ export default class AppendText extends React.Component<any, ChildState> {
       text: this.props.text,
       newLine: this.props.appendNewLine,
       newParagraph: this.props.appendNewParagraph,
-      useMonacoEditor: this.props.useMonacoEditor,
+      useMonacoEditor: this.props.editingMode === this.props.useMonacoEditor,
     };
   }
 
@@ -158,7 +159,7 @@ export default class AppendText extends React.Component<any, ChildState> {
           'sk-panel main appendix ' +
           (this.props.printMode
             ? 'printModeOn'
-            : this.props.useMonacoEditor
+            : this.props.editingMode === this.props.useMonacoEditor
             ? 'MonacoEditor printModeOff'
             : 'printModeOff')
         }
@@ -166,7 +167,9 @@ export default class AppendText extends React.Component<any, ChildState> {
         <div
           className={
             'sk-panel-content edit ' +
-            (this.props.useMonacoEditor ? 'MonacoEditor' : '')
+            (this.props.editingMode === this.props.useMonacoEditor
+              ? 'MonacoEditor'
+              : '')
           }
         >
           {this.state.useMonacoEditor ? (
@@ -177,6 +180,8 @@ export default class AppendText extends React.Component<any, ChildState> {
               saveText={this.saveText}
               text={text}
             />
+          ) : this.props.editingMode === this.props.useDynamicEditor ? (
+            <DynamicEditor text={text} onChange={this.saveText} />
           ) : (
             <textarea
               id={appendTextAreaID}

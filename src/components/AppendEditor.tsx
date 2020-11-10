@@ -46,6 +46,11 @@ const appendTextAreaID = 'appendTextArea';
 const newLineID = 'newLine';
 const newParagraphID = 'newParagraph';
 
+const useCodeMirror = 'useCodeMirror';
+const useDynamicEditor = 'useDynamicEditor';
+const useMonacoEditor = 'useMonacoEditor';
+const usePlainText = 'usePlainText';
+
 /**
  * Some properties are optional so
  * they do not need to be set
@@ -76,7 +81,6 @@ const initialState = {
   showDiff: false,
   settingsMode: false,
   useCodeMirror: false,
-  useMonacoEditor: false,
 };
 
 const debugMode = false;
@@ -95,6 +99,12 @@ export interface AppendInterface {
   currentState?: object;
   customStyles: string;
   editMode?: any;
+  editingMode?:
+    | 'usePlainText'
+    | 'useCodeMirror'
+    | 'useDynamicEditor'
+    | 'useMonacoEditor'
+    | undefined;
   editCodeMirror?: any;
   fontEdit: string;
   fontSize: string;
@@ -113,7 +123,6 @@ export interface AppendInterface {
   showMenu?: boolean;
   settingsMode: boolean;
   useCodeMirror: boolean;
-  useMonacoEditor: boolean;
   viewMode?: boolean;
 }
 
@@ -163,6 +172,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       // Load editor settings
       if (
         note.content.appendEditorCustomStyles ||
+        note.content.appendEditorEditingMode ||
         note.content.appendEditorFontEdit ||
         note.content.appendEditorFontSize ||
         note.content.appendEditorFontView ||
@@ -173,12 +183,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         this.setState(
           {
             customStyles: note.content.appendEditorCustomStyles,
+            editingMode: note.content.appendEditorEditingMode,
             fontEdit: note.content.appendEditorFontEdit,
             fontSize: note.content.appendEditorFontSize,
             fontView: note.content.appendEditorFontView,
             MonacoEditorLanguage: note.content.appendEditorMonacoEditorLanguage,
             useCodeMirror: note.content.appendEditorUseCodeMirror,
-            useMonacoEditor: note.content.appendEditorUseMonacoEditor,
           },
           () => {
             this.refreshEdit();
@@ -507,7 +517,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
        * do this when Monaco is on because refreshing edit Mode
        * with Monaco Editor off allows resizing the Monaco Editor.
        */
-      if (!this.state.printMode && !this.state.useMonacoEditor) {
+      if (!this.state.printMode && !(this.state.editMode === useMonacoEditor)) {
         this.setState({
           viewMode: true,
         });
@@ -567,7 +577,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           appendMode: false,
         },
         () => {
-          if (this.state.useMonacoEditor) {
+          if (this.state.editingMode === useMonacoEditor) {
             this.refreshEdit();
           }
           if (focus) {
@@ -617,7 +627,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           printMode: false,
         },
         () => {
-          if (this.state.useMonacoEditor) {
+          if (this.state.editingMode === useMonacoEditor) {
             this.refreshEdit();
           }
           if (this.state.appendMode && !this.state.editMode) {
@@ -632,7 +642,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           viewMode: false,
         },
         () => {
-          if (this.state.useMonacoEditor) {
+          if (this.state.editingMode === useMonacoEditor) {
             this.refreshEdit();
           }
           if (!this.state.editMode && !this.state.appendMode) {
@@ -711,24 +721,24 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   // We don't save the current state and reload it after confirm settings are saved
   // This requires us to manually reload editMode and appendMode
   // This is important for settings, especially useCodeMirror
-  onSaveSettings = (
-    { customStyles }: AppendInterface,
-    { fontEdit }: AppendInterface,
-    { fontSize }: AppendInterface,
-    { fontView }: AppendInterface,
-    { MonacoEditorLanguage }: AppendInterface,
-    { useCodeMirror }: AppendInterface,
-    { useMonacoEditor }: AppendInterface
-  ) => {
+  onSaveSettings = ({
+    customStyles,
+    editingMode,
+    fontEdit,
+    fontSize,
+    fontView,
+    MonacoEditorLanguage,
+    useCodeMirror,
+  }: AppendInterface) => {
     this.setState(
       {
         customStyles,
+        editingMode,
         fontEdit,
         fontSize,
         fontView,
         MonacoEditorLanguage,
         useCodeMirror,
-        useMonacoEditor,
         showAppendix: true,
         showHeader: true,
         settingsMode: false,
@@ -746,12 +756,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     if (note) {
       this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
         note.content.appendEditorCustomStyles = customStyles;
+        note.content.appendEditorEditingMode = editingMode;
         note.content.appendEditorFontEdit = fontEdit;
         note.content.appendEditorFontSize = fontSize;
         note.content.appendEditorFontView = fontView;
         note.content.appendEditorMonacoEditorLanguage = MonacoEditorLanguage;
         note.content.appendEditorUseCodeMirror = useCodeMirror;
-        note.content.appendEditorUseMonacoEditor = useMonacoEditor;
       });
     }
   };
@@ -1457,6 +1467,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               confirmText="Save"
               customStyles={this.state.customStyles}
               debugMode={debugMode}
+              editingMode={this.state.editingMode}
               fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}
               fontView={this.state.fontView}
@@ -1468,11 +1479,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               title={`Append Editor Settings`}
               MonacoEditorLanguage={this.state.MonacoEditorLanguage}
               useCodeMirror={this.state.useCodeMirror}
-              useMonacoEditor={this.state.useMonacoEditor}
+              useDynamicEditor={useDynamicEditor}
+              useMonacoEditor={useMonacoEditor}
             />
           )}
           {this.state.editMode && !this.state.refreshEdit && (
             <EditNote
+              debugMode={debugMode}
+              editingMode={this.state.editingMode}
               fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}
               keyMap={keyMap}
@@ -1484,12 +1498,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               printMode={this.state.printMode}
               saveText={this.saveText}
               text={this.state.text}
-              useMonacoEditor={this.state.useMonacoEditor}
+              useDynamicEditor={useDynamicEditor}
+              useMonacoEditor={useMonacoEditor}
               viewMode={this.state.viewMode}
             />
           )}
           {this.state.editMode && this.state.refreshEdit && (
             <EditNote
+              debugMode={debugMode}
+              editingMode={this.state.editingMode}
               fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}
               keyMap={keyMap}
@@ -1501,32 +1518,39 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               printMode={this.state.printMode}
               saveText={this.saveText}
               text={this.state.text}
-              useMonacoEditor={this.state.useMonacoEditor}
+              useDynamicEditor={useDynamicEditor}
+              useMonacoEditor={useMonacoEditor}
               viewMode={this.state.viewMode}
             />
           )}
           {(this.state.viewMode || this.state.printMode) &&
             !this.state.refreshView && (
               <ViewNote
+                editingMode={this.state.editingMode}
                 fontView={this.state.fontView}
                 MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 printMode={this.state.printMode}
                 printURL={this.state.printURL}
                 showHelp={this.state.showHelp}
+                saveText={this.saveText}
                 text={this.state.text}
-                useMonacoEditor={this.state.useMonacoEditor}
+                useDynamicEditor={useDynamicEditor}
+                useMonacoEditor={useMonacoEditor}
               />
             )}
           {(this.state.viewMode || this.state.printMode) &&
             this.state.refreshView && (
               <ViewNote
+                editingMode={this.state.editingMode}
                 fontView={this.state.fontView}
                 MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 printMode={this.state.printMode}
                 printURL={this.state.printURL}
                 showHelp={this.state.showHelp}
+                saveText={this.saveText}
                 text={this.state.text}
-                useMonacoEditor={this.state.useMonacoEditor}
+                useDynamicEditor={useDynamicEditor}
+                useMonacoEditor={useMonacoEditor}
               />
             )}
           {this.state.confirmPrintURL && (
@@ -1562,6 +1586,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 autoSaveAppendText={this.autoSaveAppendText}
                 autoSaveCheckBoxes={this.autoSaveCheckBoxes}
                 debugMode={debugMode}
+                editingMode={this.state.editingMode}
                 fontEdit={this.state.fontEdit}
                 fontSize={this.state.fontSize}
                 keyMap={keyMap}
@@ -1575,7 +1600,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 printMode={this.state.printMode}
                 appendRows={this.state.appendRows}
                 text={this.state.appendText}
-                useMonacoEditor={this.state.useMonacoEditor}
+                useDynamicEditor={useDynamicEditor}
+                useMonacoEditor={useMonacoEditor}
               />
             )}
             <button

@@ -5,6 +5,7 @@ import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
 
 import { AppendInterface } from './AppendEditor';
+import DynamicEditor from './DynamicEditor';
 
 const gfm = require('remark-gfm');
 const breaks = require('remark-breaks');
@@ -450,17 +451,26 @@ export default class ViewNote extends React.Component<any, ChildState> {
                     className="note-content"
                     style={{ fontFamily: this.props.fontView }}
                   >
-                    {this.props.useMonacoEditor &&
+                    {this.props.editingMode === this.props.useMonacoEditor &&
                     this.props.MonacoEditorLanguage !== 'markdown' &&
-                    text
-                      ? (languageProcessor.processSync(
-                          '```' +
-                            this.props.MonacoEditorLanguage +
-                            '\n' +
-                            text +
-                            '\n```'
-                        ).result as any)
-                      : (processor.processSync(text).result as any)}
+                    text ? (
+                      (languageProcessor.processSync(
+                        '```' +
+                          this.props.MonacoEditorLanguage +
+                          '\n' +
+                          text +
+                          '\n```'
+                      ).result as any)
+                    ) : this.props.editingMode ===
+                      this.props.useDynamicEditor ? (
+                      <DynamicEditor
+                        text={text}
+                        readOnly={true}
+                        onChange={this.props.saveText}
+                      />
+                    ) : (
+                      (processor.processSync(text).result as any)
+                    )}
                   </div>
                 </div>
               </div>

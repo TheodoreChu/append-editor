@@ -263,7 +263,6 @@ button:focus {
 }
 
 #content {
-  font-size: var(--sn-stylekit-font-size-editor);
   background-color: var(--sn-stylekit-contrast-background-color);
   flex: 1;
   //padding: 0 10px;
@@ -273,7 +272,11 @@ button:focus {
   @media screen and (max-width: 725px) {
     padding: 0;
   }
+}
 
+#content,
+#appendix {
+  font-size: var(--sn-stylekit-font-size-editor);
   a {
     color: var(--sn-stylekit-info-color); // #086dd6;
     text-decoration: none;
@@ -341,12 +344,15 @@ button:focus {
   }
 }
 
-#renderedNote > div > :nth-child(1) {
+#renderedNote > div > :nth-child(1),
+.ProseMirror > :nth-child(2) {
   margin-top: 0px;
 }
+
 .note-content,
 #renderedNote,
-#settings {
+#settings,
+.DynamicEditor {
   code,
   pre {
     font-family: var(--sn-stylekit-monospace-font);
@@ -616,17 +622,11 @@ button:focus {
     margin-right: auto;
   }
 
-  :focus {
-    outline: -webkit-focus-ring-color auto 1px;
-    outline-color: -webkit-focus-ring-color;
-    outline-style: auto;
-    outline-width: 1px;
-  }
-
   .checkBoxForm {
     position: absolute;
+    font-size: 13px;
+
     label {
-      font-size: 13px;
       cursor: pointer;
     }
     padding-left: 25px;
@@ -658,7 +658,9 @@ button:focus {
     }
   }
 
-  button {
+  #appendTextButton,
+  #scrollToTopButton,
+  #scrollToBottomButton {
     border-width: 0px;
     font-size: 14px;
     @media screen and (max-width: 650px) {
@@ -826,4 +828,24 @@ button:focus {
 
 #appendix .MonacoEditorContainer {
   height: 400px;
+}
+
+.DynamicEditor {
+  padding: 0px 35px 10px;
+}
+button.block-menu-trigger {
+  display: none !important;
+}
+@media screen and (min-width: 725px) {
+  .DynamicEditor {
+    padding: 5px 15px 10px;
+  }
+}
+@media screen and (min-width: 600px) {
+  .YouTube {
+    min-height: 315px;
+    min-width: 560px;
+    margin: 10px auto;
+    display: block;
+  }
 }
