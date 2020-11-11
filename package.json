@@ -38,7 +38,7 @@
     "pretty": "prettier --write 'src/**/*.{html,css,scss,js,jsx,ts,tsx,json}'"
   },
   "dependencies": {
-    "@testing-library/dom": "^7.26.5",
+    "@testing-library/dom": "^7.26.6",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.1",
     "@testing-library/user-event": "^12.2.0",
