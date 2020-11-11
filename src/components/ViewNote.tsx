@@ -112,7 +112,11 @@ export default class ViewNote extends React.Component<any, ChildState> {
             }
           >
             {!text && [
-              <div id="intro" style={{ textAlign: 'center' }}>
+              <div
+                id="intro"
+                style={{ textAlign: 'center' }}
+                className="rendered-section"
+              >
                 <details>
                   <summary>
                     Welcome to the Append Editor!{' '}
@@ -185,7 +189,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
               </div>,
             ]}
             {this.state.showHelp && [
-              <div id="help">
+              <div id="help" className="rendered-section">
                 <hr></hr>
                 <h2>Append Editor Help</h2>
                 <p>
@@ -401,7 +405,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
                         🙂
                       </span>
                       <br />
-                      You are using version <code>1.1.0-alpha.9</code>. The
+                      You are using version <code>1.1.0-alpha.10</code>. The
                       release notes are available on{' '}
                       <a
                         href="https://github.com/TheodoreChu/append-editor/releases"

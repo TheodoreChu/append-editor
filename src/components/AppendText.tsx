@@ -161,7 +161,9 @@ export default class AppendText extends React.Component<any, ChildState> {
             ? 'printModeOn'
             : this.props.editingMode === this.props.useMonacoEditor
             ? 'monacoEditor printModeOff'
-            : 'printModeOff')
+            : this.props.editingMode === this.props.useDynamicEditor
+            ? 'dynamicEditor printModeOff'
+            : 'otherEditor printModeOff')
         }
       >
         <div
