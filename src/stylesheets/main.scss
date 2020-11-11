@@ -350,7 +350,7 @@ button:focus {
 // Exclude CodeMirror
 #appendDynamicEditor,
 #dynamicEditor,
-.rendered-section,
+.rendered-note-section,
 #intro,
 #help,
 #renderedNote,
@@ -420,16 +420,16 @@ button:focus {
 
 #intro,
 #help,
-.rendered-section {
+.rendered-note-section {
+  padding: 9px 10px;
+  border: 1px transparent;
+  border-style: solid;
   margin-left: auto;
   margin-right: auto;
   max-width: 645.5px; //628.700px;
 }
 
-.rendered-section {
-  padding: 9px 10px;
-  border: 1px transparent;
-  border-style: solid;
+.rendered-note-section {
   height: calc(100% - 20px);
 }
 
@@ -440,8 +440,9 @@ button:focus {
   /*align-items: center;
   justify-content: space-between;
   min-width: inherit;
-  width: 100%;
-  word-wrap: break-word;*/
+  width: 100%;*/
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   line-height: 1.9rem;
 }
 

@@ -103,14 +103,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
         }
       >
         <div className="sk-panel-content view">
-          <div
-            className={
-              '' +
-              (this.props.editingMode === this.props.useDynamicEditor
-                ? ''
-                : 'rendered-section')
-            }
-          >
+          <div>
             {!text && [
               <div id="intro" style={{ textAlign: 'center' }}>
                 <details>
@@ -438,7 +431,16 @@ export default class ViewNote extends React.Component<any, ChildState> {
                 <hr></hr>
               </div>,
             ]}
-            <div id="renderedNote" style={{ fontFamily: this.props.fontView }}>
+            <div
+              id="renderedNote"
+              style={{ fontFamily: this.props.fontView }}
+              className={
+                '' +
+                (this.props.editingMode === this.props.useDynamicEditor
+                  ? ''
+                  : 'rendered-note-section')
+              }
+            >
               {this.props.editingMode === this.props.useMonacoEditor &&
               this.props.MonacoEditorLanguage !== 'markdown' &&
               text ? (

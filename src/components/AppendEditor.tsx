@@ -788,11 +788,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     sheet.setAttribute('id', 'customStyleSheet');
 
     const fontEditStyle =
-      '.CodeMirror, #editTextArea, #appendTextArea {font-family: ' +
+      '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea {font-family: ' +
       this.state.fontEdit +
       ';}';
     const fontSizeStyle =
-      '.CodeMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' +
+      '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' +
       this.state.fontSize +
       ';}';
     const fontViewStyle =

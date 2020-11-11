@@ -544,8 +544,9 @@ export default class Settings extends React.Component<any, ChildState> {
                   }
                   onChange={this.handleInputChange}
                 />
-                Monaco: in-line formatting for Markdown and other languages
-                (desktop recommended)
+                Monaco: syntax highlighting for Markdown and many other
+                programming languages, intelligent auto-completion,
+                sophisticated search and replace (desktop recommended)
               </label>
             </section>
             {this.state.editingMode === this.props.useMonacoEditor && [
