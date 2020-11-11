@@ -78,14 +78,14 @@ button:focus {
       margin: 0;
     }
   }
-  .sk-panel.main.edit,
+  .sk-panel.main.edit.otherEditor,
   .sk-panel.main.appendix {
     @media screen and (max-width: 725px) {
       border-top: none;
     }
   }
-  .sk-panel.main.edit.MonacoEditor,
-  .sk-panel.main.appendix.MonacoEditor {
+  .sk-panel.main.edit.monacoEditor,
+  .sk-panel.main.appendix.monacoEditor {
     max-width: 800px;
   }
   .sk-panel.main.printModeOn {
@@ -111,12 +111,8 @@ button:focus {
     padding-bottom: 0px !important;
     //width: 700px;
     @media screen and (max-width: 725px) {
-      padding: 0.16rem 0.2rem !important;
-    }
-    .sk-panel-section {
-      padding: 9px 10px;
-      border: 1px transparent;
-      border-style: solid;
+      //padding: 0.16rem 0.2rem !important;
+      padding: 0px !important;
     }
   }
 
@@ -132,7 +128,7 @@ button:focus {
 
     // Hides the horizontal scroll bar when using the Monaco Editor
     // Otherwise the horizontal scroll bar will flash when the Monaco editor suggests words
-    &.MonacoEditor {
+    &.monacoEditor {
       overflow-x: hidden !important;
     }
   }
@@ -275,7 +271,8 @@ button:focus {
 }
 
 #content,
-#appendix {
+#appendix,
+.DynamicEditor {
   font-size: var(--sn-stylekit-font-size-editor);
   a {
     color: var(--sn-stylekit-info-color); // #086dd6;
@@ -342,14 +339,18 @@ button:focus {
       text-decoration: underline;
     }
   }
+
+  h1,
+  h2,
+  h3 {
+    line-height: normal;
+  }
 }
 
-#renderedNote > div > :nth-child(1),
-.ProseMirror > :nth-child(2) {
-  margin-top: 0px;
-}
-
-.note-content,
+// Exclude CodeMirror
+#appendDynamicEditor,
+#dynamicEditor,
+.rendered-section,
 #renderedNote,
 #settings,
 .DynamicEditor {
@@ -384,6 +385,7 @@ button:focus {
     background-color: var(
       --sn-stylekit-contrast-background-color
     ); // rgba(27,31,35,.05);// #f6f8fa; the latter doesn't work well on dark mode
+    color: var(--sn-stylekit-foreground-color);
     border-radius: 3px;
     word-wrap: normal;
     margin-top: 0;
@@ -412,6 +414,31 @@ button:focus {
     background-color: initial;
     border: 0;
   }
+}
+
+.rendered-section {
+  padding: 9px 10px;
+  border: 1px transparent;
+  border-style: solid;
+  height: calc(100% - 20px);
+  max-width: 645.5px; //628.700px;
+}
+
+#renderedNote,
+.rendered-section {
+  /*align-items: center;
+  justify-content: space-between;
+  min-width: inherit;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  word-wrap: break-word;*/
+  line-height: 1.9rem;
+}
+
+#renderedNote > div > :nth-child(1),
+.ProseMirror > :nth-child(2) {
+  margin-top: 0px;
 }
 
 .sk-notification {
@@ -556,49 +583,6 @@ button:focus {
   right: 0;
   bottom: 0;
   z-index: 100;
-}
-
-/* entry default styles */
-.note-entry {
-  display: flex;
-  align-items: center;
-
-  // Collapse on mobile
-  @media screen and (max-width: 480px) {
-    .note-details {
-      flex-direction: column !important;
-      align-items: flex-start !important;
-    }
-  }
-
-  .note-details {
-    flex: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    min-width: 0;
-
-    .note-info {
-      min-width: inherit;
-      width: 100%;
-
-      .note-content {
-        margin-left: auto;
-        margin-right: auto;
-        width: 100%;
-        word-wrap: break-word;
-        line-height: 1.9rem;
-        height: calc(100% - 20px);
-        max-width: 645.5px; //628.700px;
-        h1,
-        h2,
-        h3 {
-          line-height: normal;
-        }
-      }
-    }
-  }
 }
 
 .appendix.printModeOn {
@@ -831,14 +815,14 @@ button:focus {
 }
 
 .DynamicEditor {
-  padding: 0px 35px 10px;
+  padding: 0px 10px 10px;
 }
 button.block-menu-trigger {
   display: none !important;
 }
 @media screen and (min-width: 725px) {
   .DynamicEditor {
-    padding: 5px 15px 10px;
+    padding: 5px 20px 10px;
   }
 }
 @media screen and (min-width: 600px) {
@@ -848,4 +832,9 @@ button.block-menu-trigger {
     margin: 10px auto;
     display: block;
   }
+}
+
+.ProseMirror {
+  background-color: var(--sn-stylekit-background-color);
+  color: var(--sn-stylekit-foreground-color);
 }

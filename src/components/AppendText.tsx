@@ -160,7 +160,7 @@ export default class AppendText extends React.Component<any, ChildState> {
           (this.props.printMode
             ? 'printModeOn'
             : this.props.editingMode === this.props.useMonacoEditor
-            ? 'MonacoEditor printModeOff'
+            ? 'monacoEditor printModeOff'
             : 'printModeOff')
         }
       >
@@ -168,7 +168,7 @@ export default class AppendText extends React.Component<any, ChildState> {
           className={
             'sk-panel-content edit ' +
             (this.props.editingMode === this.props.useMonacoEditor
-              ? 'MonacoEditor'
+              ? 'monacoEditor'
               : '')
           }
         >
@@ -181,7 +181,9 @@ export default class AppendText extends React.Component<any, ChildState> {
               text={text}
             />
           ) : this.props.editingMode === this.props.useDynamicEditor ? (
-            <DynamicEditor text={text} onChange={this.saveText} />
+            <div id="appendDynamicEditor">
+              <DynamicEditor text={text} onChange={this.saveText} />
+            </div>
           ) : (
             <textarea
               id={appendTextAreaID}

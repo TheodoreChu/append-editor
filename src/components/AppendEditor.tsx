@@ -229,6 +229,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         text: text,
       },
       () => {
+        if (this.state.editingMode === useDynamicEditor) {
+          this.refreshView();
+        }
         if (debugMode) {
           console.log('saved text in AppendEditor.tsx: ' + this.state.text);
         }
@@ -354,7 +357,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     );
   };
 
-  onRefreshView = () => {
+  refreshView = () => {
     this.setState({
       refreshView: !this.state.refreshView,
     });
@@ -517,7 +520,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
        * do this when Monaco is on because refreshing edit Mode
        * with Monaco Editor off allows resizing the Monaco Editor.
        */
-      if (!this.state.printMode && !(this.state.editMode === useMonacoEditor)) {
+      if (
+        !this.state.printMode &&
+        !(this.state.editingMode === useMonacoEditor)
+      ) {
         this.setState({
           viewMode: true,
         });
@@ -659,7 +665,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         showHelp: !this.state.showHelp,
       },
       () => {
-        this.onRefreshView();
+        this.refreshView();
         const helpButton = document.getElementById(helpButtonID);
         if (helpButton) {
           helpButton.focus();

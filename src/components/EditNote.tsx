@@ -77,15 +77,17 @@ export default class EditNote extends React.Component<any, ChildState> {
           (this.props.printMode
             ? 'printModeOn'
             : this.props.editingMode === this.props.useMonacoEditor
-            ? 'MonacoEditor printModeOff'
-            : 'printModeOff')
+            ? 'monacoEditor printModeOff'
+            : this.props.editingMode === this.props.useDynamicEditor
+            ? 'dynamicEditor printModeOff'
+            : 'otherEditor printModeOff')
         }
       >
         <div
           className={
             'sk-panel-content edit ' +
             (this.props.editingMode === this.props.useMonacoEditor
-              ? 'MonacoEditor'
+              ? 'monacoEditor'
               : '')
           }
         >
@@ -98,7 +100,9 @@ export default class EditNote extends React.Component<any, ChildState> {
               viewMode={this.props.viewMode}
             />
           ) : this.props.editingMode === this.props.useDynamicEditor ? (
-            <DynamicEditor text={text} onChange={this.saveText} />
+            <div id="dynamicEditor">
+              <DynamicEditor text={text} onChange={this.saveText} />
+            </div>
           ) : (
             <textarea
               id={editTextAreaID}

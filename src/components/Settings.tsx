@@ -526,8 +526,9 @@ export default class Settings extends React.Component<any, ChildState> {
                   }
                   onChange={this.handleInputChange}
                 />
-                Dynamic Editor: live formatting for Markdown (not KaTeX
-                compatible)
+                Dynamic: live formatting for Markdown. <b>warning: </b>
+                existing markdown may break (not compatible with KaTeX, lists
+                may not render properly; desktop and mobile compatible)
               </label>
             </section>
             <section className="sk-panel-row settings">
@@ -543,8 +544,8 @@ export default class Settings extends React.Component<any, ChildState> {
                   }
                   onChange={this.handleInputChange}
                 />
-                Monaco Editor: in-line formatting for many languages (desktop
-                recommended)
+                Monaco: in-line formatting for Markdown and other languages
+                (desktop recommended)
               </label>
             </section>
             {this.state.editingMode === this.props.useMonacoEditor && [
