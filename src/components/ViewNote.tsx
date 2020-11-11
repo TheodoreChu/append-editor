@@ -92,8 +92,6 @@ export default class ViewNote extends React.Component<any, ChildState> {
 
   render() {
     const { text } = this.props;
-    console.log('editingMode' + this.props.editingMode);
-    console.log('useDynamic' + this.props.useDynamicEditor);
     return (
       <div
         className={
