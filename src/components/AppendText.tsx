@@ -39,6 +39,7 @@ export default class AppendText extends React.Component<any, ChildState> {
       newLine: this.props.appendNewLine,
       newParagraph: this.props.appendNewParagraph,
       useMonacoEditor: this.props.editingMode === this.props.useMonacoEditor,
+      useDynamicEditor: this.props.editingMode === this.props.useDynamicEditor,
     };
   }
 
@@ -101,6 +102,19 @@ export default class AppendText extends React.Component<any, ChildState> {
         () => {
           this.setState({
             useMonacoEditor: true,
+          });
+        }
+      );
+    }
+    // Refresh Dynamic Editor after appending text to note
+    if (this.state.useDynamicEditor) {
+      this.setState(
+        {
+          useDynamicEditor: false,
+        },
+        () => {
+          this.setState({
+            useDynamicEditor: true,
           });
         }
       );
@@ -182,7 +196,7 @@ export default class AppendText extends React.Component<any, ChildState> {
               saveText={this.saveText}
               text={text}
             />
-          ) : this.props.editingMode === this.props.useDynamicEditor ? (
+          ) : this.state.useDynamicEditor ? (
             <div id="appendDynamicEditor">
               <DynamicEditor text={text} onChange={this.saveText} />
             </div>

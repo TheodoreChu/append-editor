@@ -112,11 +112,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
             }
           >
             {!text && [
-              <div
-                id="intro"
-                style={{ textAlign: 'center' }}
-                className="rendered-section"
-              >
+              <div id="intro" style={{ textAlign: 'center' }}>
                 <details>
                   <summary>
                     Welcome to the Append Editor!{' '}
@@ -189,7 +185,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
               </div>,
             ]}
             {this.state.showHelp && [
-              <div id="help" className="rendered-section">
+              <div id="help">
                 <hr></hr>
                 <h2>Append Editor Help</h2>
                 <p>

@@ -351,6 +351,8 @@ button:focus {
 #appendDynamicEditor,
 #dynamicEditor,
 .rendered-section,
+#intro,
+#help,
 #renderedNote,
 #settings,
 .DynamicEditor {
@@ -416,21 +418,28 @@ button:focus {
   }
 }
 
+#intro,
+#help,
+.rendered-section {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 645.5px; //628.700px;
+}
+
 .rendered-section {
   padding: 9px 10px;
   border: 1px transparent;
   border-style: solid;
   height: calc(100% - 20px);
-  max-width: 645.5px; //628.700px;
 }
 
+#intro,
+#help,
 #renderedNote,
 .rendered-section {
   /*align-items: center;
   justify-content: space-between;
   min-width: inherit;
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
   word-wrap: break-word;*/
   line-height: 1.9rem;

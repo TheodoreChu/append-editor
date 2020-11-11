@@ -286,6 +286,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             );
           }
           this.refreshEdit();
+          // Refresh view mode if using dynamic
+          if (this.state.editingMode === useDynamicEditor) {
+            this.refreshView();
+          }
         }
       );
     }
