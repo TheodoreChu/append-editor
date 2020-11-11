@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppendInterface } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
+import DynamicEditor from './DynamicEditor';
 
 const editTextAreaID = 'editTextArea';
 
@@ -75,18 +76,22 @@ export default class EditNote extends React.Component<any, ChildState> {
           'sk-panel main edit ' +
           (this.props.printMode
             ? 'printModeOn'
-            : this.props.useMonacoEditor
-            ? 'MonacoEditor printModeOff'
-            : 'printModeOff')
+            : this.props.editingMode === this.props.useMonacoEditor
+            ? 'monacoEditor printModeOff'
+            : this.props.editingMode === this.props.useDynamicEditor
+            ? 'dynamicEditor printModeOff'
+            : 'otherEditor printModeOff')
         }
       >
         <div
           className={
             'sk-panel-content edit ' +
-            (this.props.useMonacoEditor ? 'MonacoEditor' : '')
+            (this.props.editingMode === this.props.useMonacoEditor
+              ? 'monacoEditor'
+              : '')
           }
         >
-          {this.props.useMonacoEditor ? (
+          {this.props.editingMode === this.props.useMonacoEditor ? (
             <MonacoEditor
               fontSize={this.props.fontSize}
               language={this.props.MonacoEditorLanguage}
@@ -94,6 +99,10 @@ export default class EditNote extends React.Component<any, ChildState> {
               text={text}
               viewMode={this.props.viewMode}
             />
+          ) : this.props.editingMode === this.props.useDynamicEditor ? (
+            <div id="dynamicEditor">
+              <DynamicEditor text={text} onChange={this.saveText} />
+            </div>
           ) : (
             <textarea
               id={editTextAreaID}

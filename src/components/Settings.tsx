@@ -7,7 +7,7 @@ const fontEditID = 'fontEdit';
 const fontSizeID = 'fontSize';
 const fontViewID = 'fontView';
 const useCodeMirrorID = 'useCodeMirror';
-const useMonacoEditorID = 'useMonacoEditor';
+
 const usePlainTextID = 'usePlainText';
 const MonacoEditorLanguageID = 'MonacoEditorLanguage';
 const customStylesID = 'customStyles';
@@ -26,14 +26,17 @@ interface PropsState extends AppendInterface {
 
 interface ChildState {
   customStyles: string;
-  editingMode: 'usePlainText' | 'useMonacoEditor' | 'useCodeMirror';
+  editingMode:
+    | 'usePlainText'
+    | 'useCodeMirror'
+    | 'useDynamicEditor'
+    | 'useMonacoEditor';
   fontEdit: string;
   fontSize: string;
   fontView: string;
   MonacoEditorLanguage: string;
   useCodeMirror: boolean;
   showCustomStyles: boolean;
-  useMonacoEditor: boolean;
   [x: string]: string | boolean;
 }
 
@@ -45,25 +48,14 @@ const codeRegExp = new RegExp(/```/gm);
 export default class Settings extends React.Component<any, ChildState> {
   constructor(props: PropsState) {
     super(props);
-    let initialEditingMode:
-      | 'usePlainText'
-      | 'useMonacoEditor'
-      | 'useCodeMirror';
-    initialEditingMode = usePlainTextID;
-    if (this.props.useCodeMirror) {
-      initialEditingMode = useCodeMirrorID;
-    } else if (this.props.useMonacoEditor) {
-      initialEditingMode = useMonacoEditorID;
-    }
     this.state = {
       customStyles: this.props.customStyles,
-      editingMode: initialEditingMode,
+      editingMode: this.props.editingMode,
       fontEdit: this.props.fontEdit,
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
       MonacoEditorLanguage: this.props.MonacoEditorLanguage,
       useCodeMirror: this.props.useCodeMirror,
-      useMonacoEditor: this.props.useMonacoEditor,
       showCustomStyles: false, // false by default for a mobile-first experience
     };
     //this.handleInputChange = this.handleInputChange.bind(this);
@@ -78,7 +70,7 @@ export default class Settings extends React.Component<any, ChildState> {
       [name]: value,
     });
     if (name === editingModeID) {
-      if (value === useMonacoEditorID) {
+      if (value === this.props.useMonacoEditor) {
         this.setState({
           useCodeMirror: false,
           useMonacoEditor: true,
@@ -188,22 +180,22 @@ export default class Settings extends React.Component<any, ChildState> {
         }
         const {
           customStyles,
+          editingMode,
           fontEdit,
           fontSize,
           fontView,
           MonacoEditorLanguage,
           useCodeMirror,
-          useMonacoEditor,
         } = this.state;
-        this.props.onConfirm(
-          { customStyles },
-          { fontEdit },
-          { fontSize },
-          { fontView },
-          { MonacoEditorLanguage },
-          { useCodeMirror },
-          { useMonacoEditor }
-        );
+        this.props.onConfirm({
+          customStyles,
+          editingMode,
+          fontEdit,
+          fontSize,
+          fontView,
+          MonacoEditorLanguage,
+          useCodeMirror,
+        });
       }
     );
   };
@@ -275,7 +267,6 @@ export default class Settings extends React.Component<any, ChildState> {
     this.setState({
       editingMode: usePlainTextID,
       useCodeMirror: false,
-      useMonacoEditor: false,
     });
   };
 
@@ -496,7 +487,10 @@ export default class Settings extends React.Component<any, ChildState> {
                   value={usePlainTextID}
                   className="radio"
                   type="radio"
-                  checked={this.state.editingMode === usePlainTextID}
+                  checked={
+                    this.state.editingMode === usePlainTextID ||
+                    this.state.editingMode == undefined
+                  }
                   onChange={this.handleInputChange}
                 />
                 Plain Textarea: no formatting (default, mobile recommended)
@@ -510,28 +504,51 @@ export default class Settings extends React.Component<any, ChildState> {
                   value={useCodeMirrorID}
                   type="radio"
                   className="radio"
-                  checked={this.state.editingMode === useCodeMirrorID}
+                  checked={
+                    this.state.editingMode === useCodeMirrorID ||
+                    this.state.useCodeMirror
+                  }
                   onChange={this.handleInputChange}
                 />
                 CodeMirror: in-line formatting for Markdown
               </label>
             </section>
             <section className="sk-panel-row settings">
-              <label htmlFor={useMonacoEditorID}>
+              <label>
                 <input
-                  id={useMonacoEditorID}
+                  id={this.props.useDynamicEditor}
                   name={editingModeID}
-                  value={useMonacoEditorID}
+                  value={this.props.useDynamicEditor}
                   type="radio"
                   className="radio"
-                  checked={this.state.editingMode === useMonacoEditorID}
+                  checked={
+                    this.state.editingMode === this.props.useDynamicEditor
+                  }
                   onChange={this.handleInputChange}
                 />
-                Monaco Editor: in-line formatting for many languages (desktop
-                recommended)
+                Dynamic: live formatting for Markdown. <b>warning: </b>
+                existing markdown may break (not compatible with KaTeX, lists
+                may not render properly; desktop and mobile compatible)
               </label>
             </section>
-            {this.state.useMonacoEditor && [
+            <section className="sk-panel-row settings">
+              <label htmlFor={this.props.useMonacoEditor}>
+                <input
+                  id={this.props.useMonacoEditor}
+                  name={editingModeID}
+                  value={this.props.useMonacoEditor}
+                  type="radio"
+                  className="radio"
+                  checked={
+                    this.state.editingMode === this.props.useMonacoEditor
+                  }
+                  onChange={this.handleInputChange}
+                />
+                Monaco: in-line formatting for Markdown and other languages
+                (desktop recommended)
+              </label>
+            </section>
+            {this.state.editingMode === this.props.useMonacoEditor && [
               <section className="sk-panel-row settings">
                 <label htmlFor={MonacoEditorLanguageID}>
                   Monaco Editor Language:{' '}
