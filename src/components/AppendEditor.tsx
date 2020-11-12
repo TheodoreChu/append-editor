@@ -151,6 +151,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           },
           () => {
             this.refreshEdit();
+            this.refreshView();
             this.activateStyles();
           }
         );
@@ -905,6 +906,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToBottom = () => {
+    if (debugMode) {
+      console.log('skipped to bottom');
+    }
     document.body.scrollTop = 10000000; // for Safari
     if (this.state.editMode) {
       const editTextArea = document.getElementById(editTextAreaID);
@@ -972,6 +976,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToTop = () => {
+    if (debugMode) {
+      console.log('skipped to top');
+    }
     if (this.state.editMode) {
       const editTextArea = document.getElementById(editTextAreaID);
       if (editTextArea) {
