@@ -489,7 +489,7 @@ export default class Settings extends React.Component<any, ChildState> {
                   type="radio"
                   checked={
                     this.state.editingMode === usePlainTextID ||
-                    this.state.editingMode == undefined
+                    this.state.editingMode === undefined
                   }
                   onChange={this.handleInputChange}
                 />

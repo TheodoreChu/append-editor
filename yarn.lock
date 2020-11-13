@@ -10565,7 +10565,7 @@ prosemirror-utils@^0.9.6:
   resolved "https://registry.yarnpkg.com/prosemirror-utils/-/prosemirror-utils-0.9.6.tgz#3d97bd85897e3b535555867dc95a51399116a973"
   integrity sha512-UC+j9hQQ1POYfMc5p7UFxBTptRiGPR7Kkmbl3jVvU8VgQbkI89tR/GK+3QYC8n+VvBZrtAoCrJItNhWSxX3slA==
 
-prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.13.3, prosemirror-view@^1.15.7:
+prosemirror-view@^1.0.0, prosemirror-view@^1.1.0, prosemirror-view@^1.13.3, prosemirror-view@^1.16.1:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/prosemirror-view/-/prosemirror-view-1.16.1.tgz#375794a253151205394bb1ece07bcc2a647c85da"
   integrity sha512-7iDdRf2PAIgOnstcxqUxzf8IbHGfxygQs5covfxOHLWKyx7SSLRnBIlwVda54Hr6N26F4t5Kj2jfK7uIBcAKAw==
@@ -11445,10 +11445,10 @@ rgba-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/rgba-regex/-/rgba-regex-1.0.0.tgz#43374e2e2ca0968b0ef1523460b7d730ff22eeb3"
   integrity sha1-QzdOLiyglosO8VI0YLfXMP8i7rM=
 
-rich-markdown-editor@^11.0.4:
-  version "11.0.4"
-  resolved "https://registry.yarnpkg.com/rich-markdown-editor/-/rich-markdown-editor-11.0.4.tgz#0ed7f1047f8125d31fbb54bcbab63de714674776"
-  integrity sha512-dY7nEqpRL+gBtD54x2n4duw/x5QzayNSI9BUlqkGqEFxfgrNQ3AwPwgGPefRp2dSl8MvHMkE5dLRyVllBdhumQ==
+rich-markdown-editor@^11.0.6-0:
+  version "11.0.6-0"
+  resolved "https://registry.yarnpkg.com/rich-markdown-editor/-/rich-markdown-editor-11.0.6-0.tgz#ffe37beb69efb05cf1faeb40c359dea8ed188a3c"
+  integrity sha512-bS46faYSolm2iBDIABjf3Yg3aJSdVINKiFbBX29CzfaXZCcWCjjlFhsb75R3phKgxb9halCyBqf54EfWQaZMAw==
   dependencies:
     copy-to-clipboard "^3.0.8"
     lodash "^4.17.11"
@@ -11468,7 +11468,7 @@ rich-markdown-editor@^11.0.4:
     prosemirror-tables "^1.1.1"
     prosemirror-transform "1.2.5"
     prosemirror-utils "^0.9.6"
-    prosemirror-view "^1.15.7"
+    prosemirror-view "^1.16.1"
     react-medium-image-zoom "^3.0.16"
     react-portal "^4.2.1"
     refractor "^3.1.0"
