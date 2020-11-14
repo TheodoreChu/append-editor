@@ -1,7 +1,5 @@
 # Append Editor
 
-#### Table of Contents
-
 <div align="center">
 
 [![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/releases)
@@ -23,23 +21,29 @@ You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.
 
 The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in 'read/view only' mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
-The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, search and replace, and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down.
+The editor supports Markdown, $\LaTeX/ \KaTeX$, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, emoji codes, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, search and replace, and more. It is perfect for writing class notes, daily journals, to-do checklists, and code snippets. You can append to your notes whenever you need to jot anything down.
 
 This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme.
 
 ## Features
 
-- [Markdown](https://guides.github.com/features/mastering-markdown/) support provided by [Unified/Remark](https://github.com/remarkjs/remark)
-- $\LaTeX/\KaTeX$ provided by hosted [KaTeX](https://github.com/KaTeX/KaTeX)
-- Emojis provided by [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
-- Google Code and GitHub Gist flavored Syntax Highlighting provided by [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
+### Main Features
+
+- CommonMark and GitHub-flavored [Markdown](https://guides.github.com/features/mastering-markdown/) provided by [Unified/Remark/Rehype](https://github.com/remarkjs/remark)
+- $\LaTeX/\KaTeX$ provided by [Remark Math](https://github.com/remarkjs/remark-math) and hosted [KaTeX](https://github.com/KaTeX/KaTeX) stylesheets
+- Visual Studio Code flavored Syntax Highlighting provided by [Rehype Highlight](https://github.com/rehypejs/rehype-highlight) and hosted [Highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
 - Table of Contents (links don't work on mobile) provided by [Remark TOC](https://github.com/remarkjs/remark-toc)
-- Footnotes (links don't work on mobile) provided by [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
+- Footnotes (links don't work on mobile) provided by [Remark Footnotes](https://github.com/remarkjs/remark-footnotes)
+- Inline HTML for underlining, highlighting, and HTML rendering provided by [Rehype Raw](https://github.com/rehypejs/rehype-raw)
 - Optional in-line formatting for Markdown provided by [CodeMirror](https://codemirror.net)
-- Optional syntax highlighting for Markdown and many other programming languages, intelligent auto-completion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/)
-- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor)
-- Inline HTML for underlining and highlighting
-- Print/Save to PDF in rendered form with or without URLs (works best on Chromium browsers)
+- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor). Checkboxes are clickable in view/read-only mode
+- Optional in-line syntax highlighting for Markdown and many other programming languages, intelligent auto-completion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
+  - Languages supported: abap, aes, apex, azcli, bat, c, cameligo, clojure, coffeescript, cpp, csharp, csp, css, dart, dockerfile, fsharp, go, graphql, handlebars, hcl, html, ini, java, javascript, json, julia, kotlin, less, lexon, lua, markdown, mips, msdax, mysql, objective-c, pascal, pascaligo, perl, pgsql, php, plaintext, postiats, powerquery, powershell, pug, python, r, razor, redis, redshift, restructuredtext, ruby, rust, sb, scala, scheme, scss, shell, sol, sql, st, swift, systemverilog, tcl, twig, typescript, vb, verilog, xml, yaml
+
+### More Features
+
+- Emojis provided by [Remark emoji](https://github.com/rhysd/remark-emoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- Print/Save to PDF the rendered Markdown/HTML text with or without URLs (works best on Chromium browsers)
 - Buttons to scroll to top and bottom of the note
 - Notes are stored in plaintext (great for longevity)
 - Read notes by default to prevent accidentally editing previous notes
@@ -49,8 +53,9 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Option to render text live while editing
 - Option to turn View mode off to improve editor performance when editing long notes
 - Option to add new line or start new paragraph when appending
-- Option to choose custom fonts
+- Option to choose custom fonts and font sizes
 - Helpful questions to prompt writing
+- On Web and Desktop, switching notes does not reset the Edit and View modes, making it easy to edit multiple notes in one session
 
 ## Installation
 
@@ -81,6 +86,10 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 After you have installed the editor on the web or desktop app, it will automatically sync to your [mobile app](https://standardnotes.org/download) after you sign in.
 
 ## Keyboard Shortcuts
+
+:::note
+Some keyboard shortcuts currently work in Plaintext and CodeMirror editing modes, but not in the Dynamic and Monaco editing modes.
+:::
 
 | Action                                     | Shortcut                                       |
 | :----------------------------------------- | :--------------------------------------------- |
@@ -294,6 +303,7 @@ Then update your fonts using the fonts settings or like this:
 
 ```css
 .CodeMirror,
+.ProseMirror,
 #editTextArea,
 #appendTextArea {
   font-family: 'Open Sans';
@@ -304,6 +314,7 @@ If you want to edit the font-sizes for the view, edit, and append textareas, you
 
 ```css
 .CodeMirror,
+.ProseMirror,
 #editTextArea,
 #appendTextArea,
 #renderedNote {
