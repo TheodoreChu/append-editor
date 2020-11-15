@@ -36,7 +36,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Footnotes (links don't work on mobile) provided by [Remark Footnotes](https://github.com/remarkjs/remark-footnotes)
 - Inline HTML for underlining, highlighting, and HTML rendering provided by [Rehype Raw](https://github.com/rehypejs/rehype-raw)
 - Optional in-line formatting for Markdown provided by [CodeMirror](https://codemirror.net)
-- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor). Checkboxes are clickable in view/read-only mode
+- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor) developed by [Outline](https://www.getoutline.com/). Checkboxes are clickable in view/read-only mode
 - Optional in-line syntax highlighting for Markdown and many other programming languages, intelligent auto-completion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
   - Languages supported: abap, aes, apex, azcli, bat, c, cameligo, clojure, coffeescript, cpp, csharp, csp, css, dart, dockerfile, fsharp, go, graphql, handlebars, hcl, html, ini, java, javascript, json, julia, kotlin, less, lexon, lua, markdown, mips, msdax, mysql, objective-c, pascal, pascaligo, perl, pgsql, php, plaintext, postiats, powerquery, powershell, pug, python, r, razor, redis, redshift, restructuredtext, ruby, rust, sb, scala, scheme, scss, shell, sol, sql, st, swift, systemverilog, tcl, twig, typescript, vb, verilog, xml, yaml
 
