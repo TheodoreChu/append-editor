@@ -186,7 +186,7 @@ export default class ViewNote extends React.Component<any, ChildState> {
                     target="_blank"
                     rel="nofollow noreferrer noopener"
                   >
-                    Custom Editor
+                    editor
                   </a>{' '}
                   for{' '}
                   <a
