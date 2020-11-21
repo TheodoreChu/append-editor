@@ -1628,18 +1628,20 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               />
             )}
             <button
-              type="button"
+              className="sk-button info"
               id="scrollToTopButton"
               onClick={this.scrollToTop}
-              className="sk-button info"
+              title="Scroll to Top"
+              type="button"
             >
               <div className="sk-label"> ▲ </div>
             </button>
             <button
-              type="button"
+              className="sk-button info"
               id="scrollToBottomButton"
               onClick={this.scrollToBottom}
-              className="sk-button info"
+              title="Scroll to Bottom"
+              type="button"
             >
               <div className="sk-label"> ▼ </div>
             </button>
