@@ -335,7 +335,6 @@ export default class Settings extends React.Component<any, ChildState> {
         <div className="sk-panel-content">
           <div className="sk-panel-section">
             <datalist id="fonts">
-              ,
               <option
                 value={
                   'SFMono-Regular, Consolas, Liberation Mono, Menlo, "Ubuntu Mono", courier, monospace;'

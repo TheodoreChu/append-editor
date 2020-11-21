@@ -19,14 +19,6 @@
   }
 }
 
-@media print {
-  .printURL {
-    a[href]:after {
-      content: ' (' attr(href) ')';
-    }
-  }
-}
-
 body,
 html {
   font-family: var(--sn-stylekit-sans-serif-font);
@@ -87,21 +79,6 @@ button:focus {
   .sk-panel.main.edit.monacoEditor,
   .sk-panel.main.appendix.monacoEditor {
     max-width: 800px;
-  }
-  .sk-panel.main.printModeOn {
-    border: 1px var(--sn-stylekit-background-color);
-    box-shadow: none;
-  }
-
-  .sk-panel.main.view.printModeOn {
-    max-width: none;
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-
-  .sk-panel.main.edit.printModeOn,
-  .sk-panel.main.appendix.printModeOn {
-    background-color: var(--sn-stylekit-background-color);
   }
 
   .sk-panel-content.view {
@@ -208,7 +185,6 @@ button:focus {
   .sk-button-group {
     max-width: 700px;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     padding-left: 2px;
     padding-right: 2px;
     //display: flex;
@@ -217,10 +193,7 @@ button:focus {
 
     button {
       border-width: 0px;
-      font-size: 15px;
-      @media screen and (max-width: 650px) {
-        font-size: 16px;
-      }
+      font-size: 16px;
 
       .sk-label {
         font-weight: inherit;
@@ -233,9 +206,6 @@ button:focus {
       opacity: 0.25;
       cursor: unset;
       margin-right: 0px;
-      @media screen and (max-width: 379px) {
-        display: none;
-      }
     }
     .sk-button.info.off {
       color: var(--sn-stylekit-info-color);
@@ -253,11 +223,12 @@ button:focus {
       //background-color: var(--sn-stylekit-info-color);
       background-color: var(--sn-stylekit-contrast-background-color);
     }
+    @media screen and (max-width: 450px) {
+      #printButton {
+        display: none;
+      }
+    }
   }
-}
-
-.content.printModeOn {
-  background-color: var(--sn-stylekit-background-color) !important;
 }
 
 #content {
@@ -597,10 +568,6 @@ button:focus {
   z-index: 100;
 }
 
-.appendix.printModeOn {
-  background-color: var(--sn-stylekit-background-color) !important;
-}
-
 #appendix {
   background-color: var(--sn-stylekit-contrast-background-color);
   display: block;
@@ -687,126 +654,6 @@ button:focus {
   }
 }
 
-#content .CodeMirror {
-  max-height: calc(100% - 1rem);
-}
-
-#appendix .CodeMirror {
-  max-height: calc(100% - 2px);
-}
-
-.CodeMirror {
-  //fix : margin left is 30px;
-  font-family: var(--sn-stylekit-sans-serif-font);
-  font-size: var(--sn-stylekit-font-size-editor);
-  background: inherit;
-  color: inherit;
-  line-height: 1.9rem;
-  min-height: 8.25em;
-  border: 1px solid var(--sn-stylekit-contrast-border-color);
-  background-color: var(--sn-stylekit-contrast-background-color);
-
-  @media screen and (max-width: 725px) {
-    border-top: 1px solid var(--sn-stylekit-border-color);
-  }
-  .CodeMirror-scroll,
-  .CodeMirror-sizer,
-  .CodeMirror-gutter,
-  .CodeMirror-gutters,
-  .CodeMirror-linenumber {
-    background: inherit;
-  }
-  .CodeMirror-linenumber {
-    font-family: var(--sn-stylekit-monospace-font);
-  }
-  .cm-header.cm-header-1 {
-    font-size: 2em;
-  }
-  .cm-header.cm-header-2 {
-    font-size: 1.5em;
-  }
-  .cm-header.cm-header-3 {
-    font-size: 1.17em;
-  }
-  .cm-header.cm-header-4 {
-    font-size: 1em;
-  }
-  .cm-comment {
-    background-color: var(--sn-stylekit-contrast-background-color);
-    color: var(--sn-stylekit-contrast-foreground-color);
-    font-family: var(--sn-stylekit-monospace-font);
-    font-size: 85%;
-    margin: 0;
-    padding: 0.2em 0.4em;
-  }
-  .cm-comment.CodeMirror-selectedtext,
-  .cm-comment.cm-link.CodeMirror-selectedtext {
-    background-color: unset;
-  }
-  .cm-attribute,
-  .cm-header {
-    color: var(--sn-stylekit-success-color);
-  }
-  .cm-variable,
-  .cm-variable-1,
-  .cm-variable-2,
-  .cm-variable-3,
-  .cm-string-2,
-  .cm-tag,
-  .cm-tag.cm-bracket {
-    color: var(--sn-stylekit-foreground-color);
-    &.CodeMirror-selectedtext {
-      color: var(--sn-stylekit-info-contrast-color);
-      background: transparent;
-    }
-  }
-  .cm-builtin,
-  .cm-string,
-  .cm-string.cm-url.cm-variable-2 {
-    color: var(--sn-stylekit-warning-color);
-  }
-  .cm-error {
-    color: var(--sn-stylekit-danger-color);
-  }
-  .cm-link,
-  .cm-link.cm-variable-2 {
-    color: var(--sn-stylekit-info-color);
-  }
-  .cm-quote {
-    color: #6a737d;
-  }
-}
-.cm-link,
-.cm-string,
-.cm-keyword,
-.cm-builtin,
-.cm-number,
-.cm-attribute {
-  &.CodeMirror-selectedtext {
-    color: var(--sn-stylekit-info-contrast-color);
-    background: transparent;
-  }
-}
-.CodeMirror-dialog {
-  position: fixed;
-  background: var(--sn-stylekit-background-color);
-}
-.CodeMirror-cursor {
-  border-color: var(--sn-stylekit-info-color);
-}
-.CodeMirror-selected {
-  background: var(--sn-stylekit-input-placeholder-color);
-  color: var(--sn-stylekit-info-contrast-color);
-}
-.CodeMirror-focused .CodeMirror-selected {
-  background: var(--sn-stylekit-info-color);
-  color: var(--sn-stylekit-info-contrast-color);
-}
-.CodeMirror-selectedtext {
-  background: transparent;
-  color: var(--sn-stylekit-info-contrast-color);
-}
-
 .MonacoEditorContainer,
 .MonacoDiffEditorContainer {
   min-height: 200px;
@@ -851,4 +698,6 @@ button.block-menu-trigger {
   color: var(--sn-stylekit-foreground-color);
 }
 
+@import './codemirror.scss';
+@import './print.scss';
 @import './dark.scss';

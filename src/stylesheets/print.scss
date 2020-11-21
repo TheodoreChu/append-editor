@@ -1,0 +1,64 @@
+@media print {
+  .printURL {
+    a[href]:after {
+      content: ' (' attr(href) ')';
+    }
+  }
+
+  .sn-component {
+    outline: none;
+  }
+
+  #header,
+  #appendix {
+    display: none;
+  }
+
+  .sk-panel.main {
+    border: 1px var(--sn-stylekit-background-color);
+    box-shadow: none;
+  }
+
+  .sk-panel.main.view {
+    max-width: none;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .sk-panel.main.edit,
+  .sk-panel.main.appendix {
+    display: none;
+    background-color: var(--sn-stylekit-background-color);
+  }
+
+  .content,
+  .appendix {
+    background-color: var(--sn-stylekit-background-color) !important;
+  }
+
+  #renderedNote pre code {
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+}
+
+.sk-panel.main.printModeOn {
+  border: 1px var(--sn-stylekit-background-color);
+  box-shadow: none;
+}
+
+.sk-panel.main.view.printModeOn {
+  max-width: none;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.sk-panel.main.edit.printModeOn,
+.sk-panel.main.appendix.printModeOn {
+  background-color: var(--sn-stylekit-background-color);
+}
+
+.content.printModeOn,
+.appendix.printModeOn {
+  background-color: var(--sn-stylekit-background-color) !important;
+}
