@@ -431,7 +431,6 @@ export default class ViewNote extends React.Component<any, ChildState> {
             ]}
             <div
               id="renderedNote"
-              style={{ fontFamily: this.props.fontView }}
               className={
                 '' +
                 (this.props.editingMode === this.props.useDynamicEditor

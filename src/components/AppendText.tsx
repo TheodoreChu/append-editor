@@ -212,7 +212,6 @@ export default class AppendText extends React.Component<any, ChildState> {
               onChange={this.handleTextAreaChange}
               onKeyDown={this.onKeyDown}
               onKeyUp={this.onKeyUp}
-              style={{ fontFamily: this.props.fontEdit }}
             />
           )}
         </div>

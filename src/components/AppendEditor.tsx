@@ -785,30 +785,41 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         sheetParent.removeChild(sheetToBeRemoved);
       }
     }
-    const sheet = document.createElement('style');
-    sheet.setAttribute('id', 'customStyleSheet');
-
-    const fontEditStyle =
-      '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea {font-family: ' +
-      this.state.fontEdit +
-      ';}';
-    const fontSizeStyle =
-      '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' +
-      this.state.fontSize +
-      ';}';
-    const fontViewStyle =
-      '#renderedNote {font-family: ' + this.state.fontView + ';}';
-    sheet.innerHTML =
-      this.state.customStyles +
-      '\n' +
-      fontEditStyle +
-      '\n' +
-      fontSizeStyle +
-      '\n' +
-      fontViewStyle +
-      '\n';
-
-    document.body.appendChild(sheet);
+    // Follow the order that appears in the Settings to make the Settings cascade
+    let fontSizeStyle = '';
+    if (this.state.fontSize) {
+      fontSizeStyle =
+        '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' +
+        this.state.fontSize +
+        ';}' +
+        '\n';
+    }
+    let fontEditStyle = '';
+    if (this.state.fontEdit) {
+      fontEditStyle =
+        '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea {font-family: ' +
+        this.state.fontEdit +
+        ';}' +
+        '\n';
+    }
+    let fontViewStyle = '';
+    if (this.state.fontView) {
+      fontViewStyle =
+        '#renderedNote {font-family: ' + this.state.fontView + ';}' + '\n';
+    }
+    if (
+      this.state.customStyles ||
+      this.state.fontEdit ||
+      this.state.fontSize ||
+      this.state.fontView
+    ) {
+      const sheet = document.createElement('style');
+      sheet.setAttribute('id', 'customStyleSheet');
+      // Follow the order that appears in the Settings to make the Settings cascade
+      sheet.innerHTML =
+        fontSizeStyle + fontEditStyle + fontViewStyle + this.state.customStyles;
+      document.body.appendChild(sheet);
+    }
   };
 
   onCancelPrint = () => {
@@ -1504,7 +1515,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             <EditNote
               debugMode={debugMode}
               editingMode={this.state.editingMode}
-              fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}
               keyMap={keyMap}
               MonacoEditorLanguage={this.state.MonacoEditorLanguage}
@@ -1524,7 +1534,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             <EditNote
               debugMode={debugMode}
               editingMode={this.state.editingMode}
-              fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}
               keyMap={keyMap}
               MonacoEditorLanguage={this.state.MonacoEditorLanguage}
@@ -1544,7 +1553,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             !this.state.refreshView && (
               <ViewNote
                 editingMode={this.state.editingMode}
-                fontView={this.state.fontView}
                 MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 printMode={this.state.printMode}
                 printURL={this.state.printURL}
@@ -1559,7 +1567,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             this.state.refreshView && (
               <ViewNote
                 editingMode={this.state.editingMode}
-                fontView={this.state.fontView}
                 MonacoEditorLanguage={this.state.MonacoEditorLanguage}
                 printMode={this.state.printMode}
                 printURL={this.state.printURL}
@@ -1604,7 +1611,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 autoSaveCheckBoxes={this.autoSaveCheckBoxes}
                 debugMode={debugMode}
                 editingMode={this.state.editingMode}
-                fontEdit={this.state.fontEdit}
                 fontSize={this.state.fontSize}
                 keyMap={keyMap}
                 appendNewLine={this.state.appendNewLine}

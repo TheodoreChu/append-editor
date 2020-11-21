@@ -293,7 +293,7 @@ You can also add finer-tuned Custom Styles via CSS.
 Custom styles from third parties can potentially betray your privacy. Only use styles from trusted sources.
 :::
 
-The custom fonts settings take precedence over Custom Styles because they are in-line. For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
+For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -303,9 +303,11 @@ Then update your fonts using the fonts settings or like this:
 
 ```css
 .CodeMirror,
+.DynamicEditor,
 .ProseMirror,
 #editTextArea,
-#appendTextArea {
+#appendTextArea,
+#renderedNote {
   font-family: 'Open Sans';
 }
 ```
@@ -314,15 +316,18 @@ If you want to edit the font-sizes for the view, edit, and append textareas, you
 
 ```css
 .CodeMirror,
+.DynamicEditor,
 .ProseMirror,
 #editTextArea,
 #appendTextArea,
 #renderedNote {
-  font-size: 16px;
+  font-size: 17px;
 }
 ```
 
-Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. If you accidentally add hide your settings with CSS (e.g., `#content {display: none;}`), then open the developer inspector, temporarily remove the custom styles, and adjust your Settings.
+The custom font sizes, font families, and Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. The Custom Styles take precedence over the higher settings because they are lower on the stylesheet.
+
+If you accidentally add hide your settings with CSS (e.g., `* {display: none;}`), then open the developer inspector, remove the custom stylesheet, and adjust your Settings.
 
 Settings are currently saved on a per-note basis. Saving your settings as default may be available in the future. Please let me know if you want to add another font to the list or need help implementing custom styles.
 
