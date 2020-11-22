@@ -1,7 +1,5 @@
 # Append Editor
 
-#### Table of Contents
-
 <div align="center">
 
 [![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/releases)
@@ -10,34 +8,42 @@
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
 [![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
+[![Downloads](https://img.shields.io/github/downloads/theodorechu/append-editor/total.svg?style=flat)](https://github.com/theodorechu/append-editor/releases)
 [![GitHub Stars](https://img.shields.io/github/stars/theodorechu/append-editor?style=social)](https://github.com/theodorechu/append-editor)
 
 </div>
 
 ## Introduction
 
-The Append Editor is an **unofficial** [Custom Editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, open-source, and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
+The Append Editor is an **unofficial** [editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, [open-source](https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software), and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
 
-You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com).
+You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com) the alpha demo at [alpha.appendeditor.com](https://alpha.appendeditor.com).
 
 The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in 'read/view only' mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
-The editor supports Markdown, $\LaTeX/ \KaTeX$, emoji codes, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, search and replace, and more. It is perfect for writing class notes and daily journals. You can append to your notes whenever you need to jot anything down.
+The editor supports Markdown, $\LaTeX/ \KaTeX$, syntax highlighting, inline HTML, table of contents, footnotes, auto-linking, emoji codes, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, search and replace, and more. It is perfect for writing class notes, daily journals, to-do checklists, and code snippets. You can append to your notes whenever you need to jot anything down.
 
 This editor works best on the [desktop app](https://standardnotes.org/download) and [web app](https://app.standardnotes.org) on a Chromium browser (e.g., Google Chrome or the latest Microsoft Edge) with the [No Distraction](https://standardnotes.org/extensions/no-distraction) theme.
 
 ## Features
 
-- [Markdown](https://guides.github.com/features/mastering-markdown/) support provided by [Unified/Remark](https://github.com/remarkjs/remark)
-- $\LaTeX/\KaTeX$ provided by hosted [KaTeX](https://github.com/KaTeX/KaTeX)
-- Emojis provided by [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
-- Google Code and GitHub Gist flavored Syntax Highlighting provided by [highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
+### Main Features
+
+- CommonMark and GitHub-flavored [Markdown](https://guides.github.com/features/mastering-markdown/) provided by [Unified/Remark/Rehype](https://github.com/remarkjs/remark)
+- $\LaTeX/\KaTeX$ provided by [Remark Math](https://github.com/remarkjs/remark-math) and hosted [KaTeX](https://github.com/KaTeX/KaTeX) stylesheets
+- Visual Studio Code flavored Syntax Highlighting provided by [Rehype Highlight](https://github.com/rehypejs/rehype-highlight) and hosted [Highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
 - Table of Contents (links don't work on mobile) provided by [Remark TOC](https://github.com/remarkjs/remark-toc)
-- Footnotes (links don't work on mobile) provided by [Remark footnotes](https://github.com/remarkjs/remark-footnotes)
-- Optional in-line formatting provided by [CodeMirror](https://codemirror.net)
-- Search and replace when in-line formatting is enabled
-- Inline HTML for underlining and highlighting
-- Print/Save to PDF in rendered form with or without URLs (works best on Chromium browsers)
+- Footnotes (links don't work on mobile) provided by [Remark Footnotes](https://github.com/remarkjs/remark-footnotes)
+- Inline HTML for underlining, highlighting, and HTML rendering provided by [Rehype Raw](https://github.com/rehypejs/rehype-raw)
+- Optional in-line formatting for Markdown provided by [CodeMirror](https://codemirror.net)
+- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor) developed by [Outline](https://www.getoutline.com/). Checkboxes are clickable in view/read-only mode
+- Optional in-line syntax highlighting for Markdown and many other programming languages, intelligent auto-completion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
+  - Languages supported: abap, aes, apex, azcli, bat, c, cameligo, clojure, coffeescript, cpp, csharp, csp, css, dart, dockerfile, fsharp, go, graphql, handlebars, hcl, html, ini, java, javascript, json, julia, kotlin, less, lexon, lua, markdown, mips, msdax, mysql, objective-c, pascal, pascaligo, perl, pgsql, php, plaintext, postiats, powerquery, powershell, pug, python, r, razor, redis, redshift, restructuredtext, ruby, rust, sb, scala, scheme, scss, shell, sol, sql, st, swift, systemverilog, tcl, twig, typescript, vb, verilog, xml, yaml
+
+### More Features
+
+- Emojis provided by [Remark emoji](https://github.com/rhysd/remark-emoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- Print/Save to PDF the rendered Markdown/HTML text with or without URLs (works best on Chromium browsers)
 - Buttons to scroll to top and bottom of the note
 - Notes are stored in plaintext (great for longevity)
 - Read notes by default to prevent accidentally editing previous notes
@@ -47,25 +53,43 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Option to render text live while editing
 - Option to turn View mode off to improve editor performance when editing long notes
 - Option to add new line or start new paragraph when appending
-- Option to choose custom fonts
+- Option to choose custom fonts and font sizes
 - Helpful questions to prompt writing
+- On Web and Desktop, switching notes does not reset the Edit and View modes, making it easy to edit multiple notes in one session
 
 ## Installation
 
 1. Register for an account at Standard Notes using the [Desktop App](https://standardnotes.org/download) or [Web app](https://app.standardnotes.org). Remember to use a strong and memorable password.
-1. Click **Extensions** in the lower left corner.
-1. Click **Import Extension**.
-1. Paste this into the box:
+2. In the bottom left corner of the app, click **Extensions**.
+3. Click **Import Extension**.
+4. To install the Beta version, paste this into the input box:
    ```
    https://notes.theochu.com/p/mEyBECVK7i
    ```
-1. Press Enter or Return on your keyboard.
-1. Click **Install**.
-1. At the top of your note, click **Editor**, then click **Append Editor - Beta**.
+   or paste this into the input box on **desktop**:
+   ```
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+   ```
+5. To install the Alpha version, paste this into the input box:
+   ```
+   https://notes.theochu.com/p/wVH1OyOI0Y
+   ```
+   or paste this into the input box on **desktop**:
+   ```
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/alpha.ext.json
+   ```
+6. Press Enter or Return on your keyboard.
+7. Click **Install**.
+8. At the top of your note, click **Editor**, then click **Append Editor - Beta** (or **Alpha**).
+9. When prompted to activate the extension, click **Continue**.
 
-After you have installed the editor on the web or desktop app, it will automatically sync to your [mobile app](https://standardnotes.org/download) after you log in.
+After you have installed the editor on the web or desktop app, it will automatically sync to your [mobile app](https://standardnotes.org/download) after you sign in.
 
 ## Keyboard Shortcuts
+
+:::note
+Some keyboard shortcuts currently work in Plaintext and CodeMirror editing modes, but not in the Dynamic and Monaco editing modes.
+:::
 
 | Action                                     | Shortcut                                       |
 | :----------------------------------------- | :--------------------------------------------- |
@@ -269,7 +293,7 @@ You can also add finer-tuned Custom Styles via CSS.
 Custom styles from third parties can potentially betray your privacy. Only use styles from trusted sources.
 :::
 
-The custom fonts settings take precedence over Custom Styles because they are in-line. For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
+For example, you can add custom fonts (e.g., from [Google Fonts](https://fonts.google.com/)) like this:
 
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
@@ -279,8 +303,11 @@ Then update your fonts using the fonts settings or like this:
 
 ```css
 .CodeMirror,
+.DynamicEditor,
+.ProseMirror,
 #editTextArea,
-#appendTextArea {
+#appendTextArea,
+#renderedNote {
   font-family: 'Open Sans';
 }
 ```
@@ -289,14 +316,18 @@ If you want to edit the font-sizes for the view, edit, and append textareas, you
 
 ```css
 .CodeMirror,
+.DynamicEditor,
+.ProseMirror,
 #editTextArea,
 #appendTextArea,
 #renderedNote {
-  font-size: 16px;
+  font-size: 17px;
 }
 ```
 
-Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. If you accidentally add hide your settings with CSS (e.g., `#content {display: none;}`), then open the developer inspector, temporarily remove the custom styles, and adjust your Settings.
+The custom font sizes, font families, and Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. The Custom Styles take precedence over the higher settings because they are lower on the stylesheet.
+
+If you accidentally add hide your settings with CSS (e.g., `* {display: none;}`), then open the developer inspector, remove the custom stylesheet, and adjust your Settings.
 
 Settings are currently saved on a per-note basis. Saving your settings as default may be available in the future. Please let me know if you want to add another font to the list or need help implementing custom styles.
 
@@ -311,7 +342,7 @@ The general instructions setting up an environment to develop Standard Notes ext
 3. Run `cd append-editor` to enter the `append-editor` directory.
 4. Run `yarn install` to install the dependencies on your machine as they are described in `yarn.lock`.
 5. In the `public` directory, create `ext.json` as explained [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`, create `ext.json` as a copy of `sample.ext.json` or use the sample.
-6. Install http-server using `sudo npm install -g http-server` then run `yarn serve-public` to serve the `./public` directory at http://localhost:3000.
+6. Install http-server using `sudo npm install -g http-server` then run `yarn server-public` to serve the `./public` directory at http://localhost:3000.
 7. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
 8. To run the app in development mode, run `yarn start`. Press `ctrl/cmd + C` to exit development mode.
 9. To make the source code prettier, run `yarn pretty`.
@@ -373,6 +404,6 @@ Copyright (c) Theodore Chu. All Rights Reserved. Licensed under [AGPL-3.0](https
 - [GitHub](https://github.com/theodorechu/append-editor)
 - [Docs](https://docs.theochu.com/append-editor)
 - [Contact](https://theochu.com/contact)
-- [Append Editor To do List](https://notes.theochu.com/13704/append-editor-todo)
+- [Append Editor To do List](https://github.com/TheodoreChu/append-editor/projects/1)
 - [Standard Notes Slack](https://standardnotes.org/slack) (for connecting with the Standard Notes Community)
 - [Standard Notes Help Files](https://standardnotes.org/help) (for issues related to Standard Notes but unrelated to this editor)
