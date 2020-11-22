@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppendInterface } from './AppendEditor';
+import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 import DynamicEditor from './DynamicEditor';
 import { MonacoEditor } from './Monaco';
 
@@ -7,31 +7,44 @@ const appendTextAreaID = 'appendTextArea';
 const newLineID = 'newLine';
 const newParagraphID = 'newParagraph';
 
-interface PropsState extends AppendInterface {
+interface AppendProps {
+  appendNewLine: boolean;
+  appendNewParagraph: boolean;
+  appendRows: number;
   appendTextToNote: Function;
-  keyMap: any;
+  editingMode: EditingMode;
+  fontSize: string;
+  keyMap: Map<any, any>;
   debugMode: boolean;
   autoSaveAppendText: Function;
   autoSaveCheckBoxes: Function;
+  monacoEditorLanguage: string;
+  printMode: boolean;
   onKeyDown: Function;
   onKeyUp: Function;
   onKeyDownAppendTextArea: Function;
   onKeyDownTextArea: Function;
+  text: string;
+  useDynamicEditor: useDynamicEditor;
+  useMonacoEditor: useMonacoEditor;
 }
 
-interface ChildState {
+interface AppendState {
   text: string;
   newLine: boolean;
   newParagraph: boolean;
   [x: string]: string | boolean;
 }
 
-export default class AppendText extends React.Component<any, ChildState> {
+export default class AppendText extends React.Component<
+  AppendProps,
+  AppendState
+> {
   static defaultProps = {
     // none
   };
 
-  constructor(props: PropsState) {
+  constructor(props: AppendProps) {
     super(props);
 
     this.state = {
@@ -192,13 +205,18 @@ export default class AppendText extends React.Component<any, ChildState> {
             // We use this.state instead of this.props so we can easily refresh it on Append
             <MonacoEditor
               fontSize={this.props.fontSize}
-              language={this.props.MonacoEditorLanguage}
+              language={this.props.monacoEditorLanguage}
               saveText={this.saveText}
               text={text}
             />
           ) : this.state.useDynamicEditor ? (
             <div id="appendDynamicEditor">
-              <DynamicEditor text={text} onChange={this.saveText} />
+              <DynamicEditor
+                debugMode={this.props.debugMode}
+                onChange={this.saveText}
+                readOnly={false}
+                text={text}
+              />
             </div>
           ) : (
             <textarea

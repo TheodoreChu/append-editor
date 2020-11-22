@@ -1,30 +1,38 @@
 import React from 'react';
-import { AppendInterface } from './AppendEditor';
+import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
 import DynamicEditor from './DynamicEditor';
 
 const editTextAreaID = 'editTextArea';
 
-interface PropsState extends AppendInterface {
-  keyMap: any;
+interface EditProps {
   debugMode: boolean;
+  editingMode: EditingMode;
+  fontSize: string;
+  keyMap: any;
+  monacoEditorLanguage: string;
   onKeyDown: Function;
   onKeyUp: Function;
   onKeyDownEditTextArea: Function;
   onKeyDownTextArea: Function;
+  printMode: boolean;
   saveText: Function;
+  text: string;
+  useDynamicEditor: useDynamicEditor;
+  useMonacoEditor: useMonacoEditor;
+  viewMode: boolean | undefined;
 }
 
-interface ChildState {
+interface EditState {
   text: string;
 }
 
-export default class EditNote extends React.Component<any, ChildState> {
+export default class EditNote extends React.Component<EditProps, EditState> {
   static defaultProps = {
     // none
   };
 
-  constructor(props: PropsState) {
+  constructor(props: EditProps) {
     super(props);
 
     this.state = {
@@ -94,14 +102,19 @@ export default class EditNote extends React.Component<any, ChildState> {
           {this.props.editingMode === this.props.useMonacoEditor ? (
             <MonacoEditor
               fontSize={this.props.fontSize}
-              language={this.props.MonacoEditorLanguage}
+              language={this.props.monacoEditorLanguage}
               saveText={this.saveText}
               text={text}
               viewMode={this.props.viewMode}
             />
           ) : this.props.editingMode === this.props.useDynamicEditor ? (
             <div id="dynamicEditor">
-              <DynamicEditor text={text} onChange={this.saveText} />
+              <DynamicEditor
+                debugMode={this.props.debugMode}
+                text={text}
+                onChange={this.saveText}
+                readOnly={false}
+              />
             </div>
           ) : (
             <textarea

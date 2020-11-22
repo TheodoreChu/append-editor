@@ -4,7 +4,7 @@ import parse from 'remark-parse';
 import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
 
-import { AppendInterface } from './AppendEditor';
+import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 import DynamicEditor from './DynamicEditor';
 
 const gfm = require('remark-gfm');
@@ -35,25 +35,28 @@ const processor = unified()
   .use(emoji)
   .use(rehype2react, { createElement: React.createElement });
 
-const languageProcessor = unified()
-  .use(parse)
-  .use(remark2rehype, { allowDangerousHtml: true })
-  .use(highlight, { ignoreMissing: true })
-  .use(rehype2react, { createElement: React.createElement });
-
-interface PropsState extends AppendInterface {
-  keyMap: any;
+interface ViewProps {
+  debugMode: boolean;
+  editingMode: EditingMode;
+  monacoEditorLanguage: string;
+  printMode: boolean;
+  printURL: boolean;
+  useDynamicEditor: useDynamicEditor;
+  useMonacoEditor: useMonacoEditor;
+  saveText: (text: string) => void;
+  showHelp: boolean;
+  text: string;
 }
 
-interface ChildState {
+interface ViewState {
   showHelp: boolean;
   showFeelings: boolean;
   showMoreQuestions: boolean;
   showFeedback: boolean;
 }
 
-export default class ViewNote extends React.Component<any, ChildState> {
-  constructor(props: PropsState) {
+export default class ViewNote extends React.Component<ViewProps, ViewState> {
+  constructor(props: ViewProps) {
     super(props);
 
     this.state = {
@@ -439,20 +442,21 @@ export default class ViewNote extends React.Component<any, ChildState> {
               }
             >
               {this.props.editingMode === this.props.useMonacoEditor &&
-              this.props.MonacoEditorLanguage !== 'markdown' &&
+              this.props.monacoEditorLanguage !== 'markdown' &&
               text ? (
-                (languageProcessor.processSync(
+                (processor.processSync(
                   '```' +
-                    this.props.MonacoEditorLanguage +
+                    this.props.monacoEditorLanguage +
                     '\n' +
                     text +
                     '\n```'
                 ).result as any)
               ) : this.props.editingMode === this.props.useDynamicEditor ? (
                 <DynamicEditor
-                  text={text}
-                  readOnly={true}
+                  debugMode={this.props.debugMode}
                   onChange={this.props.saveText}
+                  readOnly={true}
+                  text={text}
                 />
               ) : (
                 (processor.processSync(text).result as any)

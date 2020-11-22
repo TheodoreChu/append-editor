@@ -28,8 +28,24 @@ class YouTubeEmbed extends React.Component<any, any> {
   }
 }
 
-export default class DynamicEditor extends React.Component<any, any> {
-  constructor(props: any) {
+interface DynamicProps {
+  debugMode: boolean;
+  onChange: (text: string) => void;
+  readOnly: boolean;
+  text: string;
+}
+
+interface DynamicState {
+  readOnly: boolean;
+  template: boolean;
+  value: undefined;
+}
+
+export default class DynamicEditor extends React.Component<
+  DynamicProps,
+  DynamicState
+> {
+  constructor(props: DynamicProps) {
     super(props);
     this.state = {
       readOnly: this.props.readOnly,

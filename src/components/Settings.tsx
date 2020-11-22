@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppendInterface } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
+import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 
 const editingModeID = 'editingMode';
 const fontEditID = 'fontEdit';
@@ -9,32 +9,38 @@ const fontViewID = 'fontView';
 const useCodeMirrorID = 'useCodeMirror';
 
 const usePlainTextID = 'usePlainText';
-const MonacoEditorLanguageID = 'MonacoEditorLanguage';
+const monacoEditorLanguageID = 'monacoEditorLanguage';
 const customStylesID = 'customStyles';
 const resetAllSettingsID = 'resetAllSettings';
 
-interface PropsState extends AppendInterface {
-  onConfirm: Function;
-  debugMode: boolean;
-  keyMap: any;
-  onCancel: any;
-  title: string;
-  helpLink: string;
-  confirmText: string;
-  cancelText: string;
-}
-
-interface ChildState {
+interface SettingsProps {
   customStyles: string;
-  editingMode:
-    | 'usePlainText'
-    | 'useCodeMirror'
-    | 'useDynamicEditor'
-    | 'useMonacoEditor';
+  editingMode: EditingMode;
   fontEdit: string;
   fontSize: string;
   fontView: string;
-  MonacoEditorLanguage: string;
+  monacoEditorLanguage: string;
+  useCodeMirror: boolean;
+  useDynamicEditor: useDynamicEditor;
+  useMonacoEditor: useMonacoEditor;
+
+  cancelText: string;
+  confirmText: string;
+  debugMode: boolean;
+  keyMap: Map<any, any>;
+  onCancel: () => void;
+  onConfirm: Function;
+  title: string;
+  helpLink: string;
+}
+
+interface SettingsState {
+  customStyles: string;
+  editingMode: EditingMode | any;
+  fontEdit: string;
+  fontSize: string;
+  fontView: string;
+  monacoEditorLanguage: string;
   useCodeMirror: boolean;
   showCustomStyles: boolean;
   [x: string]: string | boolean;
@@ -45,21 +51,22 @@ const cssRegExp = new RegExp(/```css/gm);
 const endRegExp = new RegExp(/\n```/gm);
 const codeRegExp = new RegExp(/```/gm);
 
-export default class Settings extends React.Component<any, ChildState> {
-  constructor(props: PropsState) {
+export default class Settings extends React.Component<
+  SettingsProps,
+  SettingsState
+> {
+  constructor(props: SettingsProps) {
     super(props);
     this.state = {
       customStyles: this.props.customStyles,
-      editingMode: this.props.editingMode,
+      editingMode: this.props.editingMode as any,
       fontEdit: this.props.fontEdit,
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
-      MonacoEditorLanguage: this.props.MonacoEditorLanguage,
+      monacoEditorLanguage: this.props.monacoEditorLanguage,
       useCodeMirror: this.props.useCodeMirror,
       showCustomStyles: false, // false by default for a mobile-first experience
     };
-    //this.handleInputChange = this.handleInputChange.bind(this);
-    //this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -184,7 +191,7 @@ export default class Settings extends React.Component<any, ChildState> {
           fontEdit,
           fontSize,
           fontView,
-          MonacoEditorLanguage,
+          monacoEditorLanguage,
           useCodeMirror,
         } = this.state;
         this.props.onConfirm({
@@ -193,7 +200,7 @@ export default class Settings extends React.Component<any, ChildState> {
           fontEdit,
           fontSize,
           fontView,
-          MonacoEditorLanguage,
+          monacoEditorLanguage,
           useCodeMirror,
         });
       }
@@ -272,14 +279,14 @@ export default class Settings extends React.Component<any, ChildState> {
 
   clearMonacoEditorLanguage = () => {
     this.setState({
-      MonacoEditorLanguage: 'markdown',
+      monacoEditorLanguage: 'markdown',
     });
-    const MonacoEditorLanguage = document.getElementById(
-      MonacoEditorLanguageID
+    const monacoEditorLanguage = document.getElementById(
+      monacoEditorLanguageID
     ) as HTMLSelectElement;
-    if (MonacoEditorLanguage) {
-      MonacoEditorLanguage.value = 'markdown';
-      MonacoEditorLanguage.focus();
+    if (monacoEditorLanguage) {
+      monacoEditorLanguage.value = 'markdown';
+      monacoEditorLanguage.focus();
     }
   };
 
@@ -550,15 +557,15 @@ export default class Settings extends React.Component<any, ChildState> {
             </section>
             {this.state.editingMode === this.props.useMonacoEditor && [
               <section className="sk-panel-row settings">
-                <label htmlFor={MonacoEditorLanguageID}>
+                <label htmlFor={monacoEditorLanguageID}>
                   Monaco Editor Language:{' '}
                 </label>
                 <div>
                   <label>
                     <select
-                      id={MonacoEditorLanguageID}
-                      name={MonacoEditorLanguageID}
-                      value={this.state.MonacoEditorLanguage}
+                      id={monacoEditorLanguageID}
+                      name={monacoEditorLanguageID}
+                      value={this.state.monacoEditorLanguage}
                       onChange={this.handleSelectChange}
                     >
                       <option>abap</option>

@@ -1,22 +1,24 @@
 // import { Method } from '@testing-library/react';
 import React from 'react';
 
-const ConfirmDialog = ({
-  title,
-  onUndo,
-  onConfirm,
-  onCancel,
-  confirmText,
-  cancelText,
-  helpLink,
-}: {
-  title: string;
-  onUndo: any;
-  onConfirm: any;
-  onCancel: any;
-  confirmText: string;
+interface PrintDialogTypes {
   cancelText: string;
+  confirmText: string;
   helpLink: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+  onUndo: () => void;
+  title: string;
+}
+
+const PrintDialog: React.FC<PrintDialogTypes> = ({
+  cancelText,
+  confirmText,
+  helpLink,
+  onCancel,
+  onConfirm,
+  onUndo,
+  title,
 }) => (
   <div className="note-overlay">
     <div className="note-dialog sk-panel">
@@ -66,4 +68,4 @@ const ConfirmDialog = ({
   </div>
 );
 
-export default ConfirmDialog;
+export default PrintDialog;
