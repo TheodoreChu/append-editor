@@ -493,18 +493,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     // if Append box is empty, close it and open Edit mode
     // if Edit mode is on, then close it, open View mode, and Append mode
     if (!this.state.editMode) {
-      if (this.state.appendMode) {
-        const appendTextArea = document.getElementById(
-          appendTextAreaID
-        ) as HTMLInputElement;
-        if (
-          (appendTextArea && !appendTextArea.value) ||
-          !this.state.appendText
-        ) {
-          this.setState({
-            appendMode: false,
-          });
-        }
+      if (this.state.appendMode && !this.state.appendText) {
+        this.setState({
+          appendMode: false,
+        });
       }
       this.setState(
         {
