@@ -1,6 +1,11 @@
 import React from 'react';
 import { MonacoEditor } from './Monaco';
-import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
+import {
+  DefaultSettings,
+  EditingMode,
+  useDynamicEditor,
+  useMonacoEditor,
+} from './AppendEditor';
 
 const editingModeID = 'editingMode';
 const fontEditID = 'fontEdit';
@@ -12,8 +17,10 @@ const usePlainTextID = 'usePlainText';
 const monacoEditorLanguageID = 'monacoEditorLanguage';
 const customStylesID = 'customStyles';
 const resetAllSettingsID = 'resetAllSettings';
+const saveAsDefaultID = 'saveAsDefault';
 
 interface SettingsProps {
+  defaultSettings: DefaultSettings;
   customStyles: string;
   editingMode: EditingMode;
   fontEdit: string;
@@ -21,6 +28,7 @@ interface SettingsProps {
   fontView: string;
   monacoEditorLanguage: string;
   useCodeMirror: boolean;
+
   useDynamicEditor: useDynamicEditor;
   useMonacoEditor: useMonacoEditor;
 
@@ -42,6 +50,7 @@ interface SettingsState {
   fontView: string;
   monacoEditorLanguage: string;
   useCodeMirror: boolean;
+  saveAsDefault: boolean;
   showCustomStyles: boolean;
   [x: string]: string | boolean;
 }
@@ -57,14 +66,19 @@ export default class Settings extends React.Component<
 > {
   constructor(props: SettingsProps) {
     super(props);
+    let monacoEditorLanguage = 'markdown';
+    if (this.props.monacoEditorLanguage) {
+      monacoEditorLanguage = this.props.monacoEditorLanguage;
+    }
     this.state = {
       customStyles: this.props.customStyles,
       editingMode: this.props.editingMode as any,
       fontEdit: this.props.fontEdit,
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
-      monacoEditorLanguage: this.props.monacoEditorLanguage,
+      monacoEditorLanguage,
       useCodeMirror: this.props.useCodeMirror,
+      saveAsDefault: false,
       showCustomStyles: false, // false by default for a mobile-first experience
     };
   }
@@ -132,11 +146,15 @@ export default class Settings extends React.Component<
   };
 
   cleanCustomStyles = (text: string) => {
-    return text
-      .replace(startRegExp, '')
-      .replace(cssRegExp, '')
-      .replace(endRegExp, '')
-      .replace(codeRegExp, '');
+    if (text) {
+      return text
+        .replace(startRegExp, '')
+        .replace(cssRegExp, '')
+        .replace(endRegExp, '')
+        .replace(codeRegExp, '');
+    } else {
+      return text;
+    }
   };
 
   saveText = (text: string) => {
@@ -192,6 +210,7 @@ export default class Settings extends React.Component<
           fontSize,
           fontView,
           monacoEditorLanguage,
+          saveAsDefault,
           useCodeMirror,
         } = this.state;
         this.props.onConfirm({
@@ -201,10 +220,18 @@ export default class Settings extends React.Component<
           fontSize,
           fontView,
           monacoEditorLanguage,
+          saveAsDefault,
           useCodeMirror,
         });
       }
     );
+  };
+
+  loadDefaultSettings = () => {
+    const defaultSettings = this.props.defaultSettings;
+    this.setState({
+      ...defaultSettings,
+    });
   };
 
   clearCustomStyles = () => {
@@ -290,8 +317,20 @@ export default class Settings extends React.Component<
     }
   };
 
+  clearSaveAsDefault = () => {
+    this.setState({
+      saveAsDefault: false,
+    });
+    const saveAsDefault = document.getElementById(
+      saveAsDefaultID
+    ) as HTMLInputElement;
+    saveAsDefault.checked = false;
+    saveAsDefault.focus();
+  };
+
   clearAllSettings = () => {
     // We clear from bottom settings to top settings so the focus afterwards is on top
+    this.clearSaveAsDefault();
     this.clearCustomStyles();
     this.clearFontView();
     this.clearFontEdit();
@@ -437,7 +476,7 @@ export default class Settings extends React.Component<
                   <a href={helpLink} target="_blank" rel="noopener noreferrer">
                     documentation
                   </a>
-                  . For the default settings, click undo:&nbsp;
+                  . To clear all settings, click undo:&nbsp;
                 </p>
                 <button
                   onClick={this.clearAllSettings}
@@ -454,6 +493,30 @@ export default class Settings extends React.Component<
                     >
                       <path
                         d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                        fill={'var(--sn-stylekit-foreground-color)'}
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </section>
+            <section className="sk-panel-row settings">
+              <div className="text-and-undo-button">
+                <p>To load your personal default settings, click:&nbsp;</p>
+                <button
+                  onClick={this.loadDefaultSettings}
+                  title="Load personal default settings"
+                >
+                  <span className="undo-button">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M9.99992 14.9999C8.67384 14.9999 7.40207 14.4731 6.46438 13.5355C5.5267 12.5978 4.99992 11.326 4.99992 9.99992C4.99992 9.16658 5.20825 8.35825 5.58325 7.66658L4.36659 6.44992C3.71659 7.47492 3.33325 8.69158 3.33325 9.99992C3.33325 11.768 4.03563 13.4637 5.28587 14.714C6.53612 15.9642 8.23181 16.6666 9.99992 16.6666V19.1666L13.3333 15.8332L9.99992 12.4999V14.9999ZM9.99992 3.33325V0.833252L6.66658 4.16658L9.99992 7.49992V4.99992C11.326 4.99992 12.5978 5.5267 13.5355 6.46438C14.4731 7.40207 14.9999 8.67383 14.9999 9.99992C14.9999 10.8333 14.7916 11.6416 14.4166 12.3333L15.6333 13.5499C16.2833 12.5249 16.6666 11.3083 16.6666 9.99992C16.6666 8.23181 15.9642 6.53612 14.714 5.28587C13.4637 4.03563 11.768 3.33325 9.99992 3.33325Z"
                         fill={'var(--sn-stylekit-foreground-color)'}
                       />
                     </svg>
@@ -857,6 +920,43 @@ export default class Settings extends React.Component<
                 />
               </section>,
             ]}
+            <section className="sk-panel-row settings">
+              <div className="sk-h2">
+                <label htmlFor={saveAsDefaultID}>
+                  Save these settings as your personal default:{' '}
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input
+                    id={saveAsDefaultID}
+                    name={saveAsDefaultID}
+                    type="checkbox"
+                    checked={this.state.saveAsDefault}
+                    onChange={this.handleInputChange}
+                  />
+                </label>
+                <button
+                  onClick={this.clearSaveAsDefault}
+                  title="Clear save as default"
+                >
+                  <span className="undo-button">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
+                        fill={'var(--sn-stylekit-foreground-color)'}
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </section>
           </div>
         </div>
         <div className="sk-panel-footer">

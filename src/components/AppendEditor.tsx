@@ -62,10 +62,18 @@ const initialState = {
   appendText: '',
   confirmPrintURL: false,
   customStyles: '',
+  defaultSettings: {
+    customStyles: '',
+    editingMode: 'usePlainText',
+    fontEdit: '',
+    fontSize: '',
+    fontView: '',
+    monacoEditorLanguage: 'markdown',
+    useCodeMirror: false,
+  },
   fontEdit: '',
   fontSize: '',
   fontView: '',
-  loadedMetaData: false,
   monacoEditorLanguage: 'markdown',
   printMode: false,
   printURL: true,
@@ -80,13 +88,22 @@ const initialState = {
 };
 
 const debugMode = false;
-
 let keyMap = new Map();
 
 export type usePlainText = 'usePlainText';
 export type useCodeMirror = 'useCodeMirror';
 export type useDynamicEditor = 'useDynamicEditor';
 export type useMonacoEditor = 'useMonacoEditor';
+
+export type DefaultSettings = {
+  customStyles: string;
+  editingMode: string | undefined;
+  fontEdit: string;
+  fontSize: string;
+  fontView: string;
+  monacoEditorLanguage: string;
+  useCodeMirror: boolean;
+};
 
 export type EditingMode =
   | usePlainText
@@ -106,6 +123,7 @@ export interface AppendInterface {
   confirmPrintURL: boolean;
   currentState?: object;
   customStyles: string;
+  defaultSettings: DefaultSettings;
   editMode?: any;
   editingMode?: EditingMode;
   editCodeMirror?: any;
@@ -113,12 +131,12 @@ export interface AppendInterface {
   fontSize: string;
   fontView: string;
   keyMap?: Object;
-  loadedMetaData: boolean;
   monacoEditorLanguage: string;
   printMode: boolean;
   printURL: boolean;
   refreshEdit: boolean;
   refreshView: boolean;
+  saveAsDefault?: boolean;
   showAppendix: boolean;
   showDiff: boolean;
   showHeader: boolean;
@@ -153,6 +171,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             text,
           },
           () => {
+            this.loadMetaData();
             this.refreshEdit();
             this.refreshView();
             this.activateStyles();
@@ -170,8 +189,84 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     });
   };
 
+  loadDefaultSettings = () => {
+    try {
+      const defaultCustomStyles = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'customStyles'
+      );
+      const defaultEditingMode = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'editingMode'
+      );
+      const defaultFontEdit = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'fontEdit'
+      );
+      const defaultFontSize = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'fontSize'
+      );
+      const defaultFontView = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'fontView'
+      );
+      const defaultMonacoEditorLanguage = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'monacoEditorLanguage'
+      );
+      const defaultUseCodeMirror = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'useCodeMirror'
+      );
+      if (debugMode) {
+        console.log('default Settings Loaded: ');
+        console.log('  - default Custom Styles: ' + defaultCustomStyles);
+        console.log('  - default Editing Mode: ' + defaultEditingMode);
+        console.log('  - default Font Size: ' + defaultFontSize);
+        console.log('  - default Font Edit: ' + defaultFontEdit);
+        console.log('  - default Font View: ' + defaultFontView);
+        console.log(
+          '  - default Monaco Editor Language: ' + defaultMonacoEditorLanguage
+        );
+        console.log('  - default Use CodeMirror: ' + defaultUseCodeMirror);
+      }
+      if (
+        defaultCustomStyles !== 'undefined' ||
+        defaultEditingMode !== 'undefined' ||
+        defaultFontEdit !== 'undefined' ||
+        defaultFontSize !== 'undefined' ||
+        defaultFontView !== 'undefined' ||
+        defaultMonacoEditorLanguage !== 'undefined' ||
+        defaultUseCodeMirror !== 'undefined'
+      ) {
+      }
+      this.setState(
+        {
+          customStyles: defaultCustomStyles,
+          editingMode: defaultEditingMode,
+          fontEdit: defaultFontEdit,
+          fontSize: defaultFontSize,
+          fontView: defaultFontView,
+          monacoEditorLanguage: defaultMonacoEditorLanguage,
+          useCodeMirror: defaultUseCodeMirror,
+          defaultSettings: {
+            customStyles: defaultCustomStyles,
+            editingMode: defaultEditingMode,
+            fontEdit: defaultFontEdit,
+            fontSize: defaultFontSize,
+            fontView: defaultFontView,
+            monacoEditorLanguage: defaultMonacoEditorLanguage,
+            useCodeMirror: defaultUseCodeMirror,
+          },
+        },
+        () => {
+          this.activateStyles();
+        }
+      );
+    } catch (error) {
+      if (debugMode) {
+        console.log(error);
+      }
+    }
+  };
+
   // This loads the Append Text, settings, and useCodeMirror
   loadMetaData = () => {
+    this.loadDefaultSettings();
     this.editorKit.internal.componentManager.streamContextItem((note: any) => {
       // Load editor settings
       if (
@@ -181,8 +276,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontSize ||
         note.content.appendEditorFontView ||
         note.content.appendEditorMonacoEditorLanguage ||
-        note.content.appendEditorUseCodeMirror ||
-        note.content.appendEditorUseMonacoEditor
+        note.content.appendEditorUseCodeMirror
       ) {
         this.setState(
           {
@@ -210,16 +304,16 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       // Finally, load appendText
       this.setState({
         appendText: note.content.appendText,
-        loadedMetaData: true,
       });
       if (debugMode) {
-        console.log('loaded append text: ' + this.state.appendText);
-        console.log('loaded append newline: ' + this.state.appendNewLine);
+        console.log('editorKit metadata loaded: ');
+        console.log('  - loaded append text: ' + this.state.appendText);
+        console.log('  - loaded append newline: ' + this.state.appendNewLine);
         console.log(
-          'loaded append new paragraph: ' + this.state.appendNewParagraph
+          '  - loaded append new paragraph: ' + this.state.appendNewParagraph
         );
         console.log(
-          'internal appendText: ' +
+          '  - editorKit internal appendText: ' +
             this.editorKit.internal.note.content.appendText
         );
       }
@@ -734,6 +828,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     fontSize,
     fontView,
     monacoEditorLanguage,
+    saveAsDefault,
     useCodeMirror,
   }: AppendInterface) => {
     this.setState(
@@ -769,6 +864,53 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorMonacoEditorLanguage = monacoEditorLanguage;
         note.content.appendEditorUseCodeMirror = useCodeMirror;
       });
+    }
+    if (saveAsDefault) {
+      this.setState({
+        defaultSettings: {
+          customStyles,
+          editingMode,
+          fontEdit,
+          fontSize,
+          fontView,
+          monacoEditorLanguage,
+          useCodeMirror,
+        },
+      });
+      try {
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'customStyles',
+          customStyles
+        );
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'editingMode',
+          editingMode
+        );
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'fontSize',
+          fontSize
+        );
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'fontEdit',
+          fontEdit
+        );
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'fontView',
+          fontView
+        );
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'monacoEditorLanguage',
+          monacoEditorLanguage
+        );
+        this.editorKit.internal.componentManager.setComponentDataValueForKey(
+          'useCodeMirror',
+          useCodeMirror
+        );
+      } catch (error) {
+        if (debugMode) {
+          console.log(error);
+        }
+      }
     }
   };
 
@@ -1219,9 +1361,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   render() {
-    if (!this.state.loadedMetaData) {
-      this.loadMetaData();
-    }
     return (
       <div
         tabIndex={0}
@@ -1488,6 +1627,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               confirmText="Save"
               customStyles={this.state.customStyles}
               debugMode={debugMode}
+              defaultSettings={this.state.defaultSettings}
               editingMode={this.state.editingMode}
               fontEdit={this.state.fontEdit}
               fontSize={this.state.fontSize}

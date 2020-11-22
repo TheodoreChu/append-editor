@@ -532,6 +532,9 @@ button:focus {
     input[type='text'] {
       min-width: 250px;
     }
+    input[type='checkbox'] {
+      min-width: 250px;
+    }
     select {
       min-width: 267px;
     }
