@@ -121,7 +121,7 @@ button:focus {
     overflow-y: auto;
     font-family: var(--sn-stylekit-sans-serif-font);
     font-size: var(--sn-stylekit-font-size-editor);
-    line-height: 1.9rem;
+    line-height: 1.7em;
   }
 
   .sk-input.contrast.textarea:focus {
@@ -416,7 +416,7 @@ button:focus {
   width: 100%;*/
   word-wrap: break-word;
   overflow-wrap: break-word;
-  line-height: 1.9rem;
+  line-height: 1.7em;
 }
 
 #renderedNote > div > :nth-child(1),
