@@ -443,6 +443,7 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
             >
               {this.props.editingMode === this.props.useMonacoEditor &&
               this.props.monacoEditorLanguage !== 'markdown' &&
+              this.props.monacoEditorLanguage !== 'html' &&
               text ? (
                 (processor.processSync(
                   '```' +
