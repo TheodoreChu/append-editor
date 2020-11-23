@@ -87,7 +87,8 @@ const initialState = {
   useCodeMirror: false,
 };
 
-const debugMode = true;
+const debugMode = false;
+
 let keyMap = new Map();
 
 export type usePlainText = 'usePlainText';
