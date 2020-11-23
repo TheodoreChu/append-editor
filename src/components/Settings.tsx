@@ -167,8 +167,6 @@ export default class Settings extends React.Component<
     if (this.props.debugMode) {
       let fontEditMessage = '';
       let fontViewMessage = '';
-      console.log('Settings fontEdit: ' + this.state.fontEdit);
-      console.log('Settings fontView: ' + this.state.fontView);
       if (this.state.fontEdit === '' || this.state.fontEdit === undefined) {
         fontEditMessage = 'Default';
       } else if (this.state.fontEdit) {
@@ -180,16 +178,18 @@ export default class Settings extends React.Component<
         fontViewMessage = this.state.fontView;
       }
       console.log(
-        'Your useMonacoEditor is: ' +
+        'Settings.tsx handleSubmit() triggered: ' +
+          '\n  - Settings fontEdit: ' +
+          this.state.fontEdit +
+          '\n  - Settings fontView: ' +
+          this.state.fontView +
+          '\n  - Your useMonacoEditor is: ' +
           this.state.useMonacoEditor +
-          '\n' +
-          'Your useCodeMirror is: ' +
+          '\n  - Your useCodeMirror is: ' +
           this.state.useCodeMirror +
-          '\n' +
-          'Your chosen font for Edit/Append is: ' +
+          '\n  - Your chosen font for Edit/Append is: ' +
           fontEditMessage +
-          '\n' +
-          'Your chosen font for View/Print is: ' +
+          '\n  - Your chosen font for View/Print is: ' +
           fontViewMessage +
           '\n'
       );

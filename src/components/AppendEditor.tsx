@@ -87,7 +87,7 @@ const initialState = {
   useCodeMirror: false,
 };
 
-const debugMode = false;
+const debugMode = true;
 let keyMap = new Map();
 
 export type usePlainText = 'usePlainText';
@@ -137,6 +137,7 @@ export interface AppendInterface {
   refreshEdit: boolean;
   refreshView: boolean;
   saveAsDefault?: boolean;
+  savingDefaultSettings?: boolean;
   showAppendix: boolean;
   showDiff: boolean;
   showHeader: boolean;
@@ -157,12 +158,18 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   }
 
   componentDidMount = () => {
+    if (debugMode) {
+      console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
+    }
     if (!this.state.text && !this.state.appendText) {
       this.setState({ viewMode: true });
     }
   };
 
   configureEditorKit = () => {
+    if (debugMode) {
+      console.log('AppendEditor.tsx: \n - this.configureEditorKit() triggered');
+    }
     let delegate = new EditorKitDelegate({
       setEditorRawText: (text: string) => {
         this.setState(
@@ -171,10 +178,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             text,
           },
           () => {
+            if (debugMode) {
+              console.log(
+                'AppendEditor.tsx: \n - this.configureEditorKit() callback triggered' +
+                  '\n - this.state.savingsDefaultSettings: ' +
+                  this.state.savingDefaultSettings
+              );
+            }
+            this.loadDefaultSettings();
             this.loadMetaData();
-            this.refreshEdit();
-            this.refreshView();
-            this.activateStyles();
           }
         );
       },
@@ -213,16 +225,23 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         'useCodeMirror'
       );
       if (debugMode) {
-        console.log('default Settings Loaded: ');
-        console.log('  - default Custom Styles: ' + defaultCustomStyles);
-        console.log('  - default Editing Mode: ' + defaultEditingMode);
-        console.log('  - default Font Size: ' + defaultFontSize);
-        console.log('  - default Font Edit: ' + defaultFontEdit);
-        console.log('  - default Font View: ' + defaultFontView);
         console.log(
-          '  - default Monaco Editor Language: ' + defaultMonacoEditorLanguage
+          'AppendEditor.tsx: \n loadDefaultSetting() default settings loaded: ' +
+            '\n  - default customStyles: ' +
+            defaultCustomStyles +
+            '\n  - default editingMode: ' +
+            defaultEditingMode +
+            '\n  - default fontSize: ' +
+            defaultFontSize +
+            '\n  - default fontEdit: ' +
+            defaultFontEdit +
+            '\n  - default fontView: ' +
+            defaultFontView +
+            '\n  - default monacoEditorLanguage: ' +
+            defaultMonacoEditorLanguage +
+            '\n  - default UseCodeMirror: ' +
+            defaultUseCodeMirror
         );
-        console.log('  - default Use CodeMirror: ' + defaultUseCodeMirror);
       }
       if (
         defaultCustomStyles !== 'undefined' ||
@@ -254,7 +273,17 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           },
         },
         () => {
-          this.activateStyles();
+          if (debugMode) {
+            console.log(
+              'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingDefaultSettings: ' +
+                this.state.savingDefaultSettings
+            );
+          }
+          if (!this.state.savingDefaultSettings) {
+            this.refreshEdit();
+            this.refreshView();
+            this.activateStyles();
+          }
         }
       );
     } catch (error) {
@@ -266,7 +295,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   // This loads the Append Text, settings, and useCodeMirror
   loadMetaData = () => {
-    this.loadDefaultSettings();
     this.editorKit.internal.componentManager.streamContextItem((note: any) => {
       // Load editor settings
       if (
@@ -289,8 +317,34 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             useCodeMirror: note.content.appendEditorUseCodeMirror,
           },
           () => {
-            this.refreshEdit();
-            this.activateStyles();
+            if (debugMode) {
+              console.log(
+                'AppendEditor.tsx: \n - loadMetaData() this.state.savingDefaultSettings: ' +
+                  this.state.savingDefaultSettings
+              );
+            }
+            if (!this.state.savingDefaultSettings) {
+              this.refreshEdit();
+              this.refreshView();
+              this.activateStyles();
+            }
+            if (debugMode) {
+              console.log(
+                'editorKit metadata loaded: ' +
+                  '\n  - loaded customStyles: ' +
+                  this.state.customStyles +
+                  '\n  - loaded editingMode: ' +
+                  this.state.editingMode +
+                  '\n  - loaded fontEdit: ' +
+                  this.state.fontEdit +
+                  '\n  - loaded fontSize: ' +
+                  this.state.fontSize +
+                  '\n  - loaded fontView: ' +
+                  this.state.fontView +
+                  '\n  - loaded monacoEditorLanguage: ' +
+                  this.state.monacoEditorLanguage
+              );
+            }
           }
         );
       }
@@ -306,14 +360,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         appendText: note.content.appendText,
       });
       if (debugMode) {
-        console.log('editorKit metadata loaded: ');
-        console.log('  - loaded append text: ' + this.state.appendText);
-        console.log('  - loaded append newline: ' + this.state.appendNewLine);
         console.log(
-          '  - loaded append new paragraph: ' + this.state.appendNewParagraph
-        );
-        console.log(
-          '  - editorKit internal appendText: ' +
+          '  - loaded append text: ' +
+            this.state.appendText +
+            '\n  - loaded append newline: ' +
+            this.state.appendNewLine +
+            '\n  - loaded append new paragraph: ' +
+            this.state.appendNewParagraph +
+            '\n  - loaded editorKit internal appendText: ' +
             this.editorKit.internal.note.content.appendText
         );
       }
@@ -846,6 +900,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         viewMode: true,
       },
       () => {
+        this.refreshEdit();
+        this.refreshView();
         this.activateStyles();
         const settingsButton = document.getElementById(settingsButtonID);
         if (settingsButton) {
@@ -855,6 +911,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     );
     let note = this.editorKit.internal.note;
     if (note) {
+      if (debugMode) {
+        console.log(
+          'AppendEditor.tsx: \n - onSaveSettings() this.editorKit.internal.componentManager.saveItemWithPresave() triggered'
+        );
+      }
       this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
         note.content.appendEditorCustomStyles = customStyles;
         note.content.appendEditorEditingMode = editingMode;
@@ -864,6 +925,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorMonacoEditorLanguage = monacoEditorLanguage;
         note.content.appendEditorUseCodeMirror = useCodeMirror;
       });
+      if (debugMode) {
+        console.log(
+          'AppendEditor.tsx: \n - onSaveSettings() this.editorKit.internal.componentManager.saveItemWithPresave() completed'
+        );
+      }
     }
     if (saveAsDefault) {
       this.setState({
@@ -877,44 +943,80 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           useCodeMirror,
         },
       });
-      try {
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'customStyles',
-          customStyles
-        );
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'editingMode',
-          editingMode
-        );
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'fontSize',
-          fontSize
-        );
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'fontEdit',
-          fontEdit
-        );
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'fontView',
-          fontView
-        );
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'monacoEditorLanguage',
-          monacoEditorLanguage
-        );
-        this.editorKit.internal.componentManager.setComponentDataValueForKey(
-          'useCodeMirror',
-          useCodeMirror
-        );
-      } catch (error) {
-        if (debugMode) {
-          console.log(error);
+      this.setState(
+        {
+          savingDefaultSettings: true,
+        },
+        () => {
+          if (debugMode) {
+            console.log(
+              'AppendEditor.tsx: \n - onSaveSettings() this.state.savingDefaultSettings: ' +
+                this.state.savingDefaultSettings
+            );
+          }
+          try {
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'customStyles',
+              customStyles
+            );
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'editingMode',
+              editingMode
+            );
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'fontSize',
+              fontSize
+            );
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'fontEdit',
+              fontEdit
+            );
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'fontView',
+              fontView
+            );
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'monacoEditorLanguage',
+              monacoEditorLanguage
+            );
+            this.editorKit.internal.componentManager.setComponentDataValueForKey(
+              'useCodeMirror',
+              useCodeMirror
+            );
+            setTimeout(() => {
+              this.setState(
+                {
+                  savingDefaultSettings: false,
+                },
+                () => {
+                  this.loadDefaultSettings();
+                  this.loadMetaData();
+                }
+              );
+            }, 1000);
+          } catch (error) {
+            if (debugMode) {
+              console.log(error);
+              this.setState(
+                {
+                  savingDefaultSettings: false,
+                },
+                () => {
+                  this.loadDefaultSettings();
+                  this.loadMetaData();
+                }
+              );
+            }
+          }
         }
-      }
+      );
     }
   };
 
   activateStyles = () => {
+    if (debugMode) {
+      console.log('AppendEditor.tsx: \n - this.activateStyles() triggered');
+    }
     const sheetToBeRemoved = document.getElementById('customStyleSheet');
     if (sheetToBeRemoved) {
       const sheetParent = sheetToBeRemoved.parentNode;
