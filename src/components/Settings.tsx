@@ -921,11 +921,9 @@ export default class Settings extends React.Component<
               </section>,
             ]}
             <section className="sk-panel-row settings">
-              <div className="sk-h2">
-                <label htmlFor={saveAsDefaultID}>
-                  Save these settings as your personal default:{' '}
-                </label>
-              </div>
+              <label htmlFor={saveAsDefaultID}>
+                Save these settings as your personal default:{' '}
+              </label>
               <div>
                 <label>
                   <input

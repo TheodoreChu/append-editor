@@ -158,6 +158,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.state = initialState;
   }
 
+  /**
+   * This loads the first time the editor is loaded
+   * This does not load every time a new note is loaded */
   componentDidMount = () => {
     if (debugMode) {
       console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
@@ -172,6 +175,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       console.log('AppendEditor.tsx: \n - this.configureEditorKit() triggered');
     }
     let delegate = new EditorKitDelegate({
+      /** This loads every time a new note has loaded
+       */
       setEditorRawText: (text: string) => {
         this.setState(
           {
@@ -984,6 +989,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               'useCodeMirror',
               useCodeMirror
             );
+            /** loadDefaultSettings and loadMetaData are triggered
+             * every time setComponentDataValueForKey is triggered
+             * setTimeout prevents them from triggering
+             * so the new default settings can take into effect immediately
+             * However, if you switch the note within the second, you will get an error*/
             setTimeout(() => {
               this.setState(
                 {
