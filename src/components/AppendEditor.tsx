@@ -165,9 +165,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     if (debugMode) {
       console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
     }
-    if (!this.state.text && !this.state.appendText) {
-      this.setState({ viewMode: true });
-    }
+    this.onViewMode();
   };
 
   configureEditorKit = () => {
@@ -362,9 +360,25 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         });
       }
       // Finally, load appendText
-      this.setState({
-        appendText: note.content.appendText,
-      });
+      this.setState(
+        {
+          appendText: note.content.appendText,
+        },
+        () => {
+          /**If both text and appendText are empty,
+           * such as when creating a new note,
+           * and editMode is off,
+           * then open the edit mode
+           */
+          if (
+            !this.state.text &&
+            !this.state.appendText &&
+            !this.state.editMode
+          ) {
+            this.onEditMode();
+          }
+        }
+      );
       if (debugMode) {
         console.log(
           '  - loaded append text: ' +
