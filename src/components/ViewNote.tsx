@@ -395,7 +395,7 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
                         🙂
                       </span>
                       <br />
-                      You are using version <code>1.1.0</code>. The release
+                      You are using version <code>1.1.1</code>. The release
                       notes are available on{' '}
                       <a
                         href="https://github.com/TheodoreChu/append-editor/releases"
