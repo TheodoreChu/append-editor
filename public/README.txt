@@ -69,7 +69,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
    ```
    or paste this into the input box on **desktop**:
    ```
-   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/beta.ext.json
    ```
 5. To install the Alpha version, paste this into the input box:
    ```
@@ -77,7 +77,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
    ```
    or paste this into the input box on **desktop**:
    ```
-   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/alpha.ext.json
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/alpha.ext.json
    ```
 6. Press Enter or Return on your keyboard.
 7. Click **Install**.

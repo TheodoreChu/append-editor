@@ -287,11 +287,11 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
                     replace <code>beta</code> with <code>alpha</code>:{' '}
                     <code>
                       <a
-                        href="https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json"
+                        href="https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/beta.ext.json"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+                        https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/beta.ext.json
                       </a>
                     </code>
                   </li>
