@@ -1,0 +1,24 @@
+.DynamicEditor {
+  padding: 9px 30px 10px;
+}
+button.block-menu-trigger {
+  display: none !important;
+}
+@media screen and (min-width: 725px) {
+  .DynamicEditor {
+    padding: 5px 20px 10px;
+  }
+}
+@media screen and (min-width: 600px) {
+  .YouTube {
+    min-height: 315px;
+    min-width: 560px;
+    margin: 10px auto;
+    display: block;
+  }
+}
+
+.ProseMirror {
+  background-color: var(--sn-stylekit-background-color);
+  color: var(--sn-stylekit-foreground-color);
+}
