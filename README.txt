@@ -69,7 +69,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
    ```
    or paste this into the input box on **desktop**:
    ```
-   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/beta.ext.json
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/beta.ext.json
    ```
 5. To install the Alpha version, paste this into the input box:
    ```
@@ -77,7 +77,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
    ```
    or paste this into the input box on **desktop**:
    ```
-   https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/alpha.ext.json
+   https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/alpha.ext.json
    ```
 6. Press Enter or Return on your keyboard.
 7. Click **Install**.
@@ -427,7 +427,7 @@ Early stages of this editor were based heavily on the Standard Notes [Token Vaul
 ## Further Resources
 
 - [GitHub](https://github.com/TheodoreChu/append-editor) for the source code of the Append Editor
-- [GitHub Issues](https://github.com/TheodoreChu/append-editor/issues) for reporting issues concerning the Append editor
+- [GitHub Issues](https://github.com/TheodoreChu/append-editor/issues) for reporting issues concerning the Append Editor
 - [Docs](https://docs.theochu.com/append-editor) for how to use the Append Editor
 - [Contact](https://theochu.com/contact) for how to contact the developer of the Append Editor
 - [Append Editor To do List](https://github.com/TheodoreChu/append-editor/projects/1) for the roadmap of the Append Editor
