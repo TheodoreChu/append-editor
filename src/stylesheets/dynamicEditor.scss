@@ -1,5 +1,8 @@
 .DynamicEditor {
   padding: 9px 30px 10px;
+  div[class^='sc'] {
+    background-color: var(--sn-stylekit-background-color);
+  }
 }
 button.block-menu-trigger {
   display: none !important;
