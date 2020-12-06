@@ -110,13 +110,12 @@ button:focus {
     }
   }
 
-  .sk-input.contrast.textarea {
-    min-height: 100px; // 75px for three lines, 100px for four lines, 25px per line
-    padding: 9px 10px; //0.7rem 0.8rem;
+  .sk-input.textarea {
+    min-height: 136px;
+    padding: 9px 10px;
     max-width: inherit;
     width: calc(100% - 22px);
     height: 100%;
-    //outline: 0; // doesn't do anything
     resize: vertical;
     overflow-y: auto;
     font-family: var(--sn-stylekit-sans-serif-font);
@@ -124,24 +123,20 @@ button:focus {
     line-height: 1.7;
   }
 
-  .sk-input.contrast.textarea:focus {
+  // This is automatic in Microsoft Edge.
+  // We need to make it explicit for Firefox.
+  .sk-input.textarea:focus {
     outline: -webkit-focus-ring-color auto 1px;
     outline-color: -webkit-focus-ring-color;
     outline-style: auto;
     outline-width: 1px;
   }
 
-  .sk-input.contrast.textarea.editnote {
-    /*@media screen and (max-width: 997px) {
-      min-height: 480px;
-    }*/
+  .sk-input.textarea.editnote {
     max-height: calc(100% - 32px);
   }
 
-  .sk-input.contrast.textarea.append {
-    /*@media screen and (max-width: 997px) {
-      min-height: 120px;
-    }*/
+  .sk-input.textarea.append {
     max-height: calc(100% - 22px);
   }
 
