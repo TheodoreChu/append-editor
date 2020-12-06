@@ -6,6 +6,7 @@ import ViewNote from './ViewNote';
 import AppendText from './AppendText';
 import Settings from './Settings';
 import { MonacoDiffEditor } from './Monaco';
+import ErrorBoundary from './ErrorBoundary';
 
 import CodeMirror, { Editor } from 'codemirror';
 import 'codemirror/lib/codemirror';
@@ -1810,33 +1811,37 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           )}
           {(this.state.viewMode || this.state.printMode) &&
             !this.state.refreshView && (
-              <ViewNote
-                debugMode={debugMode}
-                editingMode={this.state.editingMode}
-                monacoEditorLanguage={this.state.monacoEditorLanguage}
-                printMode={this.state.printMode}
-                printURL={this.state.printURL}
-                showHelp={this.state.showHelp}
-                saveText={this.saveText}
-                text={this.state.text}
-                useDynamicEditor={useDynamicEditor}
-                useMonacoEditor={useMonacoEditor}
-              />
+              <ErrorBoundary>
+                <ViewNote
+                  debugMode={debugMode}
+                  editingMode={this.state.editingMode}
+                  monacoEditorLanguage={this.state.monacoEditorLanguage}
+                  printMode={this.state.printMode}
+                  printURL={this.state.printURL}
+                  showHelp={this.state.showHelp}
+                  saveText={this.saveText}
+                  text={this.state.text}
+                  useDynamicEditor={useDynamicEditor}
+                  useMonacoEditor={useMonacoEditor}
+                />
+              </ErrorBoundary>
             )}
           {(this.state.viewMode || this.state.printMode) &&
             this.state.refreshView && (
-              <ViewNote
-                debugMode={debugMode}
-                editingMode={this.state.editingMode}
-                monacoEditorLanguage={this.state.monacoEditorLanguage}
-                printMode={this.state.printMode}
-                printURL={this.state.printURL}
-                showHelp={this.state.showHelp}
-                saveText={this.saveText}
-                text={this.state.text}
-                useDynamicEditor={useDynamicEditor}
-                useMonacoEditor={useMonacoEditor}
-              />
+              <ErrorBoundary>
+                <ViewNote
+                  debugMode={debugMode}
+                  editingMode={this.state.editingMode}
+                  monacoEditorLanguage={this.state.monacoEditorLanguage}
+                  printMode={this.state.printMode}
+                  printURL={this.state.printURL}
+                  showHelp={this.state.showHelp}
+                  saveText={this.saveText}
+                  text={this.state.text}
+                  useDynamicEditor={useDynamicEditor}
+                  useMonacoEditor={useMonacoEditor}
+                />
+              </ErrorBoundary>
             )}
           {this.state.confirmPrintURL && (
             <PrintDialog

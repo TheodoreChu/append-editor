@@ -323,12 +323,13 @@ button:focus {
 // Exclude CodeMirror
 #appendDynamicEditor,
 #dynamicEditor,
-.rendered-note-section,
-#intro,
+#errorBoundary,
 #help,
+#intro,
 #renderedNote,
 #settings,
-.DynamicEditor {
+.DynamicEditor,
+.rendered-note-section {
   code,
   pre {
     font-family: var(--sn-stylekit-monospace-font);
@@ -391,8 +392,9 @@ button:focus {
   }
 }
 
-#intro,
+#errorBoundary,
 #help,
+#intro,
 .rendered-note-section {
   padding: 9px 10px;
   border: 1px transparent;
@@ -406,8 +408,10 @@ button:focus {
   height: calc(100% - 20px);
 }
 
-#intro,
+// Same selection plus #renderedNote
+#errorBoundary,
 #help,
+#intro,
 #renderedNote,
 .rendered-section {
   /*align-items: center;
@@ -419,6 +423,7 @@ button:focus {
   line-height: 1.7;
 }
 
+#errorBoundary > :nth-child(1),
 #renderedNote > div > :nth-child(1),
 .ProseMirror > :nth-child(2) {
   margin-top: 0px;
