@@ -1,10 +1,17 @@
 import React from 'react';
+import prettier from 'prettier';
+import parserMarkdown from 'prettier/parser-markdown';
+import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 
 interface MenuProps {
+  editingMode: EditingMode;
+  monacoEditorLanguage: string;
   refreshEdit: () => void;
   refreshView: () => void;
   saveText: (text: string) => void;
   text: string;
+  useMonacoEditor: useMonacoEditor;
+  useDynamicEditor: useDynamicEditor;
 }
 
 interface MenuState {
@@ -76,6 +83,47 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
   };
 
+  formatText = () => {
+    if (
+      this.props.monacoEditorLanguage !== 'markdown' &&
+      this.props.editingMode === this.props.useMonacoEditor
+    ) {
+      this.setState(
+        {
+          message: 'Error: Formatting is only available for markdown',
+        },
+        () => {
+          this.showMessage();
+        }
+      );
+    } else if (this.props.text) {
+      this.setState(
+        { message: 'Formatted markdown text with Prettier.' },
+        () => {
+          try {
+            const formattedText = prettier.format(this.props.text, {
+              parser: 'markdown',
+              plugins: [parserMarkdown],
+            });
+            this.props.saveText(formattedText);
+            this.props.refreshEdit();
+            this.props.refreshView();
+            this.showMessage();
+          } catch (e) {
+            this.setState({ message: 'Error formatting text: ' + e }, () => {
+              this.showMessage();
+            });
+            console.log('Error formatting text: ' + e);
+          }
+        }
+      );
+    } else {
+      this.setState({ message: 'No text to format.' }, () => {
+        this.showMessage();
+      });
+    }
+  };
+
   uncheckBoxes = () => {
     const { text } = this.props;
     const checkedBoxes = new RegExp(/- \[x\]/gm);
@@ -88,7 +136,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         this.showMessage();
       });
     } else {
-      this.setState({ message: 'No checked boxes found.' }, () => {
+      this.setState({ message: 'No checked checkboxes found.' }, () => {
         this.showMessage();
       });
     }
@@ -100,7 +148,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       <div id={'menu'}>
         <button onClick={this.copyText}>Copy note text</button>
         <button onClick={this.copyHtml}>Copy rendered HTML</button>
-        <button onClick={this.uncheckBoxes}>Uncheck all Checkboxes</button>
+        <button onClick={this.formatText}>Format markdown text</button>
+        <button onClick={this.uncheckBoxes}>Uncheck all checkboxes</button>
         <div
           className={`notification ${
             this.state.displayMessage ? 'visible' : 'hidden'

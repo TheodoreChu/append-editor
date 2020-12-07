@@ -1780,10 +1780,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         >
           {this.state.showMenu && (
             <Menu
+              editingMode={this.state.editingMode}
+              monacoEditorLanguage={this.state.monacoEditorLanguage}
               refreshEdit={this.refreshEdit}
               refreshView={this.refreshView}
               saveText={this.saveText}
               text={this.state.text}
+              useDynamicEditor={useDynamicEditor}
+              useMonacoEditor={useMonacoEditor}
             />
           )}
           {this.state.settingsMode && (
