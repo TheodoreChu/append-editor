@@ -160,15 +160,9 @@ button:focus {
   //border-bottom: 1px solid var(--sn-stylekit-border-color);
   background-color: var(--sn-stylekit-background-color);
   color: var(--sn-stylekit-foreground-color);
-
-  //min-height: 26px;
-  padding: 10px 0;
   display: flex;
-  flex-direction: column;
-  align-items: center; // flex-end;
-
-  margin-left: auto;
-  margin-right: auto;
+  overflow: auto;
+  padding: 10px 0;
   width: 100%;
 
   svg::after {
@@ -179,12 +173,12 @@ button:focus {
 
   .sk-button-group {
     max-width: 700px;
-    overflow-x: auto;
     padding-left: 2px;
     padding-right: 2px;
-    //display: flex;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
     //justify-content: space-between;
-    //width: 60%;
 
     button {
       border-width: 0px;
@@ -226,10 +220,52 @@ button:focus {
   }
 }
 
+#menu {
+  background-color: var(--sn-stylekit-background-color);
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 62px);
+  border: 1px solid var(--sn-stylekit-border-color);
+  border-right-width: 0px;
+  margin-bottom: 20px;
+  margin-right: 0px;
+  margin-top: 0px;
+  min-width: 40%;
+  position: absolute;
+  right: 0px;
+  z-index: 2;
+  text-align: center;
+
+  button,
+  p {
+    color: var(--sn-stylekit-foreground-color);
+    font-size: var(--sn-stylekit-font-size-editor);
+    margin: 10px 20px;
+  }
+  button {
+    border-width: 1px;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  // notification
+  .notification {
+    &.visible {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 200ms ease-in;
+    }
+
+    &.hidden {
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0s 500ms, opacity 500ms ease-out;
+    }
+  }
+}
+
 #content {
   background-color: var(--sn-stylekit-contrast-background-color);
-  flex: 1;
-  //padding: 0 10px;
+  flex: auto;
   display: flex;
   justify-content: center;
 
@@ -238,6 +274,7 @@ button:focus {
   }
 }
 
+#menu,
 #content,
 #appendix,
 .DynamicEditor {

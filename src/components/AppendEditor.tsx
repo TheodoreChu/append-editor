@@ -7,6 +7,7 @@ import AppendText from './AppendText';
 import Settings from './Settings';
 import { MonacoDiffEditor } from './Monaco';
 import ErrorBoundary from './ErrorBoundary';
+import Menu from './Menu';
 
 import CodeMirror, { Editor } from 'codemirror';
 import 'codemirror/lib/codemirror';
@@ -769,19 +770,20 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   onPrintMode = () => {
     this.setState(
       {
-        showHeader: false,
-        showAppendix: false,
         editMode: false,
         printMode: true,
-        viewMode: false,
+        showAppendix: false,
+        showHeader: false,
+        showMenu: false,
         refreshView: !this.state.refreshView,
+        viewMode: false,
       },
       () => {
         window.print();
         this.setState(
           {
-            showHeader: true,
             showAppendix: true,
+            showHeader: true,
           },
           () => {
             const printButton = document.getElementById(printButtonID);
@@ -828,7 +830,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  onToggleShowHelp = () => {
+  toggleShowHelp = () => {
     this.setState(
       {
         showHelp: !this.state.showHelp,
@@ -843,7 +845,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     );
   };
 
-  onToggleShowMenu = () => {
+  toggleShowMenu = () => {
     this.setState({
       showMenu: !this.state.showMenu,
     });
@@ -859,13 +861,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         () => {
           this.setState(
             {
-              showAppendix: false, // Hides the scroll up/down buttons
-              showHeader: false,
               appendMode: false,
               editMode: false,
               printMode: false,
-              viewMode: false,
               settingsMode: true,
+              showAppendix: false, // Hides the scroll up/down buttons
+              showHeader: false,
+              showMenu: false,
+              viewMode: false,
             },
             () => {
               const undoDialog = document.getElementById('undoDialog');
@@ -1602,7 +1605,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               <button
                 type="button"
                 id={helpButtonID}
-                onClick={this.onToggleShowHelp}
+                onClick={this.toggleShowHelp}
                 title="Help"
                 className={'sk-button ' + (this.state.showHelp ? 'on' : 'off')}
               >
@@ -1740,6 +1743,32 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                   />
                 </svg>
               </button>
+              <button
+                type="button"
+                id="showMenubotton"
+                onClick={this.toggleShowMenu}
+                title="Toggle Menu"
+                className={'sk-button ' + (this.state.showMenu ? 'on' : 'off')}
+              >
+                <svg
+                  role="button"
+                  aria-label="Dots button to show menu"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17 5V6.66667H3V5H17ZM3 15H17V13.3333H3V15ZM3 10.8333H17V9.16667H3V10.8333Z"
+                    fill={
+                      this.state.showMenu
+                        ? 'var(--sn-stylekit-info-color)'
+                        : 'var(--sn-stylekit-foreground-color)'
+                    }
+                  />
+                </svg>
+              </button>
             </div>
           </div>,
         ]}
@@ -1749,6 +1778,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             'content ' + (this.state.printMode ? 'printModeOn' : 'printModeOff')
           }
         >
+          {this.state.showMenu && (
+            <Menu
+              refreshEdit={this.refreshEdit}
+              refreshView={this.refreshView}
+              saveText={this.saveText}
+              text={this.state.text}
+            />
+          )}
           {this.state.settingsMode && (
             <Settings
               cancelText="Cancel"

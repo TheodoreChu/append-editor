@@ -102,6 +102,7 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
           (this.props.printMode ? 'printModeOn' : 'printModeOff') +
           (this.props.printURL ? ' printURL' : ' printURLOff')
         }
+        id="view"
       >
         <div className="sk-panel-content view">
           <div>
