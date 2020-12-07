@@ -44,7 +44,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   copyToClipboard = (text: string) => {
     const textField = document.createElement('textarea');
-    textField.innerText = text;
+    textField.value = text;
     document.body.appendChild(textField);
     textField.select();
     document.execCommand('copy');
