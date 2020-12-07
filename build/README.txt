@@ -29,7 +29,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 
 ### Main Features
 
-- CommonMark and GitHub-flavored [Markdown](https://guides.github.com/features/mastering-markdown/) provided by [Unified/Remark/Rehype](https://github.com/remarkjs/remark)
+- CommonMark and [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/) provided by [Remark](https://github.com/remarkjs/remark) and [Rehype](https://github.com/rehypejs/rehype)
 - $\LaTeX/\KaTeX$ provided by [Remark Math](https://github.com/remarkjs/remark-math) and hosted [KaTeX](https://github.com/KaTeX/KaTeX) stylesheets
 - Visual Studio Code flavored Syntax Highlighting provided by [Rehype Highlight](https://github.com/rehypejs/rehype-highlight) and hosted [Highlight.js](https://github.com/highlightjs/highlight.js) stylesheets
 - Table of Contents (links don't work on mobile) provided by [Remark TOC](https://github.com/remarkjs/remark-toc)
@@ -37,7 +37,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - In-line HTML for underlining, highlighting, and HTML rendering provided by [Rehype Raw](https://github.com/rehypejs/rehype-raw)
 - Optional in-line formatting for Markdown provided by [CodeMirror](https://codemirror.net)
 - Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor) developed by [Outline](https://www.getoutline.com/). Checkboxes are clickable in view/read-only mode
-- Optional in-line syntax highlighting for Markdown and many other programming languages, intelligent autocompletion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
+- Optional in-line syntax highlighting for Markdown and more than 60 other programming languages, intelligent autocompletion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
   - Languages supported: abap, aes, apex, azcli, bat, c, cameligo, clojure, coffeescript, cpp, csharp, csp, css, dart, dockerfile, fsharp, go, graphql, handlebars, hcl, html, ini, java, javascript, json, julia, kotlin, less, lexon, lua, markdown, mips, msdax, mysql, objective-c, pascal, pascaligo, perl, pgsql, php, plaintext, postiats, powerquery, powershell, pug, python, r, razor, redis, redshift, restructuredtext, ruby, rust, sb, scala, scheme, scss, shell, sol, sql, st, swift, systemverilog, tcl, twig, typescript, vb, verilog, xml, yaml
 
 ### More Features
