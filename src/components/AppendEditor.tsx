@@ -39,6 +39,7 @@ const viewButtonID = 'viewButton';
 const headerID = 'header';
 const contentID = 'content';
 const appendixID = 'appendix';
+const viewID = 'view';
 
 const editTextAreaID = 'editTextArea';
 const appendTextAreaID = 'appendTextArea';
@@ -48,6 +49,8 @@ const newParagraphID = 'newParagraph';
 
 const useDynamicEditor = 'useDynamicEditor';
 const useMonacoEditor = 'useMonacoEditor';
+
+let last_known_scroll_position = 0;
 
 /**
  * Some properties are optional so
@@ -76,6 +79,7 @@ const initialState = {
   fontEdit: '',
   fontSize: '',
   fontView: '',
+  fixedHeader: false,
   monacoEditorLanguage: 'markdown',
   printMode: false,
   printURL: true,
@@ -133,6 +137,8 @@ export interface AppendInterface {
   fontEdit: string;
   fontSize: string;
   fontView: string;
+  fixedHeader: boolean;
+  restrictedMode?: boolean;
   keyMap?: Object;
   monacoEditorLanguage: string;
   printMode: boolean;
@@ -168,6 +174,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
     }
     this.onViewMode();
+    window.addEventListener('scroll', this.onScroll);
+  };
+
+  componentWillUnmount = () => {
+    window.removeEventListener('scroll', this.onScroll);
   };
 
   configureEditorKit = () => {
@@ -771,6 +782,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.setState(
       {
         editMode: false,
+        fixedHeader: false,
         printMode: true,
         showAppendix: false,
         showHeader: false,
@@ -782,6 +794,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         window.print();
         this.setState(
           {
+            ...this.state.currentState,
             showAppendix: true,
             showHeader: true,
           },
@@ -849,6 +862,28 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.setState({
       showMenu: !this.state.showMenu,
     });
+    if (!this.state.fixedHeader) {
+      this.setState({
+        fixedHeader: true,
+      });
+    }
+  };
+
+  toggleRestrictedMode = () => {
+    if (!this.state.restrictedMode) {
+      this.setState({
+        restrictedMode: true,
+      });
+    } else if (this.state.restrictedMode) {
+      this.setState(
+        {
+          restrictedMode: false,
+        },
+        () => {
+          this.refreshView();
+        }
+      );
+    }
   };
 
   onSettingsMode = () => {
@@ -863,7 +898,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             {
               appendMode: false,
               editMode: false,
+              fixedHeader: false,
               printMode: false,
+              restrictedMode: false,
               settingsMode: true,
               showAppendix: false, // Hides the scroll up/down buttons
               showHeader: false,
@@ -1147,78 +1184,68 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.onPrintMode();
   };
 
+  goDown = () => {
+    document.body.scrollTop = 10000000; // for Safari
+    if (this.state.editMode) {
+      const editTextArea = document.getElementById(editTextAreaID);
+      if (editTextArea) {
+        editTextArea.scrollTop = 10000000;
+      }
+    }
+    if (this.state.appendMode) {
+      const appendTextArea = document.getElementById(appendTextAreaID);
+      if (appendTextArea) {
+        appendTextArea.scrollTop = 10000000;
+      }
+    }
+    if (this.state.restrictedMode) {
+      const view = document.getElementById(viewID);
+      if (view) {
+        view.scrollTop = 10000000;
+      }
+    }
+    const view = document.getElementById(viewID);
+    if (view) {
+      view.scrollTop = 10000000;
+    }
+  };
+
   // Need both content and appendix for mobile
   scrollToBottom = () => {
-    document.body.scrollTop = 10000000; // for Safari
-    if (this.state.editMode) {
-      const editTextArea = document.getElementById(editTextAreaID);
-      if (editTextArea) {
-        editTextArea.scrollTop = 10000000;
-      }
-    }
-    if (this.state.appendMode) {
-      const appendTextArea = document.getElementById(appendTextAreaID);
-      if (appendTextArea) {
-        appendTextArea.scrollTop = 10000000;
-      }
-    }
+    this.goDown();
     const content = document.getElementById(contentID);
-    const appendix = document.getElementById(appendixID);
     if (content) {
       content.scrollIntoView({
         behavior: 'smooth',
-        block: 'end',
+        block: 'end', // Bottom
         inline: 'nearest',
-      }); // Bottom
+      });
     }
+    const appendix = document.getElementById(appendixID);
     if (appendix) {
       appendix.scrollIntoView({
         behavior: 'smooth',
-        block: 'end',
+        block: 'end', // Bottom
         inline: 'nearest',
-      }); // Bottom
+      });
     }
   };
 
-  // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToBottom = () => {
-    if (debugMode) {
-      console.log('skipped to bottom');
-    }
-    document.body.scrollTop = 10000000; // for Safari
-    if (this.state.editMode) {
-      const editTextArea = document.getElementById(editTextAreaID);
-      if (editTextArea) {
-        editTextArea.scrollTop = 10000000;
-      }
-    }
-    if (this.state.appendMode) {
-      const appendTextArea = document.getElementById(appendTextAreaID);
-      if (appendTextArea) {
-        appendTextArea.scrollTop = 10000000;
-      }
-    }
-    // We have both content and appendix so the skip works in PrintMode
-    const content = document.getElementById(contentID);
+    this.goDown();
     const appendix = document.getElementById(appendixID);
-    if (content) {
-      content.scrollIntoView({
-        behavior: 'auto',
-        block: 'end',
-        inline: 'nearest',
-      }); // Bottom
-    }
     if (appendix) {
       appendix.scrollIntoView({
         behavior: 'auto',
-        block: 'end',
+        block: 'end', // Bottom
         inline: 'nearest',
-      }); // Bottom
+      });
     }
   };
 
-  scrollToTop = () => {
+  goUp = () => {
+    document.body.scrollTop = 0; // for Safari
     if (this.state.editMode) {
       const editTextArea = document.getElementById(editTextAreaID);
       if (editTextArea) {
@@ -1231,59 +1258,44 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         appendTextArea.scrollTop = 0;
       }
     }
-    document.body.scrollTop = 0; // for Safari
-    const content = document.getElementById(contentID);
-    const header = document.getElementById(headerID);
-    if (content) {
-      content.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-      }); // Top
+    if (this.state.restrictedMode) {
+      const view = document.getElementById(viewID);
+      if (view) {
+        view.scrollTop = 0;
+      }
     }
-    if (header) {
-      header.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest',
-      }); // Top
-    }
+  };
+
+  scrollToTop = () => {
+    this.goUp();
+    this.setState(
+      {
+        fixedHeader: false,
+      },
+      () => {
+        const header = document.getElementById(headerID);
+        if (header) {
+          header.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start', // Top
+            inline: 'nearest',
+          });
+        }
+      }
+    );
   };
 
   // Need both content and appendix for mobile
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToTop = () => {
-    if (debugMode) {
-      console.log('skipped to top');
-    }
-    if (this.state.editMode) {
-      const editTextArea = document.getElementById(editTextAreaID);
-      if (editTextArea) {
-        editTextArea.scrollTop = 0;
-      }
-    }
-    if (this.state.appendMode) {
-      const appendTextArea = document.getElementById(appendTextAreaID);
-      if (appendTextArea) {
-        appendTextArea.scrollTop = 0;
-      }
-    }
-    document.body.scrollTop = 0; // for Safari
-    const content = document.getElementById(contentID);
-    const header = document.getElementById(headerID);
-    if (content) {
-      content.scrollIntoView({
+    this.goUp();
+    const top = document.getElementById('top');
+    if (top) {
+      top.scrollIntoView({
         behavior: 'auto',
-        block: 'start',
+        block: 'start', // Top
         inline: 'nearest',
-      }); // Top
-    }
-    if (header) {
-      header.scrollIntoView({
-        behavior: 'auto',
-        block: 'start',
-        inline: 'nearest',
-      }); // Top
+      });
     }
   };
 
@@ -1491,8 +1503,27 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     keyMap.clear();
   };
 
+  onScroll = (e: Event) => {
+    if (!this.state.settingsMode) {
+      if (window.scrollY < last_known_scroll_position) {
+        this.setState({
+          fixedHeader: true,
+        });
+      } else if (
+        window.scrollY > last_known_scroll_position &&
+        !this.state.showMenu
+      ) {
+        this.setState({
+          fixedHeader: false,
+        });
+      }
+      last_known_scroll_position = window.scrollY;
+    }
+  };
+
   render() {
-    return (
+    return [
+      <span id="top"></span>,
       <div
         tabIndex={0}
         className="sn-component"
@@ -1501,7 +1532,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         onBlur={this.onBlur}
       >
         {this.state.showHeader && [
-          <div id={headerID}>
+          <div
+            id={headerID}
+            className={'header' + (this.state.fixedHeader ? ' fixed' : '')}
+          >
             <div className="sk-button-group">
               <button
                 type="button"
@@ -1775,7 +1809,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         <div
           id={contentID}
           className={
-            'content ' + (this.state.printMode ? 'printModeOn' : 'printModeOff')
+            'content' +
+            (this.state.printMode ? ' printModeOn' : '') +
+            (this.state.fixedHeader ? ' fixed' : '') +
+            (this.state.restrictedMode ? ' restricted' : '')
           }
         >
           {this.state.showMenu && (
@@ -1784,10 +1821,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               monacoEditorLanguage={this.state.monacoEditorLanguage}
               refreshEdit={this.refreshEdit}
               refreshView={this.refreshView}
+              restrictedMode={this.state.restrictedMode}
               saveText={this.saveText}
               text={this.state.text}
+              toggleRestrictedMode={this.toggleRestrictedMode}
+              toggleShowMenu={this.toggleShowMenu}
               useDynamicEditor={useDynamicEditor}
               useMonacoEditor={useMonacoEditor}
+              viewMode={this.state.viewMode}
             />
           )}
           {this.state.settingsMode && (
@@ -1907,8 +1948,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           <div
             id={appendixID}
             className={
-              'appendix ' +
-              (this.state.printMode ? 'printModeOn' : 'printModeOff')
+              'appendix' + (this.state.printMode ? ' printModeOn' : '')
             }
           >
             {this.state.appendMode && (
@@ -1954,7 +1994,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             </button>
           </div>,
         ]}
-      </div>
-    );
+      </div>,
+    ];
   }
 }

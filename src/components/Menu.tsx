@@ -5,13 +5,17 @@ import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 
 interface MenuProps {
   editingMode: EditingMode;
+  restrictedMode?: boolean;
   monacoEditorLanguage: string;
   refreshEdit: () => void;
   refreshView: () => void;
   saveText: (text: string) => void;
   text: string;
+  toggleRestrictedMode: () => void;
+  toggleShowMenu: () => void;
   useMonacoEditor: useMonacoEditor;
   useDynamicEditor: useDynamicEditor;
+  viewMode?: boolean;
 }
 
 interface MenuState {
@@ -72,14 +76,21 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   copyHtml = () => {
-    const renderedNote = document.getElementById('renderedNote');
-    if (renderedNote?.firstElementChild?.innerHTML) {
-      this.setState({ message: 'Copied HTML to clipboard.' });
-      this.copyToClipboard(renderedNote?.firstElementChild.innerHTML);
-    } else {
-      this.setState({ message: 'No HTML to copy.' }, () => {
+    if (!this.props.viewMode) {
+      this.setState(
+        { message: 'Unable to copy HTML. Please turn view mode on.' },
+        () => this.showMessage()
+      );
+    } else if (!this.props.text) {
+      this.setState({ message: 'No HTML to copy. Your note is empty.' }, () => {
         this.showMessage();
       });
+    } else {
+      const renderedNote = document.getElementById('renderedNote');
+      if (renderedNote?.firstElementChild?.innerHTML) {
+        this.setState({ message: 'Copied HTML to clipboard.' });
+        this.copyToClipboard(renderedNote?.firstElementChild.innerHTML);
+      }
     }
   };
 
@@ -144,7 +155,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   render() {
     // You can render any custom fallback UI
-    return (
+    return [
+      <div className="menu-overlay" onClick={this.props.toggleShowMenu} />,
       <div id={'menu'}>
         <button onClick={this.copyText}>
           <svg
@@ -210,6 +222,12 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">Uncheck all checkboxes</span>
         </button>
+        <button onClick={this.props.toggleRestrictedMode}>
+          <span className="menu-button-caption">
+            Restricted Height:
+            <b>{this.props.restrictedMode ? ' on' : ' off'}</b>
+          </span>
+        </button>
         <div
           className={`notification ${
             this.state.displayMessage ? 'visible' : 'hidden'
@@ -219,7 +237,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             <b>{this.state.message}</b>
           </p>
         </div>
-      </div>
-    );
+      </div>,
+    ];
   }
 }

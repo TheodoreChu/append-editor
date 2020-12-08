@@ -9,6 +9,15 @@
     outline: none;
   }
 
+  #content {
+    &.fixed {
+      padding-top: unset;
+    }
+    &.restricted {
+      max-height: unset;
+    }
+  }
+
   #appendix,
   #header,
   #menu {

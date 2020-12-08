@@ -218,6 +218,21 @@ button:focus {
       }
     }
   }
+  &.fixed {
+    position: fixed;
+    z-index: 1;
+  }
+}
+
+.menu-overlay {
+  background-color: var(--sn-stylekit-neutral-color);
+  z-index: 2;
+  height: 100%;
+  left: 0;
+  opacity: 0.2;
+  position: fixed;
+  top: 60.2px;
+  width: 100%;
 }
 
 #menu {
@@ -227,17 +242,20 @@ button:focus {
   height: calc(100% - 62px);
   border: 1px solid var(--sn-stylekit-border-color);
   border-right-width: 0px;
-  margin-bottom: 20px;
   margin-right: 0px;
   margin-top: 0px;
-  min-width: 40%;
-  position: absolute;
+  max-width: 60%;
+  min-width: 300px;
+  position: fixed;
   right: 0px;
-  z-index: 2;
-  text-align: center;
+  z-index: 3;
+  @media screen and (min-width: 700px) {
+    min-width: 450px;
+  }
 
-  button {
-    border-width: 1px;
+  button,
+  p {
+    border-width: 0px;
     color: var(--sn-stylekit-foreground-color);
     display: flex;
     font-size: var(--sn-stylekit-font-size-editor);
@@ -276,6 +294,12 @@ button:focus {
 
   @media screen and (max-width: 725px) {
     padding: 0;
+  }
+  &.fixed {
+    padding-top: 60.2px;
+  }
+  &.restricted {
+    max-height: calc(100vh - 60.2px);
   }
 }
 
@@ -482,6 +506,10 @@ button:focus {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 200;
+}
+
+#settings {
+  height: 100%;
 }
 
 #settings .sk-panel-section:last-child {
