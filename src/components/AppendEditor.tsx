@@ -175,11 +175,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
     }
     this.onViewMode();
-    window.addEventListener('scroll', this.onScroll);
+    document.addEventListener('scroll', this.onScroll);
   };
 
   componentWillUnmount = () => {
-    window.removeEventListener('scroll', this.onScroll);
+    document.removeEventListener('scroll', this.onScroll);
   };
 
   configureEditorKit = () => {
@@ -1289,21 +1289,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   scrollToTop = () => {
     this.goUp();
-    this.setState(
-      {
-        fixedHeader: false,
-      },
-      () => {
-        const header = document.getElementById(headerID);
-        if (header) {
-          header.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start', // Top
-            inline: 'nearest',
-          });
-        }
-      }
-    );
+    const top = document.getElementById('top');
+    if (top) {
+      top.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start', // Top
+        inline: 'nearest',
+      });
+    }
   };
 
   // Need both content and appendix for mobile
