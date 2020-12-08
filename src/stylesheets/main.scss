@@ -300,6 +300,22 @@ button:focus {
   }
   &.restricted {
     max-height: calc(100vh - 60.2px);
+    #renderedNote {
+      overflow-wrap: normal;
+      pre,
+      table {
+        overflow: visible;
+      }
+    }
+  }
+  &.fullscreen {
+    .sk-panel.main {
+      margin: 0px;
+    }
+    .sk-panel.main,
+    .rendered-note-section {
+      max-width: unset;
+    }
   }
 }
 

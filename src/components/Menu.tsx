@@ -5,12 +5,14 @@ import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 
 interface MenuProps {
   editingMode: EditingMode;
+  fullscreenMode?: boolean;
   restrictedMode?: boolean;
   monacoEditorLanguage: string;
   refreshEdit: () => void;
   refreshView: () => void;
   saveText: (text: string) => void;
   text: string;
+  toggleFullscreenMode: () => void;
   toggleRestrictedMode: () => void;
   toggleShowMenu: () => void;
   useMonacoEditor: useMonacoEditor;
@@ -226,6 +228,12 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           <span className="menu-button-caption">
             Restricted Height:
             <b>{this.props.restrictedMode ? ' on' : ' off'}</b>
+          </span>
+        </button>
+        <button onClick={this.props.toggleFullscreenMode}>
+          <span className="menu-button-caption">
+            Full Screen Mode:
+            <b>{this.props.fullscreenMode ? ' on' : ' off'}</b>
           </span>
         </button>
         <div

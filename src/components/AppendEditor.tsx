@@ -138,6 +138,7 @@ export interface AppendInterface {
   fontSize: string;
   fontView: string;
   fixedHeader: boolean;
+  fullscreenMode?: boolean;
   restrictedMode?: boolean;
   keyMap?: Object;
   monacoEditorLanguage: string;
@@ -783,11 +784,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       {
         editMode: false,
         fixedHeader: false,
+        fullscreenMode: false,
         printMode: true,
         showAppendix: false,
         showHeader: false,
         showMenu: false,
         refreshView: !this.state.refreshView,
+        restrictedMode: false,
         viewMode: false,
       },
       () => {
@@ -886,6 +889,23 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
+  toggleFullscreenMode = () => {
+    if (!this.state.fullscreenMode) {
+      this.setState({
+        fullscreenMode: true,
+      });
+    } else if (this.state.fullscreenMode) {
+      this.setState(
+        {
+          fullscreenMode: false,
+        },
+        () => {
+          this.refreshView();
+        }
+      );
+    }
+  };
+
   onSettingsMode = () => {
     // Here we save the current state. We reload the current state if we cancel
     if (!this.state.settingsMode) {
@@ -899,6 +919,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               appendMode: false,
               editMode: false,
               fixedHeader: false,
+              fullscreenMode: false,
               printMode: false,
               restrictedMode: false,
               settingsMode: true,
@@ -1812,18 +1833,21 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             'content' +
             (this.state.printMode ? ' printModeOn' : '') +
             (this.state.fixedHeader ? ' fixed' : '') +
-            (this.state.restrictedMode ? ' restricted' : '')
+            (this.state.restrictedMode ? ' restricted' : '') +
+            (this.state.fullscreenMode ? ' fullscreen' : '')
           }
         >
           {this.state.showMenu && (
             <Menu
               editingMode={this.state.editingMode}
+              fullscreenMode={this.state.fullscreenMode}
               monacoEditorLanguage={this.state.monacoEditorLanguage}
               refreshEdit={this.refreshEdit}
               refreshView={this.refreshView}
               restrictedMode={this.state.restrictedMode}
               saveText={this.saveText}
               text={this.state.text}
+              toggleFullscreenMode={this.toggleFullscreenMode}
               toggleRestrictedMode={this.toggleRestrictedMode}
               toggleShowMenu={this.toggleShowMenu}
               useDynamicEditor={useDynamicEditor}
