@@ -1231,17 +1231,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  // Need both content and appendix for mobile
   scrollToBottom = () => {
     this.goDown();
-    const content = document.getElementById(contentID);
-    if (content) {
-      content.scrollIntoView({
-        behavior: 'smooth',
-        block: 'end', // Bottom
-        inline: 'nearest',
-      });
-    }
     const appendix = document.getElementById(appendixID);
     if (appendix) {
       appendix.scrollIntoView({
