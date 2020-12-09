@@ -562,13 +562,27 @@ button:focus {
       color: var(--sn-stylekit-foreground-color);
     }
     input[type='text'] {
-      min-width: 250px;
+      min-width: 200px;
     }
     input[type='checkbox'] {
-      min-width: 250px;
+      min-width: 210px;
     }
     select {
-      min-width: 267px;
+      min-width: 217px;
+    }
+    .input-and-undo-button {
+      display: flex;
+    }
+    @media screen and (min-width: 360px) {
+      input[type='text'] {
+        min-width: 250px;
+      }
+      input[type='checkbox'] {
+        min-width: 260px;
+      }
+      select {
+        min-width: 267px;
+      }
     }
     .radio {
       margin-top: 3px;

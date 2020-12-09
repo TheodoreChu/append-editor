@@ -632,7 +632,7 @@ export default class Settings extends React.Component<
                 <label htmlFor={monacoEditorLanguageID}>
                   Monaco Editor Language:{' '}
                 </label>
-                <div>
+                <div className="input-and-undo-button">
                   <label>
                     <select
                       id={monacoEditorLanguageID}
@@ -736,7 +736,7 @@ export default class Settings extends React.Component<
             ]}
             <section className="sk-panel-row settings">
               <label htmlFor={fontSizeID}>Choose a base font size: </label>
-              <div>
+              <div className="input-and-undo-button">
                 <select
                   id={fontSizeID}
                   name={fontSizeID}
@@ -790,7 +790,7 @@ export default class Settings extends React.Component<
                 <label htmlFor={fontEditID}>
                   Choose a font for Edit/Append:{' '}
                 </label>
-                <div>
+                <div className="input-and-undo-button">
                   <input
                     list="fonts"
                     id={fontEditID}
@@ -828,7 +828,7 @@ export default class Settings extends React.Component<
                 <label htmlFor={fontViewID}>
                   Choose a font for View/Print:{' '}
                 </label>
-                <div>
+                <div className="input-and-undo-button">
                   <input
                     list="fonts"
                     id={fontViewID}
@@ -939,7 +939,7 @@ export default class Settings extends React.Component<
               <label htmlFor={saveAsDefaultID}>
                 Save these settings as your personal default:{' '}
               </label>
-              <div>
+              <div className="input-and-undo-button">
                 <label>
                   <input
                     id={saveAsDefaultID}
