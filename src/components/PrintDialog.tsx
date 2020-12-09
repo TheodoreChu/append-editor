@@ -21,13 +21,11 @@ const PrintDialog: React.FC<PrintDialogTypes> = ({
   title,
 }) => (
   <div className="note-overlay">
-    <div className="note-dialog sk-panel">
+    <div className="sk-panel note-dialog">
       <div className="sk-panel-content">
         <div className="sk-panel-section">
-          <div className="sk-panel-row">
-            <div className="sk-h1">
-              <h3>{title}</h3>
-            </div>
+          <div className="sk-panel-row title-section">
+            <h2>{title}</h2>
             <button id="undoDialog" onClick={onUndo} title="Close">
               <svg
                 width="20"
@@ -43,24 +41,22 @@ const PrintDialog: React.FC<PrintDialogTypes> = ({
               </svg>
             </button>
           </div>
-          <div className="sk-panel-row">
-            <div className="sk-h2">
-              Need help deciding? Check out the{' '}
-              <a href={helpLink} target="_blank" rel="noopener noreferrer">
-                documentation
-              </a>
-              .
-            </div>
-          </div>
+          <p>
+            Need help deciding? Check out the{' '}
+            <a href={helpLink} target="_blank" rel="noopener noreferrer">
+              documentation
+            </a>
+            .
+          </p>
         </div>
       </div>
       <div className="sk-panel-footer">
         <div className="sk-button-group stretch">
           <button className="sk-button neutral" onClick={onCancel}>
-            <div className="sk-label">{cancelText}</div>
+            <div>{cancelText}</div>
           </button>
           <button className="sk-button info" onClick={onConfirm}>
-            <div className="sk-label">{confirmText}</div>
+            <div>{confirmText}</div>
           </button>
         </div>
       </div>

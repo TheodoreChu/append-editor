@@ -264,7 +264,7 @@ export default class AppendText extends React.Component<
               onClick={this.appendTextToNote}
               className="sk-button info"
             >
-              <div className="sk-label">Append</div>
+              <div>Append</div>
             </button>
           </div>
         </div>

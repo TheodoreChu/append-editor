@@ -1511,10 +1511,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   onScroll = (e: Event) => {
     if (!this.state.settingsMode) {
       if (window.scrollY < last_known_scroll_position) {
+        // If scrolling up, fix header
         this.setState({
           fixedHeader: true,
         });
       } else if (
+        // If scrolling down, unfix header
         window.scrollY > last_known_scroll_position &&
         !this.state.showMenu
       ) {
@@ -1989,7 +1991,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               title="Scroll to Top"
               type="button"
             >
-              <div className="sk-label"> ▲ </div>
+              <div> ▲ </div>
             </button>
             <button
               className="sk-button info"
@@ -1998,7 +2000,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               title="Scroll to Bottom"
               type="button"
             >
-              <div className="sk-label"> ▼ </div>
+              <div> ▼ </div>
             </button>
           </div>,
         ]}

@@ -966,10 +966,10 @@ export default class Settings extends React.Component<
         <div className="sk-panel-footer">
           <div className="sk-button-group stretch">
             <button className="sk-button neutral" onClick={onCancel}>
-              <div className="sk-label">{cancelText}</div>
+              <div>{cancelText}</div>
             </button>
             <button className="sk-button info" onClick={this.handleSubmit}>
-              <div className="sk-label">{confirmText}</div>
+              <div>{confirmText}</div>
             </button>
           </div>
         </div>
