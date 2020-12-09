@@ -229,9 +229,27 @@ export default class Settings extends React.Component<
 
   loadDefaultSettings = () => {
     const defaultSettings = this.props.defaultSettings;
-    this.setState({
-      ...defaultSettings,
-    });
+    this.setState(
+      {
+        ...defaultSettings,
+      },
+      () => {
+        this.refreshCustomStyles();
+      }
+    );
+  };
+
+  refreshCustomStyles = () => {
+    this.setState(
+      {
+        showCustomStyles: !this.state.showCustomStyles,
+      },
+      () => {
+        this.setState({
+          showCustomStyles: !this.state.showCustomStyles,
+        });
+      }
+    );
   };
 
   clearCustomStyles = () => {
@@ -240,19 +258,10 @@ export default class Settings extends React.Component<
         customStyles: '',
       },
       () => {
-        this.setState(
-          {
-            showCustomStyles: !this.state.showCustomStyles,
-          },
-          () => {
-            this.setState({
-              showCustomStyles: !this.state.showCustomStyles,
-            });
-            if (this.props.debugMode) {
-              console.log('customStyles reset: ' + this.state.customStyles);
-            }
-          }
-        );
+        this.refreshCustomStyles();
+        if (this.props.debugMode) {
+          console.log('customStyles reset: ' + this.state.customStyles);
+        }
       }
     );
     const customStyles = document.getElementById(
