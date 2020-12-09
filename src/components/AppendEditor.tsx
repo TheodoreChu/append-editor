@@ -198,9 +198,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           () => {
             if (debugMode) {
               console.log(
-                'AppendEditor.tsx: \n - this.configureEditorKit() callback triggered' +
+                '#################################################################################\n' +
+                  'AppendEditor.tsx:',
+                '\n - loaded text:',
+                text +
+                  '\n - this.configureEditorKit() callback triggered:' +
                   '\n - this.state.savingsDefaultSettings: ' +
-                  this.state.savingDefaultSettings
+                  this.state.savingDefaultSettings +
+                  '\n - this.state: ' +
+                  JSON.stringify(this.state, null, ' ')
               );
             }
             this.loadDefaultSettings();
@@ -221,66 +227,110 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   loadDefaultSettings = () => {
     try {
-      const defaultCustomStyles = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'customStyles'
+      const defaultSettingsString = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'defaultSettings'
       );
       const defaultEditingMode = this.editorKit.internal.componentManager.componentDataValueForKey(
         'editingMode'
       );
-      const defaultFontEdit = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'fontEdit'
-      );
-      const defaultFontSize = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'fontSize'
-      );
-      const defaultFontView = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'fontView'
-      );
-      const defaultMonacoEditorLanguage = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'monacoEditorLanguage'
-      );
-      const defaultUseCodeMirror = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'useCodeMirror'
-      );
       if (debugMode) {
         console.log(
           'AppendEditor.tsx: \n loadDefaultSetting() default settings loaded: ' +
-            '\n  - default customStyles: ' +
-            defaultCustomStyles +
-            '\n  - default editingMode: ' +
-            defaultEditingMode +
-            '\n  - default fontSize: ' +
-            defaultFontSize +
-            '\n  - default fontEdit: ' +
-            defaultFontEdit +
-            '\n  - default fontView: ' +
-            defaultFontView +
-            '\n  - default monacoEditorLanguage: ' +
-            defaultMonacoEditorLanguage +
-            '\n  - default UseCodeMirror: ' +
-            defaultUseCodeMirror
+            '\n  - defaultSettingsString: ' +
+            defaultSettingsString,
+          '\n    - typeof:',
+          typeof defaultSettingsString,
+          '\n  - defaultEditingMode:',
+          defaultEditingMode,
+          '\n    - typeof:',
+          typeof defaultEditingMode
         );
       }
-      if (
-        defaultCustomStyles !== 'undefined' ||
-        defaultEditingMode !== 'undefined' ||
-        defaultFontEdit !== 'undefined' ||
-        defaultFontSize !== 'undefined' ||
-        defaultFontView !== 'undefined' ||
-        defaultMonacoEditorLanguage !== 'undefined' ||
-        defaultUseCodeMirror !== 'undefined'
-      ) {
-      }
-      this.setState(
-        {
-          customStyles: defaultCustomStyles,
-          editingMode: defaultEditingMode,
-          fontEdit: defaultFontEdit,
-          fontSize: defaultFontSize,
-          fontView: defaultFontView,
-          monacoEditorLanguage: defaultMonacoEditorLanguage,
-          useCodeMirror: defaultUseCodeMirror,
-          defaultSettings: {
+      if (defaultSettingsString !== undefined) {
+        const defaultSettingsObject = JSON.parse(
+          defaultSettingsString
+        ) as DefaultSettings;
+        if (debugMode) {
+          console.log(
+            'AppendEditor.tsx: \n loadDefaultSetting():',
+            'if (defaultSettingsString !== undefined) triggered',
+            '\n    - typeof defaultSettings:',
+            typeof defaultSettingsObject
+          );
+        }
+        this.setState(
+          {
+            customStyles: defaultSettingsObject.customStyles,
+            //@ts-ignore
+            editingMode: defaultSettingsObject.editingMode,
+            fontEdit: defaultSettingsObject.fontEdit,
+            fontSize: defaultSettingsObject.fontSize,
+            fontView: defaultSettingsObject.fontView,
+            monacoEditorLanguage: defaultSettingsObject.monacoEditorLanguage,
+            useCodeMirror: defaultSettingsObject.useCodeMirror,
+            defaultSettings: defaultSettingsObject,
+          },
+          () => {
+            if (debugMode) {
+              console.log(
+                'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingDefaultSettings: ' +
+                  this.state.savingDefaultSettings +
+                  '\n defaultSettingsObject:',
+                defaultSettingsObject,
+                '\n JSON.stringify(this.state.defaultSettings):',
+                JSON.stringify(this.state.defaultSettings, null, ' ')
+              );
+            }
+            if (!this.state.savingDefaultSettings) {
+              this.refreshEdit();
+              this.refreshView();
+              this.activateStyles();
+            }
+          }
+        );
+      } else if (defaultEditingMode !== undefined) {
+        /** This else if loads legacy default settings introduced in v1.1.0
+         * We only need to check defaultEditingMode because it is never empty if it is defined
+         * */
+        const defaultCustomStyles = this.editorKit.internal.componentManager.componentDataValueForKey(
+          'customStyles'
+        );
+        const defaultFontEdit = this.editorKit.internal.componentManager.componentDataValueForKey(
+          'fontEdit'
+        );
+        const defaultFontSize = this.editorKit.internal.componentManager.componentDataValueForKey(
+          'fontSize'
+        );
+        const defaultFontView = this.editorKit.internal.componentManager.componentDataValueForKey(
+          'fontView'
+        );
+        const defaultMonacoEditorLanguage = this.editorKit.internal.componentManager.componentDataValueForKey(
+          'monacoEditorLanguage'
+        );
+        const defaultUseCodeMirror = this.editorKit.internal.componentManager.componentDataValueForKey(
+          'useCodeMirror'
+        );
+        if (debugMode) {
+          console.log(
+            'AppendEditor.tsx: \n loadDefaultSetting():',
+            'else if (defaultEditingMode !== undefined) triggered',
+            '\n  - default customStyles: ' + defaultCustomStyles,
+            '\n    - typeof:',
+            typeof defaultCustomStyles +
+              '\n  - default fontSize: ' +
+              defaultFontSize +
+              '\n  - default fontEdit: ' +
+              defaultFontEdit +
+              '\n  - default fontView: ' +
+              defaultFontView +
+              '\n  - default monacoEditorLanguage: ' +
+              defaultMonacoEditorLanguage +
+              '\n  - default UseCodeMirror: ' +
+              defaultUseCodeMirror
+          );
+        }
+        this.setState(
+          {
             customStyles: defaultCustomStyles,
             editingMode: defaultEditingMode,
             fontEdit: defaultFontEdit,
@@ -288,26 +338,46 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontView: defaultFontView,
             monacoEditorLanguage: defaultMonacoEditorLanguage,
             useCodeMirror: defaultUseCodeMirror,
+            defaultSettings: {
+              customStyles: defaultCustomStyles,
+              editingMode: defaultEditingMode,
+              fontEdit: defaultFontEdit,
+              fontSize: defaultFontSize,
+              fontView: defaultFontView,
+              monacoEditorLanguage: defaultMonacoEditorLanguage,
+              useCodeMirror: defaultUseCodeMirror,
+            },
           },
-        },
-        () => {
-          if (debugMode) {
-            console.log(
-              'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingDefaultSettings: ' +
-                this.state.savingDefaultSettings
-            );
+          () => {
+            if (debugMode) {
+              console.log(
+                'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingDefaultSettings: ' +
+                  this.state.savingDefaultSettings
+              );
+            }
+            if (!this.state.savingDefaultSettings) {
+              this.refreshEdit();
+              this.refreshView();
+              this.activateStyles();
+            }
           }
-          if (!this.state.savingDefaultSettings) {
-            this.refreshEdit();
-            this.refreshView();
-            this.activateStyles();
-          }
+        );
+      } else {
+        if (debugMode) {
+          console.log(
+            'AppendEditor.tsx: loadDefaultSettings(), else, current state:',
+            JSON.stringify(this.state, null, ' ')
+          );
         }
-      );
-    } catch (error) {
-      if (debugMode) {
-        console.log(error);
+        if (!this.state.savingDefaultSettings) {
+          this.refreshEdit();
+          this.refreshView();
+          this.activateStyles();
+        }
       }
+    } catch (error) {
+      // Log outside debug mode
+      console.log('Error loading default settings:', error);
     }
   };
 
@@ -419,7 +489,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           this.refreshView();
         }
         if (debugMode) {
-          console.log('saved text in AppendEditor.tsx: ' + this.state.text);
+          console.log('AppendEditor.tsx: saved text:', this.state.text);
         }
       }
     );
@@ -430,7 +500,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     try {
       this.editorKit.onEditorValueChanged(text);
     } catch (error) {
-      console.error(error);
+      // Log outside debug mode
+      console.log('Error saving note:', error);
     }
   };
 
@@ -502,7 +573,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         );
       }
     } catch (error) {
-      console.error(error);
+      // Log outside debug mode
+      console.log('Error saving appendText:', error);
     }
   };
 
@@ -526,7 +598,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         );
       }
     } catch (error) {
-      console.error(error);
+      // Log outside debug mode
+      console.log('Error saving checkboxes:', error);
     }
   };
 
@@ -1014,87 +1087,67 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       }
     }
     if (saveAsDefault) {
-      this.setState({
-        defaultSettings: {
-          customStyles,
-          editingMode,
-          fontEdit,
-          fontSize,
-          fontView,
-          monacoEditorLanguage,
-          useCodeMirror,
-        },
-      });
       this.setState(
         {
-          savingDefaultSettings: true,
+          defaultSettings: {
+            customStyles,
+            editingMode,
+            fontEdit,
+            fontSize,
+            fontView,
+            monacoEditorLanguage,
+            useCodeMirror,
+          },
         },
         () => {
-          if (debugMode) {
-            console.log(
-              'AppendEditor.tsx: \n - onSaveSettings() this.state.savingDefaultSettings: ' +
-                this.state.savingDefaultSettings
-            );
-          }
-          try {
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'customStyles',
-              customStyles
-            );
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'editingMode',
-              editingMode
-            );
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'fontSize',
-              fontSize
-            );
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'fontEdit',
-              fontEdit
-            );
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'fontView',
-              fontView
-            );
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'monacoEditorLanguage',
-              monacoEditorLanguage
-            );
-            this.editorKit.internal.componentManager.setComponentDataValueForKey(
-              'useCodeMirror',
-              useCodeMirror
-            );
-            /** loadDefaultSettings and loadMetaData are triggered
-             * every time setComponentDataValueForKey is triggered
-             * setTimeout prevents them from triggering
-             * so the new default settings can take into effect immediately
-             * However, if you switch the note within the second, you will get an error*/
-            setTimeout(() => {
-              this.setState(
-                {
-                  savingDefaultSettings: false,
-                },
-                () => {
-                  this.loadDefaultSettings();
-                  this.loadMetaData();
-                }
-              );
-            }, 1000);
-          } catch (error) {
-            if (debugMode) {
-              console.log(error);
-              this.setState(
-                {
-                  savingDefaultSettings: false,
-                },
-                () => {
-                  this.loadDefaultSettings();
-                  this.loadMetaData();
-                }
-              );
+          this.setState(
+            {
+              savingDefaultSettings: true,
+            },
+            () => {
+              if (debugMode) {
+                console.log(
+                  'AppendEditor.tsx: \n - onSaveSettings() this.state.savingDefaultSettings: ' +
+                    this.state.savingDefaultSettings +
+                    '\n JSON.stringify(this.state.defaultSettings):',
+                  JSON.stringify(this.state.defaultSettings)
+                );
+              }
+              try {
+                this.editorKit.internal.componentManager.setComponentDataValueForKey(
+                  'defaultSettings',
+                  JSON.stringify(this.state.defaultSettings)
+                );
+                /** loadDefaultSettings and loadMetaData are triggered
+                 * every time setComponentDataValueForKey is triggered
+                 * setTimeout prevents them from triggering
+                 * so the new default settings can take into effect immediately
+                 * However, if you switch the note within the timeout, you will get an error*/
+                setTimeout(() => {
+                  this.setState(
+                    {
+                      savingDefaultSettings: false,
+                    },
+                    () => {
+                      this.loadDefaultSettings();
+                      this.loadMetaData();
+                    }
+                  );
+                }, 500);
+              } catch (error) {
+                console.log('Error saving default settings:', error);
+                this.setState(
+                  {
+                    savingDefaultSettings: false,
+                  },
+                  () => {
+                    this.loadDefaultSettings();
+                    this.loadMetaData();
+                  }
+                );
+              }
             }
-          }
+          );
         }
       );
     }
