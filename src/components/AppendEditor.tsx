@@ -8,6 +8,7 @@ import Settings from './Settings';
 import { MonacoDiffEditor } from './Monaco';
 import ErrorBoundary from './ErrorBoundary';
 import Menu from './Menu';
+import debounce from 'lodash/debounce';
 
 import CodeMirror, { Editor } from 'codemirror';
 import 'codemirror/lib/codemirror';
@@ -1631,7 +1632,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     keyMap.clear();
   };
 
-  onScroll = (e: Event) => {
+  onScroll = debounce((e: Event) => {
     if (!this.state.settingsMode) {
       if (window.scrollY < last_known_scroll_position) {
         // If scrolling up, fix header
@@ -1649,7 +1650,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       }
       last_known_scroll_position = window.scrollY;
     }
-  };
+  }, 150);
 
   render() {
     return [
