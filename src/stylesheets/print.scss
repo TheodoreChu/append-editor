@@ -10,10 +10,10 @@
   }
 
   #content {
-    &.fixed {
+    &.fixed-header {
       padding-top: unset;
     }
-    &.restricted {
+    &.fixed-height {
       max-height: unset;
     }
   }

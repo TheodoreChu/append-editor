@@ -96,7 +96,9 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
     const { text } = this.props;
     return (
       <div
-        className={'sk-panel main' + (this.props.printURL ? ' printURL' : '')}
+        className={
+          'sk-panel main view' + (this.props.printURL ? ' printURL' : '')
+        }
       >
         <div className="sk-panel-content view" id="view">
           <div>

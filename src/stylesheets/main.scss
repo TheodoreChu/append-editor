@@ -242,7 +242,6 @@ button:focus {
     }
     svg {
       margin-top: auto;
-      margin-bottom: auto;
     }
   }
 
@@ -270,43 +269,50 @@ button:focus {
   @media screen and (max-width: 725px) {
     padding: 0;
   }
-  &.fixed {
+  &.fixed-header {
     padding-top: 60.2px;
   }
-  &.restricted {
+  &.fixed-height {
     max-height: calc(100vh - 60.2px);
-  }
-  &.word-wrap-normal {
-    #renderedNote {
-      overflow-wrap: normal;
-      pre,
-      table {
-        overflow: visible;
-      }
-    }
   }
 }
 
 #content,
 #appendix {
-  &.fullscreen {
+  &.borderless {
+    background-color: var(--sn-stylekit-background-color);
+  }
+  &.borderless,
+  &.full-width {
     .sk-panel.main {
       border: 1px var(--sn-stylekit-background-color);
       box-shadow: none;
+      &.edit,
+      &.view {
+        margin: 0px;
+      }
+    }
+  }
+  &.full-width {
+    // Also includes appendix
+    .sk-panel.main {
       margin: 0px;
     }
     .sk-panel.main,
     .rendered-note-section {
       max-width: unset;
     }
-    .content,
-    .appendix,
-    .sk-panel-main.edit,
-    .sk-panel-main.appendix {
-      background-color: var(--sn-stylekit-background-color);
-    }
     .monacoEditor {
       max-width: calc(100% - 1.25rem);
+    }
+  }
+  &.overflow {
+    #renderedNote {
+      overflow-wrap: normal;
+      pre,
+      table {
+        overflow: visible;
+      }
     }
   }
 }
@@ -340,6 +346,12 @@ button:focus {
 
   img {
     max-width: 100%; // 645.500px;
+  }
+
+  // This to have the plain text area and renderedNote match on empty lines
+  p {
+    margin-block-start: 1.7em;
+    margin-block-end: 1.7em;
   }
 
   table {
@@ -712,7 +724,7 @@ button:focus {
 .edit .MonacoEditorContainer,
 .edit .MonacoDiffEditorContainer {
   min-height: 200px;
-  height: calc(100% - 25px);
+  height: calc(100% - 1.7em);
   margin-bottom: 25px;
 }
 

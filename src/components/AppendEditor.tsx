@@ -129,6 +129,7 @@ export interface AppendInterface {
   appendMode: boolean;
   appendRows: number;
   appendText: string;
+  borderlessMode?: boolean;
   confirmPrintUrl: boolean;
   currentState?: object;
   customStyles: string;
@@ -140,8 +141,9 @@ export interface AppendInterface {
   fontSize: string;
   fontView: string;
   fixedHeader: boolean;
-  fullscreenMode?: boolean;
-  restrictedMode?: boolean;
+  fixedHeightMode?: boolean;
+  fullWidthMode?: boolean;
+  overflowMode?: boolean;
   keyMap?: Object;
   monacoEditorLanguage: string;
   printURL: boolean;
@@ -908,27 +910,46 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  toggleRestrictedMode = () => {
-    if (!this.state.restrictedMode) {
-      this.setState({
-        restrictedMode: true,
-      });
-    } else if (this.state.restrictedMode) {
-      this.setState(
-        {
-          restrictedMode: false,
-        },
-        () => {
-          this.refreshView();
-        }
-      );
-    }
-  };
-
-  toggleFullscreenMode = () => {
+  toggleBorderlessMode = () => {
     this.setState(
       {
-        fullscreenMode: !this.state.fullscreenMode,
+        borderlessMode: !this.state.borderlessMode,
+      },
+      () => {
+        this.refreshEdit();
+        this.refreshView();
+      }
+    );
+  };
+
+  toggleFixedHeightMode = () => {
+    this.setState(
+      {
+        fixedHeightMode: !this.state.fixedHeightMode,
+      },
+      () => {
+        this.refreshEdit();
+        this.refreshView();
+      }
+    );
+  };
+
+  toggleFullWidthMode = () => {
+    this.setState(
+      {
+        fullWidthMode: !this.state.fullWidthMode,
+      },
+      () => {
+        this.refreshEdit();
+        this.refreshView();
+      }
+    );
+  };
+
+  toggleOverflowMode = () => {
+    this.setState(
+      {
+        overflowMode: !this.state.overflowMode,
       },
       () => {
         this.refreshEdit();
@@ -950,8 +971,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               appendMode: false,
               editMode: false,
               fixedHeader: false,
-              fullscreenMode: false,
-              restrictedMode: false,
+              fullWidthMode: false,
+              fixedHeightMode: false,
               settingsMode: true,
               showAppendix: false, // Hides the scroll up/down buttons
               showHeader: false,
@@ -1125,7 +1146,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     let fontSizeStyle = '';
     if (this.state.fontSize) {
       fontSizeStyle =
-        '.CodeMirror, .DynamicEditor, .ProseMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' +
+        '.CodeMirror, .DynamicEditor, .MonacoEditorContainer, .ProseMirror, #editTextArea, #appendTextArea, #renderedNote {font-size: ' +
         this.state.fontSize +
         ';}\n';
     }
@@ -1230,7 +1251,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         appendTextArea.scrollTop = 10000000;
       }
     }
-    if (this.state.restrictedMode) {
+    if (this.state.fixedHeightMode) {
       const view = document.getElementById(viewID);
       if (view) {
         view.scrollTop = 10000000;
@@ -1281,7 +1302,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         appendTextArea.scrollTop = 0;
       }
     }
-    if (this.state.restrictedMode) {
+    if (this.state.fixedHeightMode) {
       const view = document.getElementById(viewID);
       if (view) {
         view.scrollTop = 0;
@@ -1800,24 +1821,30 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           id={contentID}
           className={
             'content' +
-            (this.state.fixedHeader ? ' fixed' : '') +
-            (this.state.restrictedMode ? ' restricted' : '') +
-            (this.state.fullscreenMode ? ' fullscreen' : '')
+            (this.state.fixedHeader ? ' fixed-header' : '') +
+            (this.state.borderlessMode ? ' borderless' : '') +
+            (this.state.fixedHeightMode ? ' fixed-height' : '') +
+            (this.state.fullWidthMode ? ' full-width' : '') +
+            (this.state.overflowMode ? ' overflow' : '')
           }
         >
           {this.state.showMenu && (
             <Menu
+              borderlessMode={this.state.borderlessMode}
               editingMode={this.state.editingMode}
-              fullscreenMode={this.state.fullscreenMode}
+              fixedHeightMode={this.state.fixedHeightMode}
+              fullWidthMode={this.state.fullWidthMode}
               monacoEditorLanguage={this.state.monacoEditorLanguage}
               onConfirmPrintUrl={this.onConfirmPrintUrl}
+              overflowMode={this.state.overflowMode}
               refreshEdit={this.refreshEdit}
               refreshView={this.refreshView}
-              restrictedMode={this.state.restrictedMode}
               saveText={this.saveText}
               text={this.state.text}
-              toggleFullscreenMode={this.toggleFullscreenMode}
-              toggleRestrictedMode={this.toggleRestrictedMode}
+              toggleBorderlessMode={this.toggleBorderlessMode}
+              toggleFixedHeightMode={this.toggleFixedHeightMode}
+              toggleFullWidthMode={this.toggleFullWidthMode}
+              toggleOverflowMode={this.toggleOverflowMode}
               toggleShowMenu={this.toggleShowMenu}
               useDynamicEditor={useDynamicEditor}
               useMonacoEditor={useMonacoEditor}
@@ -1935,7 +1962,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           <div
             id={appendixID}
             className={
-              'appendix' + (this.state.fullscreenMode ? ' fullscreen' : '')
+              'appendix' +
+              (this.state.borderlessMode ? ' borderless' : '') +
+              (this.state.fullWidthMode ? ' full-width' : '')
             }
           >
             {this.state.appendMode && (
