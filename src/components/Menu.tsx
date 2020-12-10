@@ -171,8 +171,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         <button
           className={this.props.borderlessMode ? ' on' : ' off'}
           onClick={this.props.toggleBorderlessMode}
+          title="Toggle Borderless mode. Blends borders and margins into the background for a cleaner look"
         >
           <svg
+            name="Eye icon"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -196,8 +199,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         <button
           className={this.props.fixedHeightMode ? ' on' : ' off'}
           onClick={this.props.toggleFixedHeightMode}
+          title="Toggle Fixed Height mode. Limits the height of the content container for easier side-by-side editing"
         >
           <svg
+            name="Eye icon"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -221,8 +227,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         <button
           className={this.props.fullWidthMode ? ' on' : ' off'}
           onClick={this.props.toggleFullWidthMode}
+          title="Toggle Full Width mode for unrestricted editing. Borderless mode plus unset maximum container widths"
         >
           <svg
+            name="Eye icon"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -246,8 +255,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         <button
           className={this.props.overflowMode ? ' on' : ' off'}
           onClick={this.props.toggleOverflowMode}
+          title="Toggle Horizontal Overflow. Visible is great for editing and viewing large tables and preformatted text. Works best with Full Width mode"
         >
           <svg
+            name="Eye icon"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -272,10 +284,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           type="button"
           id={HtmlElementId.PrintButton}
           onClick={this.props.onConfirmPrintUrl}
-          title="Print"
+          title="Print rendered note. Works best on Chromium browsers (e.g., MS Edge, Google Chrome). Not available on mobile."
           className={'off'}
         >
           <svg
+            name="Print icon"
             role="button"
             aria-label="Printer icon to toggle printer"
             width="20"
@@ -291,10 +304,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">Print rendered note</span>
         </button>
-        <button onClick={this.copyText}>
+        <button
+          onClick={this.copyText}
+          title="Copy the text of your note to your device's clipboard"
+        >
           <svg
             name="Copy icon"
-            role="img"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -308,10 +324,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">Copy note text</span>
         </button>
-        <button onClick={this.copyHtml}>
+        <button
+          onClick={this.copyHtml}
+          title="Copy the rendered HTML from your note text to your clipboard"
+        >
           <svg
             name="Copy icon"
-            role="img"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -325,8 +344,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">Copy rendered HTML</span>
         </button>
-        <button onClick={this.formatText}>
+        <button
+          onClick={this.formatText}
+          title="Format markdown text with Prettier. WARNING: this may cause undesired changes to your note text. Use the Note History feature to revert changes."
+        >
           <svg
+            name="Pencil icon"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -340,8 +364,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">Format markdown text</span>
         </button>
-        <button onClick={this.uncheckBoxes}>
+        <button
+          onClick={this.uncheckBoxes}
+          title="Uncheck all checkboxes. DANGER: this may cause undesired changes to your note text. Use the Note History feature to revert changes."
+        >
           <svg
+            name="Pencil icon"
+            role="button"
             width="20"
             height="20"
             viewBox="0 0 20 20"
