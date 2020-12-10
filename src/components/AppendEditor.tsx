@@ -150,7 +150,7 @@ export interface AppendInterface {
   refreshEdit: boolean;
   refreshView: boolean;
   saveAsDefault?: boolean;
-  savingDefaultSettings?: boolean;
+  savingEditorOptions?: boolean;
   showAppendix: boolean;
   showDiff: boolean;
   showHeader: boolean;
@@ -190,7 +190,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       console.log('AppendEditor.tsx: \n - this.configureEditorKit() triggered');
     }
     let delegate = new EditorKitDelegate({
-      /** This loads every time a new note has loaded
+      /** This loads every time a different note is loaded
        */
       setEditorRawText: (text: string) => {
         this.setState(
@@ -207,13 +207,16 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 text +
                   '\n - this.configureEditorKit() callback triggered:' +
                   '\n - this.state.savingsDefaultSettings: ' +
-                  this.state.savingDefaultSettings +
+                  this.state.savingEditorOptions +
                   '\n - this.state: ' +
                   JSON.stringify(this.state, null, ' ')
               );
             }
-            this.loadDefaultSettings();
-            this.loadMetaData();
+            if (!this.state.savingEditorOptions) {
+              this.loadEditorOptions();
+              this.loadDefaultSettings();
+              this.loadMetaData();
+            }
           }
         );
       },
@@ -226,6 +229,18 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       mode: 'plaintext',
       supportsFilesafe: false,
     });
+  };
+
+  /** Expect this to run six times when loading a note:
+   * Four times when loading editor options,
+   * once when loading default settings, and
+   * once when loading meta data */
+  refreshEditor = () => {
+    if (!this.state.savingEditorOptions) {
+      this.refreshEdit();
+      this.refreshView();
+      this.activateStyles();
+    }
   };
 
   loadDefaultSettings = () => {
@@ -276,19 +291,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           () => {
             if (debugMode) {
               console.log(
-                'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingDefaultSettings: ' +
-                  this.state.savingDefaultSettings +
+                'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingEditorOptions: ' +
+                  this.state.savingEditorOptions +
                   '\n defaultSettingsObject:',
                 defaultSettingsObject,
                 '\n JSON.stringify(this.state.defaultSettings):',
                 JSON.stringify(this.state.defaultSettings, null, ' ')
               );
             }
-            if (!this.state.savingDefaultSettings) {
-              this.refreshEdit();
-              this.refreshView();
-              this.activateStyles();
-            }
+            this.refreshEditor();
           }
         );
       } else if (defaultEditingMode !== undefined) {
@@ -354,15 +365,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           () => {
             if (debugMode) {
               console.log(
-                'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingDefaultSettings: ' +
-                  this.state.savingDefaultSettings
+                'AppendEditor.tsx: \n - loadDefaultSettings() this.state.savingEditorOptions: ' +
+                  this.state.savingEditorOptions
               );
             }
-            if (!this.state.savingDefaultSettings) {
-              this.refreshEdit();
-              this.refreshView();
-              this.activateStyles();
-            }
+            this.refreshEditor();
           }
         );
       } else {
@@ -372,15 +379,80 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             JSON.stringify(this.state, null, ' ')
           );
         }
-        if (!this.state.savingDefaultSettings) {
-          this.refreshEdit();
-          this.refreshView();
-          this.activateStyles();
-        }
+        this.refreshEditor();
       }
     } catch (error) {
       // Log outside debug mode
       console.log('Error loading default settings:', error);
+    }
+  };
+
+  loadEditorOptions = () => {
+    try {
+      const borderlessMode = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'borderlessMode'
+      );
+      const fixedHeightMode = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'fixedHeightMode'
+      );
+      const fullWidthMode = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'fullWidthMode'
+      );
+      const overflowMode = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'overflowMode'
+      );
+      if (debugMode) {
+        console.log(
+          'AppendEditor.tsx: \n loadEditorOptions() default settings loaded: ' +
+            '\n  - borderlessMode: ' +
+            borderlessMode,
+          '\n    - typeof:',
+          typeof borderlessMode
+        );
+      }
+      if (borderlessMode !== undefined) {
+        this.setState(
+          {
+            borderlessMode,
+          },
+          () => {
+            this.refreshEditor();
+          }
+        );
+      }
+      if (fixedHeightMode !== undefined) {
+        this.setState(
+          {
+            fixedHeightMode,
+          },
+          () => {
+            this.refreshEditor();
+          }
+        );
+      }
+      if (fullWidthMode !== undefined) {
+        this.setState(
+          {
+            fullWidthMode,
+          },
+          () => {
+            this.refreshEditor();
+          }
+        );
+      }
+      if (overflowMode !== undefined) {
+        this.setState(
+          {
+            overflowMode,
+          },
+          () => {
+            this.refreshEditor();
+          }
+        );
+      }
+    } catch (error) {
+      // Log outside debug mode
+      console.log('Error loading editor options:', error);
     }
   };
 
@@ -410,15 +482,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           () => {
             if (debugMode) {
               console.log(
-                'AppendEditor.tsx: \n - loadMetaData() this.state.savingDefaultSettings: ' +
-                  this.state.savingDefaultSettings
+                'AppendEditor.tsx: \n - loadMetaData() this.state.savingEditorOptions: ' +
+                  this.state.savingEditorOptions
               );
             }
-            if (!this.state.savingDefaultSettings) {
-              this.refreshEdit();
-              this.refreshView();
-              this.activateStyles();
-            }
+            this.refreshEditor();
             if (debugMode) {
               console.log(
                 'editorKit metadata loaded: ' +
@@ -916,8 +984,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         borderlessMode: !this.state.borderlessMode,
       },
       () => {
-        this.refreshEdit();
-        this.refreshView();
+        this.saveEditorOption('borderlessMode', this.state.borderlessMode);
       }
     );
   };
@@ -928,8 +995,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fixedHeightMode: !this.state.fixedHeightMode,
       },
       () => {
-        this.refreshEdit();
-        this.refreshView();
+        this.saveEditorOption('fixedHeightMode', this.state.fixedHeightMode);
       }
     );
   };
@@ -940,8 +1006,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fullWidthMode: !this.state.fullWidthMode,
       },
       () => {
-        this.refreshEdit();
-        this.refreshView();
+        this.saveEditorOption('fullWidthMode', this.state.fullWidthMode);
       }
     );
   };
@@ -952,8 +1017,72 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         overflowMode: !this.state.overflowMode,
       },
       () => {
-        this.refreshEdit();
-        this.refreshView();
+        this.saveEditorOption('overflowMode', this.state.overflowMode);
+      }
+    );
+  };
+
+  saveEditorOption = (
+    optionKey: string,
+    optionValue: string | boolean | undefined
+  ) => {
+    this.setState(
+      {
+        savingEditorOptions: true,
+      },
+      () => {
+        try {
+          this.editorKit.internal.componentManager.setComponentDataValueForKey(
+            optionKey,
+            optionValue
+          );
+          /** this.configureEditorKit() is triggered
+           * every time setComponentDataValueForKey is triggered, but
+           * savingEditorOptions prevents the callback from triggering.
+           * Then, after the timeout, the new default settings or options can
+           * take into effect immediately.
+           * However, if you switch the note within the timeout, you will get an error.
+           * I have tried 150 and 200 but they both are not long enough. 250 is short enough
+           * to work, but not long enough to be easily noticeable.
+           * We do not load editor options because they are optional and persist through
+           * this.configureEditorKit().
+           * */
+          setTimeout(() => {
+            this.setState(
+              {
+                savingEditorOptions: false,
+              },
+              () => {
+                this.loadDefaultSettings();
+                this.loadMetaData();
+              }
+            );
+          }, 250);
+        } catch (error) {
+          console.log(
+            'Error saving editor option. Your optionKey:',
+            optionKey,
+            '\n - Your optionValue: ',
+            optionValue,
+            '\n - The error: ',
+            error
+          );
+          this.setState(
+            {
+              savingEditorOptions: false,
+            },
+            () => {
+              /** We use refreshEditor() if there's an error (such as in the demo)
+               * But not in the actual editor because loadDefaultSettings and loadMetaData
+               * will run refreshEditor() twice, and if there's no issue saving editor options,
+               * then there's probably no issue loading default settings and metadata.
+               * */
+              this.refreshEditor();
+              this.loadDefaultSettings();
+              this.loadMetaData();
+            }
+          );
+        }
       }
     );
   };
@@ -1078,53 +1207,17 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           },
         },
         () => {
-          this.setState(
-            {
-              savingDefaultSettings: true,
-            },
-            () => {
-              if (debugMode) {
-                console.log(
-                  'AppendEditor.tsx: \n - onSaveSettings() this.state.savingDefaultSettings: ' +
-                    this.state.savingDefaultSettings +
-                    '\n JSON.stringify(this.state.defaultSettings):',
-                  JSON.stringify(this.state.defaultSettings)
-                );
-              }
-              try {
-                this.editorKit.internal.componentManager.setComponentDataValueForKey(
-                  'defaultSettings',
-                  JSON.stringify(this.state.defaultSettings)
-                );
-                /** loadDefaultSettings and loadMetaData are triggered
-                 * every time setComponentDataValueForKey is triggered
-                 * setTimeout prevents them from triggering
-                 * so the new default settings can take into effect immediately
-                 * However, if you switch the note within the timeout, you will get an error*/
-                setTimeout(() => {
-                  this.setState(
-                    {
-                      savingDefaultSettings: false,
-                    },
-                    () => {
-                      this.loadDefaultSettings();
-                      this.loadMetaData();
-                    }
-                  );
-                }, 500);
-              } catch (error) {
-                console.log('Error saving default settings:', error);
-                this.setState(
-                  {
-                    savingDefaultSettings: false,
-                  },
-                  () => {
-                    this.loadDefaultSettings();
-                    this.loadMetaData();
-                  }
-                );
-              }
-            }
+          if (debugMode) {
+            console.log(
+              'AppendEditor.tsx: \n - onSaveSettings() this.state.savingEditorOptions: ' +
+                this.state.savingEditorOptions +
+                '\n JSON.stringify(this.state.defaultSettings):',
+              JSON.stringify(this.state.defaultSettings)
+            );
+          }
+          this.saveEditorOption(
+            'defaultSettings',
+            JSON.stringify(this.state.defaultSettings)
           );
         }
       );
