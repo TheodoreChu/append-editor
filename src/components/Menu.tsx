@@ -190,7 +190,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">
             Borderless:
-            <b>{this.props.borderlessMode ? ' on' : ' off'}</b>
+            <b>&nbsp;{this.props.borderlessMode ? 'on' : 'off'}</b>
           </span>
         </button>
         <button
@@ -215,7 +215,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">
             Fixed Height:
-            <b>{this.props.fixedHeightMode ? ' on' : ' off'}</b>
+            <b>&nbsp;{this.props.fixedHeightMode ? 'on' : 'off'}</b>
           </span>
         </button>
         <button
@@ -240,7 +240,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">
             Full Width:
-            <b>{this.props.fullWidthMode ? ' on' : ' off'}</b>
+            <b>&nbsp;{this.props.fullWidthMode ? 'on' : 'off'}</b>
           </span>
         </button>
         <button
@@ -265,7 +265,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </svg>
           <span className="menu-button-caption">
             Horizontal Overflow:
-            <b>{this.props.overflowMode ? ' visible' : ' auto'}</b>
+            <b>&nbsp;{this.props.overflowMode ? 'visible' : 'auto'}</b>
           </span>
         </button>
         <button
@@ -289,7 +289,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               fill={'var(--sn-stylekit-foreground-color)'}
             />
           </svg>
-          <span className="menu-button-caption">Print rendered HTML</span>
+          <span className="menu-button-caption">Print rendered note</span>
         </button>
         <button onClick={this.copyText}>
           <svg

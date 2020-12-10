@@ -188,9 +188,7 @@ button:focus {
       opacity: 0.25;
       cursor: unset;
       margin-right: 0px;
-    }
-    @media screen and (max-width: 450px) {
-      #printButton {
+      @media screen and (max-width: 330px) {
         display: none;
       }
     }
@@ -222,7 +220,7 @@ button:focus {
   margin-right: 0px;
   margin-top: 0px;
   max-width: 60%;
-  min-width: 300px;
+  min-width: 330px;
   overflow-y: auto;
   position: fixed;
   right: 0px;
@@ -257,6 +255,11 @@ button:focus {
       visibility: hidden;
       opacity: 0;
       transition: visibility 0s 500ms, opacity 500ms ease-out;
+    }
+  }
+  @media screen and (max-width: 450px) {
+    #printButton {
+      display: none;
     }
   }
 }
