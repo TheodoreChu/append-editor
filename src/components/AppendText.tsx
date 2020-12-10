@@ -19,7 +19,6 @@ interface AppendProps {
   autoSaveAppendText: Function;
   autoSaveCheckBoxes: Function;
   monacoEditorLanguage: string;
-  printMode: boolean;
   onKeyDown: Function;
   onKeyUp: Function;
   onKeyDownAppendTextArea: Function;
@@ -184,13 +183,11 @@ export default class AppendText extends React.Component<
       <div
         className={
           'sk-panel main appendix ' +
-          (this.props.printMode
-            ? 'printModeOn'
-            : this.props.editingMode === this.props.useMonacoEditor
-            ? 'monacoEditor printModeOff'
+          (this.props.editingMode === this.props.useMonacoEditor
+            ? 'monacoEditor'
             : this.props.editingMode === this.props.useDynamicEditor
-            ? 'dynamicEditor printModeOff'
-            : 'otherEditor printModeOff')
+            ? 'dynamicEditor'
+            : 'otherEditor')
         }
       >
         <div

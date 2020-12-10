@@ -15,7 +15,6 @@ interface EditProps {
   onKeyUp: Function;
   onKeyDownEditTextArea: Function;
   onKeyDownTextArea: Function;
-  printMode: boolean;
   saveText: Function;
   text: string;
   useDynamicEditor: useDynamicEditor;
@@ -82,13 +81,11 @@ export default class EditNote extends React.Component<EditProps, EditState> {
       <div
         className={
           'sk-panel main edit ' +
-          (this.props.printMode
-            ? 'printModeOn'
-            : this.props.editingMode === this.props.useMonacoEditor
-            ? 'monacoEditor printModeOff'
+          (this.props.editingMode === this.props.useMonacoEditor
+            ? 'monacoEditor'
             : this.props.editingMode === this.props.useDynamicEditor
-            ? 'dynamicEditor printModeOff'
-            : 'otherEditor printModeOff')
+            ? 'dynamicEditor'
+            : 'otherEditor')
         }
       >
         <div

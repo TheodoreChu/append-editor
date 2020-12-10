@@ -32,7 +32,6 @@ import 'codemirror/addon/selection/mark-selection';
 const appendButtonID = 'appendButton';
 const editButtonID = 'editButton';
 const helpButtonID = 'helpButton';
-const printButtonID = 'printButton';
 const settingsButtonID = 'settingsButton';
 const viewButtonID = 'viewButton';
 
@@ -65,7 +64,7 @@ const initialState = {
   appendMode: false,
   appendRows: 8,
   appendText: '',
-  confirmPrintURL: false,
+  confirmPrintUrl: false,
   customStyles: '',
   defaultSettings: {
     customStyles: '',
@@ -81,7 +80,6 @@ const initialState = {
   fontView: '',
   fixedHeader: false,
   monacoEditorLanguage: 'markdown',
-  printMode: false,
   printURL: true,
   refreshEdit: false,
   refreshView: false,
@@ -96,6 +94,10 @@ const initialState = {
 const debugMode = false;
 
 let keyMap = new Map();
+
+export enum HtmlElementId {
+  PrintButton = 'printButton',
+}
 
 export type usePlainText = 'usePlainText';
 export type useCodeMirror = 'useCodeMirror';
@@ -127,7 +129,7 @@ export interface AppendInterface {
   appendMode: boolean;
   appendRows: number;
   appendText: string;
-  confirmPrintURL: boolean;
+  confirmPrintUrl: boolean;
   currentState?: object;
   customStyles: string;
   defaultSettings: DefaultSettings;
@@ -142,7 +144,6 @@ export interface AppendInterface {
   restrictedMode?: boolean;
   keyMap?: Object;
   monacoEditorLanguage: string;
-  printMode: boolean;
   printURL: boolean;
   refreshEdit: boolean;
   refreshView: boolean;
@@ -768,17 +769,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         }
       );
     } else if (this.state.editMode) {
-      /**If edit mode is on and
-       * print mode is off, and Monaco Editor is off,
+      /**If edit mode is on and Monaco Editor is off,
        * then turn edit mode off and turn view mode on.
        * This automatically renders the text. We do not
        * do this when Monaco is on because refreshing edit Mode
-       * with Monaco Editor off allows resizing the Monaco Editor.
+       * with Monaco Editor off allows us to resize the Monaco Editor.
        */
-      if (
-        !this.state.printMode &&
-        !(this.state.editingMode === useMonacoEditor)
-      ) {
+      if (!(this.state.editingMode === useMonacoEditor)) {
         this.setState({
           viewMode: true,
         });
@@ -852,45 +849,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  onPrintMode = () => {
-    this.setState(
-      {
-        editMode: false,
-        fixedHeader: false,
-        fullscreenMode: false,
-        printMode: true,
-        showAppendix: false,
-        showHeader: false,
-        showMenu: false,
-        refreshView: !this.state.refreshView,
-        restrictedMode: false,
-        viewMode: false,
-      },
-      () => {
-        window.print();
-        this.setState(
-          {
-            ...this.state.currentState,
-            showAppendix: true,
-            showHeader: true,
-          },
-          () => {
-            const printButton = document.getElementById(printButtonID);
-            if (printButton) {
-              printButton.focus();
-            }
-          }
-        );
-      }
-    );
-  };
-
   onViewMode = () => {
     if (!this.state.viewMode) {
       this.setState(
         {
           viewMode: true,
-          printMode: false,
         },
         () => {
           if (this.state.editingMode === useMonacoEditor) {
@@ -963,20 +926,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   toggleFullscreenMode = () => {
-    if (!this.state.fullscreenMode) {
-      this.setState({
-        fullscreenMode: true,
-      });
-    } else if (this.state.fullscreenMode) {
-      this.setState(
-        {
-          fullscreenMode: false,
-        },
-        () => {
-          this.refreshView();
-        }
-      );
-    }
+    this.setState(
+      {
+        fullscreenMode: !this.state.fullscreenMode,
+      },
+      () => {
+        this.refreshEdit();
+        this.refreshView();
+      }
+    );
   };
 
   onSettingsMode = () => {
@@ -993,7 +951,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               editMode: false,
               fixedHeader: false,
               fullscreenMode: false,
-              printMode: false,
               restrictedMode: false,
               settingsMode: true,
               showAppendix: false, // Hides the scroll up/down buttons
@@ -1202,10 +1159,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   onCancelPrint = () => {
     this.setState(
       {
-        confirmPrintURL: false,
+        confirmPrintUrl: false,
       },
       () => {
-        const printButton = document.getElementById('printButton');
+        const printButton = document.getElementById(HtmlElementId.PrintButton);
         if (printButton) {
           printButton.focus();
         }
@@ -1213,49 +1170,50 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     );
   };
 
-  onConfirmPrintURL = () => {
-    if (!this.state.printMode) {
-      this.setState(
-        {
-          confirmPrintURL: true,
-        },
-        () => {
-          const undoDialog = document.getElementById('undoDialog');
-          if (undoDialog) {
-            undoDialog.focus();
-          }
+  onConfirmPrintUrl = () => {
+    this.setState(
+      {
+        confirmPrintUrl: true,
+      },
+      () => {
+        const undoDialog = document.getElementById('undoDialog');
+        if (undoDialog) {
+          undoDialog.focus();
         }
-      );
-    } else if (this.state.printMode) {
-      this.setState(
-        {
-          printMode: false,
-          viewMode: true,
-        },
-        () => {
-          const printButton = document.getElementById('printButton');
-          if (printButton) {
-            printButton.focus();
-          }
-        }
-      );
+      }
+    );
+  };
+
+  onPrintUrlTrue = () => {
+    this.setState(
+      {
+        confirmPrintUrl: false,
+        printURL: true,
+      },
+      () => {
+        this.printRenderedHtml();
+      }
+    );
+  };
+
+  onPrintUrlFalse = () => {
+    this.setState(
+      {
+        confirmPrintUrl: false,
+        printURL: false,
+      },
+      () => {
+        this.printRenderedHtml();
+      }
+    );
+  };
+
+  printRenderedHtml = () => {
+    window.print();
+    const printButton = document.getElementById(HtmlElementId.PrintButton);
+    if (printButton) {
+      printButton.focus();
     }
-  };
-
-  printURLTrue = () => {
-    this.setState({
-      confirmPrintURL: false,
-      printURL: true,
-    });
-    this.onPrintMode();
-  };
-
-  printURLFalse = () => {
-    this.setState({
-      confirmPrintURL: false,
-      printURL: false,
-    });
-    this.onPrintMode();
   };
 
   goDown = () => {
@@ -1396,7 +1354,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         {
           appendMode: false,
           editMode: false,
-          printMode: false,
           viewMode: false,
         },
         () => {
@@ -1410,7 +1367,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         {
           appendMode: false,
           editMode: false,
-          printMode: false,
           viewMode: false,
         },
         () => {
@@ -1724,32 +1680,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id={printButtonID}
-                onClick={this.onConfirmPrintURL}
-                title="Print"
-                className={'sk-button ' + (this.state.printMode ? 'on' : 'off')}
-              >
-                <svg
-                  role="button"
-                  aria-label="Printer icon to toggle printer"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15.0001 2.5H5.00008V5.83333H15.0001V2.5ZM15.8334 10C15.6124 10 15.4004 9.9122 15.2442 9.75592C15.0879 9.59964 15.0001 9.38768 15.0001 9.16667C15.0001 8.94565 15.0879 8.73369 15.2442 8.57741C15.4004 8.42113 15.6124 8.33333 15.8334 8.33333C16.0544 8.33333 16.2664 8.42113 16.4227 8.57741C16.579 8.73369 16.6668 8.94565 16.6668 9.16667C16.6668 9.38768 16.579 9.59964 16.4227 9.75592C16.2664 9.9122 16.0544 10 15.8334 10ZM13.3334 15.8333H6.66675V11.6667H13.3334V15.8333ZM15.8334 6.66667H4.16675C3.50371 6.66667 2.86782 6.93006 2.39898 7.3989C1.93014 7.86774 1.66675 8.50363 1.66675 9.16667V14.1667H5.00008V17.5H15.0001V14.1667H18.3334V9.16667C18.3334 8.50363 18.07 7.86774 17.6012 7.3989C17.1323 6.93006 16.4965 6.66667 15.8334 6.66667Z"
-                    fill={
-                      this.state.printMode
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
-              </button>
-              <button
-                type="button"
                 id={settingsButtonID}
                 onClick={this.onSettingsMode}
                 title="Settings"
@@ -1870,7 +1800,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           id={contentID}
           className={
             'content' +
-            (this.state.printMode ? ' printModeOn' : '') +
             (this.state.fixedHeader ? ' fixed' : '') +
             (this.state.restrictedMode ? ' restricted' : '') +
             (this.state.fullscreenMode ? ' fullscreen' : '')
@@ -1881,6 +1810,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               editingMode={this.state.editingMode}
               fullscreenMode={this.state.fullscreenMode}
               monacoEditorLanguage={this.state.monacoEditorLanguage}
+              onConfirmPrintUrl={this.onConfirmPrintUrl}
               refreshEdit={this.refreshEdit}
               refreshView={this.refreshView}
               restrictedMode={this.state.restrictedMode}
@@ -1927,7 +1857,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               onKeyDownEditTextArea={this.onKeyDownEditTextArea}
               onKeyDownTextArea={this.onKeyDownTextArea}
               onKeyUp={this.onKeyUp}
-              printMode={this.state.printMode}
               saveText={this.saveText}
               text={this.state.text}
               useDynamicEditor={useDynamicEditor}
@@ -1946,7 +1875,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               onKeyDownEditTextArea={this.onKeyDownEditTextArea}
               onKeyDownTextArea={this.onKeyDownTextArea}
               onKeyUp={this.onKeyUp}
-              printMode={this.state.printMode}
               saveText={this.saveText}
               text={this.state.text}
               useDynamicEditor={useDynamicEditor}
@@ -1954,46 +1882,42 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               viewMode={this.state.viewMode}
             />
           )}
-          {(this.state.viewMode || this.state.printMode) &&
-            !this.state.refreshView && (
-              <ErrorBoundary>
-                <ViewNote
-                  debugMode={debugMode}
-                  editingMode={this.state.editingMode}
-                  monacoEditorLanguage={this.state.monacoEditorLanguage}
-                  printMode={this.state.printMode}
-                  printURL={this.state.printURL}
-                  showHelp={this.state.showHelp}
-                  saveText={this.saveText}
-                  text={this.state.text}
-                  useDynamicEditor={useDynamicEditor}
-                  useMonacoEditor={useMonacoEditor}
-                />
-              </ErrorBoundary>
-            )}
-          {(this.state.viewMode || this.state.printMode) &&
-            this.state.refreshView && (
-              <ErrorBoundary>
-                <ViewNote
-                  debugMode={debugMode}
-                  editingMode={this.state.editingMode}
-                  monacoEditorLanguage={this.state.monacoEditorLanguage}
-                  printMode={this.state.printMode}
-                  printURL={this.state.printURL}
-                  showHelp={this.state.showHelp}
-                  saveText={this.saveText}
-                  text={this.state.text}
-                  useDynamicEditor={useDynamicEditor}
-                  useMonacoEditor={useMonacoEditor}
-                />
-              </ErrorBoundary>
-            )}
-          {this.state.confirmPrintURL && (
+          {this.state.viewMode && !this.state.refreshView && (
+            <ErrorBoundary>
+              <ViewNote
+                debugMode={debugMode}
+                editingMode={this.state.editingMode}
+                monacoEditorLanguage={this.state.monacoEditorLanguage}
+                printURL={this.state.printURL}
+                showHelp={this.state.showHelp}
+                saveText={this.saveText}
+                text={this.state.text}
+                useDynamicEditor={useDynamicEditor}
+                useMonacoEditor={useMonacoEditor}
+              />
+            </ErrorBoundary>
+          )}
+          {this.state.viewMode && this.state.refreshView && (
+            <ErrorBoundary>
+              <ViewNote
+                debugMode={debugMode}
+                editingMode={this.state.editingMode}
+                monacoEditorLanguage={this.state.monacoEditorLanguage}
+                printURL={this.state.printURL}
+                showHelp={this.state.showHelp}
+                saveText={this.saveText}
+                text={this.state.text}
+                useDynamicEditor={useDynamicEditor}
+                useMonacoEditor={useMonacoEditor}
+              />
+            </ErrorBoundary>
+          )}
+          {this.state.confirmPrintUrl && (
             <PrintDialog
               title={`Would you like to print URLs?`}
               onUndo={this.onCancelPrint}
-              onConfirm={this.printURLTrue}
-              onCancel={this.printURLFalse}
+              onConfirm={this.onPrintUrlTrue}
+              onCancel={this.onPrintUrlFalse}
               helpLink={'https://appendeditor.com/#printing'}
               confirmText="Yes, print URLs"
               cancelText="No, thanks"
@@ -2011,7 +1935,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           <div
             id={appendixID}
             className={
-              'appendix' + (this.state.printMode ? ' printModeOn' : '')
+              'appendix' + (this.state.fullscreenMode ? ' fullscreen' : '')
             }
           >
             {this.state.appendMode && (
@@ -2030,7 +1954,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 onKeyDownAppendTextArea={this.onKeyDownAppendTextArea}
                 onKeyDownTextArea={this.onKeyDownTextArea}
                 onKeyUp={this.onKeyUp}
-                printMode={this.state.printMode}
                 appendRows={this.state.appendRows}
                 text={this.state.appendText}
                 useDynamicEditor={useDynamicEditor}

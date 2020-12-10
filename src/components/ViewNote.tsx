@@ -39,7 +39,6 @@ interface ViewProps {
   debugMode: boolean;
   editingMode: EditingMode;
   monacoEditorLanguage: string;
-  printMode: boolean;
   printURL: boolean;
   useDynamicEditor: useDynamicEditor;
   useMonacoEditor: useMonacoEditor;
@@ -97,11 +96,7 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
     const { text } = this.props;
     return (
       <div
-        className={
-          'sk-panel main ' +
-          (this.props.printMode ? 'printModeOn' : 'printModeOff') +
-          (this.props.printURL ? ' printURL' : ' printURLOff')
-        }
+        className={'sk-panel main' + (this.props.printURL ? ' printURL' : '')}
       >
         <div className="sk-panel-content view" id="view">
           <div>

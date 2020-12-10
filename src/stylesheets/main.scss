@@ -48,6 +48,9 @@ button {
   &.off:hover {
     background-color: var(--sn-stylekit-contrast-background-color);
   }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 button:hover {
@@ -83,16 +86,14 @@ button:focus {
       box-shadow: none;
       margin: 0;
     }
-  }
-  .sk-panel.main.edit.otherEditor,
-  .sk-panel.main.appendix.otherEditor {
-    @media screen and (max-width: 725px) {
-      border-top: none;
+    &.monacoEditor {
+      max-width: 800px;
     }
-  }
-  .sk-panel.main.edit.monacoEditor,
-  .sk-panel.main.appendix.monacoEditor {
-    max-width: 800px;
+    &.otherEditor {
+      @media screen and (max-width: 725px) {
+        border-top: none;
+      }
+    }
   }
 
   .sk-panel-content.edit {
@@ -274,6 +275,8 @@ button:focus {
   }
   &.restricted {
     max-height: calc(100vh - 60.2px);
+  }
+  &.word-wrap-normal {
     #renderedNote {
       overflow-wrap: normal;
       pre,
@@ -282,13 +285,28 @@ button:focus {
       }
     }
   }
+}
+
+#content,
+#appendix {
   &.fullscreen {
     .sk-panel.main {
+      border: 1px var(--sn-stylekit-background-color);
+      box-shadow: none;
       margin: 0px;
     }
     .sk-panel.main,
     .rendered-note-section {
       max-width: unset;
+    }
+    .content,
+    .appendix,
+    .sk-panel-main.edit,
+    .sk-panel-main.appendix {
+      background-color: var(--sn-stylekit-background-color);
+    }
+    .monacoEditor {
+      max-width: calc(100% - 1.25rem);
     }
   }
 }
@@ -541,7 +559,6 @@ button:focus {
       color: var(--sn-stylekit-foreground-color);
     }
   }
-  button:hover,
   input[type='checkbox' i]:hover {
     cursor: pointer;
   }
