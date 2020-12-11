@@ -275,9 +275,15 @@ button:focus {
   }
   &.fixed-header {
     padding-top: 60.2px;
+    @media screen and (max-width: 330px) {
+      padding-top: 56.2px;
+    }
   }
   &.fixed-height {
     max-height: calc(100vh - 60.2px);
+    @media screen and (max-width: 330px) {
+      max-height: calc(100vh - 56.2px);
+    }
   }
 }
 
