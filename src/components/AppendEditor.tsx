@@ -8,7 +8,6 @@ import Settings from './Settings';
 import { MonacoDiffEditor } from './Monaco';
 import ErrorBoundary from './ErrorBoundary';
 import Menu from './Menu';
-import debounce from 'lodash/debounce';
 
 import CodeMirror, { Editor } from 'codemirror';
 import 'codemirror/lib/codemirror';
@@ -79,7 +78,6 @@ const initialState = {
   fontEdit: '',
   fontSize: '',
   fontView: '',
-  fixedHeader: false,
   monacoEditorLanguage: 'markdown',
   printURL: true,
   refreshEdit: false,
@@ -98,6 +96,11 @@ let keyMap = new Map();
 
 export enum HtmlElementId {
   PrintButton = 'printButton',
+}
+
+export enum HtmlClassName {
+  fixed = 'fixed',
+  fixedHeader = 'fixed-header',
 }
 
 export type usePlainText = 'usePlainText';
@@ -141,7 +144,6 @@ export interface AppendInterface {
   fontEdit: string;
   fontSize: string;
   fontView: string;
-  fixedHeader: boolean;
   fixedHeightMode?: boolean;
   fullWidthMode?: boolean;
   overflowMode?: boolean;
@@ -972,11 +974,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.setState({
       showMenu: !this.state.showMenu,
     });
-    if (!this.state.fixedHeader) {
-      this.setState({
-        fixedHeader: true,
-      });
-    }
   };
 
   toggleBorderlessMode = () => {
@@ -985,6 +982,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         borderlessMode: !this.state.borderlessMode,
       },
       () => {
+        this.activateFixedHeader();
         this.saveEditorOption('borderlessMode', this.state.borderlessMode);
       }
     );
@@ -996,6 +994,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fixedHeightMode: !this.state.fixedHeightMode,
       },
       () => {
+        this.activateFixedHeader();
         this.saveEditorOption('fixedHeightMode', this.state.fixedHeightMode);
       }
     );
@@ -1007,6 +1006,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fullWidthMode: !this.state.fullWidthMode,
       },
       () => {
+        this.activateFixedHeader();
         this.saveEditorOption('fullWidthMode', this.state.fullWidthMode);
       }
     );
@@ -1018,6 +1018,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         overflowMode: !this.state.overflowMode,
       },
       () => {
+        this.activateFixedHeader();
         this.saveEditorOption('overflowMode', this.state.overflowMode);
       }
     );
@@ -1091,6 +1092,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   onSettingsMode = () => {
     // Here we save the current state. We reload the current state if we cancel
     if (!this.state.settingsMode) {
+      this.removeFixedHeader();
       this.setState(
         {
           currentState: this.state,
@@ -1100,7 +1102,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             {
               appendMode: false,
               editMode: false,
-              fixedHeader: false,
               fullWidthMode: false,
               fixedHeightMode: false,
               settingsMode: true,
@@ -1632,25 +1633,45 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     keyMap.clear();
   };
 
-  onScroll = debounce((e: Event) => {
+  onScroll = (e: Event) => {
     if (!this.state.settingsMode) {
       if (window.scrollY < last_known_scroll_position) {
         // If scrolling up, fix header
-        this.setState({
-          fixedHeader: true,
-        });
+        this.activateFixedHeader();
       } else if (
         // If scrolling down, unfix header
         window.scrollY > last_known_scroll_position &&
         !this.state.showMenu
       ) {
-        this.setState({
-          fixedHeader: false,
-        });
+        this.removeFixedHeader();
       }
       last_known_scroll_position = window.scrollY;
     }
-  }, 150);
+  };
+
+  activateFixedHeader = () => {
+    const header = document.getElementById(headerID);
+    const content = document.getElementById(contentID);
+    // Activate only if we have both
+    if (header && content) {
+      header.classList.add(HtmlClassName.fixed);
+      content.classList.add(HtmlClassName.fixedHeader);
+    }
+  };
+
+  removeFixedHeader = () => {
+    const header = document.getElementById(headerID);
+    const content = document.getElementById(contentID);
+    /** Remove both even if you don't have both
+     * This is needed for loading settings
+     */
+    if (header) {
+      header.classList.remove(HtmlClassName.fixed);
+    }
+    if (content) {
+      content.classList.remove(HtmlClassName.fixedHeader);
+    }
+  };
 
   render() {
     return [
@@ -1663,10 +1684,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         onBlur={this.onBlur}
       >
         {this.state.showHeader && [
-          <div
-            id={headerID}
-            className={'header' + (this.state.fixedHeader ? ' fixed' : '')}
-          >
+          <div id={headerID} className={'header'}>
             <div className="sk-button-group">
               <button
                 type="button"
@@ -1915,7 +1933,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           id={contentID}
           className={
             'content' +
-            (this.state.fixedHeader ? ' fixed-header' : '') +
             (this.state.borderlessMode ? ' borderless' : '') +
             (this.state.fixedHeightMode ? ' fixed-height' : '') +
             (this.state.fullWidthMode ? ' full-width' : '') +

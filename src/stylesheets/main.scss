@@ -195,19 +195,19 @@ button:focus {
   }
   &.fixed {
     position: fixed;
-    z-index: 1;
+    z-index: 10;
   }
 }
 
 .menu-overlay {
   background-color: var(--sn-stylekit-neutral-color);
-  z-index: 2;
   height: 100%;
   left: 0;
   opacity: 0.2;
   position: fixed;
   top: 60.2px;
   width: 100%;
+  z-index: 9;
 }
 
 #menu {
@@ -224,7 +224,7 @@ button:focus {
   overflow-y: auto;
   position: fixed;
   right: 0px;
-  z-index: 3;
+  z-index: 10;
   @media screen and (min-width: 700px) {
     min-width: 450px;
   }
@@ -481,10 +481,6 @@ button:focus {
   margin-left: auto;
   margin-right: auto;
   max-width: 645.5px; //628.700px;
-}
-
-.rendered-note-section {
-  height: calc(100% - 20px);
 }
 
 // Same selection plus #renderedNote
