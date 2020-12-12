@@ -230,6 +230,7 @@ button:focus {
 
 .menu-overlay {
   background-color: var(--sn-stylekit-neutral-color);
+  cursor: pointer;
   height: 100%;
   left: 0;
   opacity: 0.2;
@@ -283,8 +284,10 @@ button:focus {
       display: none;
     }
   }
-  .extra-margin {
-    margin-bottom: 5em;
+  .extra-space {
+    @media screen and (min-width: 800px) {
+      margin-bottom: 5em;
+    }
   }
 }
 
@@ -526,6 +529,15 @@ button:focus {
   word-wrap: break-word;
   overflow-wrap: break-word;
   line-height: 1.7;
+}
+
+.inline-text-and-svg {
+  display: inline-flex;
+  svg {
+    opacity: 0.75;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 
 #errorBoundary > :nth-child(1),

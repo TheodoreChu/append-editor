@@ -28,6 +28,14 @@ import 'codemirror/addon/dialog/dialog';
 
 // For styling selected text
 import 'codemirror/addon/selection/mark-selection';
+import {
+  EyeIcon,
+  GearIcon,
+  HelpIcon,
+  MenuIcon,
+  PencilIcon,
+  PlusIcon,
+} from './Icons';
 
 const appendButtonID = 'appendButton';
 const editButtonID = 'editButton';
@@ -1717,24 +1725,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 title="Toggle Edit Mode"
                 className={'sk-button ' + (this.state.editMode ? 'on' : 'off')}
               >
-                <svg
-                  role="button"
-                  aria-label="Pencil icon to toggle edit mode"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M11.7167 7.5L12.5 8.28333L4.93333 15.8333H4.16667V15.0667L11.7167 7.5ZM14.7167 2.5C14.5083 2.5 14.2917 2.58333 14.1333 2.74167L12.6083 4.26667L15.7333 7.39167L17.2583 5.86667C17.5833 5.54167 17.5833 5 17.2583 4.69167L15.3083 2.74167C15.1417 2.575 14.9333 2.5 14.7167 2.5ZM11.7167 5.15833L2.5 14.375V17.5H5.625L14.8417 8.28333L11.7167 5.15833Z"
-                    fill={
-                      this.state.editMode
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
+                <PencilIcon condition={this.state.editMode} role="button" />
               </button>
               <button
                 type="button"
@@ -1743,24 +1734,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 title="Toggle View Mode"
                 className={'sk-button ' + (this.state.viewMode ? 'on' : 'off')}
               >
-                <svg
-                  role="button"
-                  aria-label="Eye icon to indicate viewing"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.99992 7.5C9.33688 7.5 8.70099 7.76339 8.23215 8.23223C7.76331 8.70107 7.49992 9.33696 7.49992 10C7.49992 10.663 7.76331 11.2989 8.23215 11.7678C8.70099 12.2366 9.33688 12.5 9.99992 12.5C10.663 12.5 11.2988 12.2366 11.7677 11.7678C12.2365 11.2989 12.4999 10.663 12.4999 10C12.4999 9.33696 12.2365 8.70107 11.7677 8.23223C11.2988 7.76339 10.663 7.5 9.99992 7.5ZM9.99992 14.1667C8.89485 14.1667 7.83504 13.7277 7.05364 12.9463C6.27224 12.1649 5.83325 11.1051 5.83325 10C5.83325 8.89493 6.27224 7.83512 7.05364 7.05372C7.83504 6.27232 8.89485 5.83333 9.99992 5.83333C11.105 5.83333 12.1648 6.27232 12.9462 7.05372C13.7276 7.83512 14.1666 8.89493 14.1666 10C14.1666 11.1051 13.7276 12.1649 12.9462 12.9463C12.1648 13.7277 11.105 14.1667 9.99992 14.1667ZM9.99992 3.75C5.83325 3.75 2.27492 6.34167 0.833252 10C2.27492 13.6583 5.83325 16.25 9.99992 16.25C14.1666 16.25 17.7249 13.6583 19.1666 10C17.7249 6.34167 14.1666 3.75 9.99992 3.75Z"
-                    fill={
-                      this.state.viewMode
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
+                <EyeIcon condition={this.state.viewMode} role="button" />
               </button>
               <button
                 type="button"
@@ -1771,26 +1745,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                   'sk-button ' + (this.state.appendMode ? 'on' : 'off')
                 }
               >
-                <svg
-                  role="button"
-                  aria-label="Plus icon to toggle append mode"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M11.385 11.385H15.615C16.3799 11.385 17 10.7649 17 10C17 9.23507 16.3799 8.61497 15.615 8.61497H11.385V4.38503C11.385 3.6201 10.7649 3 10 3C9.23507 3 8.61497 3.6201 8.61497 4.38503V8.61497H4.38503C3.6201 8.61497 3 9.23507 3 10C3 10.7649 3.6201 11.385 4.38503 11.385H8.61497V15.615C8.61497 16.3799 9.23507 17 10 17C10.7649 17 11.385 16.3799 11.385 15.615V11.385Z"
-                    fill={
-                      this.state.appendMode
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
+                <PlusIcon condition={this.state.appendMode} role={'button'} />
               </button>
               <div className="sk-button divider">
                 <svg
@@ -1816,24 +1771,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 title="Help"
                 className={'sk-button ' + (this.state.showHelp ? 'on' : 'off')}
               >
-                <svg
-                  role="button"
-                  aria-label="Help icon to show help"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.16675 15.0001H10.8334V13.3334H9.16675V15.0001ZM10.0001 1.66675C8.90573 1.66675 7.8221 1.8823 6.81105 2.30109C5.80001 2.71987 4.88135 3.3337 4.10753 4.10753C2.54472 5.67033 1.66675 7.78995 1.66675 10.0001C1.66675 12.2102 2.54472 14.3298 4.10753 15.8926C4.88135 16.6665 5.80001 17.2803 6.81105 17.6991C7.8221 18.1179 8.90573 18.3334 10.0001 18.3334C12.2102 18.3334 14.3298 17.4554 15.8926 15.8926C17.4554 14.3298 18.3334 12.2102 18.3334 10.0001C18.3334 8.90573 18.1179 7.8221 17.6991 6.81105C17.2803 5.80001 16.6665 4.88135 15.8926 4.10753C15.1188 3.3337 14.2002 2.71987 13.1891 2.30109C12.1781 1.8823 11.0944 1.66675 10.0001 1.66675ZM10.0001 16.6668C6.32508 16.6668 3.33342 13.6751 3.33342 10.0001C3.33342 6.32508 6.32508 3.33342 10.0001 3.33342C13.6751 3.33342 16.6668 6.32508 16.6668 10.0001C16.6668 13.6751 13.6751 16.6668 10.0001 16.6668ZM10.0001 5.00008C9.11603 5.00008 8.26818 5.35127 7.64306 5.97639C7.01794 6.60151 6.66675 7.44936 6.66675 8.33342H8.33342C8.33342 7.89139 8.50901 7.46747 8.82157 7.1549C9.13413 6.84234 9.55806 6.66675 10.0001 6.66675C10.4421 6.66675 10.866 6.84234 11.1786 7.1549C11.4912 7.46747 11.6667 7.89139 11.6667 8.33342C11.6667 10.0001 9.16675 9.79175 9.16675 12.5001H10.8334C10.8334 10.6251 13.3334 10.4167 13.3334 8.33342C13.3334 7.44936 12.9822 6.60151 12.3571 5.97639C11.732 5.35127 10.8841 5.00008 10.0001 5.00008Z"
-                    fill={
-                      this.state.showHelp
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
+                <HelpIcon condition={this.state.showHelp} role={'button'} />
               </button>
               <button
                 type="button"
@@ -1844,24 +1782,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                   'sk-button ' + (this.state.settingsMode ? 'on' : 'off')
                 }
               >
-                <svg
-                  role="button"
-                  aria-label="Settings gear icon to toggle settings"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M10.0001 6.66675C10.8842 6.66675 11.732 7.01794 12.3571 7.64306C12.9823 8.26818 13.3334 9.11603 13.3334 10.0001C13.3334 10.8841 12.9823 11.732 12.3571 12.3571C11.732 12.9822 10.8842 13.3334 10.0001 13.3334C9.11606 13.3334 8.26821 12.9822 7.64309 12.3571C7.01797 11.732 6.66678 10.8841 6.66678 10.0001C6.66678 9.11603 7.01797 8.26818 7.64309 7.64306C8.26821 7.01794 9.11606 6.66675 10.0001 6.66675ZM10.0001 8.33342C9.55808 8.33342 9.13416 8.50901 8.8216 8.82157C8.50904 9.13413 8.33344 9.55805 8.33344 10.0001C8.33344 10.4421 8.50904 10.866 8.8216 11.1786C9.13416 11.4912 9.55808 11.6667 10.0001 11.6667C10.4421 11.6667 10.8661 11.4912 11.1786 11.1786C11.4912 10.866 11.6668 10.4421 11.6668 10.0001C11.6668 9.55805 11.4912 9.13413 11.1786 8.82157C10.8661 8.50901 10.4421 8.33342 10.0001 8.33342ZM8.33344 18.3334C8.12511 18.3334 7.95011 18.1834 7.91678 17.9834L7.60844 15.7751C7.08344 15.5667 6.63344 15.2834 6.20011 14.9501L4.12511 15.7917C3.94178 15.8584 3.71678 15.7917 3.61678 15.6084L1.95011 12.7251C1.84178 12.5417 1.89178 12.3167 2.05011 12.1917L3.80844 10.8084L3.75011 10.0001L3.80844 9.16675L2.05011 7.80841C1.89178 7.68341 1.84178 7.45841 1.95011 7.27508L3.61678 4.39175C3.71678 4.20841 3.94178 4.13341 4.12511 4.20842L6.20011 5.04175C6.63344 4.71675 7.08344 4.43341 7.60844 4.22508L7.91678 2.01675C7.95011 1.81675 8.12511 1.66675 8.33344 1.66675H11.6668C11.8751 1.66675 12.0501 1.81675 12.0834 2.01675L12.3918 4.22508C12.9168 4.43341 13.3668 4.71675 13.8001 5.04175L15.8751 4.20842C16.0584 4.13341 16.2834 4.20841 16.3834 4.39175L18.0501 7.27508C18.1584 7.45841 18.1084 7.68341 17.9501 7.80841L16.1918 9.16675L16.2501 10.0001L16.1918 10.8334L17.9501 12.1917C18.1084 12.3167 18.1584 12.5417 18.0501 12.7251L16.3834 15.6084C16.2834 15.7917 16.0584 15.8667 15.8751 15.7917L13.8001 14.9584C13.3668 15.2834 12.9168 15.5667 12.3918 15.7751L12.0834 17.9834C12.0501 18.1834 11.8751 18.3334 11.6668 18.3334H8.33344ZM9.37511 3.33341L9.06678 5.50841C8.06678 5.71675 7.18344 6.25008 6.54178 6.99175L4.53344 6.12508L3.90844 7.20841L5.66678 8.50008C5.33344 9.47508 5.33344 10.5334 5.66678 11.5001L3.90011 12.8001L4.52511 13.8834L6.55011 13.0167C7.19178 13.7501 8.06678 14.2834 9.05844 14.4834L9.36678 16.6667H10.6334L10.9418 14.4917C11.9334 14.2834 12.8084 13.7501 13.4501 13.0167L15.4751 13.8834L16.1001 12.8001L14.3334 11.5084C14.6668 10.5334 14.6668 9.47508 14.3334 8.50008L16.0918 7.20841L15.4668 6.12508L13.4584 6.99175C12.8168 6.25008 11.9334 5.71675 10.9334 5.51675L10.6251 3.33341H9.37511Z"
-                    fill={
-                      this.state.settingsMode
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
+                <GearIcon condition={this.state.settingsMode} role="button" />
               </button>
               <div className="sk-button divider">
                 <svg
@@ -1926,29 +1847,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id="showMenubotton"
+                id="showMenuButton"
                 onClick={this.toggleShowMenu}
                 title="Toggle Menu"
                 className={'sk-button ' + (this.state.showMenu ? 'on' : 'off')}
               >
-                <svg
-                  role="button"
-                  aria-label="Dots button to show menu"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17 5V6.66667H3V5H17ZM3 15H17V13.3333H3V15ZM3 10.8333H17V9.16667H3V10.8333Z"
-                    fill={
-                      this.state.showMenu
-                        ? 'var(--sn-stylekit-info-color)'
-                        : 'var(--sn-stylekit-foreground-color)'
-                    }
-                  />
-                </svg>
+                <MenuIcon condition={this.state.showMenu} role="button" />
               </button>
             </div>
           </div>,

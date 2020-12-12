@@ -64,14 +64,7 @@ export const EyeButton: React.FC<ConditionalButtonTypes> = ({
   title,
 }) => (
   <button className={className} onClick={onClick} title={title}>
-    <EyeIcon
-      fill={
-        condition
-          ? 'var(--sn-stylekit-info-color)'
-          : 'var(--sn-stylekit-foreground-color)'
-      }
-      role={'button'}
-    />
+    <EyeIcon condition={condition} role={'button'} />
     <span className="button-caption">
       {caption}:<b>&nbsp;{condition ? messageOn : messageOff}</b>
     </span>

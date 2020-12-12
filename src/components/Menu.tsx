@@ -83,6 +83,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     this.setState(
       {
         displayMessageEdit: true,
+        displayMessageShare: false,
       },
       () => {
         this.resetMessageTimer();
@@ -92,6 +93,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   showMessageShare = () => {
     this.setState(
       {
+        displayMessageEdit: false,
         displayMessageShare: true,
       },
       () => {
@@ -206,11 +208,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       <div className="menu-overlay" onClick={this.props.toggleShowMenu} />,
       <div id={'menu'}>
         <ChevronToggleButton
-          caption={'View Mode Options'}
+          caption={'Appearance'}
           className={HtmlClassName.chevronToggleButton}
           condition={this.props.showMenuOptionsView}
           onClick={this.props.toggleShowMenuOptionsView}
-          title={'Toggle show options for view mode'}
+          title={'Toggle show options for the appearance of the editor'}
         />
         {this.props.showMenuOptionsView && [
           <EyeButton
@@ -305,7 +307,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           </div>,
         ]}
         <ChevronToggleButton
-          caption={'Editing Actions'}
+          caption={'Actions'}
           className={HtmlClassName.chevronToggleButton}
           condition={this.props.showMenuOptionsEdit}
           onClick={this.props.toggleShowMenuOptionsEdit}
@@ -336,7 +338,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             </p>
           </div>,
         ]}
-        <span className="extra-margin"></span>
+        <div className="extra-space"></div>
       </div>,
     ];
   }

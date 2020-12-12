@@ -6,12 +6,7 @@ import {
   useDynamicEditor,
   useMonacoEditor,
 } from './AppendEditor';
-import {
-  ChevronIconDown,
-  ChevronIconRight,
-  CloseIcon,
-  RefreshIcon,
-} from './Icons';
+import { CloseIcon, RefreshIcon } from './Icons';
 import { ChevronToggleButton, UndoButton } from './Buttons';
 
 const editingModeID = 'editingMode';

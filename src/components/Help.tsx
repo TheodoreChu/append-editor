@@ -1,4 +1,5 @@
 import React from 'react';
+import { GearIcon, HelpIcon, MenuIcon } from './Icons';
 
 interface HelpProps {
   debugMode: boolean;
@@ -85,7 +86,15 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           >
             end-to-end encrypted
           </a>{' '}
-          notes app. The source code is available on{' '}
+          notes app. The Append Editor is also free software licensed under{' '}
+          <a
+            href="https://github.com/TheodoreChu/append-editor/blob/main/LICENSE"
+            target="_blank"
+            rel="nofollow noreferrer noopener"
+          >
+            AGPL-3.0
+          </a>
+          . Its source code is available on{' '}
           <a
             href="https://github.com/TheodoreChu/append-editor"
             target="_blank"
@@ -97,15 +106,15 @@ export default class Help extends React.Component<HelpProps, HelpState> {
         </p>
         <h3>How do I use the Append Editor?</h3>
         <p>
-          This editor supports{' '}
+          The Append Editor supports{' '}
           <a
             href="https://guides.github.com/features/mastering-markdown/"
             target="_blank"
             rel="nofollow noreferrer noopener"
           >
             Markdown
-          </a>
-          ,{' '}
+          </a>{' '}
+          with{' '}
           <a
             href="https://katex.org/docs/support_table.html"
             target="_blank"
@@ -113,7 +122,8 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           >
             KaTeX
           </a>
-          , and{' '}
+          , syntax highlighting, in-line HTML, table of contents, footnotes,
+          auto-linking,{' '}
           <a
             href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md"
             target="_blank"
@@ -121,17 +131,40 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           >
             emoji codes
           </a>
-          , syntax highlighting, in-line HTML, table of contents, footnotes,
-          auto-linking, printing, and more. For the full list of features and
-          keyboard shortcuts, please visit the documentation at{' '}
+          , and more.{' '}
+        </p>
+        <p>
+          There are four editing modes in the Append Editor: Plain Textarea,
+          CodeMirror, Dynamic, and Monaco. You can read about each mode and
+          choose which to use in the Settings{' '}
+          <span className="inline-text-and-svg">
+            <span>(</span>
+            <GearIcon role="img" />
+            <span>)</span>
+          </span>
+          .
+        </p>
+        <p>
+          The Append Editor also has built-in support for default and per-note
+          font sizes, font families, and custom CSS. The menu{' '}
+          <span className="inline-text-and-svg">
+            <span>(</span>
+            <MenuIcon role="img" />
+            <span>)</span>
+          </span>{' '}
+          has many additional options for view customization, sharing, and
+          editing.
+        </p>
+        <p>
+          Please visit the documentation at{' '}
           <a
             href="https://appendeditor.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             appendeditor.com
-          </a>
-          .
+          </a>{' '}
+          for the full list of features and keyboard shortcuts.
         </p>
         <h3>How do I Install the Append Editor in Standard Notes?</h3>
         <ol>
@@ -258,8 +291,8 @@ export default class Help extends React.Component<HelpProps, HelpState> {
                 🙂
               </span>
               <br />
-              You are using version <code>1.1.2</code>. The release notes are
-              available on{' '}
+              You are using version <code>1.1.2</code>. The release notes and
+              change log are available on{' '}
               <a
                 href="https://github.com/TheodoreChu/append-editor/releases"
                 target="_blank"
@@ -272,22 +305,12 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           ]}
         </details>
         Click&nbsp;
-        <svg
-          role="button"
-          aria-label="Toggle show help"
-          onClick={this.onToggleShowHelp}
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M9.16675 15.0001H10.8334V13.3334H9.16675V15.0001ZM10.0001 1.66675C8.90573 1.66675 7.8221 1.8823 6.81105 2.30109C5.80001 2.71987 4.88135 3.3337 4.10753 4.10753C2.54472 5.67033 1.66675 7.78995 1.66675 10.0001C1.66675 12.2102 2.54472 14.3298 4.10753 15.8926C4.88135 16.6665 5.80001 17.2803 6.81105 17.6991C7.8221 18.1179 8.90573 18.3334 10.0001 18.3334C12.2102 18.3334 14.3298 17.4554 15.8926 15.8926C17.4554 14.3298 18.3334 12.2102 18.3334 10.0001C18.3334 8.90573 18.1179 7.8221 17.6991 6.81105C17.2803 5.80001 16.6665 4.88135 15.8926 4.10753C15.1188 3.3337 14.2002 2.71987 13.1891 2.30109C12.1781 1.8823 11.0944 1.66675 10.0001 1.66675ZM10.0001 16.6668C6.32508 16.6668 3.33342 13.6751 3.33342 10.0001C3.33342 6.32508 6.32508 3.33342 10.0001 3.33342C13.6751 3.33342 16.6668 6.32508 16.6668 10.0001C16.6668 13.6751 13.6751 16.6668 10.0001 16.6668ZM10.0001 5.00008C9.11603 5.00008 8.26818 5.35127 7.64306 5.97639C7.01794 6.60151 6.66675 7.44936 6.66675 8.33342H8.33342C8.33342 7.89139 8.50901 7.46747 8.82157 7.1549C9.13413 6.84234 9.55806 6.66675 10.0001 6.66675C10.4421 6.66675 10.866 6.84234 11.1786 7.1549C11.4912 7.46747 11.6667 7.89139 11.6667 8.33342C11.6667 10.0001 9.16675 9.79175 9.16675 12.5001H10.8334C10.8334 10.6251 13.3334 10.4167 13.3334 8.33342C13.3334 7.44936 12.9822 6.60151 12.3571 5.97639C11.732 5.35127 10.8841 5.00008 10.0001 5.00008Z"
-            fill={'var(--sn-stylekit-info-color)'}
-          />
-        </svg>
-        &nbsp;in the top menu to close this section.
+        <span className="inline-text-and-svg" onClick={this.onToggleShowHelp}>
+          <span>(</span>
+          <HelpIcon fill={'var(--sn-stylekit-info-color)'} role="button" />
+          <span>)</span>
+        </span>{' '}
+        &nbsp;in the header to close this section.
         <hr></hr>
       </div>
     );
