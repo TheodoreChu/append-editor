@@ -159,6 +159,9 @@ export interface AppendInterface {
   showHeader: boolean;
   showHelp: boolean;
   showMenu?: boolean;
+  showMenuOptionsEdit?: boolean;
+  showMenuOptionsShare?: boolean;
+  showMenuOptionsView?: boolean;
   settingsMode: boolean;
   useCodeMirror: boolean;
   viewMode?: boolean;
@@ -181,6 +184,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
     }
     this.onViewMode();
+    this.loadDefaultShowOptions();
     document.addEventListener('scroll', this.onScroll);
   };
 
@@ -974,6 +978,26 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     this.setState({
       showMenu: !this.state.showMenu,
     });
+  };
+
+  loadDefaultShowOptions = () => {
+    this.setState({
+      showMenuOptionsEdit: false,
+      showMenuOptionsShare: false,
+      showMenuOptionsView: true,
+    });
+  };
+
+  toggleShowMenuOptionsEdit = () => {
+    this.setState({ showMenuOptionsEdit: !this.state.showMenuOptionsEdit });
+  };
+
+  toggleShowMenuOptionsShare = () => {
+    this.setState({ showMenuOptionsShare: !this.state.showMenuOptionsShare });
+  };
+
+  toggleShowMenuOptionsView = () => {
+    this.setState({ showMenuOptionsView: !this.state.showMenuOptionsView });
   };
 
   toggleBorderlessMode = () => {
@@ -1951,12 +1975,18 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               refreshEdit={this.refreshEdit}
               refreshView={this.refreshView}
               saveText={this.saveText}
+              showMenuOptionsEdit={this.state.showMenuOptionsEdit}
+              showMenuOptionsShare={this.state.showMenuOptionsShare}
+              showMenuOptionsView={this.state.showMenuOptionsView}
               text={this.state.text}
               toggleBorderlessMode={this.toggleBorderlessMode}
               toggleFixedHeightMode={this.toggleFixedHeightMode}
               toggleFullWidthMode={this.toggleFullWidthMode}
               toggleOverflowMode={this.toggleOverflowMode}
               toggleShowMenu={this.toggleShowMenu}
+              toggleShowMenuOptionsEdit={this.toggleShowMenuOptionsEdit}
+              toggleShowMenuOptionsShare={this.toggleShowMenuOptionsShare}
+              toggleShowMenuOptionsView={this.toggleShowMenuOptionsView}
               useDynamicEditor={useDynamicEditor}
               useMonacoEditor={useMonacoEditor}
               viewMode={this.state.viewMode}

@@ -6,6 +6,13 @@ import {
   useDynamicEditor,
   useMonacoEditor,
 } from './AppendEditor';
+import {
+  ChevronIconDown,
+  ChevronIconRight,
+  CloseIcon,
+  RefreshIcon,
+} from './Icons';
+import { ChevronToggleButton, UndoButton } from './Buttons';
 
 const editingModeID = 'editingMode';
 const fontEditID = 'fontEdit';
@@ -464,18 +471,7 @@ export default class Settings extends React.Component<
             <div className="sk-panel-row title-section">
               <h1>{title}</h1>
               <button id="undoDialog" onClick={onCancel} title="Close">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M15.2459 5.92917C15.5704 5.6047 15.5704 5.07864 15.2459 4.75417C14.9214 4.4297 14.3954 4.4297 14.0709 4.75417L10.0001 8.82501L5.92925 4.75417C5.60478 4.4297 5.07872 4.4297 4.75425 4.75417C4.42978 5.07864 4.42978 5.6047 4.75425 5.92917L8.82508 10L4.75425 14.0708C4.42978 14.3953 4.42978 14.9214 4.75425 15.2458C5.07872 15.5703 5.60478 15.5703 5.92925 15.2458L10.0001 11.175L14.0709 15.2458C14.3954 15.5703 14.9214 15.5703 15.2459 15.2458C15.5704 14.9214 15.5704 14.3953 15.2459 14.0708L11.1751 10L15.2459 5.92917Z"
-                    fill={'var(--sn-stylekit-foreground-color)'}
-                  />
-                </svg>
+                <CloseIcon role="button" />
               </button>
             </div>
             <section className="sk-panel-row settings">
@@ -487,26 +483,11 @@ export default class Settings extends React.Component<
                   </a>
                   . To clear all settings, click undo:&nbsp;
                 </p>
-                <button
+                <UndoButton
                   onClick={this.clearAllSettings}
                   title="Reset all Settings"
                   id={resetAllSettingsID}
-                >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                </button>
+                />
               </div>
             </section>
             <section className="sk-panel-row settings">
@@ -516,45 +497,17 @@ export default class Settings extends React.Component<
                   onClick={this.loadDefaultSettings}
                   title="Load personal default settings"
                 >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M9.99992 14.9999C8.67384 14.9999 7.40207 14.4731 6.46438 13.5355C5.5267 12.5978 4.99992 11.326 4.99992 9.99992C4.99992 9.16658 5.20825 8.35825 5.58325 7.66658L4.36659 6.44992C3.71659 7.47492 3.33325 8.69158 3.33325 9.99992C3.33325 11.768 4.03563 13.4637 5.28587 14.714C6.53612 15.9642 8.23181 16.6666 9.99992 16.6666V19.1666L13.3333 15.8332L9.99992 12.4999V14.9999ZM9.99992 3.33325V0.833252L6.66658 4.16658L9.99992 7.49992V4.99992C11.326 4.99992 12.5978 5.5267 13.5355 6.46438C14.4731 7.40207 14.9999 8.67383 14.9999 9.99992C14.9999 10.8333 14.7916 11.6416 14.4166 12.3333L15.6333 13.5499C16.2833 12.5249 16.6666 11.3083 16.6666 9.99992C16.6666 8.23181 15.9642 6.53612 14.714 5.28587C13.4637 4.03563 11.768 3.33325 9.99992 3.33325Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
+                  <RefreshIcon role="button" />
                 </button>
               </div>
             </section>
             <section className="sk-panel-row settings">
               <div className="text-and-undo-button">
                 <p>Editing Mode: </p>
-                <button
+                <UndoButton
                   onClick={this.clearEditingMode}
                   title="Reset Editing Mode to Plain Textarea"
-                >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                </button>
+                />
               </div>
             </section>
             <section className="sk-panel-row settings">
@@ -712,25 +665,10 @@ export default class Settings extends React.Component<
                       <option>yaml</option>
                     </select>
                   </label>
-                  <button
+                  <UndoButton
                     onClick={this.clearMonacoEditorLanguage}
                     title="Reset Monaco Editor Language to Markdown"
-                  >
-                    <span className="undo-button">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                          fill={'var(--sn-stylekit-foreground-color)'}
-                        />
-                      </svg>
-                    </span>
-                  </button>
+                  />
                 </div>
               </section>,
             ]}
@@ -764,25 +702,10 @@ export default class Settings extends React.Component<
                   <option>29px</option>
                   <option>30px</option>
                 </select>
-                <button
+                <UndoButton
                   onClick={this.clearFontSize}
                   title="Reset font size to 16px"
-                >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                </button>
+                />
               </div>
             </section>
             {this.state.editingMode !== this.props.useMonacoEditor && [
@@ -801,25 +724,10 @@ export default class Settings extends React.Component<
                     onKeyUp={this.onKeyUp}
                     type="text"
                   />
-                  <button
+                  <UndoButton
                     onClick={this.clearFontEdit}
                     title="Reset font for Edit/Append"
-                  >
-                    <span className="undo-button">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                          fill={'var(--sn-stylekit-foreground-color)'}
-                        />
-                      </svg>
-                    </span>
-                  </button>
+                  />
                 </div>
               </section>,
             ]}
@@ -839,87 +747,27 @@ export default class Settings extends React.Component<
                     onKeyUp={this.onKeyUp}
                     type="text"
                   />
-                  <button
+                  <UndoButton
                     onClick={this.clearFontView}
                     title="Reset font for View/Print"
-                  >
-                    <span className="undo-button">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                          fill={'var(--sn-stylekit-foreground-color)'}
-                        />
-                      </svg>
-                    </span>
-                  </button>
+                  />
                 </div>
               </section>,
             ]}
             <section className="sk-panel-row settings">
-              <button
-                className="toggle-button"
+              <ChevronToggleButton
+                caption={'Add custom styles (CSS):'}
+                className="chevron-toggle-button"
+                condition={this.state.showCustomStyles}
                 onClick={this.toggleShowCustomStyles}
-              >
-                {this.state.showCustomStyles ? (
-                  <span className="chevron-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.17622 7.15015L10.0012 10.9751L13.8262 7.15015L15.0012 8.33348L10.0012 13.3335L5.00122 8.33348L6.17622 7.15015Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                ) : (
-                  <span className="chevron-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6.90918 14.0667L10.7342 10.2417L6.90918 6.4167L8.09251 5.2417L13.0925 10.2417L8.09251 15.2417L6.90918 14.0667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                )}
-                <p className={'button-caption'}>Add custom styles (CSS):</p>
-              </button>
+                title={'Toggle show add custom styles (CSS)'}
+              />
               {this.state.showCustomStyles && [
                 <div className="text-and-undo-button">
-                  <button
+                  <UndoButton
                     onClick={this.clearCustomStyles}
                     title="Reset custom styles (CSS)"
-                  >
-                    <span className="undo-button">
-                      <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                          fill={'var(--sn-stylekit-foreground-color)'}
-                        />
-                      </svg>
-                    </span>
-                  </button>
+                  />
                 </div>,
               ]}
             </section>
@@ -949,25 +797,10 @@ export default class Settings extends React.Component<
                     onChange={this.handleInputChange}
                   />
                 </label>
-                <button
+                <UndoButton
                   onClick={this.clearSaveAsDefault}
                   title="Clear save as default"
-                >
-                  <span className="undo-button">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.1812 7.66667C8.36883 7.66667 6.72741 8.33333 5.46214 9.4L3 7V13H9.15535L6.67953 10.5867C7.63019 9.81333 8.84074 9.33333 10.1812 9.33333C12.6023 9.33333 14.661 10.8733 15.3791 13L17 12.48C16.0493 9.68667 13.3615 7.66667 10.1812 7.66667Z"
-                        fill={'var(--sn-stylekit-foreground-color)'}
-                      />
-                    </svg>
-                  </span>
-                </button>
+                />
               </div>
             </section>
           </div>

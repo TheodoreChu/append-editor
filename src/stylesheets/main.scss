@@ -36,6 +36,7 @@ html {
 }
 
 button {
+  color: var(--sn-stylekit-foreground-color);
   background-color: transparent;
   border-width: 0px;
   font-family: var(--sn-stylekit-sans-serif-font);
@@ -50,6 +51,35 @@ button {
   }
   &:hover {
     cursor: pointer;
+  }
+  &.chevron-toggle-button {
+    padding-left: 0px;
+    display: flex;
+  }
+  &.menu-button {
+    display: flex;
+    margin: 8px 20px;
+    padding: 8px 16px;
+    text-align: left;
+    svg {
+      margin-top: auto;
+    }
+    &.chevron-toggle-button {
+      padding-top: 0px;
+      padding-bottom: 0px;
+      @media screen and (min-width: 330px) {
+        padding: 0px;
+      }
+    }
+  }
+  .chevron-icon,
+  .chevron-button-caption {
+    line-height: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .button-caption {
+    padding-left: 5px;
   }
 }
 
@@ -167,7 +197,6 @@ button:focus {
 
 #header {
   background-color: var(--sn-stylekit-background-color);
-  color: var(--sn-stylekit-foreground-color);
   display: flex;
   overflow: auto;
   padding: 10px 0;
@@ -229,22 +258,13 @@ button:focus {
     min-width: 450px;
   }
 
-  button,
-  p {
-    color: var(--sn-stylekit-foreground-color);
-    display: flex;
-    margin: 10px 20px;
-    padding: 8px 12px;
-    text-align: left;
-    .menu-button-caption {
-      padding-left: 5px;
-    }
-    svg {
-      margin-top: auto;
-    }
-  }
-
   .notification {
+    p {
+      display: flex;
+      margin: 0px 20px 8px;
+      padding: 0px 16px;
+      text-align: left;
+    }
     &.visible {
       visibility: visible;
       opacity: 1;
@@ -252,6 +272,7 @@ button:focus {
     }
 
     &.hidden {
+      height: 0px;
       visibility: hidden;
       opacity: 0;
       transition: visibility 0s 500ms, opacity 500ms ease-out;
@@ -261,6 +282,9 @@ button:focus {
     #printButton {
       display: none;
     }
+  }
+  .extra-margin {
+    margin-bottom: 5em;
   }
 }
 
@@ -547,7 +571,7 @@ button:focus {
   .text-and-undo-button {
     display: flex;
     p,
-    .undo-button {
+    .undo-icon {
       margin-top: 0px;
       margin-bottom: 0px;
       display: inline;
@@ -556,19 +580,6 @@ button:focus {
   button {
     @media screen and (max-width: 650px) {
       font-size: 17px;
-    }
-    &.toggle-button {
-      padding-left: 0px;
-      display: flex;
-    }
-    .chevron-button,
-    .button-caption {
-      line-height: 20px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-    }
-    .button-caption {
-      color: var(--sn-stylekit-foreground-color);
     }
   }
   input[type='checkbox' i]:hover {
