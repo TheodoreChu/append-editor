@@ -152,8 +152,8 @@ export default class Help extends React.Component<HelpProps, HelpState> {
             <MenuIcon role="img" />
             <span>)</span>
           </span>{' '}
-          has many additional options for view customization, sharing, and
-          editing.
+          has additional options for customizing the appearance of the editor,
+          sharing your note, and quick actions for editing.
         </p>
         <p>
           Please visit the documentation at{' '}
