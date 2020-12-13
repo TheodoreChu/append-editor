@@ -1,5 +1,6 @@
 import React from 'react';
 import { EyeIcon, HelpIcon, PencilIcon, PlusIcon } from './Icons';
+import { clickHelpButton } from '../lib/clickButton';
 
 const Intro: React.FC<any> = () => (
   <div id="intro">
@@ -63,13 +64,21 @@ const Intro: React.FC<any> = () => (
       </p>
       <p>
         If you want to save your notes, then click Help{' '}
-        <span className="inline-text-and-svg">
+        <span className="inline-text-and-svg" onClick={clickHelpButton}>
           <span>(</span>
           <HelpIcon role="img" />
           <span>)</span>
         </span>{' '}
         at the top and follow the instructions on how to install the Append
-        Editor in <a>Standard Notes</a>, a free,{' '}
+        Editor in{' '}
+        <a
+          href="https://standardnotes.org/"
+          target="_blank"
+          rel="nofollow noreferrer noopener"
+        >
+          Standard Notes
+        </a>
+        , a free,{' '}
         <a
           href="https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software"
           target="_blank"

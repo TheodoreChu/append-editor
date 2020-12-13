@@ -1,5 +1,6 @@
 import React from 'react';
 import { GearIcon, HelpIcon, MenuIcon } from './Icons';
+import { clickHelpButton } from '../lib/clickButton';
 
 interface HelpProps {
   debugMode: boolean;
@@ -39,13 +40,6 @@ export default class Help extends React.Component<HelpProps, HelpState> {
     this.setState({
       showFeedback: !this.state.showFeedback,
     });
-  };
-
-  onToggleShowHelp = () => {
-    const helpButton = document.getElementById('helpButton');
-    if (helpButton) {
-      helpButton.click();
-    }
   };
 
   render() {
@@ -305,7 +299,7 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           ]}
         </details>
         Click&nbsp;
-        <span className="inline-text-and-svg" onClick={this.onToggleShowHelp}>
+        <span className="inline-text-and-svg" onClick={clickHelpButton}>
           <span>(</span>
           <HelpIcon fill={'var(--sn-stylekit-info-color)'} role="button" />
           <span>)</span>

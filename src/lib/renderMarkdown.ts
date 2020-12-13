@@ -38,7 +38,9 @@ export const processMarkdown = (text: string) => {
   return markdown;
 };
 
-/** Throttle because we want it to work even when typing lots of characters in a short amount of time. */
+/** Throttle instead of debounce because
+ * we want it to work even when typing
+ * lots of characters in a short amount of time. */
 export const isLongString = throttle((text: string) => {
   //console.log('length', text.length);
   if (text.length > 10000) {
@@ -48,6 +50,9 @@ export const isLongString = throttle((text: string) => {
   }
 }, 1000);
 
+/** Debounce the rendering of long notes to prevent lagging.
+ * There is no max on the debounce to prevent lagging
+ * even for very, very long notes */
 export const renderLongMarkdown = debounce((text: string) => {
   //console.log('renderLongMarkdownText');
   const markdown = processMarkdown(text);

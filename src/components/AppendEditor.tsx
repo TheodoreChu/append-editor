@@ -37,7 +37,11 @@ import {
   PlusIcon,
 } from './Icons';
 
-import { isLongString, renderMarkdown } from '../lib/renderMarkdown';
+import {
+  isLongString,
+  renderLongMarkdown,
+  renderMarkdown,
+} from '../lib/renderMarkdown';
 
 const appendButtonID = 'appendButton';
 const editButtonID = 'editButton';
@@ -74,7 +78,7 @@ const initialState = {
   appendMode: false,
   appendRows: 8,
   appendText: '',
-  bypassDebounce: true,
+  bypassDebounce: false, // We keep this as false in initialState so debounce works in the demo
   confirmPrintUrl: false,
   customStyles: '',
   defaultSettings: {
@@ -191,6 +195,7 @@ export interface AppendInterface {
 
 export default class AppendEditor extends React.Component<{}, AppendInterface> {
   editorKit: any;
+  saveTimer: NodeJS.Timeout | undefined;
 
   constructor(props: AppendInterface) {
     super(props);
@@ -206,7 +211,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       console.log('AppendEditor.tsx: \n - this.componentDidMount() triggered');
     }
     this.onViewMode();
-    this.loadDefaultShowOptions();
+    this.loadDefaultMenuState();
     document.addEventListener('scroll', this.onScroll);
   };
 
@@ -220,11 +225,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
     let delegate = new EditorKitDelegate({
       /** This loads every time a different note is loaded
+       * We turn bypassDebounce to true so
+       * the editor always renders the markdown for the latest note
        */
       setEditorRawText: (text: string) => {
         this.setState(
           {
             ...initialState,
+            bypassDebounce: true,
             text,
           },
           () => {
@@ -241,16 +249,26 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                   JSON.stringify(this.state, null, ' ')
               );
             }
-            /** Initiate the debounce so it will
-             * load the first time after turning the bypass off */
-            renderMarkdown(text, false);
+            /** Clear the debounce from the previous note and componentDidMount
+             * Then call and flush the debounce so the correct markdown will render
+             * the first time after turning the bypass off */
+            isLongString.cancel();
+            isLongString(text);
+            isLongString.flush();
+            renderLongMarkdown.cancel();
+            if (isLongString(text)) {
+              renderMarkdown(text, false);
+              renderLongMarkdown.flush();
+            }
+            /** This prevents metadata from loading when saving editor options or default settings */
             if (!this.state.savingEditorOptions) {
               this.loadEditorOptions();
               this.loadDefaultSettings();
               this.loadMetaData();
             }
             /** Turn the debounce bypass off
-             * This loads all the time, even when saving editor options
+             * This loads every time, even when saving editor options or default settings
+             * because bypassDebounce is set to true every time
              */
             setTimeout(() => {
               this.setState({
@@ -557,6 +575,18 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       () => {
         if (this.state.editingMode === useDynamicEditor) {
           this.refreshView();
+        } else if (this.state.viewMode && isLongString(text)) {
+          /** If the note text is long, then rendering its markdown will debounce
+           * If the we stop editing for 550 milliseconds, then
+           * automatically refresh the view to force the latest markdown to render
+           * We use 550 because the debounce is 500.
+           */
+          if (this.saveTimer) {
+            clearTimeout(this.saveTimer);
+          }
+          this.saveTimer = setTimeout(() => {
+            this.refreshView();
+          }, 550);
         }
         if (debugMode) {
           console.log('AppendEditor.tsx: saved text:', this.state.text);
@@ -982,10 +1012,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     });
   };
 
-  loadDefaultShowOptions = () => {
+  loadDefaultMenuState = () => {
     this.setState({
       showMenuOptionsEdit: false,
-      showMenuOptionsShare: false,
+      showMenuOptionsShare: true,
       showMenuOptionsView: true,
     });
   };
@@ -1057,6 +1087,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       fixedHeightMode: this.state.fixedHeightMode,
       fullWidthMode: this.state.fullWidthMode,
       overflowMode: this.state.overflowMode,
+      /**These are turned off to prevent excess re-rendering of the note when opening/closing the menu */
       //showMenuOptionsEdit: this.state.showMenuOptionsEdit,
       //showMenuOptionsShare: this.state.showMenuOptionsShare,
       //showMenuOptionsView: this.state.showMenuOptionsView,
