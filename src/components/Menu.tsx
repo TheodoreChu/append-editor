@@ -292,7 +292,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             caption={'Print rendered note'}
             className={'menu-button off'}
             fill={'var(--sn-stylekit-foreground-color)'}
-            id={HtmlElementId.PrintButton}
+            id={HtmlElementId.printButton}
             onClick={this.props.onConfirmPrintUrl}
             title="Print rendered note. Works best on Chromium browsers (e.g., MS Edge, Google Chrome). Not available on mobile."
           />,

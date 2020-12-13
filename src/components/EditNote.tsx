@@ -3,7 +3,7 @@ import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
 import DynamicEditor from './DynamicEditor';
 
-const editTextAreaID = 'editTextArea';
+import { HtmlElementId } from './AppendEditor';
 
 interface EditProps {
   debugMode: boolean;
@@ -115,7 +115,7 @@ export default class EditNote extends React.Component<EditProps, EditState> {
             </div>
           ) : (
             <textarea
-              id={editTextAreaID}
+              id={HtmlElementId.editTextArea}
               name="text"
               className="sk-input contrast textarea editnote"
               placeholder="Welcome to the Append Editor! 😄"

@@ -1,6 +1,10 @@
 import React from 'react';
 import { GearIcon, HelpIcon, MenuIcon } from './Icons';
-import { clickHelpButton } from '../lib/clickButton';
+import {
+  clickHelpButton,
+  clickMenuButton,
+  clickSettingsButton,
+} from '../lib/clickButton';
 
 interface HelpProps {
   debugMode: boolean;
@@ -130,22 +134,29 @@ export default class Help extends React.Component<HelpProps, HelpState> {
         <p>
           There are four editing modes in the Append Editor: Plain Textarea,
           CodeMirror, Dynamic, and Monaco. You can read about each mode and
-          choose which to use in the Settings{' '}
-          <span className="inline-text-and-svg">
+          choose which to use in the Settings
+          <button
+            className="inline-text-and-svg"
+            onClick={clickSettingsButton}
+            title="Open Settings"
+          >
             <span>(</span>
-            <GearIcon role="img" />
-            <span>)</span>
-          </span>
-          .
+            <GearIcon role="button" />
+            <span>).</span>
+          </button>
         </p>
         <p>
           The Append Editor also has built-in support for default and per-note
-          font sizes, font families, and custom CSS. The menu{' '}
-          <span className="inline-text-and-svg">
+          font sizes, font families, and custom CSS. The menu
+          <button
+            className="inline-text-and-svg"
+            onClick={clickMenuButton}
+            title="Open the Menu"
+          >
             <span>(</span>
-            <MenuIcon role="img" />
+            <MenuIcon role="button" />
             <span>)</span>
-          </span>{' '}
+          </button>
           has additional options for customizing the appearance of the editor,
           sharing your note, and quick actions for editing.
         </p>
@@ -298,13 +309,17 @@ export default class Help extends React.Component<HelpProps, HelpState> {
             </p>,
           ]}
         </details>
-        Click&nbsp;
-        <span className="inline-text-and-svg" onClick={clickHelpButton}>
+        Click Help
+        <button
+          className="inline-text-and-svg"
+          onClick={clickHelpButton}
+          title="Close Help"
+        >
           <span>(</span>
           <HelpIcon fill={'var(--sn-stylekit-info-color)'} role="button" />
           <span>)</span>
-        </span>{' '}
-        &nbsp;in the header to close this section.
+        </button>
+        to close this section.
         <hr></hr>
       </div>
     );

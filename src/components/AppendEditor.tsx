@@ -43,79 +43,37 @@ import {
   renderMarkdown,
 } from '../lib/renderMarkdown';
 
-const appendButtonID = 'appendButton';
-const editButtonID = 'editButton';
-const helpButtonID = 'helpButton';
-const settingsButtonID = 'settingsButton';
-const viewButtonID = 'viewButton';
-
-const headerID = 'header';
-const contentID = 'content';
-const appendixID = 'appendix';
-const viewID = 'view';
-
-const editTextAreaID = 'editTextArea';
-const appendTextAreaID = 'appendTextArea';
-
-const newLineID = 'newLine';
-const newParagraphID = 'newParagraph';
-
 const useDynamicEditor = 'useDynamicEditor';
 const useMonacoEditor = 'useMonacoEditor';
 
-let last_known_scroll_position = 0;
-
-/**
- * Some properties are optional so
- * they do not need to be set
- * when switching between notes.
- */
-
-const initialState = {
-  text: '',
-  appendNewLine: false,
-  appendNewParagraph: false,
-  appendMode: false,
-  appendRows: 8,
-  appendText: '',
-  bypassDebounce: false, // We keep this as false in initialState so debounce works in the demo
-  confirmPrintUrl: false,
-  customStyles: '',
-  defaultSettings: {
-    customStyles: '',
-    editingMode: 'usePlainText',
-    fontEdit: '',
-    fontSize: '',
-    fontView: '',
-    monacoEditorLanguage: 'markdown',
-    useCodeMirror: false,
-  },
-  fontEdit: '',
-  fontSize: '',
-  fontView: '',
-  monacoEditorLanguage: 'markdown',
-  printURL: true,
-  refreshEdit: false,
-  refreshView: false,
-  showAppendix: true,
-  showHeader: true,
-  showHelp: false,
-  showDiff: false,
-  settingsMode: false,
-  useCodeMirror: false,
-};
-
-const debugMode = false;
-
-let keyMap = new Map();
-
 export enum HtmlElementId {
-  PrintButton = 'printButton',
+  appendButton = 'appendButton',
+  appendTextArea = 'appendTextArea',
+  appendix = 'appendix',
+  content = 'content',
+  editButton = 'editButton',
+  editTextArea = 'editTextArea',
+  header = 'header',
+  helpButton = 'helpButton',
+  menuButton = 'menuButton',
+  newLine = 'newLine',
+  newParagraph = 'newParagraph',
+  printButton = 'printButton',
+  settingsButton = 'settingsButton',
+  view = 'view',
+  viewButton = 'viewButton',
 }
 
 export enum HtmlClassName {
   fixed = 'fixed',
   fixedHeader = 'fixed-header',
+}
+
+export enum EditingModes {
+  usePlainText = 'usePlainText',
+  useCodeMirror = 'useCodeMirror',
+  useDynamicEditor = 'useDynamicEditor',
+  useMonacoEditor = 'useMonacoEditor',
 }
 
 export type usePlainText = 'usePlainText';
@@ -192,6 +150,52 @@ export interface AppendInterface {
   useCodeMirror: boolean;
   viewMode?: boolean;
 }
+
+/**
+ * Some properties are optional so
+ * they do not need to be set
+ * when switching between notes.
+ */
+
+const initialState = {
+  text: '',
+  appendNewLine: false,
+  appendNewParagraph: false,
+  appendMode: false,
+  appendRows: 8,
+  appendText: '',
+  bypassDebounce: false, // We keep this as false in initialState so debounce works in the demo
+  confirmPrintUrl: false,
+  customStyles: '',
+  defaultSettings: {
+    customStyles: '',
+    editingMode: 'usePlainText',
+    fontEdit: '',
+    fontSize: '',
+    fontView: '',
+    monacoEditorLanguage: 'markdown',
+    useCodeMirror: false,
+  },
+  fontEdit: '',
+  fontSize: '',
+  fontView: '',
+  monacoEditorLanguage: 'markdown',
+  printURL: true,
+  refreshEdit: false,
+  refreshView: false,
+  showAppendix: true,
+  showHeader: true,
+  showHelp: false,
+  showDiff: false,
+  settingsMode: false,
+  useCodeMirror: false,
+};
+
+let last_known_scroll_position = 0;
+
+const debugMode = false;
+
+let keyMap = new Map();
 
 export default class AppendEditor extends React.Component<{}, AppendInterface> {
   editorKit: any;
@@ -722,9 +726,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         // We could also check for this.state.editMode,
         // but it might not be loaded yet.
         // Checking for editTextArea checks whether editMode has loaded
-        const editTextArea = document.getElementById(editTextAreaID);
+        const editTextArea = document.getElementById(
+          HtmlElementId.editTextArea
+        );
         if (this.state.useCodeMirror && editTextArea) {
-          this.configureCodeMirror(editTextAreaID);
+          this.configureCodeMirror(HtmlElementId.editTextArea);
         }
       }
     );
@@ -737,7 +743,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   configureCodeMirror = (id: string) => {
-    if (id === editTextAreaID) {
+    if (id === HtmlElementId.editTextArea) {
       if (debugMode) {
         console.log('this.state.text: ' + this.state.text);
       }
@@ -781,9 +787,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           editCodeMirror: editCodeMirror,
         });
       }
-    } else if (id === appendTextAreaID) {
+    } else if (id === HtmlElementId.appendTextArea) {
       const appendTextArea = document.getElementById(
-        appendTextAreaID
+        HtmlElementId.appendTextArea
       ) as HTMLTextAreaElement;
       if (appendTextArea) {
         const appendCodeMirror = CodeMirror.fromTextArea(appendTextArea, {
@@ -825,12 +831,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   makeContentEditable = () => {
-    const content = document.getElementById(contentID);
+    const content = document.getElementById(HtmlElementId.content);
     if (content) {
       content.setAttribute('contenteditable', 'true');
       content.setAttribute('spellcheck', 'true');
     }
-    const appendix = document.getElementById(appendixID);
+    const appendix = document.getElementById(HtmlElementId.appendix);
     if (appendix) {
       appendix.setAttribute('contenteditable', 'true');
       appendix.setAttribute('spellcheck', 'true');
@@ -868,12 +874,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           editMode: true,
         },
         () => {
-          const editTextArea = document.getElementById(editTextAreaID);
+          const editTextArea = document.getElementById(
+            HtmlElementId.editTextArea
+          );
           if (editTextArea) {
             editTextArea.focus();
           }
           if (this.state.useCodeMirror && editTextArea) {
-            this.configureCodeMirror(editTextAreaID);
+            this.configureCodeMirror(HtmlElementId.editTextArea);
           }
         }
       );
@@ -899,7 +907,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         () => {
           // if not using append mode, focus on editButton
           if (!this.state.appendMode) {
-            const editButton = document.getElementById(editButtonID);
+            const editButton = document.getElementById(
+              HtmlElementId.editButton
+            );
             if (editButton) {
               editButton.focus();
             }
@@ -925,13 +935,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             this.scrollToBottom();
           }
           if (focus) {
-            const appendTextArea = document.getElementById(appendTextAreaID);
+            const appendTextArea = document.getElementById(
+              HtmlElementId.appendTextArea
+            );
             if (appendTextArea) {
               appendTextArea.focus();
             }
           }
           if (this.state.useCodeMirror) {
-            this.configureCodeMirror(appendTextAreaID);
+            this.configureCodeMirror(HtmlElementId.appendTextArea);
           }
         }
       );
@@ -948,7 +960,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             this.refreshEdit();
           }
           if (focus) {
-            const appendButton = document.getElementById(appendButtonID);
+            const appendButton = document.getElementById(
+              HtmlElementId.appendButton
+            );
             if (appendButton) {
               appendButton.focus();
             }
@@ -998,7 +1012,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         this.refreshView();
-        const helpButton = document.getElementById(helpButtonID);
+        const helpButton = document.getElementById(HtmlElementId.helpButton);
         if (helpButton) {
           helpButton.focus();
         }
@@ -1007,9 +1021,17 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   toggleShowMenu = () => {
-    this.setState({
-      showMenu: !this.state.showMenu,
-    });
+    this.setState(
+      {
+        showMenu: !this.state.showMenu,
+      },
+      () => {
+        const menuButton = document.getElementById(HtmlElementId.menuButton);
+        if (menuButton) {
+          menuButton.focus();
+        }
+      }
+    );
   };
 
   loadDefaultMenuState = () => {
@@ -1198,7 +1220,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         },
         () => {
           this.refreshEdit();
-          const settingsButton = document.getElementById(settingsButtonID);
+          const settingsButton = document.getElementById(
+            HtmlElementId.settingsButton
+          );
           if (settingsButton) {
             settingsButton.focus();
           }
@@ -1238,7 +1262,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         this.refreshEdit();
         this.refreshView();
         this.activateStyles();
-        const settingsButton = document.getElementById(settingsButtonID);
+        const settingsButton = document.getElementById(
+          HtmlElementId.settingsButton
+        );
         if (settingsButton) {
           settingsButton.focus();
         }
@@ -1349,7 +1375,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         confirmPrintUrl: false,
       },
       () => {
-        const printButton = document.getElementById(HtmlElementId.PrintButton);
+        const printButton = document.getElementById(HtmlElementId.printButton);
         if (printButton) {
           printButton.focus();
         }
@@ -1397,7 +1423,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   printRenderedHtml = () => {
     window.print();
-    const printButton = document.getElementById(HtmlElementId.PrintButton);
+    const printButton = document.getElementById(HtmlElementId.printButton);
     if (printButton) {
       printButton.focus();
     }
@@ -1406,24 +1432,26 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   goDown = () => {
     document.body.scrollTop = 10000000; // for Safari
     if (this.state.editMode) {
-      const editTextArea = document.getElementById(editTextAreaID);
+      const editTextArea = document.getElementById(HtmlElementId.editTextArea);
       if (editTextArea) {
         editTextArea.scrollTop = 10000000;
       }
     }
     if (this.state.appendMode) {
-      const appendTextArea = document.getElementById(appendTextAreaID);
+      const appendTextArea = document.getElementById(
+        HtmlElementId.appendTextArea
+      );
       if (appendTextArea) {
         appendTextArea.scrollTop = 10000000;
       }
     }
     if (this.state.fixedHeightMode) {
-      const view = document.getElementById(viewID);
+      const view = document.getElementById(HtmlElementId.view);
       if (view) {
         view.scrollTop = 10000000;
       }
     }
-    const view = document.getElementById(viewID);
+    const view = document.getElementById(HtmlElementId.view);
     if (view) {
       view.scrollTop = 10000000;
     }
@@ -1431,7 +1459,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   scrollToBottom = () => {
     this.goDown();
-    const appendix = document.getElementById(appendixID);
+    const appendix = document.getElementById(HtmlElementId.appendix);
     if (appendix) {
       appendix.scrollIntoView({
         behavior: 'smooth',
@@ -1444,7 +1472,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   // Skip to Bottom is fast "auto" behavior instead of "smooth" behavior
   skipToBottom = () => {
     this.goDown();
-    const appendix = document.getElementById(appendixID);
+    const appendix = document.getElementById(HtmlElementId.appendix);
     if (appendix) {
       appendix.scrollIntoView({
         behavior: 'auto',
@@ -1457,19 +1485,21 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   goUp = () => {
     document.body.scrollTop = 0; // for Safari
     if (this.state.editMode) {
-      const editTextArea = document.getElementById(editTextAreaID);
+      const editTextArea = document.getElementById(HtmlElementId.editTextArea);
       if (editTextArea) {
         editTextArea.scrollTop = 0;
       }
     }
     if (this.state.appendMode) {
-      const appendTextArea = document.getElementById(appendTextAreaID);
+      const appendTextArea = document.getElementById(
+        HtmlElementId.appendTextArea
+      );
       if (appendTextArea) {
         appendTextArea.scrollTop = 0;
       }
     }
     if (this.state.fixedHeightMode) {
-      const view = document.getElementById(viewID);
+      const view = document.getElementById(HtmlElementId.view);
       if (view) {
         view.scrollTop = 0;
       }
@@ -1605,7 +1635,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       keyMap.get('n')
     ) {
       e.preventDefault();
-      const newLine = document.getElementById(newLineID);
+      const newLine = document.getElementById(HtmlElementId.newLine);
       if (newLine) {
         newLine.click();
       }
@@ -1618,7 +1648,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       keyMap.get('p')
     ) {
       e.preventDefault();
-      const newParagraph = document.getElementById(newParagraphID);
+      const newParagraph = document.getElementById(HtmlElementId.newParagraph);
       if (newParagraph) {
         newParagraph.click();
       }
@@ -1721,8 +1751,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   activateFixedHeader = () => {
-    const header = document.getElementById(headerID);
-    const content = document.getElementById(contentID);
+    const header = document.getElementById(HtmlElementId.header);
+    const content = document.getElementById(HtmlElementId.content);
     // Activate only if we have both
     if (header && content) {
       header.classList.add(HtmlClassName.fixed);
@@ -1731,8 +1761,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   removeFixedHeader = () => {
-    const header = document.getElementById(headerID);
-    const content = document.getElementById(contentID);
+    const header = document.getElementById(HtmlElementId.header);
+    const content = document.getElementById(HtmlElementId.content);
     /** Remove both even if you don't have both
      * This is needed for loading settings
      */
@@ -1755,11 +1785,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         onBlur={this.onBlur}
       >
         {this.state.showHeader && [
-          <div id={headerID} className={'header'}>
+          <div id={HtmlElementId.header} className={'header'}>
             <div className="sk-button-group">
               <button
                 type="button"
-                id={editButtonID}
+                id={HtmlElementId.editButton}
                 onClick={this.onEditMode}
                 title="Toggle Edit Mode"
                 className={'sk-button ' + (this.state.editMode ? 'on' : 'off')}
@@ -1768,7 +1798,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id={viewButtonID}
+                id={HtmlElementId.viewButton}
                 onClick={this.onViewMode}
                 title="Toggle View Mode"
                 className={'sk-button ' + (this.state.viewMode ? 'on' : 'off')}
@@ -1777,7 +1807,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id={appendButtonID}
+                id={HtmlElementId.appendButton}
                 onClick={() => this.onAppendMode()}
                 title="Toggle Append Mode"
                 className={
@@ -1805,7 +1835,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </div>
               <button
                 type="button"
-                id={helpButtonID}
+                id={HtmlElementId.helpButton}
                 onClick={this.toggleShowHelp}
                 title="Help"
                 className={'sk-button ' + (this.state.showHelp ? 'on' : 'off')}
@@ -1814,7 +1844,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id={settingsButtonID}
+                id={HtmlElementId.settingsButton}
                 onClick={this.onSettingsMode}
                 title="Settings"
                 className={
@@ -1886,7 +1916,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id="showMenuButton"
+                id={HtmlElementId.menuButton}
                 onClick={this.toggleShowMenu}
                 title="Toggle Menu"
                 className={'sk-button ' + (this.state.showMenu ? 'on' : 'off')}
@@ -1897,7 +1927,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           </div>,
         ]}
         <div
-          id={contentID}
+          id={HtmlElementId.content}
           className={
             'content' +
             (this.state.borderlessMode ? ' borderless' : '') +
@@ -2046,7 +2076,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         </div>
         {this.state.showAppendix && [
           <div
-            id={appendixID}
+            id={HtmlElementId.appendix}
             className={
               'appendix' +
               (this.state.borderlessMode ? ' borderless' : '') +

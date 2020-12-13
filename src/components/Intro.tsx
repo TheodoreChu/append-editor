@@ -1,6 +1,11 @@
 import React from 'react';
 import { EyeIcon, HelpIcon, PencilIcon, PlusIcon } from './Icons';
-import { clickHelpButton } from '../lib/clickButton';
+import {
+  clickAppendButton,
+  clickEditButton,
+  clickHelpButton,
+  clickViewButton,
+} from '../lib/clickButton';
 
 const Intro: React.FC<any> = () => (
   <div id="intro">
@@ -19,34 +24,46 @@ const Intro: React.FC<any> = () => (
       <ul>
         <li>
           <p>
-            Click the Pencil{' '}
-            <span className="inline-text-and-svg">
+            Click the Pencil
+            <button
+              className="inline-text-and-svg"
+              onClick={clickEditButton}
+              title="Toggle Edit Mode"
+            >
               <span>(</span>
-              <PencilIcon role="img" />
+              <PencilIcon role="button" />
               <span>) </span>
-            </span>{' '}
-            at the top to open <b>Edit Mode</b>
+            </button>
+            to open <b>Edit Mode</b>
           </p>
         </li>
         <li>
           <p>
-            Click the Plus{' '}
-            <span className="inline-text-and-svg">
+            Click the Plus
+            <button
+              className="inline-text-and-svg"
+              onClick={clickAppendButton}
+              title="Toggle Append Mode"
+            >
               <span>(</span>
-              <PlusIcon role="img" />
+              <PlusIcon role="button" />
               <span>)</span>
-            </span>{' '}
-            at the top to open <b>Append Mode</b>
+            </button>
+            to open <b>Append Mode</b>
           </p>
         </li>
       </ul>
       <p>
-        View Mode{' '}
-        <span className="inline-text-and-svg">
+        View Mode
+        <button
+          className="inline-text-and-svg"
+          onClick={clickViewButton}
+          title="Toggle View Mode"
+        >
           <span>(</span>
-          <EyeIcon condition={true} role="img" />
+          <EyeIcon condition={true} role="button" />
           <span>)</span>
-        </span>{' '}
+        </button>
         is currently <b>on</b>. Your note will automatically render here when
         you type in <b>Edit Mode</b>. In <b>Append Mode</b>, clicking{' '}
         <b>Append</b> will add the text in the textarea to the end of your note.
@@ -63,12 +80,16 @@ const Intro: React.FC<any> = () => (
         , then your notes will be lost after you close the page.
       </p>
       <p>
-        If you want to save your notes, then click Help{' '}
-        <span className="inline-text-and-svg" onClick={clickHelpButton}>
+        If you want to save your notes, then click Help
+        <button
+          className="inline-text-and-svg"
+          onClick={clickHelpButton}
+          title="Toggle show Help"
+        >
           <span>(</span>
-          <HelpIcon role="img" />
+          <HelpIcon role="button" />
           <span>)</span>
-        </span>{' '}
+        </button>
         at the top and follow the instructions on how to install the Append
         Editor in{' '}
         <a

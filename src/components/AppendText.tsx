@@ -3,9 +3,7 @@ import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
 import DynamicEditor from './DynamicEditor';
 import { MonacoEditor } from './Monaco';
 
-const appendTextAreaID = 'appendTextArea';
-const newLineID = 'newLine';
-const newParagraphID = 'newParagraph';
+import { HtmlElementId } from './AppendEditor';
 
 interface AppendProps {
   appendNewLine: boolean;
@@ -101,7 +99,9 @@ export default class AppendText extends React.Component<
     this.setState({
       text: '',
     });
-    const appendTextArea = document.getElementById(appendTextAreaID);
+    const appendTextArea = document.getElementById(
+      HtmlElementId.appendTextArea
+    );
     if (appendTextArea) {
       appendTextArea.focus();
     }
@@ -217,7 +217,7 @@ export default class AppendText extends React.Component<
             </div>
           ) : (
             <textarea
-              id={appendTextAreaID}
+              id={HtmlElementId.appendTextArea}
               name="text"
               className="sk-input contrast textarea append"
               placeholder="Append to your note"
@@ -234,7 +234,7 @@ export default class AppendText extends React.Component<
           <form className="checkBoxForm">
             <label>
               <input
-                id={newLineID}
+                id={HtmlElementId.newLine}
                 name="newLine"
                 type="checkbox"
                 checked={this.state.newLine}
@@ -245,7 +245,7 @@ export default class AppendText extends React.Component<
             <br />
             <label>
               <input
-                id={newParagraphID}
+                id={HtmlElementId.newParagraph}
                 name="newParagraph"
                 type="checkbox"
                 checked={this.state.newParagraph}
