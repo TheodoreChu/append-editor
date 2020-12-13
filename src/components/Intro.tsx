@@ -43,7 +43,7 @@ const Intro: React.FC<any> = () => (
         View Mode{' '}
         <span className="inline-text-and-svg">
           <span>(</span>
-          <EyeIcon role="img" />
+          <EyeIcon condition={true} role="img" />
           <span>)</span>
         </span>{' '}
         is currently <b>on</b>. Your note will automatically render here when

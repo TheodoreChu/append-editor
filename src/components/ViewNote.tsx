@@ -6,6 +6,7 @@ import Intro from './Intro';
 import { renderMarkdown } from '../lib/renderMarkdown';
 
 interface ViewProps {
+  bypassDebounce: boolean;
   debugMode: boolean;
   editingMode: EditingMode;
   monacoEditorLanguage: string;
@@ -38,7 +39,7 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
   };
 
   renderMarkdown = (text: string) => {
-    const markdown = renderMarkdown(text);
+    const markdown = renderMarkdown(text, this.props.bypassDebounce);
     return markdown;
   };
 

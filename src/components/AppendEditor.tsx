@@ -37,6 +37,8 @@ import {
   PlusIcon,
 } from './Icons';
 
+import { isLongString, renderMarkdown } from '../lib/renderMarkdown';
+
 const appendButtonID = 'appendButton';
 const editButtonID = 'editButton';
 const helpButtonID = 'helpButton';
@@ -72,6 +74,7 @@ const initialState = {
   appendMode: false,
   appendRows: 8,
   appendText: '',
+  bypassDebounce: true,
   confirmPrintUrl: false,
   customStyles: '',
   defaultSettings: {
@@ -126,6 +129,16 @@ export type DefaultSettings = {
   useCodeMirror: boolean;
 };
 
+export type menuOptions = {
+  borderlessMode?: boolean;
+  fixedHeightMode?: boolean;
+  fullWidthMode?: boolean;
+  overflowMode?: boolean;
+  showMenuOptionsEdit?: boolean;
+  showMenuOptionsShare?: boolean;
+  showMenuOptionsView?: boolean;
+};
+
 export type EditingMode =
   | usePlainText
   | useCodeMirror
@@ -142,6 +155,7 @@ export interface AppendInterface {
   appendRows: number;
   appendText: string;
   borderlessMode?: boolean;
+  bypassDebounce: boolean;
   confirmPrintUrl: boolean;
   currentState?: object;
   customStyles: string;
@@ -227,11 +241,22 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                   JSON.stringify(this.state, null, ' ')
               );
             }
+            /** Initiate the debounce so it will
+             * load the first time after turning the bypass off */
+            renderMarkdown(text, false);
             if (!this.state.savingEditorOptions) {
               this.loadEditorOptions();
               this.loadDefaultSettings();
               this.loadMetaData();
             }
+            /** Turn the debounce bypass off
+             * This loads all the time, even when saving editor options
+             */
+            setTimeout(() => {
+              this.setState({
+                bypassDebounce: false,
+              });
+            }, 1000);
           }
         );
       },
@@ -404,61 +429,20 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   loadEditorOptions = () => {
     try {
-      const borderlessMode = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'borderlessMode'
+      const menuOptionsString = this.editorKit.internal.componentManager.componentDataValueForKey(
+        'menuOptions'
       );
-      const fixedHeightMode = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'fixedHeightMode'
-      );
-      const fullWidthMode = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'fullWidthMode'
-      );
-      const overflowMode = this.editorKit.internal.componentManager.componentDataValueForKey(
-        'overflowMode'
-      );
-      if (debugMode) {
-        console.log(
-          'AppendEditor.tsx: \n loadEditorOptions() default settings loaded: ' +
-            '\n  - borderlessMode: ' +
-            borderlessMode,
-          '\n    - typeof:',
-          typeof borderlessMode
-        );
-      }
-      if (borderlessMode !== undefined) {
+      if (menuOptionsString !== undefined) {
+        const menuOptionsObject = JSON.parse(menuOptionsString) as menuOptions;
         this.setState(
           {
-            borderlessMode,
-          },
-          () => {
-            this.refreshEditor();
-          }
-        );
-      }
-      if (fixedHeightMode !== undefined) {
-        this.setState(
-          {
-            fixedHeightMode,
-          },
-          () => {
-            this.refreshEditor();
-          }
-        );
-      }
-      if (fullWidthMode !== undefined) {
-        this.setState(
-          {
-            fullWidthMode,
-          },
-          () => {
-            this.refreshEditor();
-          }
-        );
-      }
-      if (overflowMode !== undefined) {
-        this.setState(
-          {
-            overflowMode,
+            borderlessMode: menuOptionsObject.borderlessMode,
+            fixedHeightMode: menuOptionsObject.fixedHeightMode,
+            fullWidthMode: menuOptionsObject.fullWidthMode,
+            overflowMode: menuOptionsObject.overflowMode,
+            //showMenuOptionsEdit: menuOptionsObject.showMenuOptionsEdit,
+            //showMenuOptionsShare: menuOptionsObject.showMenuOptionsShare,
+            //showMenuOptionsView: menuOptionsObject.showMenuOptionsView,
           },
           () => {
             this.refreshEditor();
@@ -632,7 +616,17 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           // Refresh view mode if using dynamic
           if (this.state.editingMode === useDynamicEditor) {
             this.refreshView();
+          } else if (isLongString(this.state.text)) {
+            setTimeout(() => {
+              this.refreshView();
+              setTimeout(() => {
+                this.skipToBottom();
+              }, 250);
+            }, 550);
           }
+          setTimeout(() => {
+            this.skipToBottom();
+          }, 250);
         }
       );
     }
@@ -1015,7 +1009,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         this.activateFixedHeader();
-        this.saveEditorOption('borderlessMode', this.state.borderlessMode);
+        this.saveMenuOptions();
       }
     );
   };
@@ -1027,7 +1021,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         this.activateFixedHeader();
-        this.saveEditorOption('fixedHeightMode', this.state.fixedHeightMode);
+        this.saveMenuOptions();
       }
     );
   };
@@ -1039,7 +1033,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         this.activateFixedHeader();
-        this.saveEditorOption('fullWidthMode', this.state.fullWidthMode);
+        this.saveMenuOptions();
       }
     );
   };
@@ -1051,9 +1045,23 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         this.activateFixedHeader();
-        this.saveEditorOption('overflowMode', this.state.overflowMode);
+        this.saveMenuOptions();
       }
     );
+  };
+
+  saveMenuOptions = () => {
+    let currentMenuOptions: menuOptions;
+    currentMenuOptions = {
+      borderlessMode: this.state.borderlessMode,
+      fixedHeightMode: this.state.fixedHeightMode,
+      fullWidthMode: this.state.fullWidthMode,
+      overflowMode: this.state.overflowMode,
+      //showMenuOptionsEdit: this.state.showMenuOptionsEdit,
+      //showMenuOptionsShare: this.state.showMenuOptionsShare,
+      //showMenuOptionsView: this.state.showMenuOptionsView,
+    };
+    this.saveEditorOption('menuOptions', JSON.stringify(currentMenuOptions));
   };
 
   saveEditorOption = (
@@ -1957,6 +1965,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {this.state.viewMode && !this.state.refreshView && (
             <ErrorBoundary>
               <ViewNote
+                bypassDebounce={this.state.bypassDebounce}
                 debugMode={debugMode}
                 editingMode={this.state.editingMode}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
@@ -1973,6 +1982,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             <ErrorBoundary>
               <ViewNote
                 debugMode={debugMode}
+                bypassDebounce={this.state.bypassDebounce}
                 editingMode={this.state.editingMode}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 printURL={this.state.printURL}

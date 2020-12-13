@@ -33,8 +33,13 @@ const processor = unified()
   .use(emoji)
   .use(rehype2react, { createElement: React.createElement });
 
+export const processMarkdown = (text: string) => {
+  const markdown = processor.processSync(text).result as ReactNode;
+  return markdown;
+};
+
 /** Throttle because we want it to work even when typing lots of characters in a short amount of time. */
-const isLongString = throttle((text: string) => {
+export const isLongString = throttle((text: string) => {
   //console.log('length', text.length);
   if (text.length > 10000) {
     return true;
@@ -45,11 +50,16 @@ const isLongString = throttle((text: string) => {
 
 export const renderLongMarkdown = debounce((text: string) => {
   //console.log('renderLongMarkdownText');
-  const markdown = processor.processSync(text).result as ReactNode;
+  const markdown = processMarkdown(text);
   return markdown;
 }, 500);
 
-export const renderMarkdown = (text: string) => {
+export const renderMarkdown = (text: string, bypassDebounce: boolean) => {
+  if (bypassDebounce) {
+    //console.log('renderBypassDebounceText');
+    const markdown = processMarkdown(text);
+    return markdown;
+  }
   let textIsLong = false as boolean | undefined;
   textIsLong = isLongString(text);
   //console.log('textIsLong', textIsLong);
@@ -57,7 +67,7 @@ export const renderMarkdown = (text: string) => {
     return renderLongMarkdown(text);
   } else {
     //console.log('renderShortMarkdownText');
-    const markdown = processor.processSync(text).result as ReactNode;
+    const markdown = processMarkdown(text);
     return markdown;
   }
 };
