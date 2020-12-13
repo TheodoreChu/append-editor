@@ -37,11 +37,7 @@ import {
   PlusIcon,
 } from './Icons';
 
-import {
-  isLongString,
-  renderLongMarkdown,
-  renderMarkdown,
-} from '../lib/renderMarkdown';
+import { isLongString, renderLongMarkdown } from '../lib/renderMarkdown';
 
 export enum HtmlElementId {
   appendButton = 'appendButton',
@@ -80,10 +76,9 @@ export type DefaultSettings = {
   fontSize: string;
   fontView: string;
   monacoEditorLanguage: string;
-  useCodeMirror: boolean;
 };
 
-interface saveSettingsInterface extends DefaultSettings {
+export interface SaveSettingsInterface extends DefaultSettings {
   saveAsDefault: boolean;
 }
 
@@ -136,7 +131,6 @@ export interface AppendInterface {
   showMenuOptionsShare?: boolean;
   showMenuOptionsView?: boolean;
   settingsMode: boolean;
-  useCodeMirror: boolean;
   viewMode?: boolean;
 }
 
@@ -163,7 +157,6 @@ const initialState = {
     fontSize: '',
     fontView: '',
     monacoEditorLanguage: 'markdown',
-    useCodeMirror: false,
   },
   fontEdit: '',
   fontSize: '',
@@ -177,7 +170,6 @@ const initialState = {
   showHelp: false,
   showDiff: false,
   settingsMode: false,
-  useCodeMirror: false,
 };
 
 let last_known_scroll_position = 0;
@@ -188,6 +180,7 @@ let keyMap = new Map();
 
 export default class AppendEditor extends React.Component<{}, AppendInterface> {
   editorKit: any;
+  refreshEditorTimer: NodeJS.Timeout | undefined;
   saveTimer: NodeJS.Timeout | undefined;
 
   constructor(props: AppendInterface) {
@@ -250,7 +243,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             isLongString.flush();
             renderLongMarkdown.cancel();
             if (isLongString(text)) {
-              renderMarkdown(text, false);
+              renderLongMarkdown(text);
               renderLongMarkdown.flush();
             }
             /** This prevents metadata from loading when saving editor options or default settings */
@@ -282,15 +275,35 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     });
   };
 
-  /** Expect this to run six times when loading a note:
-   * Four times when loading editor options,
+  /** Expect this to run three times when loading a note:
+   * once when loading editor options,
    * once when loading default settings, and
-   * once when loading meta data */
+   * once when loading meta data
+   * Use the timer to prevent the function from being executed when it is called
+   * repeatedly, as when loading a note or saving a menu option */
   refreshEditor = () => {
-    if (!this.state.savingEditorOptions) {
-      this.refreshEdit();
-      this.refreshView();
-      this.activateStyles();
+    if (isLongString(this.state.text)) {
+      if (this.refreshEditorTimer) {
+        clearTimeout(this.refreshEditorTimer);
+      }
+      this.refreshEditorTimer = setTimeout(() => {
+        if (!this.state.savingEditorOptions) {
+          this.refreshEdit();
+          this.refreshView();
+          this.activateStyles();
+        }
+      }, 20);
+    } else {
+      if (this.refreshEditorTimer) {
+        clearTimeout(this.refreshEditorTimer);
+      }
+      this.refreshEditorTimer = setTimeout(() => {
+        if (!this.state.savingEditorOptions) {
+          this.refreshEdit();
+          this.refreshView();
+          this.activateStyles();
+        }
+      }, 10);
     }
   };
 
@@ -315,7 +328,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           typeof defaultEditingMode
         );
       }
-      if (defaultSettingsString !== undefined) {
+      if (typeof defaultSettingsString !== 'undefined') {
         const defaultSettingsObject = JSON.parse(
           defaultSettingsString
         ) as DefaultSettings;
@@ -335,7 +348,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontSize: defaultSettingsObject.fontSize,
             fontView: defaultSettingsObject.fontView,
             monacoEditorLanguage: defaultSettingsObject.monacoEditorLanguage,
-            useCodeMirror: defaultSettingsObject.useCodeMirror,
             defaultSettings: defaultSettingsObject,
           },
           () => {
@@ -371,9 +383,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         const defaultMonacoEditorLanguage = this.editorKit.internal.componentManager.componentDataValueForKey(
           'monacoEditorLanguage'
         );
-        const defaultUseCodeMirror = this.editorKit.internal.componentManager.componentDataValueForKey(
-          'useCodeMirror'
-        );
         if (debugMode) {
           console.log(
             'AppendEditor.tsx: \n loadDefaultSetting():',
@@ -388,9 +397,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               '\n  - default fontView: ' +
               defaultFontView +
               '\n  - default monacoEditorLanguage: ' +
-              defaultMonacoEditorLanguage +
-              '\n  - default UseCodeMirror: ' +
-              defaultUseCodeMirror
+              defaultMonacoEditorLanguage
           );
         }
         this.setState(
@@ -401,7 +408,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontSize: defaultFontSize,
             fontView: defaultFontView,
             monacoEditorLanguage: defaultMonacoEditorLanguage,
-            useCodeMirror: defaultUseCodeMirror,
             defaultSettings: {
               customStyles: defaultCustomStyles,
               editingMode: defaultEditingMode,
@@ -409,7 +415,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               fontSize: defaultFontSize,
               fontView: defaultFontView,
               monacoEditorLanguage: defaultMonacoEditorLanguage,
-              useCodeMirror: defaultUseCodeMirror,
             },
           },
           () => {
@@ -442,7 +447,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       const menuOptionsString = this.editorKit.internal.componentManager.componentDataValueForKey(
         'menuOptions'
       );
-      if (menuOptionsString !== undefined) {
+      if (typeof menuOptionsString !== 'undefined') {
         const menuOptionsObject = JSON.parse(menuOptionsString) as menuOptions;
         this.setState(
           {
@@ -465,7 +470,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  // This loads the Append Text, settings, and useCodeMirror
+  // This loads the Settings and Append Text
   loadMetaData = () => {
     this.editorKit.internal.componentManager.streamContextItem((note: any) => {
       // Load editor settings
@@ -475,8 +480,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontEdit ||
         note.content.appendEditorFontSize ||
         note.content.appendEditorFontView ||
-        note.content.appendEditorMonacoEditorLanguage ||
-        note.content.appendEditorUseCodeMirror
+        note.content.appendEditorMonacoEditorLanguage
       ) {
         this.setState(
           {
@@ -486,7 +490,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontSize: note.content.appendEditorFontSize,
             fontView: note.content.appendEditorFontView,
             monacoEditorLanguage: note.content.appendEditorMonacoEditorLanguage,
-            useCodeMirror: note.content.appendEditorUseCodeMirror,
           },
           () => {
             if (debugMode) {
@@ -653,7 +656,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       );
     }
     // Refresh appendCodeMirror
-    if (this.state.appendCodeMirror && this.state.useCodeMirror) {
+    if (
+      this.state.appendCodeMirror &&
+      this.state.editingMode === EditingModes.useCodeMirror
+    ) {
       this.state.appendCodeMirror.setValue('');
     }
   };
@@ -717,7 +723,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         const editTextArea = document.getElementById(
           HtmlElementId.editTextArea
         );
-        if (this.state.useCodeMirror && editTextArea) {
+        if (
+          editTextArea &&
+          this.state.editingMode === EditingModes.useCodeMirror
+        ) {
           this.configureCodeMirror(HtmlElementId.editTextArea);
         }
       }
@@ -867,9 +876,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           );
           if (editTextArea) {
             editTextArea.focus();
-          }
-          if (this.state.useCodeMirror && editTextArea) {
-            this.configureCodeMirror(HtmlElementId.editTextArea);
+            if (this.state.editingMode === EditingModes.useCodeMirror) {
+              this.configureCodeMirror(HtmlElementId.editTextArea);
+            }
           }
         }
       );
@@ -928,10 +937,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             );
             if (appendTextArea) {
               appendTextArea.focus();
+              if (this.state.editingMode === EditingModes.useCodeMirror) {
+                this.configureCodeMirror(HtmlElementId.appendTextArea);
+              }
             }
-          }
-          if (this.state.useCodeMirror) {
-            this.configureCodeMirror(HtmlElementId.appendTextArea);
           }
         }
       );
@@ -1230,8 +1239,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     fontView,
     monacoEditorLanguage,
     saveAsDefault,
-    useCodeMirror,
-  }: saveSettingsInterface) => {
+  }: SaveSettingsInterface) => {
     this.setState(
       {
         customStyles,
@@ -1240,16 +1248,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fontSize,
         fontView,
         monacoEditorLanguage,
-        useCodeMirror,
         showAppendix: true,
         showHeader: true,
         settingsMode: false,
         viewMode: true,
       },
       () => {
-        this.refreshEdit();
-        this.refreshView();
-        this.activateStyles();
+        this.refreshEditor();
         const settingsButton = document.getElementById(
           HtmlElementId.settingsButton
         );
@@ -1272,7 +1277,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         note.content.appendEditorFontSize = fontSize;
         note.content.appendEditorFontView = fontView;
         note.content.appendEditorMonacoEditorLanguage = monacoEditorLanguage;
-        note.content.appendEditorUseCodeMirror = useCodeMirror;
       });
       if (debugMode) {
         console.log(
@@ -1290,7 +1294,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             fontSize,
             fontView,
             monacoEditorLanguage,
-            useCodeMirror,
           },
         },
         () => {
@@ -1604,14 +1607,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     // Save note if Control and Enter are pressed
     else if (keyMap.get('Control') && keyMap.get('Enter')) {
       e.preventDefault();
-      if (this.state.useCodeMirror) {
+      if (this.state.editingMode === EditingModes.useCodeMirror) {
         this.appendTextToNote();
       }
     }
     // Save note if Control and S are pressed
     else if (keyMap.get('Control') && keyMap.get('s')) {
       e.preventDefault();
-      if (this.state.useCodeMirror) {
+      if (this.state.editingMode === EditingModes.useCodeMirror) {
         this.appendTextToNote();
       }
     }
@@ -1968,7 +1971,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               onCancel={this.onSettingsMode}
               title={`Append Editor Settings`}
               monacoEditorLanguage={this.state.monacoEditorLanguage}
-              useCodeMirror={this.state.useCodeMirror}
             />
           )}
           {this.state.editMode && !this.state.refreshEdit && (

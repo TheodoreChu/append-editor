@@ -1,18 +1,19 @@
 import React from 'react';
 import { MonacoEditor } from './Monaco';
-import { DefaultSettings, EditingModes } from './AppendEditor';
+import {
+  DefaultSettings,
+  EditingModes,
+  SaveSettingsInterface,
+} from './AppendEditor';
 import { CloseIcon, RefreshIcon } from './Icons';
 import { ChevronToggleButton, UndoButton } from './Buttons';
 
+const customStylesID = 'customStyles';
 const editingModeID = 'editingMode';
 const fontEditID = 'fontEdit';
 const fontSizeID = 'fontSize';
 const fontViewID = 'fontView';
-const useCodeMirrorID = 'useCodeMirror';
-
-const usePlainTextID = 'usePlainText';
 const monacoEditorLanguageID = 'monacoEditorLanguage';
-const customStylesID = 'customStyles';
 const resetAllSettingsID = 'resetAllSettings';
 const saveAsDefaultID = 'saveAsDefault';
 
@@ -24,13 +25,12 @@ interface SettingsProps {
   fontSize: string;
   fontView: string;
   monacoEditorLanguage: string;
-  useCodeMirror: boolean;
   cancelText: string;
   confirmText: string;
   debugMode: boolean;
   keyMap: Map<any, any>;
   onCancel: () => void;
-  onConfirm: Function;
+  onConfirm: (object: SaveSettingsInterface) => void;
   title: string;
   helpLink: string;
 }
@@ -42,7 +42,6 @@ interface SettingsState {
   fontSize: string;
   fontView: string;
   monacoEditorLanguage: string;
-  useCodeMirror: boolean;
   saveAsDefault: boolean;
   showCustomStyles: boolean;
   [x: string]: string | boolean;
@@ -74,7 +73,6 @@ export default class Settings extends React.Component<
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
       monacoEditorLanguage,
-      useCodeMirror: this.props.useCodeMirror,
       saveAsDefault: false,
       showCustomStyles: false, // false by default for a mobile-first experience
     };
@@ -87,24 +85,6 @@ export default class Settings extends React.Component<
     this.setState({
       [name]: value,
     });
-    if (name === editingModeID) {
-      if (value === EditingModes.useMonacoEditor) {
-        this.setState({
-          useCodeMirror: false,
-          useMonacoEditor: true,
-        });
-      } else if (value === EditingModes.useCodeMirror) {
-        this.setState({
-          useCodeMirror: true,
-          useMonacoEditor: false,
-        });
-      } else {
-        this.setState({
-          useCodeMirror: false,
-          useMonacoEditor: false,
-        });
-      }
-    }
     if (this.props.debugMode) {
       console.log(
         'Settings event name: ' +
@@ -176,14 +156,12 @@ export default class Settings extends React.Component<
       }
       console.log(
         'Settings.tsx handleSubmit() triggered: ' +
+          '\n  - Settings editingMode: ' +
+          this.state.editingMode +
           '\n  - Settings fontEdit: ' +
           this.state.fontEdit +
           '\n  - Settings fontView: ' +
           this.state.fontView +
-          '\n  - Your useMonacoEditor is: ' +
-          this.state.useMonacoEditor +
-          '\n  - Your useCodeMirror is: ' +
-          this.state.useCodeMirror +
           '\n  - Your chosen font for Edit/Append is: ' +
           fontEditMessage +
           '\n  - Your chosen font for View/Print is: ' +
@@ -208,7 +186,6 @@ export default class Settings extends React.Component<
           fontView,
           monacoEditorLanguage,
           saveAsDefault,
-          useCodeMirror,
         } = this.state;
         this.props.onConfirm({
           customStyles,
@@ -218,7 +195,6 @@ export default class Settings extends React.Component<
           fontView,
           monacoEditorLanguage,
           saveAsDefault,
-          useCodeMirror,
         });
       }
     );
@@ -305,8 +281,7 @@ export default class Settings extends React.Component<
 
   clearEditingMode = () => {
     this.setState({
-      editingMode: usePlainTextID,
-      useCodeMirror: false,
+      editingMode: EditingModes.usePlainText,
     });
   };
 
@@ -503,15 +478,12 @@ export default class Settings extends React.Component<
             <section className="sk-panel-row settings">
               <label>
                 <input
-                  id={usePlainTextID}
+                  id={EditingModes.usePlainText}
                   name={editingModeID}
-                  value={usePlainTextID}
+                  value={EditingModes.usePlainText}
                   className="radio"
                   type="radio"
-                  checked={
-                    this.state.editingMode === usePlainTextID ||
-                    this.state.editingMode === undefined
-                  }
+                  checked={this.state.editingMode === EditingModes.usePlainText}
                   onChange={this.handleInputChange}
                 />
                 Plain Textarea: no formatting (default, mobile recommended)
@@ -520,14 +492,13 @@ export default class Settings extends React.Component<
             <section className="sk-panel-row settings">
               <label>
                 <input
-                  id={useCodeMirrorID}
+                  id={EditingModes.useCodeMirror}
                   name={editingModeID}
-                  value={useCodeMirrorID}
+                  value={EditingModes.useCodeMirror}
                   type="radio"
                   className="radio"
                   checked={
-                    this.state.editingMode === useCodeMirrorID ||
-                    this.state.useCodeMirror
+                    this.state.editingMode === EditingModes.useCodeMirror
                   }
                   onChange={this.handleInputChange}
                 />
