@@ -1928,82 +1928,90 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           }
         >
           {this.state.showMenu && (
-            <Menu
-              borderlessMode={this.state.borderlessMode}
-              editingMode={this.state.editingMode}
-              fixedHeightMode={this.state.fixedHeightMode}
-              fullWidthMode={this.state.fullWidthMode}
-              monacoEditorLanguage={this.state.monacoEditorLanguage}
-              onConfirmPrintUrl={this.onConfirmPrintUrl}
-              overflowMode={this.state.overflowMode}
-              refreshEdit={this.refreshEdit}
-              refreshView={this.refreshView}
-              saveText={this.saveText}
-              showMenuOptionsEdit={this.state.showMenuOptionsEdit}
-              showMenuOptionsShare={this.state.showMenuOptionsShare}
-              showMenuOptionsView={this.state.showMenuOptionsView}
-              text={this.state.text}
-              toggleBorderlessMode={this.toggleBorderlessMode}
-              toggleFixedHeightMode={this.toggleFixedHeightMode}
-              toggleFullWidthMode={this.toggleFullWidthMode}
-              toggleOverflowMode={this.toggleOverflowMode}
-              toggleShowMenu={this.toggleShowMenu}
-              toggleShowMenuOptionsEdit={this.toggleShowMenuOptionsEdit}
-              toggleShowMenuOptionsShare={this.toggleShowMenuOptionsShare}
-              toggleShowMenuOptionsView={this.toggleShowMenuOptionsView}
-              viewMode={this.state.viewMode}
-            />
+            <ErrorBoundary>
+              <Menu
+                borderlessMode={this.state.borderlessMode}
+                editingMode={this.state.editingMode}
+                fixedHeightMode={this.state.fixedHeightMode}
+                fullWidthMode={this.state.fullWidthMode}
+                monacoEditorLanguage={this.state.monacoEditorLanguage}
+                onConfirmPrintUrl={this.onConfirmPrintUrl}
+                overflowMode={this.state.overflowMode}
+                refreshEdit={this.refreshEdit}
+                refreshView={this.refreshView}
+                saveText={this.saveText}
+                showMenuOptionsEdit={this.state.showMenuOptionsEdit}
+                showMenuOptionsShare={this.state.showMenuOptionsShare}
+                showMenuOptionsView={this.state.showMenuOptionsView}
+                text={this.state.text}
+                toggleBorderlessMode={this.toggleBorderlessMode}
+                toggleFixedHeightMode={this.toggleFixedHeightMode}
+                toggleFullWidthMode={this.toggleFullWidthMode}
+                toggleOverflowMode={this.toggleOverflowMode}
+                toggleShowMenu={this.toggleShowMenu}
+                toggleShowMenuOptionsEdit={this.toggleShowMenuOptionsEdit}
+                toggleShowMenuOptionsShare={this.toggleShowMenuOptionsShare}
+                toggleShowMenuOptionsView={this.toggleShowMenuOptionsView}
+                viewMode={this.state.viewMode}
+              />
+            </ErrorBoundary>
           )}
           {this.state.settingsMode && (
-            <Settings
-              cancelText="Cancel"
-              confirmText="Save"
-              customStyles={this.state.customStyles}
-              debugMode={debugMode}
-              defaultSettings={this.state.defaultSettings}
-              editingMode={this.state.editingMode}
-              fontEdit={this.state.fontEdit}
-              fontSize={this.state.fontSize}
-              fontView={this.state.fontView}
-              helpLink={'https://appendeditor.com/#settings'}
-              keyMap={keyMap}
-              onConfirm={this.onSaveSettings}
-              onCancel={this.onSettingsMode}
-              title={`Append Editor Settings`}
-              monacoEditorLanguage={this.state.monacoEditorLanguage}
-            />
+            <ErrorBoundary>
+              <Settings
+                cancelText="Cancel"
+                confirmText="Save"
+                customStyles={this.state.customStyles}
+                debugMode={debugMode}
+                defaultSettings={this.state.defaultSettings}
+                editingMode={this.state.editingMode}
+                fontEdit={this.state.fontEdit}
+                fontSize={this.state.fontSize}
+                fontView={this.state.fontView}
+                helpLink={'https://appendeditor.com/#settings'}
+                keyMap={keyMap}
+                onConfirm={this.onSaveSettings}
+                onCancel={this.onSettingsMode}
+                title={`Append Editor Settings`}
+                monacoEditorLanguage={this.state.monacoEditorLanguage}
+              />
+            </ErrorBoundary>
           )}
           {this.state.editMode && !this.state.refreshEdit && (
-            <EditNote
-              debugMode={debugMode}
-              editingMode={this.state.editingMode}
-              fontSize={this.state.fontSize}
-              keyMap={keyMap}
-              monacoEditorLanguage={this.state.monacoEditorLanguage}
-              onKeyDown={this.onKeyDown}
-              onKeyDownEditTextArea={this.onKeyDownEditTextArea}
-              onKeyDownTextArea={this.onKeyDownTextArea}
-              onKeyUp={this.onKeyUp}
-              saveText={this.saveText}
-              text={this.state.text}
-              viewMode={this.state.viewMode}
-            />
+            <ErrorBoundary>
+              <EditNote
+                debugMode={debugMode}
+                editingMode={this.state.editingMode}
+                fontSize={this.state.fontSize}
+                keyMap={keyMap}
+                monacoEditorLanguage={this.state.monacoEditorLanguage}
+                onKeyDown={this.onKeyDown}
+                onKeyDownEditTextArea={this.onKeyDownEditTextArea}
+                onKeyDownTextArea={this.onKeyDownTextArea}
+                onKeyUp={this.onKeyUp}
+                saveText={this.saveText}
+                text={this.state.text}
+                viewMode={this.state.viewMode}
+              />
+            </ErrorBoundary>
           )}
           {this.state.editMode && this.state.refreshEdit && (
-            <EditNote
-              debugMode={debugMode}
-              editingMode={this.state.editingMode}
-              fontSize={this.state.fontSize}
-              keyMap={keyMap}
-              monacoEditorLanguage={this.state.monacoEditorLanguage}
-              onKeyDown={this.onKeyDown}
-              onKeyDownEditTextArea={this.onKeyDownEditTextArea}
-              onKeyDownTextArea={this.onKeyDownTextArea}
-              onKeyUp={this.onKeyUp}
-              saveText={this.saveText}
-              text={this.state.text}
-              viewMode={this.state.viewMode}
-            />
+            <ErrorBoundary>
+              <EditNote
+                debugMode={debugMode}
+                editingMode={this.state.editingMode}
+                fontSize={this.state.fontSize}
+                keyMap={keyMap}
+                monacoEditorLanguage={this.state.monacoEditorLanguage}
+                onKeyDown={this.onKeyDown}
+                onKeyDownEditTextArea={this.onKeyDownEditTextArea}
+                onKeyDownTextArea={this.onKeyDownTextArea}
+                onKeyUp={this.onKeyUp}
+                saveText={this.saveText}
+                text={this.state.text}
+                viewMode={this.state.viewMode}
+              />
+            </ErrorBoundary>
           )}
           {this.state.viewMode && !this.state.refreshView && (
             <ErrorBoundary>
@@ -2034,22 +2042,27 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             </ErrorBoundary>
           )}
           {this.state.confirmPrintUrl && (
-            <PrintDialog
-              title={`Would you like to print URLs?`}
-              onUndo={this.onCancelPrint}
-              onConfirm={this.onPrintUrlTrue}
-              onCancel={this.onPrintUrlFalse}
-              helpLink={'https://appendeditor.com/#printing'}
-              confirmText="Yes, print URLs"
-              cancelText="No, thanks"
-            />
+            <ErrorBoundary>
+              <PrintDialog
+                title={`Would you like to print URLs?`}
+                onUndo={this.onCancelPrint}
+                onConfirm={this.onPrintUrlTrue}
+                onCancel={this.onPrintUrlFalse}
+                helpLink={'https://appendeditor.com/#printing'}
+                confirmText="Yes, print URLs"
+                cancelText="No, thanks"
+              />{' '}
+            </ErrorBoundary>
           )}
+
           {this.state.showDiff && [
-            <MonacoDiffEditor
-              text={this.state.text}
-              modifiedText={this.state.appendText}
-              saveText={this.saveText}
-            />,
+            <ErrorBoundary>
+              <MonacoDiffEditor
+                text={this.state.text}
+                modifiedText={this.state.appendText}
+                saveText={this.saveText}
+              />
+            </ErrorBoundary>,
           ]}
         </div>
         {this.state.showAppendix && [
@@ -2062,24 +2075,26 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             }
           >
             {this.state.appendMode && (
-              <AppendText
-                appendTextToNote={this.appendTextToNote}
-                autoSaveAppendText={this.autoSaveAppendText}
-                autoSaveCheckBoxes={this.autoSaveCheckBoxes}
-                debugMode={debugMode}
-                editingMode={this.state.editingMode}
-                fontSize={this.state.fontSize}
-                keyMap={keyMap}
-                appendNewLine={this.state.appendNewLine}
-                appendNewParagraph={this.state.appendNewParagraph}
-                monacoEditorLanguage={this.state.monacoEditorLanguage}
-                onKeyDown={this.onKeyDown}
-                onKeyDownAppendTextArea={this.onKeyDownAppendTextArea}
-                onKeyDownTextArea={this.onKeyDownTextArea}
-                onKeyUp={this.onKeyUp}
-                appendRows={this.state.appendRows}
-                text={this.state.appendText}
-              />
+              <ErrorBoundary>
+                <AppendText
+                  appendTextToNote={this.appendTextToNote}
+                  autoSaveAppendText={this.autoSaveAppendText}
+                  autoSaveCheckBoxes={this.autoSaveCheckBoxes}
+                  debugMode={debugMode}
+                  editingMode={this.state.editingMode}
+                  fontSize={this.state.fontSize}
+                  keyMap={keyMap}
+                  appendNewLine={this.state.appendNewLine}
+                  appendNewParagraph={this.state.appendNewParagraph}
+                  monacoEditorLanguage={this.state.monacoEditorLanguage}
+                  onKeyDown={this.onKeyDown}
+                  onKeyDownAppendTextArea={this.onKeyDownAppendTextArea}
+                  onKeyDownTextArea={this.onKeyDownTextArea}
+                  onKeyUp={this.onKeyUp}
+                  appendRows={this.state.appendRows}
+                  text={this.state.appendText}
+                />
+              </ErrorBoundary>
             )}
             <button
               className="sk-button info"
