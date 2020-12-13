@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
+import { EditingModes } from './AppendEditor';
 import DynamicEditor from './DynamicEditor';
 import { MonacoEditor } from './Monaco';
 
@@ -10,7 +10,7 @@ interface AppendProps {
   appendNewParagraph: boolean;
   appendRows: number;
   appendTextToNote: Function;
-  editingMode: EditingMode;
+  editingMode?: string;
   fontSize: string;
   keyMap: Map<any, any>;
   debugMode: boolean;
@@ -22,8 +22,6 @@ interface AppendProps {
   onKeyDownAppendTextArea: Function;
   onKeyDownTextArea: Function;
   text: string;
-  useDynamicEditor: useDynamicEditor;
-  useMonacoEditor: useMonacoEditor;
 }
 
 interface AppendState {
@@ -48,8 +46,9 @@ export default class AppendText extends React.Component<
       text: this.props.text,
       newLine: this.props.appendNewLine,
       newParagraph: this.props.appendNewParagraph,
-      useMonacoEditor: this.props.editingMode === this.props.useMonacoEditor,
-      useDynamicEditor: this.props.editingMode === this.props.useDynamicEditor,
+      useMonacoEditor: this.props.editingMode === EditingModes.useMonacoEditor,
+      useDynamicEditor:
+        this.props.editingMode === EditingModes.useDynamicEditor,
     };
   }
 
@@ -183,9 +182,9 @@ export default class AppendText extends React.Component<
       <div
         className={
           'sk-panel main appendix ' +
-          (this.props.editingMode === this.props.useMonacoEditor
+          (this.props.editingMode === EditingModes.useMonacoEditor
             ? 'monacoEditor'
-            : this.props.editingMode === this.props.useDynamicEditor
+            : this.props.editingMode === EditingModes.useDynamicEditor
             ? 'dynamicEditor'
             : 'otherEditor')
         }
@@ -193,7 +192,7 @@ export default class AppendText extends React.Component<
         <div
           className={
             'sk-panel-content edit ' +
-            (this.props.editingMode === this.props.useMonacoEditor
+            (this.props.editingMode === EditingModes.useMonacoEditor
               ? 'monacoEditor'
               : '')
           }

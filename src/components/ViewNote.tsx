@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
+import { EditingModes } from './AppendEditor';
 import DynamicEditor from './DynamicEditor';
 import Help from './Help';
 import Intro from './Intro';
@@ -8,11 +8,9 @@ import { renderMarkdown } from '../lib/renderMarkdown';
 interface ViewProps {
   bypassDebounce: boolean;
   debugMode: boolean;
-  editingMode: EditingMode;
+  editingMode?: string;
   monacoEditorLanguage: string;
   printURL: boolean;
-  useDynamicEditor: useDynamicEditor;
-  useMonacoEditor: useMonacoEditor;
   saveText: (text: string) => void;
   showHelp: boolean;
   text: string;
@@ -63,19 +61,19 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
             id="renderedNote"
             className={
               '' +
-              (this.props.editingMode === this.props.useDynamicEditor
+              (this.props.editingMode === EditingModes.useDynamicEditor
                 ? ''
                 : 'rendered-note-section')
             }
           >
-            {this.props.editingMode === this.props.useMonacoEditor &&
+            {this.props.editingMode === EditingModes.useMonacoEditor &&
             this.props.monacoEditorLanguage !== 'markdown' &&
             this.props.monacoEditorLanguage !== 'html' &&
             text ? (
               this.renderMarkdown(
                 '```' + this.props.monacoEditorLanguage + '\n' + text + '\n```'
               )
-            ) : this.props.editingMode === this.props.useDynamicEditor ? (
+            ) : this.props.editingMode === EditingModes.useDynamicEditor ? (
               <DynamicEditor
                 debugMode={this.props.debugMode}
                 onChange={this.props.saveText}

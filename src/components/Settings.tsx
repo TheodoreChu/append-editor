@@ -1,11 +1,6 @@
 import React from 'react';
 import { MonacoEditor } from './Monaco';
-import {
-  DefaultSettings,
-  EditingMode,
-  useDynamicEditor,
-  useMonacoEditor,
-} from './AppendEditor';
+import { DefaultSettings, EditingModes } from './AppendEditor';
 import { CloseIcon, RefreshIcon } from './Icons';
 import { ChevronToggleButton, UndoButton } from './Buttons';
 
@@ -24,16 +19,12 @@ const saveAsDefaultID = 'saveAsDefault';
 interface SettingsProps {
   defaultSettings: DefaultSettings;
   customStyles: string;
-  editingMode: EditingMode;
+  editingMode?: string;
   fontEdit: string;
   fontSize: string;
   fontView: string;
   monacoEditorLanguage: string;
   useCodeMirror: boolean;
-
-  useDynamicEditor: useDynamicEditor;
-  useMonacoEditor: useMonacoEditor;
-
   cancelText: string;
   confirmText: string;
   debugMode: boolean;
@@ -46,7 +37,7 @@ interface SettingsProps {
 
 interface SettingsState {
   customStyles: string;
-  editingMode: EditingMode | any;
+  editingMode: string;
   fontEdit: string;
   fontSize: string;
   fontView: string;
@@ -72,9 +63,13 @@ export default class Settings extends React.Component<
     if (this.props.monacoEditorLanguage) {
       monacoEditorLanguage = this.props.monacoEditorLanguage;
     }
+    let editingMode = 'usePlainText';
+    if (this.props.editingMode) {
+      editingMode = this.props.editingMode;
+    }
     this.state = {
       customStyles: this.props.customStyles,
-      editingMode: this.props.editingMode as any,
+      editingMode,
       fontEdit: this.props.fontEdit,
       fontSize: this.props.fontSize,
       fontView: this.props.fontView,
@@ -93,12 +88,12 @@ export default class Settings extends React.Component<
       [name]: value,
     });
     if (name === editingModeID) {
-      if (value === this.props.useMonacoEditor) {
+      if (value === EditingModes.useMonacoEditor) {
         this.setState({
           useCodeMirror: false,
           useMonacoEditor: true,
         });
-      } else if (value === useCodeMirrorID) {
+      } else if (value === EditingModes.useCodeMirror) {
         this.setState({
           useCodeMirror: true,
           useMonacoEditor: false,
@@ -542,13 +537,13 @@ export default class Settings extends React.Component<
             <section className="sk-panel-row settings">
               <label>
                 <input
-                  id={this.props.useDynamicEditor}
+                  id={EditingModes.useDynamicEditor}
                   name={editingModeID}
-                  value={this.props.useDynamicEditor}
+                  value={EditingModes.useDynamicEditor}
                   type="radio"
                   className="radio"
                   checked={
-                    this.state.editingMode === this.props.useDynamicEditor
+                    this.state.editingMode === EditingModes.useDynamicEditor
                   }
                   onChange={this.handleInputChange}
                 />
@@ -558,15 +553,15 @@ export default class Settings extends React.Component<
               </label>
             </section>
             <section className="sk-panel-row settings">
-              <label htmlFor={this.props.useMonacoEditor}>
+              <label htmlFor={EditingModes.useMonacoEditor}>
                 <input
-                  id={this.props.useMonacoEditor}
+                  id={EditingModes.useMonacoEditor}
                   name={editingModeID}
-                  value={this.props.useMonacoEditor}
+                  value={EditingModes.useMonacoEditor}
                   type="radio"
                   className="radio"
                   checked={
-                    this.state.editingMode === this.props.useMonacoEditor
+                    this.state.editingMode === EditingModes.useMonacoEditor
                   }
                   onChange={this.handleInputChange}
                 />
@@ -575,7 +570,7 @@ export default class Settings extends React.Component<
                 sophisticated search and replace (desktop recommended)
               </label>
             </section>
-            {this.state.editingMode === this.props.useMonacoEditor && [
+            {this.state.editingMode === EditingModes.useMonacoEditor && [
               <section className="sk-panel-row settings">
                 <label htmlFor={monacoEditorLanguageID}>
                   Monaco Editor Language:{' '}
@@ -703,7 +698,7 @@ export default class Settings extends React.Component<
                 />
               </div>
             </section>
-            {this.state.editingMode !== this.props.useMonacoEditor && [
+            {this.state.editingMode !== EditingModes.useMonacoEditor && [
               <section className="sk-panel-row settings">
                 <label htmlFor={fontEditID}>
                   Choose a font for Edit/Append:{' '}
@@ -726,7 +721,7 @@ export default class Settings extends React.Component<
                 </div>
               </section>,
             ]}
-            {this.state.editingMode !== this.props.useDynamicEditor && [
+            {this.state.editingMode !== EditingModes.useDynamicEditor && [
               <section className="sk-panel-row settings">
                 <label htmlFor={fontViewID}>
                   Choose a font for View/Print:{' '}

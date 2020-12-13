@@ -1,7 +1,7 @@
 import React from 'react';
 import prettier from 'prettier';
 import parserMarkdown from 'prettier/parser-markdown';
-import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
+import { EditingModes } from './AppendEditor';
 import {
   ChevronToggleButton,
   CopyButton,
@@ -22,7 +22,7 @@ enum HtmlClassName {
 
 interface MenuProps {
   borderlessMode?: boolean;
-  editingMode: EditingMode;
+  editingMode?: string;
   fixedHeightMode?: boolean;
   fullWidthMode?: boolean;
   monacoEditorLanguage: string;
@@ -45,8 +45,6 @@ interface MenuProps {
   //toggleShowMenuOptionsMonacoEditor?: () => void;
   toggleShowMenuOptionsView: () => void;
   toggleShowMenuOptionsShare: () => void;
-  useMonacoEditor: useMonacoEditor;
-  useDynamicEditor: useDynamicEditor;
   viewMode?: boolean;
 }
 
@@ -76,7 +74,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         displayMessageEdit: false,
         displayMessageShare: false,
       });
-    }, 2000);
+    }, 5000);
   };
 
   showMessageEdit = () => {
@@ -118,7 +116,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         this.copyToClipboard(this.props.text);
       });
     } else {
-      this.setState({ message: 'No text to copy.' }, () => {
+      this.setState({ message: 'No text to copy. Your note is empty.' }, () => {
         this.showMessageShare();
       });
     }
@@ -146,11 +144,12 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   formatText = () => {
     if (
       this.props.monacoEditorLanguage !== 'markdown' &&
-      this.props.editingMode === this.props.useMonacoEditor
+      this.props.editingMode === EditingModes.useMonacoEditor
     ) {
       this.setState(
         {
-          message: 'Error: Formatting is only available for markdown',
+          message:
+            'Error: Your Monaco Editor language is not markdown. Formatting is only available for markdown.',
         },
         () => {
           this.showMessageEdit();

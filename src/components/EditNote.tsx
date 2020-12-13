@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditingMode, useDynamicEditor, useMonacoEditor } from './AppendEditor';
+import { EditingModes } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
 import DynamicEditor from './DynamicEditor';
 
@@ -7,7 +7,7 @@ import { HtmlElementId } from './AppendEditor';
 
 interface EditProps {
   debugMode: boolean;
-  editingMode: EditingMode;
+  editingMode?: string;
   fontSize: string;
   keyMap: any;
   monacoEditorLanguage: string;
@@ -17,8 +17,6 @@ interface EditProps {
   onKeyDownTextArea: Function;
   saveText: Function;
   text: string;
-  useDynamicEditor: useDynamicEditor;
-  useMonacoEditor: useMonacoEditor;
   viewMode: boolean | undefined;
 }
 
@@ -81,9 +79,9 @@ export default class EditNote extends React.Component<EditProps, EditState> {
       <div
         className={
           'sk-panel main edit ' +
-          (this.props.editingMode === this.props.useMonacoEditor
+          (this.props.editingMode === EditingModes.useMonacoEditor
             ? 'monacoEditor'
-            : this.props.editingMode === this.props.useDynamicEditor
+            : this.props.editingMode === EditingModes.useDynamicEditor
             ? 'dynamicEditor'
             : 'otherEditor')
         }
@@ -91,12 +89,12 @@ export default class EditNote extends React.Component<EditProps, EditState> {
         <div
           className={
             'sk-panel-content edit ' +
-            (this.props.editingMode === this.props.useMonacoEditor
+            (this.props.editingMode === EditingModes.useMonacoEditor
               ? 'monacoEditor'
               : '')
           }
         >
-          {this.props.editingMode === this.props.useMonacoEditor ? (
+          {this.props.editingMode === EditingModes.useMonacoEditor ? (
             <MonacoEditor
               fontSize={this.props.fontSize}
               language={this.props.monacoEditorLanguage}
@@ -104,7 +102,7 @@ export default class EditNote extends React.Component<EditProps, EditState> {
               text={text}
               viewMode={this.props.viewMode}
             />
-          ) : this.props.editingMode === this.props.useDynamicEditor ? (
+          ) : this.props.editingMode === EditingModes.useDynamicEditor ? (
             <div id="dynamicEditor">
               <DynamicEditor
                 debugMode={this.props.debugMode}
