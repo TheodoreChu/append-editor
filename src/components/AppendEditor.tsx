@@ -641,17 +641,17 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           // Refresh view mode if using dynamic
           if (this.state.editingMode === EditingModes.useDynamicEditor) {
             this.refreshView();
+            setTimeout(() => {
+              this.skipToBottom();
+            }, 50);
           } else if (isLongString(this.state.text)) {
             setTimeout(() => {
               this.refreshView();
-              setTimeout(() => {
-                this.skipToBottom();
-              }, 250);
+              this.skipToBottom();
             }, 550);
-          }
-          setTimeout(() => {
+          } else {
             this.skipToBottom();
-          }, 250);
+          }
         }
       );
     }
