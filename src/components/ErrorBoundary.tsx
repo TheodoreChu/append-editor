@@ -68,9 +68,9 @@ export default class ErrorBoundary extends React.Component<
                   onClick={clickSettingsButton}
                   title="Open Settings"
                 >
-                  <span>(</span>
+                  <span>&nbsp;</span>
                   <GearIcon role="button" />
-                  <span>)</span>
+                  <span>&nbsp;</span>
                 </button>
                 and remove or fix the text that is causing the error.
               </p>
