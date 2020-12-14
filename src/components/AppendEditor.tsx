@@ -328,7 +328,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           typeof defaultEditingMode
         );
       }
-      if (typeof defaultSettingsString !== 'undefined') {
+      if (defaultSettingsString !== undefined) {
         const defaultSettingsObject = JSON.parse(
           defaultSettingsString
         ) as DefaultSettings;
@@ -447,7 +447,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       const menuOptionsString = this.editorKit.internal.componentManager.componentDataValueForKey(
         'menuOptions'
       );
-      if (typeof menuOptionsString !== 'undefined') {
+      if (menuOptionsString !== undefined) {
         const menuOptionsObject = JSON.parse(menuOptionsString) as menuOptions;
         this.setState(
           {
