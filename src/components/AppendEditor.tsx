@@ -1003,18 +1003,40 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   toggleShowHelp = () => {
-    this.setState(
-      {
-        showHelp: !this.state.showHelp,
-      },
-      () => {
-        this.refreshView();
-        const helpButton = document.getElementById(HtmlElementId.helpButton);
-        if (helpButton) {
-          helpButton.focus();
+    if (!this.state.showHelp) {
+      this.setState(
+        {
+          showHelp: true,
+        },
+        () => {
+          if (!this.state.viewMode) {
+            this.onViewMode();
+          } else if (this.state.viewMode) {
+            this.refreshView();
+          }
+          const helpButton = document.getElementById(HtmlElementId.helpButton);
+          if (helpButton) {
+            helpButton.focus();
+          }
+          setTimeout(() => {
+            this.scrollToTop();
+          }, 50);
         }
-      }
-    );
+      );
+    } else {
+      this.setState(
+        {
+          showHelp: false,
+        },
+        () => {
+          this.refreshView();
+          const helpButton = document.getElementById(HtmlElementId.helpButton);
+          if (helpButton) {
+            helpButton.focus();
+          }
+        }
+      );
+    }
   };
 
   toggleShowMenu = () => {
