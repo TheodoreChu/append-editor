@@ -149,7 +149,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       this.setState(
         {
           message:
-            'Error: Your Monaco Editor language is not markdown. Formatting is only available for markdown.',
+            'Error: Your Monaco Editor language is not Markdown. Formatting is only available for Markdown.',
         },
         () => {
           this.showMessageEdit();
@@ -157,7 +157,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       );
     } else if (this.props.text) {
       this.setState(
-        { message: 'Formatted markdown text with Prettier.' },
+        { message: 'Formatted Markdown text with Prettier.' },
         () => {
           try {
             const formattedText = prettier.format(this.props.text, {

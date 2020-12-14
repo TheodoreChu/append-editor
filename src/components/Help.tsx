@@ -142,12 +142,13 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           >
             <span>&nbsp;</span>
             <GearIcon role="button" />
-            <span>.</span>
+            <span>&nbsp;</span>
           </button>
+          . You can also choose default and per-note font sizes, font families,
+          and custom styles (CSS).
         </p>
         <p>
-          The Append Editor also supports default and per-note font sizes, font
-          families, and custom styles (CSS). The menu
+          The Menu
           <button
             className="inline-text-and-svg"
             onClick={clickMenuButton}
@@ -158,7 +159,8 @@ export default class Help extends React.Component<HelpProps, HelpState> {
             <span>&nbsp;</span>
           </button>
           has additional options to customize the appearance of the editor,
-          share your note, and quickly edit it.
+          share your note, and perform actions to quickly format and edit
+          Markdown text.
         </p>
         <p>
           A more detailed documentation of the Append Editor is available at{' '}
@@ -217,11 +219,34 @@ export default class Help extends React.Component<HelpProps, HelpState> {
             Press <b>Enter</b> or <b>Return</b> on your keyboard.
           </li>
           <li>
-            Under the title of your note, click <b>Editor</b>, click{' '}
-            <b>Append Editor</b>, and click <b>Activate</b> to begin using the
-            editor.
+            The title of your selected note is near the top of the app. Under
+            the title, click <b>Editor</b>, click <b>Append Editor</b>, and
+            click <b>Continue</b> to begin using the editor. Enjoy!{' '}
+            <span role="img" aria-label="clap emoji">
+              👏
+            </span>{' '}
           </li>
         </ol>
+        <p>
+          After you install the editor on the desktop app, it will automatically
+          sync to the{' '}
+          <a
+            href="https://app.standardnotes.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            web
+          </a>{' '}
+          and{' '}
+          <a
+            href="https://standardnotes.org/download"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            mobile apps
+          </a>{' '}
+          after you sign in.
+        </p>
         <h3>What to write about</h3>
         <p>
           The Append Editor is great for writing articles, blog posts,

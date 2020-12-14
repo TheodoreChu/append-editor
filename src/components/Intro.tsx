@@ -44,7 +44,7 @@ const Intro: React.FC<IntroProps> = ({ appendMode, editMode, showHelp }) => (
               <PencilIcon condition={editMode} role="button" />
               <span>&nbsp;</span>
             </button>
-            to open <b>Edit Mode</b>
+            to toggle <b>Edit Mode</b>
           </p>
         </li>
         <li>
@@ -59,7 +59,7 @@ const Intro: React.FC<IntroProps> = ({ appendMode, editMode, showHelp }) => (
               <PlusIcon condition={appendMode} role="button" />
               <span>&nbsp;</span>
             </button>
-            to open <b>Append Mode</b>
+            to toggle <b>Append Mode</b>
           </p>
         </li>
       </ul>
