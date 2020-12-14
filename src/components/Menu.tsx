@@ -112,11 +112,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   copyText = () => {
     if (this.props.text) {
-      this.setState({ message: 'Copied Text to clipboard.' }, () => {
+      this.setState({ message: 'Copied Text to clipboard' }, () => {
         this.copyToClipboard(this.props.text);
       });
     } else {
-      this.setState({ message: 'No text to copy. Your note is empty.' }, () => {
+      this.setState({ message: 'No text to copy. Your note is empty' }, () => {
         this.showMessageShare();
       });
     }
@@ -125,17 +125,17 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   copyHtml = () => {
     if (!this.props.viewMode) {
       this.setState(
-        { message: 'Unable to copy HTML. Please turn view mode on.' },
+        { message: 'Unable to copy HTML. Please turn View Mode on' },
         () => this.showMessageShare()
       );
     } else if (!this.props.text) {
-      this.setState({ message: 'No HTML to copy. Your note is empty.' }, () => {
+      this.setState({ message: 'No HTML to copy. Your note is empty' }, () => {
         this.showMessageShare();
       });
     } else {
       const renderedNote = document.getElementById('renderedNote');
       if (renderedNote?.firstElementChild?.innerHTML) {
-        this.setState({ message: 'Copied HTML to clipboard.' });
+        this.setState({ message: 'Copied HTML to clipboard' });
         this.copyToClipboard(renderedNote?.firstElementChild.innerHTML);
       }
     }
@@ -149,7 +149,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       this.setState(
         {
           message:
-            'Error: Your Monaco Editor language is not Markdown. Formatting is only available for Markdown.',
+            'Error: Your Monaco Editor language is not Markdown. Formatting is only available for Markdown',
         },
         () => {
           this.showMessageEdit();
@@ -157,7 +157,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       );
     } else if (this.props.text) {
       this.setState(
-        { message: 'Formatted Markdown text with Prettier.' },
+        { message: 'Formatted Markdown text with Prettier' },
         () => {
           try {
             const formattedText = prettier.format(this.props.text, {
@@ -177,9 +177,12 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         }
       );
     } else {
-      this.setState({ message: 'No text to format.' }, () => {
-        this.showMessageEdit();
-      });
+      this.setState(
+        { message: 'No text to format. Your note is empty' },
+        () => {
+          this.showMessageEdit();
+        }
+      );
     }
   };
 
@@ -191,11 +194,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       this.props.saveText(newText);
       this.props.refreshEdit();
       this.props.refreshView();
-      this.setState({ message: 'Unchecked all checkboxes.' }, () => {
+      this.setState({ message: 'Unchecked all checkboxes' }, () => {
         this.showMessageEdit();
       });
     } else {
-      this.setState({ message: 'No checked checkboxes found.' }, () => {
+      this.setState({ message: 'No checked checkboxes found' }, () => {
         this.showMessageEdit();
       });
     }
@@ -224,7 +227,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             messageOn={'on'}
             messageOff={'off'}
             onClick={this.props.toggleBorderlessMode}
-            title="Toggle Borderless mode. Blends borders and margins into the background for a cleaner look"
+            title={
+              'Toggle Borderless Mode. Blends borders and margins into the background for a cleaner look'
+            }
           />,
           <EyeButton
             caption={'Fixed Height'}
@@ -238,7 +243,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             messageOn={'on'}
             messageOff={'off'}
             onClick={this.props.toggleFixedHeightMode}
-            title="Toggle Fixed Height mode. Limits the height of the content container for easier side-by-side editing"
+            title={
+              'Toggle Fixed Height Mode. Limits the height of the content container for easier side-by-side editing'
+            }
           />,
           <EyeButton
             caption={'Full Width'}
@@ -250,7 +257,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             messageOn={'on'}
             messageOff={'off'}
             onClick={this.props.toggleFullWidthMode}
-            title="Toggle Full Width mode for unrestricted editing. Borderless mode plus unset maximum container widths"
+            title={
+              'Toggle Full Width Mode for unrestricted editing. Borderless mode plus unset maximum container widths'
+            }
           />,
           <EyeButton
             caption={'Horizontal Overflow'}
@@ -262,7 +271,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             messageOn={'visible'}
             messageOff={'auto'}
             onClick={this.props.toggleOverflowMode}
-            title="Toggle Horizontal Overflow. Visible is great for editing and viewing large tables and preformatted text. Works best with Full Width mode"
+            title={
+              'Toggle Horizontal Overflow. Visible is great for editing and viewing large tables and preformatted text. Works best with Full Width mode'
+            }
           />,
         ]}
         <ChevronToggleButton
@@ -270,7 +281,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           className={HtmlClassName.chevronToggleButton}
           condition={this.props.showMenuOptionsShare}
           onClick={this.props.toggleShowMenuOptionsShare}
-          title={'Toggle Show Share Options'}
+          title={'Toggle show options to share your note'}
         />
         {this.props.showMenuOptionsShare && [
           <CopyButton
@@ -278,14 +289,16 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             className={HtmlClassName.menuButton}
             fill={'var(--sn-stylekit-success-color)'}
             onClick={this.copyText}
-            title="Copy the text of your note to your device's clipboard"
+            title={"Copy the text of your note to your device's clipboard"}
           />,
           <CopyButton
             caption={'Copy rendered HTML'}
             className={HtmlClassName.menuButton}
             fill={'var(--sn-stylekit-success-color)'}
             onClick={this.copyHtml}
-            title="Copy the rendered HTML from your note text to your device's clipboard"
+            title={
+              "Copy the rendered HTML from your note text to your device's clipboard"
+            }
           />,
           <PrintButton
             caption={'Print rendered note'}
@@ -293,7 +306,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             fill={'var(--sn-stylekit-foreground-color)'}
             id={HtmlElementId.printButton}
             onClick={this.props.onConfirmPrintUrl}
-            title="Print rendered note. Works best on Chromium browsers (e.g., MS Edge, Google Chrome). Not available on mobile."
+            title={
+              'Print rendered note. Works best on the web app in Chromium browsers (e.g., MS Edge, Google Chrome). Not available on mobile'
+            }
           />,
           <div
             className={`notification ${
@@ -310,22 +325,26 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           className={HtmlClassName.chevronToggleButton}
           condition={this.props.showMenuOptionsEdit}
           onClick={this.props.toggleShowMenuOptionsEdit}
-          title={'Toggle show Editing Actions'}
+          title={'Toggle show actions to quickly format and edit your note'}
         />
         {this.props.showMenuOptionsEdit && [
           <PencilButton
             caption={'Format Markdown text'}
             className={HtmlClassName.menuButton}
-            fill="var(--sn-stylekit-warning-color)"
+            fill={'var(--sn-stylekit-warning-color)'}
             onClick={this.formatText}
-            title="Format Markdown text with Prettier. WARNING: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes."
+            title={
+              'Format Markdown text with Prettier. WARNING: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes'
+            }
           />,
           <PencilButton
             caption={'Uncheck all checkboxes'}
             className={HtmlClassName.menuButton}
-            fill="var(--sn-stylekit-danger-color)"
+            fill={'var(--sn-stylekit-danger-color)'}
             onClick={this.uncheckBoxes}
-            title="Uncheck all checkboxes. DANGER: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes."
+            title={
+              'Uncheck all checkboxes. DANGER: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes'
+            }
           />,
           <div
             className={`notification ${
