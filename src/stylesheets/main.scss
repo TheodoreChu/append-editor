@@ -545,6 +545,8 @@ button:focus {
 
 .inline-text-and-svg {
   display: inline-flex;
+  padding-left: 0px;
+  padding-right: 0px;
   svg {
     opacity: 0.75;
     margin-top: auto;

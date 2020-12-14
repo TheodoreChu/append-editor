@@ -6,8 +6,10 @@ import Intro from './Intro';
 import { renderMarkdown } from '../lib/renderMarkdown';
 
 interface ViewProps {
+  appendMode: boolean;
   bypassDebounce: boolean;
   debugMode: boolean;
+  editMode: boolean;
   editingMode?: string;
   monacoEditorLanguage: string;
   printURL: boolean;
@@ -50,7 +52,13 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
         }
       >
         <div className="sk-panel-content view" id="view">
-          {!text && [<Intro />]}
+          {!text && [
+            <Intro
+              appendMode={this.props.appendMode}
+              editMode={this.props.editMode}
+              showHelp={this.props.showHelp}
+            />,
+          ]}
           {this.state.showHelp && [
             <Help
               debugMode={this.props.debugMode}

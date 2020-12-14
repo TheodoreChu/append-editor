@@ -486,7 +486,8 @@ export default class Settings extends React.Component<
                   checked={this.state.editingMode === EditingModes.usePlainText}
                   onChange={this.handleInputChange}
                 />
-                Plain Textarea: no formatting (default, mobile recommended)
+                Plain Textarea: standard textarea with spellcheck (default,
+                mobile recommended)
               </label>
             </section>
             <section className="sk-panel-row settings">
@@ -519,7 +520,7 @@ export default class Settings extends React.Component<
                   onChange={this.handleInputChange}
                 />
                 Dynamic: live formatting for Markdown. <b>warning: </b>
-                existing markdown may break (not compatible with KaTeX, lists
+                existing Markdown may break (not compatible with KaTeX, lists
                 may not render properly; desktop and mobile compatible)
               </label>
             </section>

@@ -2016,8 +2016,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {this.state.viewMode && !this.state.refreshView && (
             <ErrorBoundary>
               <ViewNote
+                appendMode={this.state.appendMode}
                 bypassDebounce={this.state.bypassDebounce}
                 debugMode={debugMode}
+                editMode={this.state.editMode}
                 editingMode={this.state.editingMode}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 printURL={this.state.printURL}
@@ -2030,8 +2032,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {this.state.viewMode && this.state.refreshView && (
             <ErrorBoundary>
               <ViewNote
-                debugMode={debugMode}
+                appendMode={this.state.appendMode}
                 bypassDebounce={this.state.bypassDebounce}
+                debugMode={debugMode}
+                editMode={this.state.editMode}
                 editingMode={this.state.editingMode}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 printURL={this.state.printURL}

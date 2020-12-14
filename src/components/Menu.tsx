@@ -314,11 +314,11 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
         />
         {this.props.showMenuOptionsEdit && [
           <PencilButton
-            caption={'Format markdown text'}
+            caption={'Format Markdown text'}
             className={HtmlClassName.menuButton}
             fill="var(--sn-stylekit-warning-color)"
             onClick={this.formatText}
-            title="Format markdown text with Prettier. WARNING: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes."
+            title="Format Markdown text with Prettier. WARNING: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes."
           />,
           <PencilButton
             caption={'Uncheck all checkboxes'}

@@ -102,7 +102,7 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           </a>
           .
         </p>
-        <h3>How do I use the Append Editor?</h3>
+        <h3>Append Editor Features</h3>
         <p>
           The Append Editor supports{' '}
           <a
@@ -132,46 +132,58 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           , and more.{' '}
         </p>
         <p>
-          There are four editing modes in the Append Editor: Plain Textarea,
-          CodeMirror, Dynamic, and Monaco. You can read about each mode and
-          choose which to use in the Settings
+          There are four editing modes: Plain Textarea, CodeMirror, Dynamic, and
+          Monaco. You can read about each mode and choose which to use in the
+          Settings
           <button
             className="inline-text-and-svg"
             onClick={clickSettingsButton}
             title="Open Settings"
           >
-            <span>(</span>
+            <span>&nbsp;</span>
             <GearIcon role="button" />
-            <span>).</span>
+            <span>.</span>
           </button>
         </p>
         <p>
-          The Append Editor also has built-in support for default and per-note
-          font sizes, font families, and custom CSS. The menu
+          The Append Editor also supports default and per-note font sizes, font
+          families, and custom styles (CSS). The menu
           <button
             className="inline-text-and-svg"
             onClick={clickMenuButton}
             title="Open the Menu"
           >
-            <span>(</span>
+            <span>&nbsp;</span>
             <MenuIcon role="button" />
-            <span>)</span>
+            <span>&nbsp;</span>
           </button>
-          has additional options for customizing the appearance of the editor,
-          sharing your note, and quick actions for editing.
+          has additional options to customize the appearance of the editor,
+          share your note, and quickly edit it.
         </p>
         <p>
-          Please visit the documentation at{' '}
+          A more detailed documentation of the Append Editor is available at{' '}
           <a
             href="https://appendeditor.com"
             target="_blank"
             rel="noopener noreferrer"
           >
             appendeditor.com
-          </a>{' '}
-          for the full list of features and keyboard shortcuts.
+          </a>
+          . If you like the Append Editor, please support it by giving it a star
+          on{' '}
+          <a
+            href="https://github.com/TheodoreChu/append-editor/stargazers"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub
+          </a>
+          .{' '}
+          <span role="img" aria-label="smile emoji">
+            🙂
+          </span>{' '}
         </p>
-        <h3>How do I Install the Append Editor in Standard Notes?</h3>
+        <h3>How to install the Append Editor in Standard Notes</h3>
         <ol>
           <li>
             Download, install, and sign in to the Standard Notes{' '}
@@ -201,9 +213,22 @@ export default class Help extends React.Component<HelpProps, HelpState> {
               </a>
             </code>
           </li>
+          <li>
+            Press <b>Enter</b> or <b>Return</b> on your keyboard.
+          </li>
+          <li>
+            Under the title of your note, click <b>Editor</b>, click{' '}
+            <b>Append Editor</b>, and click <b>Activate</b> to begin using the
+            editor.
+          </li>
         </ol>
-        <h3>What do I write about?</h3>
-        Here are some questions to help you get started:
+        <h3>What to write about</h3>
+        <p>
+          The Append Editor is great for writing articles, blog posts,
+          checklists, code snippets, documentation, emails, essays, journals,
+          lists, logs, notes, tables, todo lists, and much more. Here are some
+          questions to help you get started with today's daily journal:
+        </p>{' '}
         <ul>
           <li>How are you? What's happening?</li>
           <li>What might be affecting your mood?</li>
@@ -315,9 +340,9 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           onClick={clickHelpButton}
           title="Close Help"
         >
-          <span>(</span>
+          <span>&nbsp;</span>
           <HelpIcon fill={'var(--sn-stylekit-info-color)'} role="button" />
-          <span>)</span>
+          <span>&nbsp;</span>
         </button>
         to close this section.
         <hr></hr>

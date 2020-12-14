@@ -7,7 +7,13 @@ import {
   clickViewButton,
 } from '../lib/clickButton';
 
-const Intro: React.FC<any> = () => (
+interface IntroProps {
+  appendMode: boolean;
+  editMode: boolean;
+  showHelp: boolean;
+}
+
+const Intro: React.FC<IntroProps> = ({ appendMode, editMode, showHelp }) => (
   <div id="intro">
     <details>
       <summary>
@@ -18,6 +24,10 @@ const Intro: React.FC<any> = () => (
         Your note is empty.{' '}
         <span role="img" aria-label="smile emoji">
           🙂
+        </span>{' '}
+        Click here to get started.{' '}
+        <span role="img" aria-label="memo emoji">
+          📝
         </span>
       </summary>
       <p>To get started:</p>
@@ -30,9 +40,9 @@ const Intro: React.FC<any> = () => (
               onClick={clickEditButton}
               title="Toggle Edit Mode"
             >
-              <span>(</span>
-              <PencilIcon role="button" />
-              <span>) </span>
+              <span>&nbsp;</span>
+              <PencilIcon condition={editMode} role="button" />
+              <span>&nbsp;</span>
             </button>
             to open <b>Edit Mode</b>
           </p>
@@ -45,28 +55,29 @@ const Intro: React.FC<any> = () => (
               onClick={clickAppendButton}
               title="Toggle Append Mode"
             >
-              <span>(</span>
-              <PlusIcon role="button" />
-              <span>)</span>
+              <span>&nbsp;</span>
+              <PlusIcon condition={appendMode} role="button" />
+              <span>&nbsp;</span>
             </button>
             to open <b>Append Mode</b>
           </p>
         </li>
       </ul>
       <p>
-        View Mode
+        <b>View Mode</b> is currently <b>on</b>. When you type in{' '}
+        <b>Edit Mode</b>, your note will automatically render here. In{' '}
+        <b>Append Mode</b>, clicking <b>Append</b> will add the text in the
+        textarea to the end of your note. Click the Eye
         <button
           className="inline-text-and-svg"
           onClick={clickViewButton}
           title="Toggle View Mode"
         >
-          <span>(</span>
+          <span>&nbsp;</span>
           <EyeIcon condition={true} role="button" />
-          <span>)</span>
+          <span>&nbsp;</span>
         </button>
-        is currently <b>on</b>. Your note will automatically render here when
-        you type in <b>Edit Mode</b>. In <b>Append Mode</b>, clicking{' '}
-        <b>Append</b> will add the text in the textarea to the end of your note.
+        to turn View Mode off and switch to <b>Edit Only Mode</b>.
       </p>
       <p>
         If you are using the demo at{' '}
@@ -86,12 +97,11 @@ const Intro: React.FC<any> = () => (
           onClick={clickHelpButton}
           title="Toggle show Help"
         >
-          <span>(</span>
-          <HelpIcon role="button" />
-          <span>)</span>
+          <span>&nbsp;</span>
+          <HelpIcon condition={showHelp} role="button" />
+          <span>&nbsp;</span>
         </button>
-        at the top and follow the instructions on how to install the Append
-        Editor in{' '}
+        and follow the instructions on how to install the Append Editor in{' '}
         <a
           href="https://standardnotes.org/"
           target="_blank"
