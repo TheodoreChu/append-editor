@@ -580,7 +580,26 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             clearTimeout(this.saveTimer);
           }
           this.saveTimer = setTimeout(() => {
-            this.refreshView();
+            if (this.state.fixedHeightMode) {
+              /** This keeps the vertical scroll when refreshing view */
+              const view = document.getElementById(HtmlElementId.view);
+              if (view) {
+                let scrollY = view.scrollTop;
+                this.refreshView();
+                /** We have to find the new view because
+                 * the previous one doesn't exist anymore */
+                const refreshedView = document.getElementById(
+                  HtmlElementId.view
+                );
+                if (refreshedView) {
+                  refreshedView.scrollTop = scrollY;
+                }
+              } else {
+                this.refreshView();
+              }
+            } else {
+              this.refreshView();
+            }
           }, 550);
         }
         if (debugMode) {
@@ -1463,10 +1482,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       if (view) {
         view.scrollTop = 10000000;
       }
-    }
-    const view = document.getElementById(HtmlElementId.view);
-    if (view) {
-      view.scrollTop = 10000000;
     }
   };
 
