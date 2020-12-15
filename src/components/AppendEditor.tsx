@@ -847,35 +847,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  makeContentEditable = () => {
-    const content = document.getElementById(HtmlElementId.content);
-    if (content) {
-      content.setAttribute('contenteditable', 'true');
-      content.setAttribute('spellcheck', 'true');
-    }
-    const appendix = document.getElementById(HtmlElementId.appendix);
-    if (appendix) {
-      appendix.setAttribute('contenteditable', 'true');
-      appendix.setAttribute('spellcheck', 'true');
-    }
-    // Change contenteditable to false for rendered note
-    const renderedNote = document.getElementById('renderedNote');
-    if (renderedNote) {
-      renderedNote.setAttribute('contenteditable', 'false');
-    }
-    const appendCustom = document.getElementById('appendCustom');
-    if (appendCustom) {
-      appendCustom.setAttribute('contenteditable', 'false');
-    }
-  };
-
-  removeContentEditable = (id: string) => {
-    const container = document.getElementById(id);
-    if (container) {
-      container.setAttribute('contenteditable', 'false');
-    }
-  };
-
   // Event Handlers
   onEditMode = () => {
     // if Append box is empty, close it and open Edit mode
