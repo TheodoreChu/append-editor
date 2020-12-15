@@ -1222,7 +1222,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   onSettingsMode = () => {
-    // Here we save the current state. We reload the current state if we cancel
+    // Here we save the current state. We reload the current state if we cancel and after we save
     if (!this.state.settingsMode) {
       this.removeFixedHeader();
       this.setState(
@@ -1230,6 +1230,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           currentState: this.state,
         },
         () => {
+          /** Turn everything off and turn Settings on */
           this.setState(
             {
               appendMode: false,
@@ -1270,9 +1271,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     }
   };
 
-  // We don't save the current state and reload it after confirm settings are saved
-  // This requires us to manually reload editMode and appendMode
-  // This is important for settings, especially useCodeMirror
+  /** Restore current state but change the items that are saved from the Settings.
+   * It's important to restore the current state to restore items that were turned off, such as
+   * fixedHeight and fullWidth.
+   */
   onSaveSettings = ({
     customStyles,
     editingMode,
@@ -1284,6 +1286,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   }: SaveSettingsInterface) => {
     this.setState(
       {
+        ...this.state.currentState,
         customStyles,
         editingMode,
         fontEdit,
@@ -1293,7 +1296,6 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         showAppendix: true,
         showHeader: true,
         settingsMode: false,
-        viewMode: true,
       },
       () => {
         this.refreshEditor();
