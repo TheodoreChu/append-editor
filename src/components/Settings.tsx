@@ -716,22 +716,24 @@ export default class Settings extends React.Component<
                 </div>
               </section>,
             ]}
-            <section className="sk-panel-row settings">
-              <ChevronToggleButton
-                caption={'Add custom styles (CSS):'}
-                className="chevron-toggle-button"
-                condition={this.state.showCustomStyles}
-                onClick={this.toggleShowCustomStyles}
-                title={'Toggle show add custom styles (CSS)'}
-              />
-              {this.state.showCustomStyles && [
-                <div className="text-and-undo-button">
-                  <UndoButton
-                    onClick={this.clearCustomStyles}
-                    title="Reset custom styles (CSS)"
-                  />
-                </div>,
-              ]}
+            <section className="sk-panel-row settings custom-css">
+              <div className="custom-css-and-undo-button">
+                <ChevronToggleButton
+                  caption={'Add custom styles (CSS):'}
+                  className="chevron-toggle-button"
+                  condition={this.state.showCustomStyles}
+                  onClick={this.toggleShowCustomStyles}
+                  title={'Toggle show add custom styles (CSS)'}
+                />
+                {this.state.showCustomStyles && [
+                  <div className="text-and-undo-button">
+                    <UndoButton
+                      onClick={this.clearCustomStyles}
+                      title="Reset custom styles (CSS)"
+                    />
+                  </div>,
+                ]}
+              </div>
             </section>
             {this.state.showCustomStyles && [
               <section className="sk-panel-row settings">

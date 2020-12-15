@@ -661,11 +661,18 @@ button:focus {
     }
     // Collapse on mobile
     @media screen and (max-width: 480px) {
-      flex-direction: column !important;
-      align-items: flex-start !important;
+      flex-direction: column;
+      align-items: flex-start;
 
       input {
         margin-top: 1rem;
+      }
+    }
+    &.custom-css {
+      display: block;
+      .custom-css-and-undo-button {
+        display: flex;
+        justify-content: space-between;
       }
     }
   }
