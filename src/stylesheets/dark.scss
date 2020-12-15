@@ -56,4 +56,12 @@
     --sn-stylekit-scrollbar-track-border-color: var(--border-color);
     --sn-stylekit-scrollbar-thumb-color: var(--sn-stylekit-info-color);
   }
+
+  /* Adjust background color for Plain Textarea and CodeMirror 
+  to be same as View Mode instead of a contrast background color. 
+  This improves readability / usability in dark modes. */
+  .sn-component .sk-input.contrast,
+  .CodeMirror {
+    background-color: var(--sn-stylekit-background-color);
+  }
 }
