@@ -295,17 +295,23 @@ When you click **Print**, you get to choose whether to print the URLs or not. Pr
 
 You can choose between four editing modes: Plain Textarea, CodeMirror, Dynamic, and Monaco. Each have their own pros and cons and their own use cases.
 
+### Custom Fonts
+
 You can choose your own custom fonts for the Edit/Append and View/Print Modes. The Settings Menu has a predefined list of fonts to help you with your selection, but you can type in a different one if it is not on the list. If you choose a font that is unavailable on your device or browser, then the editor might use your device or browser's default font such as Times New Roman.
 
 You can define multiple fonts in the order of your preference and separate them by commas. The editor will automatically display the next font if your preferred font is unavailable. For example, if you want to use a monospace font on all your devices but would prefer not to use `Courier New` if other monospace fonts are available, then you can submit a list of fonts such as `SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace`. This is useful if you use many devices with many different operating systems.
 
 The Dynamic mode uses the same fonts for Edit/Append and View/Print, so the custom font option for View/Print is hidden. The Monaco mode does not support custom fonts, so the custom font option for Edit/Append is hidden.
 
+### Custom CSS
+
 You can also add finer-tuned Custom Styles via CSS.
 
 :::warning
 Custom styles from third parties can potentially betray your privacy. Only use styles from trusted sources.
 :::
+
+#### Custom Highlight.js Stylesheets
 
 You can also use custom Highlight.js stylesheets for syntax highlighting if you prefer specific themes. The list of all the themes and the link to their stylesheets are available [here](https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/styles) (the default is the `vs` theme). For example, if you want to use the Google Code theme, add this to the top of your Custom Styles:
 
@@ -318,6 +324,8 @@ You can also add custom fonts (e.g., from [Google Fonts](https://fonts.google.co
 ```css
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 ```
+
+#### Custom Fonts with CSS
 
 Then update your fonts like this:
 
@@ -347,6 +355,8 @@ If you want to edit the font-sizes for the view, edit, and append textareas, you
   font-size: 17px;
 }
 ```
+
+#### How Custom CSS Works
 
 The custom font sizes, font families, and Custom Styles work by adding a `<style>` element to the end of the `<body>` element in the HTML. The Custom Styles take precedence over the higher settings because they are lower on the stylesheet.
 
