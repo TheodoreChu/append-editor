@@ -1490,14 +1490,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       if (edit) {
         edit.scrollTop = 10000000;
       }
-    }
-    /** Scroll down for CodeMirror */
-    const codeMirrorList = document.getElementsByClassName(
-      'CodeMirror-vscrollbar'
-    );
-    const codeMirrorEditMode = codeMirrorList[0];
-    if (codeMirrorEditMode) {
-      codeMirrorEditMode.scrollTop = 10000000;
+      /** Scroll down for CodeMirror */
+      const codeMirrorList = document.getElementsByClassName(
+        'CodeMirror-vscrollbar'
+      );
+      const codeMirrorEditMode = codeMirrorList[0];
+      if (codeMirrorEditMode) {
+        codeMirrorEditMode.scrollTop = 10000000;
+      }
     }
   };
 
@@ -1552,14 +1552,14 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       if (edit) {
         edit.scrollTop = 0;
       }
-    }
-    /** Scroll up for CodeMirror */
-    const codeMirrorList = document.getElementsByClassName(
-      'CodeMirror-vscrollbar'
-    );
-    const codeMirrorEditMode = codeMirrorList[0];
-    if (codeMirrorEditMode) {
-      codeMirrorEditMode.scrollTop = 0;
+      /** Scroll up for CodeMirror */
+      const codeMirrorList = document.getElementsByClassName(
+        'CodeMirror-vscrollbar'
+      );
+      const codeMirrorEditMode = codeMirrorList[0];
+      if (codeMirrorEditMode) {
+        codeMirrorEditMode.scrollTop = 0;
+      }
     }
   };
 
