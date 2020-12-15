@@ -717,23 +717,20 @@ export default class Settings extends React.Component<
               </section>,
             ]}
             <section className="sk-panel-row settings custom-css">
-              <div className="custom-css-and-undo-button">
-                <ChevronToggleButton
-                  caption={'Add custom styles (CSS):'}
-                  className="chevron-toggle-button"
-                  condition={this.state.showCustomStyles}
-                  onClick={this.toggleShowCustomStyles}
-                  title={'Toggle show add custom styles (CSS)'}
-                />
-                {this.state.showCustomStyles && [
-                  <div className="text-and-undo-button">
-                    <UndoButton
-                      onClick={this.clearCustomStyles}
-                      title="Reset custom styles (CSS)"
-                    />
-                  </div>,
-                ]}
-              </div>
+              <ChevronToggleButton
+                caption={'Add custom styles (CSS):'}
+                className="chevron-toggle-button"
+                condition={this.state.showCustomStyles}
+                onClick={this.toggleShowCustomStyles}
+                title={'Toggle show add custom styles (CSS)'}
+              />
+              {this.state.showCustomStyles && [
+                <UndoButton
+                  className={'custom-css-undo-button'}
+                  onClick={this.clearCustomStyles}
+                  title="Reset custom styles (CSS)"
+                />,
+              ]}
             </section>
             {this.state.showCustomStyles && [
               <section className="sk-panel-row settings">
@@ -752,7 +749,7 @@ export default class Settings extends React.Component<
                 Save these settings as your personal default:{' '}
               </label>
               <div className="input-and-undo-button">
-                <label>
+                <label className={'checkbox-input-label'}>
                   <input
                     id={saveAsDefaultID}
                     name={saveAsDefaultID}

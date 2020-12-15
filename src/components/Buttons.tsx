@@ -99,12 +99,13 @@ export const PrintButton: React.FC<ActionButtonTypes> = ({
 );
 
 export const UndoButton: React.FC<ActionButtonTypes> = ({
+  className,
   fill,
   id,
   onClick,
   title,
 }) => (
-  <button id={id} onClick={onClick} title={title}>
+  <button className={className} id={id} onClick={onClick} title={title}>
     <UndoIcon fill={fill} role={'button'} />
   </button>
 );

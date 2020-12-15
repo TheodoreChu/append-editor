@@ -626,38 +626,44 @@ button:focus {
       border-color: var(--sn-stylekit-border-color);
       color: var(--sn-stylekit-foreground-color);
     }
-    input[type='text'] {
-      min-width: 200px;
-    }
-    input[type='checkbox'] {
-      min-width: 210px;
-    }
-    select {
-      min-width: 217px;
-    }
     .input-and-undo-button {
       display: flex;
     }
+    /* On screens with screens less than 360px
+       The inputs and buttons have width 217px*/
+    select {
+      min-width: 217px;
+    }
+    input[type='text'] {
+      min-width: 200px;
+    }
+    // The checkbox is 19.8px wide.
+    // 98.6 + 98.6 + 18.8px is 217
+    // Use padding instead of width to center the checkbox
+    .checkbox-input-label {
+      padding-left: 98.6px;
+      padding-right: 98.6px;
+    }
     @media screen and (min-width: 360px) {
+      /* On screens with screens greater than 360px
+       The inputs and buttons have width 267px*/
+      select {
+        min-width: 267px;
+      }
       input[type='text'] {
         min-width: 250px;
       }
-      input[type='checkbox'] {
-        min-width: 260px;
+      .checkbox-input-label {
+        padding-left: 123.6px;
+        padding-right: 123.6px;
       }
-      select {
+      .chevron-toggle-button {
         min-width: 267px;
       }
     }
     .radio {
       margin-top: 3px;
       margin-bottom: 3px;
-    }
-    textarea {
-      // This seems to make the textarea blurry on Firefox
-      white-space: pre;
-      overflow-x: auto;
-      font-family: var(--sn-stylekit-monospace-font);
     }
     // Collapse on mobile
     @media screen and (max-width: 480px) {
@@ -667,12 +673,13 @@ button:focus {
       input {
         margin-top: 1rem;
       }
-    }
-    &.custom-css {
-      display: block;
-      .custom-css-and-undo-button {
-        display: flex;
-        justify-content: space-between;
+      &.custom-css {
+        flex-direction: row;
+        max-width: 299px;
+        .custom-css-undo-button {
+          margin-top: auto;
+          margin-bottom: auto;
+        }
       }
     }
   }
