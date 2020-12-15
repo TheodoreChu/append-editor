@@ -93,6 +93,7 @@ export default class EditNote extends React.Component<EditProps, EditState> {
               ? 'monacoEditor'
               : '')
           }
+          id={HtmlElementId.edit}
         >
           {this.props.editingMode === EditingModes.useMonacoEditor ? (
             <MonacoEditor

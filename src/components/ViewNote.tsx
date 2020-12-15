@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditingModes } from './AppendEditor';
+import { EditingModes, HtmlElementId } from './AppendEditor';
 import DynamicEditor from './DynamicEditor';
 import Help from './Help';
 import Intro from './Intro';
@@ -51,7 +51,7 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
           'sk-panel main view' + (this.props.printURL ? ' printURL' : '')
         }
       >
-        <div className="sk-panel-content view" id="view">
+        <div className="sk-panel-content view" id={HtmlElementId.view}>
           {!text && [
             <Intro
               appendMode={this.props.appendMode}

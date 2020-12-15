@@ -54,7 +54,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Append text to notes without accidentally editing previous notes
 - Changes to note in the Edit Mode are automatically saved
 - Text in the Append Mode is automatically saved without automatically appending
-- Option to render text live while editing without sacrificing performance when editing long notes
+- Option to render Markdown text live while editing without sacrificing performance when editing long notes
 - Option to turn View Mode off to focus on editing
 - Option to add new line or start new paragraph when appending
 - Helpful questions to prompt writing

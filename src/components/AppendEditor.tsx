@@ -44,6 +44,7 @@ export enum HtmlElementId {
   appendTextArea = 'appendTextArea',
   appendix = 'appendix',
   content = 'content',
+  edit = 'edit',
   editButton = 'editButton',
   editTextArea = 'editTextArea',
   header = 'header',
@@ -1482,6 +1483,19 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       if (view) {
         view.scrollTop = 10000000;
       }
+      /** Need edit for Dynamic */
+      const edit = document.getElementById(HtmlElementId.edit);
+      if (edit) {
+        edit.scrollTop = 10000000;
+      }
+    }
+    /** Scroll down for CodeMirror */
+    const codeMirrorList = document.getElementsByClassName(
+      'CodeMirror-vscrollbar'
+    );
+    const codeMirrorEditMode = codeMirrorList[0];
+    if (codeMirrorEditMode) {
+      codeMirrorEditMode.scrollTop = 10000000;
     }
   };
 
@@ -1531,6 +1545,19 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       if (view) {
         view.scrollTop = 0;
       }
+      /** Need edit for Dynamic */
+      const edit = document.getElementById(HtmlElementId.edit);
+      if (edit) {
+        edit.scrollTop = 0;
+      }
+    }
+    /** Scroll up for CodeMirror */
+    const codeMirrorList = document.getElementsByClassName(
+      'CodeMirror-vscrollbar'
+    );
+    const codeMirrorEditMode = codeMirrorList[0];
+    if (codeMirrorEditMode) {
+      codeMirrorEditMode.scrollTop = 0;
     }
   };
 
