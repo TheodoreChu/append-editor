@@ -19,7 +19,7 @@ The Append Editor is an **unofficial** [editor](https://standardnotes.org/help/7
 
 You can find the beta demo at [beta.appendeditor.com](https://beta.appendeditor.com) the alpha demo at [alpha.appendeditor.com](https://alpha.appendeditor.com).
 
-The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in 'read/view only' mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
+The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in Read/View Only Mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
 The editor supports Markdown, $\LaTeX/ \KaTeX$, syntax highlighting, in-line HTML, table of contents, footnotes, auto-linking, emoji codes, printing/saving to PDF (with and without URLs), custom fonts, optional in-line formatting, autocompletion, search and replace, and more. It is perfect for writing blog posts, class notes, daily journals, to-do checklists, and code snippets. You can append to your notes whenever you need to jot anything down.
 
@@ -36,26 +36,31 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Footnotes (links don't work on mobile) provided by [Remark Footnotes](https://github.com/remarkjs/remark-footnotes)
 - In-line HTML for underlining, highlighting, and HTML rendering provided by [Rehype Raw](https://github.com/rehypejs/rehype-raw)
 - Optional in-line formatting for Markdown provided by [CodeMirror](https://codemirror.net)
-- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor) developed by [Outline](https://www.getoutline.com/). Checkboxes are clickable in view/read-only mode
+- Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor) developed by [Outline](https://www.getoutline.com/). Checkboxes are clickable in read/View Only Mode
 - Optional in-line syntax highlighting for Markdown and more than 60 other programming languages, intelligent autocompletion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
   - Languages supported: abap, aes, apex, azcli, bat, c, cameligo, clojure, coffeescript, cpp, csharp, csp, css, dart, dockerfile, fsharp, go, graphql, handlebars, hcl, html, ini, java, javascript, json, julia, kotlin, less, lexon, lua, markdown, mips, msdax, mysql, objective-c, pascal, pascaligo, perl, pgsql, php, plaintext, postiats, powerquery, powershell, pug, python, r, razor, redis, redshift, restructuredtext, ruby, rust, sb, scala, scheme, scss, shell, sol, sql, st, swift, systemverilog, tcl, twig, typescript, vb, verilog, xml, yaml
+- Debounced Markdown rendering: When your note is long (over `10,000` characters), the editor will automatically slow the rendering of your Markdown until you finish typing. This significantly improves the experience of editing long notes.
 
 ### More Features
 
 - Emojis provided by [Remark emoji](https://github.com/rhysd/remark-emoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
 - Print/Save to PDF the rendered Markdown/HTML text with or without URLs (works best on Chromium browsers)
+- Buttons to copy the raw text and rendered HTML of the note
+- Buttons to format Markdown text with Prettier
+- Button to uncheck all checkboxes
 - Buttons to scroll to top and bottom of the note
 - Notes are stored in plaintext (great for longevity)
 - Read notes by default to prevent accidentally editing previous notes
 - Append text to notes without accidentally editing previous notes
-- Changes to note in the Edit mode are automatically saved
-- Text in the Append mode is automatically saved without automatically appending
-- Option to render text live while editing
-- Option to turn View mode off to improve editor performance when editing long notes
+- Changes to note in the Edit Mode are automatically saved
+- Text in the Append Mode is automatically saved without automatically appending
+- Option to render Markdown text live while editing without sacrificing performance when editing long notes
+- Option to turn View Mode off to focus on editing
 - Option to add new line or start new paragraph when appending
-- Option to choose custom fonts and font sizes
 - Helpful questions to prompt writing
-- On Web and Desktop, switching notes does not reset the Edit and View modes, making it easy to edit multiple notes in one session
+- On Web and Desktop, switching notes does not reset the Edit and View Modes, making it easy to edit multiple notes in one session
+- Four additional options for adjusting the appearance of the editor: Borderless, Fixed Height, Full Width, and Horizontal Overflow. These are saved in the editor and persist between editing sessions and devices.
+- Option to choose custom font sizes, font families, and custom CSS to further customize the look and feel of the editor
 - Option to save and load personal default settings
 
 ## Installation
@@ -92,23 +97,23 @@ After you have installed the editor on the web or desktop app, it will automatic
 The keyboard shortcuts should work in Plaintext and CodeMirror editing modes, but most currently do not work in the Dynamic and Monaco editing modes. Better support for keyboard shortcuts will hopefully be improved in the future.
 :::
 
-| Action                                     | Shortcut                                       |
-| :----------------------------------------- | :--------------------------------------------- |
-| Toggle Edit Mode                           | Ctrl/⌘ + `E`                                   |
-| Toggle Append Mode                         | Ctrl/⌘ + `U` or Ctrl/⌘ + `M`                   |
-| Toggle View Mode                           | Ctrl/⌘ + `P`                                   |
-| Toggle View and Edit Modes (for Edit Only) | Ctrl/⌘ + `<`                                   |
-| Toggle View and Append Modes               | Ctrl/⌘ + `>`                                   |
-| Escape Edit/View Mode^                     | Escape                                         |
-| Save/Append Text^                          | Ctrl/⌘ + `S` and Ctrl/⌘ + Enter                |
-| Toggle Append New Line^                    | Ctrl/⌘ + Alt + `N`                             |
-| Toggle Append New Paragraph^               | Ctrl/⌘ + Alt + `P`                             |
-| Increase number of rows in Append box      | Ctrl/⌘ + `.` (period)                          |
-| Decrease number of rows in Append box\*\*  | Ctrl/⌘ + `,` (comma)                           |
-| Skip to Top/Bottom (fast)                  | Ctrl/⌘ + `[` and `]`                           |
-| Skip to beginning or end of text area^     | Ctrl/⌘ + Home and Ctrl/⌘ + End                 |
-| Open Search (in-line formatting mode)      | Ctrl/⌘ + `F` or Alt + `F` (for persistent use) |
-| Close Search                               | Escape or same as open search                  |
+| Action                                     | Shortcut                                  |
+| :----------------------------------------- | :---------------------------------------- |
+| Toggle Edit Mode                           | Ctrl/⌘ + `E`                              |
+| Toggle Append Mode                         | Ctrl/⌘ + `U` or Ctrl/⌘ + `M`              |
+| Toggle View Mode                           | Ctrl/⌘ + `P`                              |
+| Toggle View and Edit Modes (for Edit Only) | Ctrl/⌘ + `<`                              |
+| Toggle View and Append Modes               | Ctrl/⌘ + `>`                              |
+| Escape Edit/View Mode^                     | Escape                                    |
+| Save/Append Text^                          | Ctrl/⌘ + `S` and Ctrl/⌘ + Enter           |
+| Toggle Append New Line^                    | Ctrl/⌘ + Alt + `N`                        |
+| Toggle Append New Paragraph^               | Ctrl/⌘ + Alt + `P`                        |
+| Increase number of rows in Append box      | Ctrl/⌘ + `.` (period)                     |
+| Decrease number of rows in Append box\*\*  | Ctrl/⌘ + `,` (comma)                      |
+| Skip to Top/Bottom (fast)                  | Ctrl/⌘ + `[` and `]`                      |
+| Skip to beginning or end of text area^     | Ctrl/⌘ + Home and Ctrl/⌘ + End            |
+| Open Search (in CodeMirror or Monaco)      | Ctrl/⌘ + `F` or Alt + `F` (in CodeMirror) |
+| Close Search                               | Escape or same as open search             |
 
 ^ Perform in corresponding edit box
 \*\* The Append box has a minimum of 5 rows
@@ -170,7 +175,7 @@ The Markdown rendering in the Append Editor respects line breaks. This is differ
 
 In the Append Editor, you do not need trailing spaces. To create a new line, simply press enter/return on your keyboard. To create a new paragraph, skip two lines.
 
-In the Append mode, the **New Line** checkbox adds two spaces and a new line to the beginning of your note. The **New Paragraph** checkbox adds two spaces and two new lines to the beginning of your note. If both are checked, new paragraph will take precedence. I am considering to switch these to radio buttons, but that would require at least one option to be checked at all times.
+In the Append Mode, the **New Line** checkbox adds two spaces and a new line to the beginning of your note. The **New Paragraph** checkbox adds two spaces and two new lines to the beginning of your note. If both are checked, new paragraph will take precedence. I am considering to switch these to radio buttons, but that would require at least one option to be checked at all times.
 
 ## Lists
 
@@ -290,7 +295,7 @@ When you click **Print**, you get to choose whether to print the URLs or not. Pr
 
 You can choose between four editing modes: Plain Textarea, CodeMirror, Dynamic, and Monaco. Each have their own pros and cons and their own use cases.
 
-You can choose your own custom fonts for the Edit/Append and View/Print modes. The Settings Menu has a predefined list of fonts to help you with your selection, but you can type in a different one if it is not on the list. If you choose a font that is unavailable on your device or browser, then the editor might use your device or browser's default font such as Times New Roman.
+You can choose your own custom fonts for the Edit/Append and View/Print Modes. The Settings Menu has a predefined list of fonts to help you with your selection, but you can type in a different one if it is not on the list. If you choose a font that is unavailable on your device or browser, then the editor might use your device or browser's default font such as Times New Roman.
 
 You can define multiple fonts in the order of your preference and separate them by commas. The editor will automatically display the next font if your preferred font is unavailable. For example, if you want to use a monospace font on all your devices but would prefer not to use `Courier New` if other monospace fonts are available, then you can submit a list of fonts such as `SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace`. This is useful if you use many devices with many different operating systems.
 
@@ -334,6 +339,7 @@ If you want to edit the font-sizes for the view, edit, and append textareas, you
 ```css
 .CodeMirror,
 .DynamicEditor,
+.MonacoEditorContainer,
 .ProseMirror,
 #editTextArea,
 #appendTextArea,
@@ -365,7 +371,7 @@ The general instructions setting up an environment to develop Standard Notes ext
 5. In the `public` directory, create `ext.json` as explained [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`, create `ext.json` as a copy of `sample.ext.json` or use the sample.
 6. Install http-server using `sudo npm install -g http-server` then run `yarn server-public` to serve the `./public` directory at http://localhost:3000.
 7. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
-8. To run the app in development mode, run `yarn start`. Press `ctrl/cmd + C` to exit development mode.
+8. To run the app in development mode, run `yarn start` and visit http://localhost:3001. Press `ctrl/cmd + C` to exit development mode.
 9. To make the source code prettier, run `yarn pretty`.
 10. To build the app, run `yarn build`.
 11. To test the build in the Standard Notes app, run `yarn server` or install serve using `sudo npm install -g serve` and run `yarn serve` then visit http://localhost:3000. Press `ctrl/cmd + C` to shut down the server.
@@ -380,7 +386,7 @@ In the project directory, you can run:
 #### `yarn start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
