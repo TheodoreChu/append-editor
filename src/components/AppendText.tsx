@@ -191,9 +191,9 @@ export default class AppendText extends React.Component<
       >
         <div
           className={
-            'sk-panel-content edit ' +
+            'sk-panel-content edit' +
             (this.props.editingMode === EditingModes.useMonacoEditor
-              ? 'monacoEditor'
+              ? ' MonacoEditorContainerParentDiv'
               : '')
           }
         >

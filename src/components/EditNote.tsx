@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditingModes } from './AppendEditor';
+import { EditingModes, HtmlClassName } from './AppendEditor';
 import { MonacoEditor } from './Monaco';
 import DynamicEditor from './DynamicEditor';
 
@@ -62,6 +62,20 @@ export default class EditNote extends React.Component<EditProps, EditState> {
     );
   };
 
+  onBlur = (e: React.FocusEvent) => {
+    const content = document.getElementById(HtmlElementId.content);
+    if (content) {
+      content.classList.remove(HtmlClassName.focused);
+    }
+  };
+
+  onFocus = (e: React.FocusEvent) => {
+    const content = document.getElementById(HtmlElementId.content);
+    if (content) {
+      content.classList.add(HtmlClassName.focused);
+    }
+  };
+
   onKeyDown = (e: React.KeyboardEvent) => {
     this.props.onKeyDown(e);
     this.props.onKeyDownEditTextArea(e);
@@ -88,9 +102,9 @@ export default class EditNote extends React.Component<EditProps, EditState> {
       >
         <div
           className={
-            'sk-panel-content edit ' +
+            'sk-panel-content edit' +
             (this.props.editingMode === EditingModes.useMonacoEditor
-              ? 'monacoEditor'
+              ? ' MonacoEditorContainerParentDiv'
               : '')
           }
           id={HtmlElementId.edit}
@@ -116,12 +130,14 @@ export default class EditNote extends React.Component<EditProps, EditState> {
             <textarea
               id={HtmlElementId.editTextArea}
               name="text"
-              className="sk-input contrast textarea editnote"
+              className={'sk-input contrast textarea editnote'}
               placeholder="Welcome to the Append Editor! 😄"
               rows={15}
               spellCheck="true"
               value={text}
+              onBlur={this.onBlur}
               onChange={this.handleInputChange}
+              onFocus={this.onFocus}
               onKeyDown={this.onKeyDown}
               onKeyUp={this.onKeyUp}
             />

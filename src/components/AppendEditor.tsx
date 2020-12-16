@@ -61,6 +61,7 @@ export enum HtmlElementId {
 export enum HtmlClassName {
   fixed = 'fixed',
   fixedHeader = 'fixed-header',
+  focused = 'focused',
 }
 
 export enum EditingModes {
@@ -791,6 +792,18 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           }
           editCodeMirror.save();
           this.saveText(editCodeMirrorText);
+        });
+        editCodeMirror.on('blur', (cm: Editor, event: FocusEvent) => {
+          const content = document.getElementById(HtmlElementId.content);
+          if (content) {
+            content.classList.remove(HtmlClassName.focused);
+          }
+        });
+        editCodeMirror.on('focus', (cm: Editor, event: FocusEvent) => {
+          const content = document.getElementById(HtmlElementId.content);
+          if (content) {
+            content.classList.add(HtmlClassName.focused);
+          }
         });
         editCodeMirror.on('keydown', (cm: Editor, event: KeyboardEvent) => {
           this.onKeyDown(event);
@@ -1772,7 +1785,20 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         window.scrollY > last_known_scroll_position &&
         !this.state.showMenu
       ) {
-        this.removeFixedHeader();
+        if (
+          // If NOT using Edit Only mode with PlainText and CodeMirror
+          !(
+            (this.state.editingMode === undefined ||
+              this.state.editingMode === EditingModes.usePlainText ||
+              this.state.editingMode === EditingModes.useCodeMirror) &&
+            this.state.editMode &&
+            !this.state.appendMode &&
+            !this.state.settingsMode &&
+            !this.state.viewMode
+          )
+        ) {
+          this.removeFixedHeader();
+        }
       }
       last_known_scroll_position = window.scrollY;
     }
@@ -1813,7 +1839,21 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         onBlur={this.onBlur}
       >
         {this.state.showHeader && [
-          <div id={HtmlElementId.header} className={'header'}>
+          <div
+            id={HtmlElementId.header}
+            className={
+              'header' +
+              ((this.state.editingMode === undefined ||
+                this.state.editingMode === EditingModes.usePlainText ||
+                this.state.editingMode === EditingModes.useCodeMirror) &&
+              this.state.editMode &&
+              !this.state.appendMode &&
+              !this.state.settingsMode &&
+              !this.state.viewMode
+                ? ' fixed'
+                : '')
+            }
+          >
             <div className="sk-button-group">
               <button
                 type="button"
@@ -1958,6 +1998,15 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           id={HtmlElementId.content}
           className={
             'content' +
+            ((this.state.editingMode === undefined ||
+              this.state.editingMode === EditingModes.usePlainText ||
+              this.state.editingMode === EditingModes.useCodeMirror) &&
+            this.state.editMode &&
+            !this.state.appendMode &&
+            !this.state.settingsMode &&
+            !this.state.viewMode
+              ? ' fixed-header edit-only'
+              : '') +
             (this.state.borderlessMode ? ' borderless' : '') +
             (this.state.fixedHeightMode ? ' fixed-height' : '') +
             (this.state.fullWidthMode ? ' full-width' : '') +

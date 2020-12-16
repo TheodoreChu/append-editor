@@ -22,6 +22,7 @@
 body,
 html {
   background-color: transparent;
+  background-color: var(--sn-stylekit-background-color);
   font-family: var(--sn-stylekit-sans-serif-font);
   font-size: var(--sn-stylekit-base-font-size);
   height: 100%;
@@ -98,6 +99,9 @@ button:focus {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  @media screen and (max-width: 420px) {
+    min-height: -webkit-fill-available;
+  }
 
   .sk-button.info,
   .sk-button.neutral {
@@ -137,7 +141,7 @@ button:focus {
 
     // Hides the horizontal scroll bar when using the Monaco Editor
     // Otherwise the horizontal scroll bar will flash when the Monaco editor suggests words
-    &.monacoEditor {
+    &.MonacoEditorContainerParentDiv {
       overflow-x: hidden !important;
     }
   }
@@ -311,6 +315,20 @@ button:focus {
 
   @media screen and (max-width: 725px) {
     padding: 0;
+  }
+  &.edit-only {
+    @media screen and (max-width: 420px) {
+      max-height: calc(100vh - 60.2px);
+      &.focused {
+        max-height: 55vh;
+        .CodeMirror {
+          max-height: calc(55vh - 0.5rem);
+        }
+      }
+    }
+    @media screen and (max-width: 330px) {
+      max-height: calc(100vh - 56.2px);
+    }
   }
   &.fixed-header {
     padding-top: 60.2px;
@@ -765,7 +783,7 @@ button:focus {
 
 .MonacoEditorContainer,
 .MonacoDiffEditorContainer {
-  min-height: 200px;
+  min-height: 300px;
   width: calc(100% - 1.5px);
   max-width: inherit;
   max-height: inherit;
@@ -773,7 +791,7 @@ button:focus {
 
 .edit .MonacoEditorContainer,
 .edit .MonacoDiffEditorContainer {
-  min-height: 200px;
+  min-height: 300px;
   height: calc(100% - 1.7em);
   margin-bottom: 25px;
 }

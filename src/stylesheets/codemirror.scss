@@ -18,6 +18,8 @@
   background-color: var(--sn-stylekit-contrast-background-color);
 
   @media screen and (max-width: 725px) {
+    border-left: 0px;
+    border-right: 0px;
     border-top: 1px solid var(--sn-stylekit-border-color);
   }
   .CodeMirror-scroll,
