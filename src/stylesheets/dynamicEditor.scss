@@ -25,3 +25,15 @@ button.block-menu-trigger {
   background-color: var(--sn-stylekit-background-color);
   color: var(--sn-stylekit-foreground-color);
 }
+
+#content.overflow {
+  .ProseMirror {
+    overflow-wrap: normal !important;
+  }
+  .ProseMirror li p:first-child {
+    word-break: normal !important;
+  }
+  .DynamicEditor pre {
+    overflow: visible;
+  }
+}
