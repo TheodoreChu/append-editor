@@ -5,16 +5,19 @@ import remark2rehype from 'remark-rehype';
 import rehype2react from 'rehype-react';
 import { debounce, throttle } from 'lodash';
 
-const gfm = require('remark-gfm');
+// Remark
 const breaks = require('remark-breaks');
-const math = require('remark-math');
-const rehypeKatex = require('rehype-katex');
-const highlight = require('rehype-highlight');
-const emoji = require('remark-emoji');
 const externalLinks = require('remark-external-links');
-const toc = require('remark-toc');
 const footnotes = require('remark-footnotes');
+const gfm = require('remark-gfm');
+const gemoji = require('remark-gemoji');
+const math = require('remark-math');
 const slug = require('remark-slug');
+const toc = require('remark-toc');
+
+// Rehype
+const highlight = require('rehype-highlight');
+const rehypeKatex = require('rehype-katex');
 const raw = require('rehype-raw');
 
 const processor = unified()
@@ -25,12 +28,12 @@ const processor = unified()
   .use(toc, { maxDepth: 6 })
   .use(externalLinks)
   .use(footnotes, { inlineNotes: true })
+  .use(gemoji)
   .use(remark2rehype, { allowDangerousHtml: true })
   .use(raw)
   .use(math)
   .use(rehypeKatex)
   .use(highlight, { ignoreMissing: true })
-  .use(emoji)
   .use(rehype2react, { createElement: React.createElement });
 
 export const processMarkdown = (text: string) => {
