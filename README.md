@@ -368,6 +368,26 @@ The styling of the editor (class names, etc.) are subject to change as the edito
 
 Please let me know if you want to add more fonts to the list or need help implementing custom styles.
 
+## Privacy and Security
+
+The Append Editor is an **unofficial** editor for Standard Notes. Since it is **unofficial**, how can we trust it? How do we know it is "safe" to use?
+
+The question of how and whether to trust a piece of software is a good one. Probably the best way to come to the conclusion of whether we can trust it is to have many, many knowledgeable, intelligent, and experienced people inspect the source code and come to independent conclusions about its trustworthiness, then discuss and deliberate their conclusions amongst themselves to determine a group conclusion that we can then follow. But, unfortunately for us, the Append Editor is a small app in the sea of software that we find ourselves drowning in. We don't have the resources to conduct independent reviews of the editor since it is itself a small independent project, but here are some reasons to suggest that the editor is trustworthy enough to work as an extension for Standard Notes.
+
+1. The Standard Notes app requires editors to ask for permission before interacting with your data. If it does not receive permission, then it won't work. The Append Editor only asks for permission to interact with your working note. It does not ask for permission to read all of your notes, tags, folders, other editors, and so on.
+2. If you browse the network tab in the developer console while you are using the editor on its own in the demo or in the Standard Notes app, then you won't see any outgoing requests from the editor. The editor isn't sending your data anywhere, and it doesn't keep your data. If you refresh the page in the demo, then your data is gone. If you switch to another editor and back to the Append Editor, then the editor needs to read your data again before working with it.
+3. The editor is open source. If you browse the source code, then you won't see any outgoing requests.You can download the source code and build the app from the source to verify that the one I'm serving is actually reflective of the source. The build is included in the Git repository, so you can easily see if there are any changes in your build when comparing it to mine.
+4. All the dependencies that I use are well-known or are built by developers who seem trustworthy and well-known. This isn't definitive, of course, since I'm not able to personally verify that the dependencies are 100% secure, but the fact that the packages that I use are also built and used by developers much more talented than I am suggest to me that they are safe to use.
+5. Finally, I try to keep the dependencies up to date.
+
+The app does not have any analytics of any kind. I don't know how many people use it, how long or how much they use it, how long their notes are, which devices they use, where they are from, and so on. The only thing I'm able to see is how many times the editor is downloaded, and that's calculated by GitHub.
+
+Trust is very important when developing and sharing a software product. I try to be very transparent in the development of the Append Editor. The release notes are very detailed, and I try to reference specific commits when describing new features, fixes, improvements, and changes behind the scenes. The commit messages are also detailed, and I try to write helpful, explanatory comments throughout the source code.
+
+The editor is fully functional even if your device is offline. If you want to confirm this, you can load the editor on mobile, web, and desktop and turn on airplane mode. If you download the Append Editor using the links [provided above](#installation), then you can use the editor offline on the desktop app without loading it from the hosted version.
+
+The beta version of the editor is hosted on GitHub pages, and the Alpha and dev versions are hosted on my private development server at DigitalOcean. If you do not want to use the hosted version or do not want to automatically update the editor when I publish new releases, then you can disable these features in the Standard Notes web and desktop apps.
+
 ## Development
 
 **Prerequisites:** Install [Node.js](https://nodejs.org/en/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable), and [Git](https://github.com/git-guides/install-git) on your computer.
