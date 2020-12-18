@@ -13,6 +13,30 @@
 
 </div>
 
+<details width="100%">
+    <summary>Table of Contents</summary>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#features">Features</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+<li><a href="#style-guide">Style Guide</a></li>
+<li><a href="#line-breaks">Line Breaks</a></li>
+<li><a href="#lists">Lists</a></li>
+<li><a href="#tables">Tables</a></li>
+<li><a href="#katex">KaTeX</a></li>
+<li><a href="#table-of-contents"> Table of Contents</a></li>
+<li><a href="#footnotes">Footnotes</a></li>
+<li><a href="#printing">Printing</a></li>
+<li><a href="#settings">Settings</a></li>
+<li><a href="#privacy-and-security">Privacy and Security</a></li>
+<li><a href="#development">Development</a></li>
+<li><a href="#license">License</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#further-resources">Further Resources</a></li>
+</ul>
+</details>
+
 ## Introduction
 
 The Append Editor is an **unofficial** [editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, [open-source](https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software), and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
