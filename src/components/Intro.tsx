@@ -77,7 +77,7 @@ const Intro: React.FC<IntroProps> = ({ appendMode, editMode, showHelp }) => (
           <EyeIcon condition={true} role="button" />
           <span>&nbsp;</span>
         </button>
-        to turn View Mode off and switch to <b>Edit Only Mode</b>.
+        to turn <b>View Mode</b> off and switch to <b>Edit Only Mode</b>.
       </p>
       <p>
         If you are using the demo at{' '}
