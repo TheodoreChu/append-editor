@@ -13,6 +13,30 @@
 
 </div>
 
+<details width="100%">
+  <summary>Table of Contents</summary>
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
+    <li><a href="#style-guide">Style Guide</a></li>
+    <li><a href="#line-breaks">Line Breaks</a></li>
+    <li><a href="#lists">Lists</a></li>
+    <li><a href="#tables">Tables</a></li>
+    <li><a href="#katex">KaTeX</a></li>
+    <li><a href="#table-of-contents"> Table of Contents</a></li>
+    <li><a href="#footnotes">Footnotes</a></li>
+    <li><a href="#printing">Printing</a></li>
+    <li><a href="#settings">Settings</a></li>
+    <li><a href="#privacy-and-security">Privacy and Security</a></li>
+    <li><a href="#development">Development</a></li>
+    <li><a href="#license">License</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+    <li><a href="#further-resources">Further Resources</a></li>
+  </ul>
+</details>
+
 ## Introduction
 
 The Append Editor is an **unofficial** [editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, [open-source](https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software), and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
@@ -43,7 +67,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 
 ### More Features
 
-- Emojis provided by [Remark emoji](https://github.com/rhysd/remark-emoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- Emojis provided by [Remark Gemoji](https://github.com/remarkjs/remark-gemoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
 - Print/Save to PDF the rendered Markdown/HTML text with or without URLs (works best on Chromium browsers)
 - Buttons to copy the raw text and rendered HTML of the note
 - Buttons to format Markdown text with Prettier
@@ -368,6 +392,26 @@ The styling of the editor (class names, etc.) are subject to change as the edito
 
 Please let me know if you want to add more fonts to the list or need help implementing custom styles.
 
+## Privacy and Security
+
+The Append Editor is an **unofficial** editor for Standard Notes. Since it is **unofficial**, how can we trust it? How do we know it is "safe" to use?
+
+The question of how and whether to trust a piece of software is a good one. Probably the best way to come to the conclusion of whether we can trust it is to have many, many knowledgeable, intelligent, and experienced people inspect the source code and come to independent conclusions about its trustworthiness, then discuss and deliberate their conclusions amongst themselves to determine a group conclusion that we can then follow. But, unfortunately for us, the Append Editor is a small app in the sea of software that we find ourselves drowning in. We don't have the resources to conduct independent reviews of the editor since it is itself a small independent project, but here are some reasons to suggest that the editor is trustworthy enough to work as an extension for Standard Notes.
+
+1. The Standard Notes app requires editors to ask for permission before interacting with your data. If it does not receive permission, then it won't work. The Append Editor only asks for permission to interact with your working note. It does not ask for permission to read all of your notes, tags, folders, other editors, and so on.
+2. If you browse the network tab in the developer console while you are using the editor on its own in the demo or in the Standard Notes app, then you won't see any outgoing requests from the editor. The editor isn't sending your data anywhere, and it doesn't keep your data. If you refresh the page in the demo, then your data is gone. If you switch to another editor and back to the Append Editor, then the editor needs to read your data again before working with it.
+3. The editor is open source. If you browse the source code, then you won't see any outgoing requests.You can download the source code and build the app from the source to verify that the one I'm serving is actually reflective of the source. The build is included in the Git repository, so you can easily see if there are any changes in your build when comparing it to mine.
+4. All the dependencies that I use are well-known or are built by developers who seem trustworthy and well-known. This isn't definitive, of course, since I'm not able to personally verify that the dependencies are 100% secure, but the fact that the packages that I use are also built and used by developers much more talented than I am suggest to me that they are safe to use.
+5. Finally, I try to keep the dependencies up to date.
+
+The app does not have any analytics of any kind. I don't know how many people use it, how long or how much they use it, how long their notes are, which devices they use, where they are from, and so on. The only thing I'm able to see is how many times the editor is downloaded, and that's calculated by GitHub.
+
+Trust is very important when developing and sharing a software product. I try to be very transparent in the development of the Append Editor. The release notes are very detailed, and I try to reference specific commits when describing new features, fixes, improvements, and changes behind the scenes. The commit messages are also detailed, and I try to write helpful, explanatory comments throughout the source code.
+
+The editor is fully functional even if your device is offline. If you want to confirm this, you can load the editor on mobile, web, and desktop and turn on airplane mode. If you download the Append Editor using the links [provided above](#installation), then you can use the editor offline on the desktop app without loading it from the hosted version.
+
+The beta version of the editor is hosted on GitHub pages, and the Alpha and dev versions are hosted on my private development server at DigitalOcean. If you do not want to use the hosted version or do not want to automatically update the editor when I publish new releases, then you can disable these features in the Standard Notes web and desktop apps.
+
 ## Development
 
 **Prerequisites:** Install [Node.js](https://nodejs.org/en/), [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable), and [Git](https://github.com/git-guides/install-git) on your computer.
@@ -378,14 +422,27 @@ The general instructions setting up an environment to develop Standard Notes ext
 2. [Clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) your fork of the repository.
 3. Run `cd append-editor` to enter the `append-editor` directory.
 4. Run `yarn install` to install the dependencies on your machine as they are described in `yarn.lock`.
-5. In the `public` directory, create `ext.json` as explained [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`, create `ext.json` as a copy of `sample.ext.json` or use the sample.
-6. Install http-server using `sudo npm install -g http-server` then run `yarn server-public` to serve the `./public` directory at http://localhost:3000.
-7. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
-8. To run the app in development mode, run `yarn start` and visit http://localhost:3001. Press `ctrl/cmd + C` to exit development mode.
-9. To make the source code prettier, run `yarn pretty`.
-10. To build the app, run `yarn build`.
-11. To test the build in the Standard Notes app, run `yarn server` or install serve using `sudo npm install -g serve` and run `yarn serve` then visit http://localhost:3000. Press `ctrl/cmd + C` to shut down the server.
-12. To the deploy the build into the `gh-pages` branch of your repository on GitHub, run `yarn deploy-stable`. I use `yarn deploy-dev` for deploying development versions of the app and `yarn deploy-build` for distributing builds.
+
+### Testing in the browser
+
+1. To run the app in development mode, run `yarn start` and visit http://localhost:3001. Press `ctrl/cmd + C` to exit development mode.
+
+### Testing in the Standard Notes app
+
+1.  Create an `ext.json` in the `public` directory. You have three options:
+    1.  Use `sample.ext.json`.
+    2.  Create `ext.json` as a copy of `sample.ext.json`.
+    3.  Follow the instructions [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`.
+2.  Install `http-server` using `sudo npm install -g http-server` then run `yarn server` to serve the `./build` directory at http://localhost:3000.
+3.  To build the app, run `yarn build`.
+4.  Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
+
+### Deployment
+
+1. To make the source code prettier, run `yarn pretty`.
+2. To the deploy the build into the `gh-pages` branch of your repository on GitHub, run `yarn deploy-stable`.
+3. To deploy the build into to the `dev` branch for testing, run `yarn deploy-dev`.
+4. To deploy the built into the `build` branch for distributing, run `yarn deploy-build` for distributing builds.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
