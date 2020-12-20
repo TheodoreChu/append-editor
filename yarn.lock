@@ -2094,10 +2094,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.9.2.tgz#ace1880c03594cc3e80206d96847157d8e7fa349"
   integrity sha512-bnoqK579sAYrQbp73wwglccjJ4sfRdKU7WNEZ5FW4K2U6Kc0/eZ5kvXG0JKsEKFB50zrFmfFt52/cvBbZa7eXg==
 
-"@types/node@^14.14.13":
-  version "14.14.13"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.13.tgz#9e425079799322113ae8477297ae6ef51b8e0cdf"
-  integrity sha512-vbxr0VZ8exFMMAjCW8rJwaya0dMCDyYW2ZRdTyjtrCvJoENMpdUHOT/eTzvgyA5ZnqRZ/sI0NwqAxNHKYokLJQ==
+"@types/node@^14.14.14":
+  version "14.14.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.14.tgz#f7fd5f3cc8521301119f63910f0fb965c7d761ae"
+  integrity sha512-UHnOPWVWV1z+VV8k6L1HhG7UbGBgIdghqF3l9Ny9ApPghbjICXkUJSd/b9gOgQfjM1r+37cipdw/HJ3F6ICEnQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -11598,10 +11598,10 @@ rgba-regex@^1.0.0:
   resolved "https://registry.yarnpkg.com/rgba-regex/-/rgba-regex-1.0.0.tgz#43374e2e2ca0968b0ef1523460b7d730ff22eeb3"
   integrity sha1-QzdOLiyglosO8VI0YLfXMP8i7rM=
 
-rich-markdown-editor@^11.0.10:
-  version "11.0.10"
-  resolved "https://registry.yarnpkg.com/rich-markdown-editor/-/rich-markdown-editor-11.0.10.tgz#ad877414d4809a9351792e2dda5a8698a624c192"
-  integrity sha512-0Mth3pV0Hu52FBcd+mOszc96d264XMBHmXaiV/7uEjR8k83KJ8FXtGEX0q5zK4PxbuIhaIHVqrYjXW26JHSnYw==
+rich-markdown-editor@^11.0.11:
+  version "11.0.11"
+  resolved "https://registry.yarnpkg.com/rich-markdown-editor/-/rich-markdown-editor-11.0.11.tgz#7f29f0956a81618966866d4c05219910e317a7d1"
+  integrity sha512-2p7kETZSDCene8DqV0WgGNeSgaK3V8uRIXUK9gJAORl6zaieuY0TQu3GKIYkblxxeJYeMGp/kQeDJRrBYnRDBg==
   dependencies:
     copy-to-clipboard "^3.0.8"
     lodash "^4.17.11"
