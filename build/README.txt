@@ -422,14 +422,27 @@ The general instructions setting up an environment to develop Standard Notes ext
 2. [Clone](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository) your fork of the repository.
 3. Run `cd append-editor` to enter the `append-editor` directory.
 4. Run `yarn install` to install the dependencies on your machine as they are described in `yarn.lock`.
-5. In the `public` directory, create `ext.json` as explained [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`, create `ext.json` as a copy of `sample.ext.json` or use the sample.
-6. Install http-server using `sudo npm install -g http-server` then run `yarn server-public` to serve the `./public` directory at http://localhost:3000.
-7. Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
-8. To run the app in development mode, run `yarn start` and visit http://localhost:3001. Press `ctrl/cmd + C` to exit development mode.
-9. To make the source code prettier, run `yarn pretty`.
-10. To build the app, run `yarn build`.
-11. To test the build in the Standard Notes app, run `yarn server` or install serve using `sudo npm install -g serve` and run `yarn serve` then visit http://localhost:3000. Press `ctrl/cmd + C` to shut down the server.
-12. To the deploy the build into the `gh-pages` branch of your repository on GitHub, run `yarn deploy-stable`. I use `yarn deploy-dev` for deploying development versions of the app and `yarn deploy-build` for distributing builds.
+
+### Testing in the browser
+
+1. To run the app in development mode, run `yarn start` and visit http://localhost:3001. Press `ctrl/cmd + C` to exit development mode.
+
+### Testing in the Standard Notes app
+
+1.  Create an `ext.json` in the `public` directory. You have three options:
+    1.  Use `sample.ext.json`.
+    2.  Create `ext.json` as a copy of `sample.ext.json`.
+    3.  Follow the instructions [here](https://docs.standardnotes.org/extensions/local-setup) with `url: "http://localhost:3000/index.html"`.
+2.  Install `http-server` using `sudo npm install -g http-server` then run `yarn server` to serve the `./build` directory at http://localhost:3000.
+3.  To build the app, run `yarn build`.
+4.  Install the editor into the [web](https://app.standardnotes.org) or [desktop](https://standardnotes.org/download) app with `http://localhost:3000/sample.ext.json` or with your custom `ext.json`. Press `ctrl/cmd + C` to shut down the server.
+
+### Deployment
+
+1. To make the source code prettier, run `yarn pretty`.
+2. To the deploy the build into the `gh-pages` branch of your repository on GitHub, run `yarn deploy-stable`.
+3. To deploy the build into to the `dev` branch for testing, run `yarn deploy-dev`.
+4. To deploy the built into the `build` branch for distributing, run `yarn deploy-build` for distributing builds.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
