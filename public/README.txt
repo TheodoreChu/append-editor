@@ -67,7 +67,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 
 ### More Features
 
-- Emojis provided by [Remark emoji](https://github.com/rhysd/remark-emoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
+- Emojis provided by [Remark Gemoji](https://github.com/remarkjs/remark-gemoji) and [emoji codes](https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md)
 - Print/Save to PDF the rendered Markdown/HTML text with or without URLs (works best on Chromium browsers)
 - Buttons to copy the raw text and rendered HTML of the note
 - Buttons to format Markdown text with Prettier
