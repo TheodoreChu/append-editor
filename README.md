@@ -1,10 +1,10 @@
-# Append Editor
+# Append Editor for Standard Notes
 
 <div align="center">
 
 [![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/releases)
 [![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-open%20beta-orange.svg)](https://appendeditor.com/#installation)
+[![Status](https://img.shields.io/badge/status-ready%20for%20use-brightgreen.svg)](https://appendeditor.com/#installation)
 [![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
 [![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
