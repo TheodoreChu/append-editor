@@ -1706,13 +1706,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   };
 
   onKeyDownTextArea = (e: React.KeyboardEvent | KeyboardEvent) => {
-    // Add two spaces and line break if Shift and Enter are pressed
-    if (keyMap.get('Shift') && keyMap.get('Enter')) {
-      e.preventDefault();
-      document.execCommand('insertText', false, '  \n');
-    }
     // Add two stars if Control + b are pressed
-    else if (keyMap.get('Control') && keyMap.get('b')) {
+    if (keyMap.get('Control') && keyMap.get('b')) {
       e.preventDefault();
       document.execCommand('insertText', false, '**');
     }
