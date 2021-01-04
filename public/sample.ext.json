@@ -3,7 +3,7 @@
   "name": "Append Editor - Develop Local",
   "content_type": "SN|Component",
   "area": "editor-editor",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Append to your notes",
   "url": "http://localhost:3000/index.html",
   "download_url": "",
