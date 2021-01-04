@@ -40,14 +40,14 @@
     "pretty": "prettier --write 'src/**/*.{html,css,scss,js,jsx,ts,tsx,json}' README.md"
   },
   "dependencies": {
-    "@testing-library/dom": "^7.29.0",
+    "@testing-library/dom": "^7.29.1",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "@types/codemirror": "^0.0.103",
     "@types/jest": "^26.0.19",
     "@types/lodash": "^4.14.167",
-    "@types/node": "^14.14.19",
+    "@types/node": "^14.14.20",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/unist": "^2.0.3",
