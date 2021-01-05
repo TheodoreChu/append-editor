@@ -37,7 +37,7 @@
     "server-public": "http-server -p 3000 --cors",
     "server-root": "http-server ./ -p 3000 --cors",
     "server": "http-server ./build -p 3000 --cors",
-    "pretty": "prettier --write 'src/**/*.{html,css,scss,js,jsx,ts,tsx,json}' README.md"
+    "pretty": "prettier --write 'src/**/*.{html,css,scss,js,jsx,ts,tsx,json}' README.md public/*.{html,json}"
   },
   "dependencies": {
     "@testing-library/dom": "^7.29.1",
