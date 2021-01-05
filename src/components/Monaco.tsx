@@ -17,18 +17,18 @@ const MonacoDiffEditorContainerID = 'MonacoDiffEditorContainer';
 self.MonacoEnvironment = {
   getWorkerUrl: function (_moduleId: any, label: string) {
     if (label === 'json') {
-      return './json.worker.bundle.js';
+      return './monaco/json.worker.bundle.js';
     }
     if (label === 'css') {
-      return './css.worker.bundle.js';
+      return './monaco/css.worker.bundle.js';
     }
     if (label === 'html') {
-      return './html.worker.bundle.js';
+      return './monaco/html.worker.bundle.js';
     }
     if (label === 'typescript' || label === 'javascript') {
-      return './ts.worker.bundle.js';
+      return './monaco/ts.worker.bundle.js';
     }
-    return './editor.worker.bundle.js';
+    return './monaco/editor.worker.bundle.js';
   },
 };
 
