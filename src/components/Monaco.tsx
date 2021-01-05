@@ -19,10 +19,10 @@ self.MonacoEnvironment = {
     if (label === 'json') {
       return './monaco/json.worker.bundle.js';
     }
-    if (label === 'css') {
+    if (label === 'css' || label === 'scss' || label === 'less') {
       return './monaco/css.worker.bundle.js';
     }
-    if (label === 'html') {
+    if (label === 'html' || label === 'handlebars' || label === 'razor') {
       return './monaco/html.worker.bundle.js';
     }
     if (label === 'typescript' || label === 'javascript') {
