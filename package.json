@@ -40,7 +40,7 @@
     "pretty": "prettier --write 'src/**/*.{html,css,scss,js,jsx,ts,tsx,json}' README.md public/*.{html,json}"
   },
   "dependencies": {
-    "@testing-library/dom": "^7.29.1",
+    "@testing-library/dom": "^7.29.2",
     "@testing-library/jest-dom": "^5.11.8",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
