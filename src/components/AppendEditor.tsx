@@ -311,10 +311,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   loadDefaultSettings = () => {
     try {
-      const defaultSettingsString = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+      const defaultSettingsString = this.editorKit.internal.componentManager.componentDataValueForKey(
         'defaultSettings'
       );
-      const defaultEditingMode = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+      const defaultEditingMode = this.editorKit.internal.componentManager.componentDataValueForKey(
         'editingMode'
       );
       if (debugMode) {
@@ -370,19 +370,19 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         /** This else if loads legacy default settings introduced in v1.1.0
          * We only need to check defaultEditingMode because it is never empty if it is defined
          * */
-        const defaultCustomStyles = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+        const defaultCustomStyles = this.editorKit.internal.componentManager.componentDataValueForKey(
           'customStyles'
         );
-        const defaultFontEdit = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+        const defaultFontEdit = this.editorKit.internal.componentManager.componentDataValueForKey(
           'fontEdit'
         );
-        const defaultFontSize = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+        const defaultFontSize = this.editorKit.internal.componentManager.componentDataValueForKey(
           'fontSize'
         );
-        const defaultFontView = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+        const defaultFontView = this.editorKit.internal.componentManager.componentDataValueForKey(
           'fontView'
         );
-        const defaultMonacoEditorLanguage = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+        const defaultMonacoEditorLanguage = this.editorKit.internal.componentManager.componentDataValueForKey(
           'monacoEditorLanguage'
         );
         if (debugMode) {
@@ -446,7 +446,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   loadEditorOptions = () => {
     try {
-      const menuOptionsString = this.editorKit.internal.componentRelay.getComponentDataValueForKey(
+      const menuOptionsString = this.editorKit.internal.componentManager.componentDataValueForKey(
         'menuOptions'
       );
       if (menuOptionsString !== undefined) {
@@ -474,7 +474,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   // This loads the Settings and Append Text
   loadMetaData = () => {
-    this.editorKit.internal.componentRelay.streamContextItem((note: any) => {
+    this.editorKit.internal.componentManager.streamContextItem((note: any) => {
       // Load editor settings
       if (
         note.content.appendEditorCustomStyles ||
@@ -650,7 +650,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         () => {
           let note = this.editorKit.internal.note;
           if (note) {
-            this.editorKit.internal.componentRelay.saveItemWithPresave(
+            this.editorKit.internal.componentManager.saveItemWithPresave(
               note,
               () => {
                 note.content.text = this.state.text; // this.editorKit.internal.note.content.text
@@ -694,9 +694,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     try {
       let note = this.editorKit.internal.note;
       if (note) {
-        this.editorKit.internal.componentRelay.saveItemWithPresave(note, () => {
-          note.content.appendText = text;
-        });
+        this.editorKit.internal.componentManager.saveItemWithPresave(
+          note,
+          () => {
+            note.content.appendText = text;
+          }
+        );
       }
     } catch (error) {
       // Log outside debug mode
@@ -715,10 +718,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     try {
       let note = this.editorKit.internal.note;
       if (note) {
-        this.editorKit.internal.componentRelay.saveItemWithPresave(note, () => {
-          note.content.appendNewLine = newLine;
-          note.content.appendNewParagraph = newParagraph;
-        });
+        this.editorKit.internal.componentManager.saveItemWithPresave(
+          note,
+          () => {
+            note.content.appendNewLine = newLine;
+            note.content.appendNewParagraph = newParagraph;
+          }
+        );
       }
     } catch (error) {
       // Log outside debug mode
@@ -1144,7 +1150,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       },
       () => {
         try {
-          this.editorKit.internal.componentRelay.setComponentDataValueForKey(
+          this.editorKit.internal.componentManager.setComponentDataValueForKey(
             optionKey,
             optionValue
           );
@@ -1289,10 +1295,10 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     if (note) {
       if (debugMode) {
         console.log(
-          'AppendEditor.tsx: \n - onSaveSettings() this.editorKit.internal.componentRelay.saveItemWithPresave() triggered'
+          'AppendEditor.tsx: \n - onSaveSettings() this.editorKit.internal.componentManager.saveItemWithPresave() triggered'
         );
       }
-      this.editorKit.internal.componentRelay.saveItemWithPresave(note, () => {
+      this.editorKit.internal.componentManager.saveItemWithPresave(note, () => {
         note.content.appendEditorCustomStyles = customStyles;
         note.content.appendEditorEditingMode = editingMode;
         note.content.appendEditorFontEdit = fontEdit;
@@ -1302,7 +1308,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
       });
       if (debugMode) {
         console.log(
-          'AppendEditor.tsx: \n - onSaveSettings() this.editorKit.internal.componentRelay.saveItemWithPresave() completed'
+          'AppendEditor.tsx: \n - onSaveSettings() this.editorKit.internal.componentManager.saveItemWithPresave() completed'
         );
       }
     }
