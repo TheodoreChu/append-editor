@@ -12163,10 +12163,10 @@ smooth-scroll-into-view-if-needed@^1.1.27:
   dependencies:
     scroll-into-view-if-needed "^2.2.26"
 
-sn-editor-kit@1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/sn-editor-kit/-/sn-editor-kit-1.0.6.tgz#c47eecbf98b7627c7f62663c50c1c4d45d136edc"
-  integrity sha512-6eMjCPievemUpgjsJlOZDfA7TsdizkgdC/OsD4G8OTLvdnvsup2wf6bA1RwgKycvkZqWo5IKbpcj7rkewAqTAA==
+sn-editor-kit@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/sn-editor-kit/-/sn-editor-kit-1.0.9.tgz#e37e884dfa820db0bb508192623ff7f3efc5f0e2"
+  integrity sha512-Ryx7h91dGigDAqrwZ67n74d0g7M3E1xbQsewoY/4b7s7u4D5u9JMq4QvBZtBOdossthlLtnU5nJ41GjhcmmpQQ==
 
 sn-stylekit@2.1.1:
   version "2.1.1"
