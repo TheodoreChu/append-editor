@@ -1,5 +1,3 @@
-# Monaco Editor
+# Monaco Editor Workers
 
-This folder includes the source code for a simple Monaco editor. You can build the source using `npm run build` then copy the appropriate `dist` files into the `monaco` folder in the `public` directory to use the full features of the Monaco Editor. You probably do not need `app.bundle.js` or `index.html`.
-
-This folder is a modified version of https://github.com/microsoft/monaco-editor-samples/tree/master/browser-esm-webpack-typescript-react, which is released under the MIT License, Copyright (c) 2016 Microsoft Corporation. This modified version is released under AGPL-3.0 as indicated in the README.md in the root directory. A copy of AGPL-3.0 is available there.
+This folder contains the workers required to make full use of the Monaco Editor. Build them in the `dist` folder by running `yarn run build`, then copy the workers from `dist` to `../public/monaco` by running `yarn run copy`. Create React App will bundle the remaining of the necessary files because we import the Monaco Editor in [Editor.tsx](../src/components/Editor.tsx) with `import * as monaco from 'monaco-editor';`.
