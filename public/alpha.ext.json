@@ -3,7 +3,7 @@
   "name": "Append Editor - Alpha",
   "content_type": "SN|Component",
   "area": "editor-editor",
-  "version": "1.2.5",
+  "version": "1.2.6-alpha.1",
   "description": "Append to your notes",
   "url": "https://alpha.appendeditor.com",
   "download_url": "https://github.com/TheodoreChu/append-editor/releases/download/v1.2.5/append-editor-build-v1.2.5.zip",
