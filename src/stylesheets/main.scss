@@ -462,6 +462,27 @@ button:focus {
   }
 }
 
+// This makes the table of contents more compact
+#renderedNote {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    &[id='toc' i],
+    &[id='table-of-content' i],
+    &[id='table-of-contents' i] {
+      + ul {
+        li > p {
+          margin-block-start: 0em;
+          margin-block-end: 0em;
+        }
+      }
+    }
+  }
+}
+
 // Exclude CodeMirror
 #appendDynamicEditor,
 #dynamicEditor,
