@@ -50,48 +50,47 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
         className={
           'sk-panel main view' + (this.props.printURL ? ' printURL' : '')
         }
+        id={HtmlElementId.view}
       >
-        <div className="sk-panel-content view" id={HtmlElementId.view}>
-          {!text && [
-            <Intro
-              appendMode={this.props.appendMode}
-              editMode={this.props.editMode}
-              showHelp={this.props.showHelp}
-            />,
-          ]}
-          {this.state.showHelp && [
-            <Help
+        {!text && [
+          <Intro
+            appendMode={this.props.appendMode}
+            editMode={this.props.editMode}
+            showHelp={this.props.showHelp}
+          />,
+        ]}
+        {this.state.showHelp && [
+          <Help
+            debugMode={this.props.debugMode}
+            printURL={this.props.printURL}
+          />,
+        ]}
+        <div
+          id="renderedNote"
+          className={
+            '' +
+            (this.props.editingMode === EditingModes.useDynamicEditor
+              ? ''
+              : 'rendered-note-section')
+          }
+        >
+          {this.props.editingMode === EditingModes.useMonacoEditor &&
+          this.props.monacoEditorLanguage !== 'markdown' &&
+          this.props.monacoEditorLanguage !== 'html' &&
+          text ? (
+            this.renderMarkdown(
+              '```' + this.props.monacoEditorLanguage + '\n' + text + '\n```'
+            )
+          ) : this.props.editingMode === EditingModes.useDynamicEditor ? (
+            <DynamicEditor
               debugMode={this.props.debugMode}
-              printURL={this.props.printURL}
-            />,
-          ]}
-          <div
-            id="renderedNote"
-            className={
-              '' +
-              (this.props.editingMode === EditingModes.useDynamicEditor
-                ? ''
-                : 'rendered-note-section')
-            }
-          >
-            {this.props.editingMode === EditingModes.useMonacoEditor &&
-            this.props.monacoEditorLanguage !== 'markdown' &&
-            this.props.monacoEditorLanguage !== 'html' &&
-            text ? (
-              this.renderMarkdown(
-                '```' + this.props.monacoEditorLanguage + '\n' + text + '\n```'
-              )
-            ) : this.props.editingMode === EditingModes.useDynamicEditor ? (
-              <DynamicEditor
-                debugMode={this.props.debugMode}
-                onChange={this.props.saveText}
-                readOnly={true}
-                text={text}
-              />
-            ) : (
-              this.renderMarkdown(text)
-            )}
-          </div>
+              onChange={this.props.saveText}
+              readOnly={true}
+              text={text}
+            />
+          ) : (
+            this.renderMarkdown(text)
+          )}
         </div>
       </div>
     );

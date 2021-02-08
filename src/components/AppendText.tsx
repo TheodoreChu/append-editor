@@ -183,53 +183,45 @@ export default class AppendText extends React.Component<
         className={
           'sk-panel main appendix ' +
           (this.props.editingMode === EditingModes.useMonacoEditor
-            ? 'monacoEditor'
+            ? 'MonacoEditorContainerParentDiv'
             : this.props.editingMode === EditingModes.useDynamicEditor
             ? 'dynamicEditor'
             : 'otherEditor')
         }
+        key={1}
       >
-        <div
-          className={
-            'sk-panel-content edit' +
-            (this.props.editingMode === EditingModes.useMonacoEditor
-              ? ' MonacoEditorContainerParentDiv'
-              : '')
-          }
-        >
-          {this.state.useMonacoEditor ? (
-            // We use this.state instead of this.props so we can easily refresh it on Append
-            <MonacoEditor
-              fontSize={this.props.fontSize}
-              language={this.props.monacoEditorLanguage}
-              saveText={this.saveText}
+        {this.state.useMonacoEditor ? (
+          // We use this.state instead of this.props so we can easily refresh it on Append
+          <MonacoEditor
+            fontSize={this.props.fontSize}
+            language={this.props.monacoEditorLanguage}
+            saveText={this.saveText}
+            text={text}
+          />
+        ) : this.state.useDynamicEditor ? (
+          <div id="appendDynamicEditor">
+            <DynamicEditor
+              debugMode={this.props.debugMode}
+              onChange={this.saveText}
+              readOnly={false}
               text={text}
             />
-          ) : this.state.useDynamicEditor ? (
-            <div id="appendDynamicEditor">
-              <DynamicEditor
-                debugMode={this.props.debugMode}
-                onChange={this.saveText}
-                readOnly={false}
-                text={text}
-              />
-            </div>
-          ) : (
-            <textarea
-              id={HtmlElementId.appendTextArea}
-              name="text"
-              className="sk-input contrast textarea append"
-              placeholder="Append to your note"
-              rows={this.props.appendRows}
-              spellCheck="true"
-              value={text}
-              onChange={this.handleTextAreaChange}
-              onKeyDown={this.onKeyDown}
-              onKeyUp={this.onKeyUp}
-            />
-          )}
-        </div>
-        <div className="sk-panel-row">
+          </div>
+        ) : (
+          <textarea
+            id={HtmlElementId.appendTextArea}
+            name="text"
+            className="sk-input contrast textarea append"
+            placeholder="Append to your note"
+            rows={this.props.appendRows}
+            spellCheck="true"
+            value={text}
+            onChange={this.handleTextAreaChange}
+            onKeyDown={this.onKeyDown}
+            onKeyUp={this.onKeyUp}
+          />
+        )}
+        <div className="sk-panel-row" key={2}>
           <form className="checkBoxForm">
             <label>
               <input

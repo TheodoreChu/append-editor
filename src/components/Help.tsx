@@ -49,7 +49,6 @@ export default class Help extends React.Component<HelpProps, HelpState> {
   render() {
     return (
       <div id="help">
-        <hr></hr>
         <h2>Append Editor Help</h2>
         <p>
           The Append Editor is an <b>unofficial</b>{' '}

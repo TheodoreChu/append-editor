@@ -98,7 +98,7 @@ button:focus {
 .sn-component {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 99.9vh;
   @media screen and (max-width: 420px) {
     min-height: -webkit-fill-available;
   }
@@ -109,7 +109,7 @@ button:focus {
   }
 
   .sk-panel.main {
-    max-width: 700px;
+    max-width: calc(700px - 2em);
     width: 100%;
     margin: 10px 5px;
 
@@ -120,7 +120,7 @@ button:focus {
       box-shadow: none;
       margin: 0;
     }
-    &.monacoEditor {
+    &.MonacoEditorContainerParentDiv {
       max-width: 800px;
     }
     &.otherEditor {
@@ -130,13 +130,14 @@ button:focus {
     }
   }
 
-  .sk-panel-content.edit {
-    padding: 1rem 1.25rem !important;
-    padding-bottom: 0px !important;
+  .sk-panel.main.appendix,
+  .sk-panel.main.edit {
+    padding: 1em;
+    padding-bottom: 0px;
     @media screen and (max-width: 725px) {
-      padding-left: 0px !important;
-      padding-right: 0px !important;
-      padding-top: 0px !important;
+      padding-left: 0px;
+      padding-right: 0px;
+      padding-top: 0px;
     }
 
     // Hides the horizontal scroll bar when using the Monaco Editor
@@ -146,11 +147,11 @@ button:focus {
     }
   }
 
-  .sk-panel-content.view {
-    padding: 1rem 1.25rem !important;
-    padding-bottom: 0px !important;
+  .sk-panel.main.view {
+    padding: 1em;
+    padding-bottom: 0px;
     @media screen and (max-width: 725px) {
-      padding: 0px !important;
+      padding: 0px;
     }
   }
 
@@ -369,9 +370,6 @@ button:focus {
     .rendered-note-section {
       max-width: unset;
     }
-    .monacoEditor {
-      max-width: calc(100% - 1.25rem);
-    }
   }
   &.overflow {
     #renderedNote {
@@ -559,12 +557,9 @@ button:focus {
 #help,
 #intro,
 .rendered-note-section {
-  padding: 9px 10px;
   border: 1px transparent;
   border-style: solid;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 645.5px; //628.700px;
+  padding: 0px 10px;
 }
 
 // Same selection plus #renderedNote
@@ -593,6 +588,7 @@ button:focus {
 }
 
 #errorBoundary > :nth-child(1),
+#help > :nth-child(1),
 #renderedNote > div > :nth-child(1),
 .ProseMirror > :nth-child(2) {
   margin-top: 0px;
@@ -744,7 +740,7 @@ button:focus {
     label {
       cursor: pointer;
     }
-    padding-left: 25px;
+    padding-left: 10px;
     @media screen and (max-width: 600px) {
       padding-left: 10px;
     }
@@ -804,17 +800,18 @@ button:focus {
 
 .MonacoEditorContainer,
 .MonacoDiffEditorContainer {
-  min-height: 300px;
-  width: calc(100% - 1.5px);
   max-width: inherit;
   max-height: inherit;
+  min-height: 300px;
+  height: 100%;
+  width: 100%;
 }
 
 .edit .MonacoEditorContainer,
 .edit .MonacoDiffEditorContainer {
-  min-height: 300px;
-  height: calc(100% - 1.7em);
-  margin-bottom: 25px;
+  height: calc(100% - 1em);
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 #appendix .MonacoEditorContainer {
