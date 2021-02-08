@@ -46,7 +46,7 @@ export const processMarkdown = (text: string) => {
  * lots of characters in a short amount of time. */
 export const isLongString = throttle((text: string) => {
   //console.log('length', text.length);
-  if (text.length > 10000) {
+  if (text.length > 2500) {
     return true;
   } else {
     return false;
@@ -76,6 +76,11 @@ export const renderMarkdown = (text: string, bypassDebounce: boolean) => {
   } else {
     //console.log('renderShortMarkdownText');
     const markdown = processMarkdown(text);
+    /** Render both to improve transition between short and long
+     * This is computationally inefficient,
+     * so we keep the threshold for isLongString (such as 2,500)
+     */
+    renderLongMarkdown(text);
     return markdown;
   }
 };
