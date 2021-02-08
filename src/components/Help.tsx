@@ -259,12 +259,10 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           <li>Which feelings fit your mood and to what extent?</li>
           <details onToggle={this.onToggleShowFeelings}>
             <summary>
-              {!this.state.showFeelings && [
-                <p className="link">Show feelings</p>,
-              ]}
-              {this.state.showFeelings && [
-                <p className="link">Hide feelings</p>,
-              ]}
+              {!this.state.showFeelings && (
+                <p className="link">Show feelings</p>
+              )}
+              {this.state.showFeelings && <p className="link">Hide feelings</p>}
             </summary>
             <li>
               <b>Positive Feelings:</b> bold, calm, cheerful, confident,
@@ -287,15 +285,15 @@ export default class Help extends React.Component<HelpProps, HelpState> {
           <li>What thoughts are contributing to the way you're feeling?</li>
           <details onToggle={this.onToggleShowMoreQuestions}>
             <summary>
-              {!this.state.showMoreQuestions && [
-                <p className="link">Show more questions</p>,
-              ]}
-              {this.state.showMoreQuestions && [
-                <p className="link">Show fewer questions</p>,
-              ]}
+              {!this.state.showMoreQuestions && (
+                <p className="link">Show more questions</p>
+              )}
+              {this.state.showMoreQuestions && (
+                <p className="link">Show fewer questions</p>
+              )}
             </summary>
           </details>
-          {this.state.showMoreQuestions && [
+          {this.state.showMoreQuestions && (
             <div>
               <li>
                 What do you hope your life will look like in a week? a month? a
@@ -310,14 +308,14 @@ export default class Help extends React.Component<HelpProps, HelpState> {
               </li>
               <li>Who or what do you feel grateful for and why?</li>
               <li>What did you enjoy about today?</li>
-            </div>,
-          ]}
+            </div>
+          )}
         </ul>
         <details onToggle={this.onToggleShowFeedback}>
           <summary>
             <p className="link">Need more help?</p>
           </summary>
-          {this.state.showFeedback && [
+          {this.state.showFeedback && (
             <p>
               Feel free to{' '}
               <a
@@ -355,8 +353,8 @@ export default class Help extends React.Component<HelpProps, HelpState> {
                 GitHub
               </a>
               .
-            </p>,
-          ]}
+            </p>
+          )}
         </details>
         Click Help
         <button

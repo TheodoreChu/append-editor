@@ -41,6 +41,7 @@ import { isLongString, renderLongMarkdown } from '../lib/renderMarkdown';
 
 export enum HtmlElementId {
   appendButton = 'appendButton',
+  appendText = 'appendText',
   appendTextArea = 'appendTextArea',
   appendix = 'appendix',
   content = 'content',
@@ -49,10 +50,17 @@ export enum HtmlElementId {
   editTextArea = 'editTextArea',
   header = 'header',
   helpButton = 'helpButton',
+  menu = 'menu',
   menuButton = 'menuButton',
   newLine = 'newLine',
   newParagraph = 'newParagraph',
   printButton = 'printButton',
+  renderedNote = 'renderedNote',
+  scrollToBottomButton = 'scrollToBottomButton',
+  scrollToTopButton = 'scrollToTopButton',
+  scrollToBottomButtonHeader = 'scrollToBottomButtonHeader',
+  scrollToTopButtonHeader = 'scrollToTopButtonHeader',
+  settings = 'settings',
   settingsButton = 'settingsButton',
   view = 'view',
   viewButton = 'viewButton',
@@ -1819,17 +1827,19 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
 
   render() {
     return [
-      <span id="top"></span>,
+      <span id={'top'} key={'top'}></span>,
       <div
         tabIndex={0}
         className="sn-component"
+        key={'sn-component'}
         onKeyDown={this.onKeyDown}
         onKeyUp={this.onKeyUp}
         onBlur={this.onBlur}
       >
-        {this.state.showHeader && [
+        {this.state.showHeader && (
           <div
             id={HtmlElementId.header}
+            key={HtmlElementId.header}
             className={
               'header' +
               ((this.state.editingMode === undefined ||
@@ -1843,10 +1853,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 : '')
             }
           >
-            <div className="sk-button-group">
+            <div className="sk-button-group" key={'header-button-group'}>
               <button
                 type="button"
                 id={HtmlElementId.editButton}
+                key={HtmlElementId.editButton}
                 onClick={this.onEditMode}
                 title="Toggle Edit Mode"
                 className={'sk-button ' + (this.state.editMode ? 'on' : 'off')}
@@ -1856,6 +1867,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               <button
                 type="button"
                 id={HtmlElementId.viewButton}
+                key={HtmlElementId.viewButton}
                 onClick={this.onViewMode}
                 title="Toggle View Mode"
                 className={'sk-button ' + (this.state.viewMode ? 'on' : 'off')}
@@ -1865,6 +1877,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               <button
                 type="button"
                 id={HtmlElementId.appendButton}
+                key={HtmlElementId.appendButton}
                 onClick={() => this.onAppendMode()}
                 title="Toggle Append Mode"
                 className={
@@ -1873,7 +1886,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               >
                 <PlusIcon condition={this.state.appendMode} role={'button'} />
               </button>
-              <div className="sk-button divider">
+              <div className="sk-button divider" key={'header-divider-1'}>
                 <svg
                   role="img"
                   aria-label="Vertical line divider"
@@ -1893,6 +1906,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               <button
                 type="button"
                 id={HtmlElementId.helpButton}
+                key={HtmlElementId.helpButton}
                 onClick={this.toggleShowHelp}
                 title="Help"
                 className={'sk-button ' + (this.state.showHelp ? 'on' : 'off')}
@@ -1902,6 +1916,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               <button
                 type="button"
                 id={HtmlElementId.settingsButton}
+                key={HtmlElementId.settingsButton}
                 onClick={this.onSettingsMode}
                 title="Settings"
                 className={
@@ -1910,7 +1925,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               >
                 <GearIcon condition={this.state.settingsMode} role="button" />
               </button>
-              <div className="sk-button divider">
+              <div className="sk-button divider" key={'header-divider-2'}>
                 <svg
                   role="img"
                   aria-label="Vertical line divider"
@@ -1929,7 +1944,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </div>
               <button
                 type="button"
-                id="scrollToBottomButtonHeader"
+                id={HtmlElementId.scrollToBottomButtonHeader}
+                key={HtmlElementId.scrollToBottomButtonHeader}
                 onClick={this.skipToBottom}
                 title="Scroll to Bottom"
                 className={'sk-button off'}
@@ -1951,7 +1967,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               </button>
               <button
                 type="button"
-                id="scrollToTopButtonHeader"
+                id={HtmlElementId.scrollToTopButtonHeader}
+                key={HtmlElementId.scrollToTopButtonHeader}
                 onClick={this.skipToTop}
                 title="Scroll to Top"
                 className={'sk-button off'}
@@ -1974,6 +1991,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               <button
                 type="button"
                 id={HtmlElementId.menuButton}
+                key={HtmlElementId.menuButton}
                 onClick={this.toggleShowMenu}
                 title="Toggle Menu"
                 className={'sk-button ' + (this.state.showMenu ? 'on' : 'off')}
@@ -1981,10 +1999,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 <MenuIcon condition={this.state.showMenu} role="button" />
               </button>
             </div>
-          </div>,
-        ]}
+          </div>
+        )}
         <div
           id={HtmlElementId.content}
+          key={HtmlElementId.content}
           className={
             'content' +
             ((this.state.editingMode === undefined ||
@@ -2009,6 +2028,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 editingMode={this.state.editingMode}
                 fixedHeightMode={this.state.fixedHeightMode}
                 fullWidthMode={this.state.fullWidthMode}
+                key={HtmlElementId.menu}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 onConfirmPrintUrl={this.onConfirmPrintUrl}
                 overflowMode={this.state.overflowMode}
@@ -2044,6 +2064,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 fontSize={this.state.fontSize}
                 fontView={this.state.fontView}
                 helpLink={'https://appendeditor.com/#settings'}
+                key={HtmlElementId.settings}
                 keyMap={keyMap}
                 onConfirm={this.onSaveSettings}
                 onCancel={this.onSettingsMode}
@@ -2058,6 +2079,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 debugMode={debugMode}
                 editingMode={this.state.editingMode}
                 fontSize={this.state.fontSize}
+                key={'EditNote-1'}
                 keyMap={keyMap}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 onKeyDown={this.onKeyDown}
@@ -2076,6 +2098,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 debugMode={debugMode}
                 editingMode={this.state.editingMode}
                 fontSize={this.state.fontSize}
+                key={'EditNote-2'}
                 keyMap={keyMap}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 onKeyDown={this.onKeyDown}
@@ -2096,6 +2119,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 debugMode={debugMode}
                 editMode={this.state.editMode}
                 editingMode={this.state.editingMode}
+                key={'ViewNote-1'}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 printURL={this.state.printURL}
                 showHelp={this.state.showHelp}
@@ -2112,6 +2136,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 debugMode={debugMode}
                 editMode={this.state.editMode}
                 editingMode={this.state.editingMode}
+                key={'ViewNote-2'}
                 monacoEditorLanguage={this.state.monacoEditorLanguage}
                 printURL={this.state.printURL}
                 showHelp={this.state.showHelp}
@@ -2123,6 +2148,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           {this.state.confirmPrintUrl && (
             <ErrorBoundary>
               <PrintDialog
+                key={'PrintDialog'}
                 title={`Would you like to print URLs?`}
                 onUndo={this.onCancelPrint}
                 onConfirm={this.onPrintUrlTrue}
@@ -2130,28 +2156,29 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 helpLink={'https://appendeditor.com/#printing'}
                 confirmText="Yes, print URLs"
                 cancelText="No, thanks"
-              />{' '}
+              />
             </ErrorBoundary>
           )}
-
-          {this.state.showDiff && [
+          {this.state.showDiff && (
             <ErrorBoundary>
               <MonacoDiffEditor
+                key={'MonacoDiffEditor'}
                 text={this.state.text}
                 modifiedText={this.state.appendText}
                 saveText={this.saveText}
               />
-            </ErrorBoundary>,
-          ]}
+            </ErrorBoundary>
+          )}
         </div>
         {this.state.showAppendix && [
           <div
-            id={HtmlElementId.appendix}
             className={
               'appendix' +
               (this.state.borderlessMode ? ' borderless' : '') +
               (this.state.fullWidthMode ? ' full-width' : '')
             }
+            id={HtmlElementId.appendix}
+            key={HtmlElementId.appendix}
           >
             {this.state.appendMode && (
               <ErrorBoundary>
@@ -2162,6 +2189,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                   debugMode={debugMode}
                   editingMode={this.state.editingMode}
                   fontSize={this.state.fontSize}
+                  key={HtmlElementId.appendText}
                   keyMap={keyMap}
                   appendNewLine={this.state.appendNewLine}
                   appendNewParagraph={this.state.appendNewParagraph}
@@ -2177,7 +2205,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             )}
             <button
               className="sk-button info"
-              id="scrollToTopButton"
+              id={HtmlElementId.scrollToTopButton}
+              key={HtmlElementId.scrollToTopButton}
               onClick={this.scrollToTop}
               title="Scroll to Top"
               type="button"
@@ -2186,7 +2215,8 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             </button>
             <button
               className="sk-button info"
-              id="scrollToBottomButton"
+              id={HtmlElementId.scrollToBottomButton}
+              key={HtmlElementId.scrollToBottomButton}
               onClick={this.scrollToBottom}
               title="Scroll to Bottom"
               type="button"

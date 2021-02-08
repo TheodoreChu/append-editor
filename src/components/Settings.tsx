@@ -3,6 +3,7 @@ import { MonacoEditor } from './Monaco';
 import {
   DefaultSettings,
   EditingModes,
+  HtmlElementId,
   SaveSettingsInterface,
 } from './AppendEditor';
 import { CloseIcon, RefreshIcon } from './Icons';
@@ -358,7 +359,7 @@ export default class Settings extends React.Component<
     //<h3>↶</h3>
     const { title, onCancel, confirmText, cancelText, helpLink } = this.props;
     return (
-      <div id="settings" className="sk-panel main settings">
+      <div id={HtmlElementId.settings} className="sk-panel main settings">
         <div className="sk-panel-content">
           <div className="sk-panel-section">
             <datalist id="fonts">
@@ -542,7 +543,7 @@ export default class Settings extends React.Component<
                 sophisticated search and replace (desktop recommended)
               </label>
             </section>
-            {this.state.editingMode === EditingModes.useMonacoEditor && [
+            {this.state.editingMode === EditingModes.useMonacoEditor && (
               <section className="sk-panel-row settings">
                 <label htmlFor={monacoEditorLanguageID}>
                   Monaco Editor Language:{' '}
@@ -632,8 +633,8 @@ export default class Settings extends React.Component<
                     title="Reset Monaco Editor Language to Markdown"
                   />
                 </div>
-              </section>,
-            ]}
+              </section>
+            )}
             <section className="sk-panel-row settings">
               <label htmlFor={fontSizeID}>Choose a base font size: </label>
               <div className="input-and-undo-button">
@@ -670,7 +671,7 @@ export default class Settings extends React.Component<
                 />
               </div>
             </section>
-            {this.state.editingMode !== EditingModes.useMonacoEditor && [
+            {this.state.editingMode !== EditingModes.useMonacoEditor && (
               <section className="sk-panel-row settings">
                 <label htmlFor={fontEditID}>
                   Choose a font for Edit/Append:{' '}
@@ -691,9 +692,9 @@ export default class Settings extends React.Component<
                     title="Reset font for Edit/Append"
                   />
                 </div>
-              </section>,
-            ]}
-            {this.state.editingMode !== EditingModes.useDynamicEditor && [
+              </section>
+            )}
+            {this.state.editingMode !== EditingModes.useDynamicEditor && (
               <section className="sk-panel-row settings">
                 <label htmlFor={fontViewID}>
                   Choose a font for View/Print:{' '}
@@ -714,8 +715,8 @@ export default class Settings extends React.Component<
                     title="Reset font for View/Print"
                   />
                 </div>
-              </section>,
-            ]}
+              </section>
+            )}
             <section className="sk-panel-row settings custom-css">
               <ChevronToggleButton
                 caption={'Add custom styles (CSS):'}
@@ -724,15 +725,15 @@ export default class Settings extends React.Component<
                 onClick={this.toggleShowCustomStyles}
                 title={'Toggle show add custom styles (CSS)'}
               />
-              {this.state.showCustomStyles && [
+              {this.state.showCustomStyles && (
                 <UndoButton
                   className={'custom-css-undo-button'}
                   onClick={this.clearCustomStyles}
                   title="Reset custom styles (CSS)"
-                />,
-              ]}
+                />
+              )}
             </section>
-            {this.state.showCustomStyles && [
+            {this.state.showCustomStyles && (
               <section className="sk-panel-row settings">
                 <MonacoEditor
                   tabSize={2}
@@ -742,8 +743,8 @@ export default class Settings extends React.Component<
                   onKeyUp={this.onKeyUp}
                   saveText={this.saveText}
                 />
-              </section>,
-            ]}
+              </section>
+            )}
             <section className="sk-panel-row settings">
               <label htmlFor={saveAsDefaultID}>
                 Save these settings as your personal default:{' '}

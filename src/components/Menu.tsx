@@ -207,12 +207,17 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     // You can render any custom fallback UI
     return [
-      <div className="menu-overlay" onClick={this.props.toggleShowMenu} />,
-      <div id={'menu'}>
+      <div
+        className="menu-overlay"
+        key={'menu-overlay'}
+        onClick={this.props.toggleShowMenu}
+      />,
+      <div id={HtmlElementId.menu} key={HtmlElementId.menu}>
         <ChevronToggleButton
           caption={'Appearance'}
           className={HtmlClassName.chevronToggleButton}
           condition={this.props.showMenuOptionsView}
+          key={'appearance'}
           onClick={this.props.toggleShowMenuOptionsView}
           title={'Toggle show options for the appearance of the editor'}
         />
@@ -224,6 +229,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               (this.props.borderlessMode ? HtmlClassName.on : HtmlClassName.off)
             }
             condition={this.props.borderlessMode}
+            key={'borderless'}
             messageOn={'on'}
             messageOff={'off'}
             onClick={this.props.toggleBorderlessMode}
@@ -240,6 +246,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 : HtmlClassName.off)
             }
             condition={this.props.fixedHeightMode}
+            key={'fixed-height'}
             messageOn={'on'}
             messageOff={'off'}
             onClick={this.props.toggleFixedHeightMode}
@@ -254,6 +261,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               (this.props.fullWidthMode ? HtmlClassName.on : HtmlClassName.off)
             }
             condition={this.props.fullWidthMode}
+            key={'full-width'}
             messageOn={'on'}
             messageOff={'off'}
             onClick={this.props.toggleFullWidthMode}
@@ -268,6 +276,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               (this.props.overflowMode ? HtmlClassName.on : HtmlClassName.off)
             }
             condition={this.props.overflowMode}
+            key={'horizontal-overflow'}
             messageOn={'visible'}
             messageOff={'auto'}
             onClick={this.props.toggleOverflowMode}
@@ -280,6 +289,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
           caption={'Share'}
           className={HtmlClassName.chevronToggleButton}
           condition={this.props.showMenuOptionsShare}
+          key={'share'}
           onClick={this.props.toggleShowMenuOptionsShare}
           title={'Toggle show options to share your note'}
         />
@@ -288,6 +298,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             caption={'Copy note text'}
             className={HtmlClassName.menuButton}
             fill={'var(--sn-stylekit-success-color)'}
+            key={'copy-note-text'}
             onClick={this.copyText}
             title={"Copy the text of your note to your device's clipboard"}
           />,
@@ -295,6 +306,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             caption={'Copy rendered HTML'}
             className={HtmlClassName.menuButton}
             fill={'var(--sn-stylekit-success-color)'}
+            key={'copy-rendered-html'}
             onClick={this.copyHtml}
             title={
               "Copy the rendered HTML from your note text to your device's clipboard"
@@ -304,6 +316,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             caption={'Print rendered note'}
             className={'menu-button off'}
             fill={'var(--sn-stylekit-foreground-color)'}
+            key={'print-rendered-note'}
             id={HtmlElementId.printButton}
             onClick={this.props.onConfirmPrintUrl}
             title={
@@ -314,6 +327,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             className={`notification ${
               this.state.displayMessageShare ? 'visible' : 'hidden'
             }`}
+            key={'notification'}
           >
             <p>
               <b>{this.state.message}</b>
@@ -332,6 +346,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             caption={'Format Markdown text'}
             className={HtmlClassName.menuButton}
             fill={'var(--sn-stylekit-warning-color)'}
+            key={'format-markdown-text'}
             onClick={this.formatText}
             title={
               'Format Markdown text with Prettier. WARNING: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes'
@@ -341,6 +356,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             caption={'Uncheck all checkboxes'}
             className={HtmlClassName.menuButton}
             fill={'var(--sn-stylekit-danger-color)'}
+            key={'uncheck-all-checkboxes'}
             onClick={this.uncheckBoxes}
             title={
               'Uncheck all checkboxes. DANGER: this may cause undesired changes to your note text. Use the Note History feature to revert unwanted changes'
@@ -350,6 +366,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             className={`notification ${
               this.state.displayMessageEdit ? 'visible' : 'hidden'
             }`}
+            key={'notification'}
           >
             <p>
               <b>{this.state.message}</b>

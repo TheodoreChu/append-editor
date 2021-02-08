@@ -51,22 +51,26 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
           'sk-panel main view' + (this.props.printURL ? ' printURL' : '')
         }
         id={HtmlElementId.view}
+        key={HtmlElementId.view}
       >
         {!text && [
           <Intro
             appendMode={this.props.appendMode}
             editMode={this.props.editMode}
+            key={'Intro'}
             showHelp={this.props.showHelp}
           />,
         ]}
         {this.state.showHelp && [
           <Help
             debugMode={this.props.debugMode}
+            key={'Help'}
             printURL={this.props.printURL}
           />,
         ]}
         <div
-          id="renderedNote"
+          id={HtmlElementId.renderedNote}
+          key={HtmlElementId.renderedNote}
           className={
             '' +
             (this.props.editingMode === EditingModes.useDynamicEditor
