@@ -53,21 +53,20 @@ export default class ViewNote extends React.Component<ViewProps, ViewState> {
         id={HtmlElementId.view}
         key={HtmlElementId.view}
       >
-        {!text && [
+        {!text && (
           <Intro
             appendMode={this.props.appendMode}
             editMode={this.props.editMode}
-            key={'Intro'}
             showHelp={this.props.showHelp}
-          />,
-        ]}
-        {this.state.showHelp && [
+          />
+        )}
+        {!text && this.state.showHelp && <hr></hr>}
+        {this.state.showHelp && (
           <Help
             debugMode={this.props.debugMode}
-            key={'Help'}
             printURL={this.props.printURL}
-          />,
-        ]}
+          />
+        )}
         <div
           id={HtmlElementId.renderedNote}
           key={HtmlElementId.renderedNote}
