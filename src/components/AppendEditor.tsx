@@ -471,6 +471,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
             //showMenuOptionsView: menuOptionsObject.showMenuOptionsView,
           },
           () => {
+            if (this.state.fixedHeightMode) {
+              this.addFixedHeightToBody();
+            } else {
+              this.removeFixedHeightFromBody();
+            }
             this.refreshEditor();
           }
         );
@@ -1098,10 +1103,35 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         fixedHeightMode: !this.state.fixedHeightMode,
       },
       () => {
+        /** If using fixed height,
+         * then SkipToTop and add `.fixed-height` class to document.body
+         * This is important for KaTeX
+         * Otherwise remove `.fixed-height` className from document.body
+         */
+        if (this.state.fixedHeightMode) {
+          this.addFixedHeightToBody();
+        } else {
+          this.removeFixedHeightFromBody();
+        }
         this.activateFixedHeader();
         this.saveMenuOptions();
       }
     );
+  };
+
+  /**
+   * SkipToTop and add `.fixed-height` className to `document.body`
+   */
+  addFixedHeightToBody = () => {
+    this.skipToTop();
+    document.body.className = 'fixed-height';
+  };
+
+  /**
+   * Remove `.fixed-height` className from `document.body`
+   */
+  removeFixedHeightFromBody = () => {
+    document.body.classList.remove('fixed-height');
   };
 
   toggleFullWidthMode = () => {
@@ -1211,6 +1241,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
   onSettingsMode = () => {
     // Here we save the current state. We reload the current state if we cancel and after we save
     if (!this.state.settingsMode) {
+      this.removeFixedHeightFromBody();
       this.removeFixedHeader();
       this.setState(
         {
@@ -1248,6 +1279,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           settingsMode: false,
         },
         () => {
+          if (this.state.fixedHeightMode) {
+            this.addFixedHeightToBody();
+          }
           this.refreshEdit();
           const settingsButton = document.getElementById(
             HtmlElementId.settingsButton
@@ -1287,6 +1321,9 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         settingsMode: false,
       },
       () => {
+        if (this.state.fixedHeightMode) {
+          this.addFixedHeightToBody();
+        }
         this.refreshEditor();
         const settingsButton = document.getElementById(
           HtmlElementId.settingsButton
