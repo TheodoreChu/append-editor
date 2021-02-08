@@ -7,48 +7,52 @@
 
   .sn-component {
     outline: none;
-  }
 
-  #content {
-    &.fixed-header {
-      padding-top: unset;
+    #content {
+      &.fixed-header {
+        padding-top: unset;
+      }
+      &.fixed-height {
+        max-height: unset;
+      }
     }
-    &.fixed-height {
-      max-height: unset;
+
+    #appendix,
+    #header,
+    #menu,
+    .menu-overlay {
+      display: none;
     }
-  }
 
-  #appendix,
-  #header,
-  #menu,
-  .menu-overlay {
-    display: none;
-  }
+    .sk-panel.main {
+      border: 1px var(--sn-stylekit-background-color);
+      box-shadow: none;
+    }
 
-  .sk-panel.main {
-    border: 1px var(--sn-stylekit-background-color);
-    box-shadow: none;
-  }
+    .sk-panel.main.view {
+      max-width: none;
+      margin: 0px;
+      padding: 0px;
+      #renderedNote {
+        border: 0px;
+        padding: 0px;
+      }
+    }
 
-  .sk-panel.main.view {
-    max-width: none;
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
+    .sk-panel.main.edit,
+    .sk-panel.main.appendix {
+      display: none;
+      background-color: var(--sn-stylekit-background-color);
+    }
 
-  .sk-panel.main.edit,
-  .sk-panel.main.appendix {
-    display: none;
-    background-color: var(--sn-stylekit-background-color);
-  }
+    .content,
+    .appendix {
+      background-color: var(--sn-stylekit-background-color) !important;
+    }
 
-  .content,
-  .appendix {
-    background-color: var(--sn-stylekit-background-color) !important;
-  }
-
-  #renderedNote pre code {
-    white-space: pre-wrap;
-    word-break: break-word;
+    #renderedNote pre code {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
   }
 }
