@@ -1,6 +1,7 @@
 // import { Method } from '@testing-library/react';
 import React from 'react';
 import { CloseIcon } from './Icons';
+import { HtmlElementId } from './AppendEditor';
 
 interface PrintDialogTypes {
   cancelText: string;
@@ -27,8 +28,14 @@ const PrintDialog: React.FC<PrintDialogTypes> = ({
         <div className="sk-panel-section">
           <div className="sk-panel-row title-section">
             <h2>{title}</h2>
-            <button id="undoDialog" onClick={onUndo} title="Close">
+            <button
+              id={HtmlElementId.undoDialogButton}
+              onClick={onUndo}
+              title="Close"
+            >
+              <span>&nbsp;</span>
               <CloseIcon role="button" />
+              <span>&nbsp;</span>
             </button>
           </div>
           <p>

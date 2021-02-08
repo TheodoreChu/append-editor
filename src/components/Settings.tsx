@@ -436,8 +436,14 @@ export default class Settings extends React.Component<
             </datalist>
             <div className="sk-panel-row title-section">
               <h1>{title}</h1>
-              <button id="undoDialog" onClick={onCancel} title="Close">
+              <button
+                id={HtmlElementId.undoDialogButton}
+                onClick={onCancel}
+                title="Close"
+              >
+                <span>&nbsp;</span>
                 <CloseIcon role="button" />
+                <span>&nbsp;</span>
               </button>
             </div>
             <section className="sk-panel-row settings">

@@ -62,6 +62,7 @@ export enum HtmlElementId {
   scrollToTopButtonHeader = 'scrollToTopButtonHeader',
   settings = 'settings',
   settingsButton = 'settingsButton',
+  undoDialogButton = 'undoDialogButton',
   view = 'view',
   viewButton = 'viewButton',
 }
@@ -1230,9 +1231,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               viewMode: false,
             },
             () => {
-              const undoDialog = document.getElementById('undoDialog');
-              if (undoDialog) {
-                undoDialog.focus();
+              const undoDialogButton = document.getElementById(
+                HtmlElementId.undoDialogButton
+              );
+              if (undoDialogButton) {
+                undoDialogButton.focus();
               }
             }
           );
@@ -1410,9 +1413,11 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
         confirmPrintUrl: true,
       },
       () => {
-        const undoDialog = document.getElementById('undoDialog');
-        if (undoDialog) {
-          undoDialog.focus();
+        const undoDialogButton = document.getElementById(
+          HtmlElementId.undoDialogButton
+        );
+        if (undoDialogButton) {
+          undoDialogButton.focus();
         }
       }
     );

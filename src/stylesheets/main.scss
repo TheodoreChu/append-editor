@@ -628,6 +628,11 @@ button:focus {
       margin: 0.2em 0px;
     }
   }
+  #undoDialogButton {
+    display: inline-flex;
+    font-family: Arial, sans-serif;
+    padding: 4px 2px;
+  }
   .text-and-undo-button {
     display: flex;
     p,
