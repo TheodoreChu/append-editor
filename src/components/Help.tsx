@@ -343,8 +343,8 @@ export default class Help extends React.Component<HelpProps, HelpState> {
                 🙂
               </span>
               <br />
-              You are using version <code>1.2.6-alpha.1</code>. The release
-              notes and change log are available on{' '}
+              You are using version <code>1.2.6</code>. The release notes and
+              change log are available on{' '}
               <a
                 href="https://github.com/TheodoreChu/append-editor/releases"
                 target="_blank"
