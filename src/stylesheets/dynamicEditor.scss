@@ -17,6 +17,17 @@
     h4 {
       margin: 1.33em 0px 1.33em;
     }
+    // The Rich Markdown Editor sets the font-weight for headers to be 500
+    // This is less than font weight for <strong> which is 600
+    // This reverts the font-weight back to 700
+    h1,
+    h2,
+    h3,
+    h4 {
+      .heading-content {
+        font-weight: bold;
+      }
+    }
   }
 }
 
