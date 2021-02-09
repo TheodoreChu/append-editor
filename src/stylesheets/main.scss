@@ -116,13 +116,15 @@ button:focus {
     width: 100%;
     margin: 10px 5px;
 
-    // Do not include Settings
-    &.edit,
-    &.view,
-    &.appendix {
-      max-width: calc(700px - 2em);
-      padding: 1em;
-      padding-bottom: 0px;
+    @media screen and (min-width: 725px) {
+      // Do not include Settings
+      &.edit,
+      &.view,
+      &.appendix {
+        max-width: calc(700px - 2em);
+        padding: 1em;
+        padding-bottom: 0px;
+      }
     }
 
     @media screen and (max-width: 725px) {
@@ -133,6 +135,7 @@ button:focus {
       margin: 0;
       padding: 0px;
     }
+
     &.MonacoEditorContainerParentDiv {
       max-width: 800px;
       // Hides the horizontal scroll bar when using the Monaco Editor
@@ -362,8 +365,17 @@ button:focus {
       &.view {
         max-width: unset;
       }
-      &.appendix {
-        max-width: calc(100% - 2em);
+      // The 2em accounts for the 1em padding of
+      // .sk-panel.main defined above
+      @media screen and (min-width: 725px) {
+        &.appendix {
+          max-width: calc(100% - 2em);
+        }
+      }
+      @media screen and (max-width: 725px) {
+        &.appendix {
+          max-width: 100%;
+        }
       }
     }
   }
