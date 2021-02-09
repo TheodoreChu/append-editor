@@ -894,6 +894,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           }
         }
       );
+      /** If viewMode is on and editingMode is useDynamicEditor, turn ViewMode off */
+      if (
+        this.state.viewMode &&
+        this.state.editingMode === EditingModes.useDynamicEditor
+      ) {
+        this.onViewMode();
+      }
     } else if (this.state.editMode) {
       /**If edit mode is on and Monaco Editor is off,
        * then turn edit mode off and turn view mode on.
@@ -996,6 +1003,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           }
         }
       );
+      /** If editMode is on and EditingMode is useDynamicEditor, then turn editMode off */
+      if (
+        this.state.editMode &&
+        this.state.editingMode === EditingModes.useDynamicEditor
+      ) {
+        this.onEditMode();
+      }
     }
     if (this.state.viewMode) {
       this.setState(
