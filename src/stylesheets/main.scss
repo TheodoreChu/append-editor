@@ -112,9 +112,18 @@ button:focus {
   }
 
   .sk-panel.main {
-    max-width: calc(700px - 2em);
+    max-width: 700px;
     width: 100%;
     margin: 10px 5px;
+
+    // Do not include Settings
+    &.edit,
+    &.view,
+    &.appendix {
+      max-width: calc(700px - 2em);
+      padding: 1em;
+      padding-bottom: 0px;
+    }
 
     @media screen and (max-width: 725px) {
       border-left: none;
@@ -122,9 +131,13 @@ button:focus {
       border-bottom: none;
       box-shadow: none;
       margin: 0;
+      padding: 0px;
     }
     &.MonacoEditorContainerParentDiv {
       max-width: 800px;
+      // Hides the horizontal scroll bar when using the Monaco Editor
+      // Otherwise the horizontal scroll bar will flash when the Monaco editor suggests words
+      overflow-x: hidden !important;
     }
     &.otherEditor {
       @media screen and (max-width: 725px) {
@@ -133,36 +146,13 @@ button:focus {
     }
   }
 
-  .sk-panel.main.appendix,
-  .sk-panel.main.edit {
-    padding: 1em;
-    padding-bottom: 0px;
-    @media screen and (max-width: 725px) {
-      padding-left: 0px;
-      padding-right: 0px;
-      padding-top: 0px;
-    }
-
-    // Hides the horizontal scroll bar when using the Monaco Editor
-    // Otherwise the horizontal scroll bar will flash when the Monaco editor suggests words
-    &.MonacoEditorContainerParentDiv {
-      overflow-x: hidden !important;
-    }
-  }
-
-  .sk-panel.main.view {
-    padding: 1em;
-    padding-bottom: 0px;
-    @media screen and (max-width: 725px) {
-      padding: 0px;
-    }
-  }
-
   .sk-input.textarea {
     min-height: 136px;
     padding: 9px 10px;
-    max-width: inherit;
-    width: calc(100% - 22px);
+    max-width: calc(
+      100% - 22px
+    ); // 22px is 10px + 10px padding and 1px + 1px border
+    width: 100%;
     height: 100%;
     resize: vertical;
     overflow-y: auto;
@@ -368,10 +358,13 @@ button:focus {
     // Also includes appendix
     .sk-panel.main {
       margin: 0px;
-    }
-    .sk-panel.main,
-    .rendered-note-section {
-      max-width: unset;
+      &.edit,
+      &.view {
+        max-width: unset;
+      }
+      &.appendix {
+        max-width: calc(100% - 2em);
+      }
     }
   }
   &.overflow {
@@ -808,8 +801,8 @@ button:focus {
 
 .MonacoEditorContainer,
 .MonacoDiffEditorContainer {
-  max-width: inherit;
-  max-height: inherit;
+  max-width: 100%;
+  max-height: 100%;
   min-height: 300px;
   height: 100%;
   width: 100%;
