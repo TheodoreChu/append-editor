@@ -2,8 +2,24 @@
   padding: 9px 30px 10px;
   div[class^='sc'] {
     background-color: var(--sn-stylekit-background-color);
+
+    // The Rich Markdown Editor sets margins to be 1em 0 0.5em
+    // This resets it to the default for each header
+    h1 {
+      margin: 0.67em 0px 0.67em;
+    }
+    h2 {
+      margin: 0.83em 0px 0.83em;
+    }
+    h3 {
+      margin: 1em 0px 1em;
+    }
+    h4 {
+      margin: 1.33em 0px 1.33em;
+    }
   }
 }
+
 button.block-menu-trigger {
   display: none !important;
 }
