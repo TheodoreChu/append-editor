@@ -1444,7 +1444,12 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
     );
   };
 
+  /** Ask the user to confirm whether to print URLs or not */
   onConfirmPrintUrl = () => {
+    /** Only ViewMode is printed, so we need to turn it on */
+    if (!this.state.viewMode) {
+      this.onViewMode();
+    }
     this.setState(
       {
         confirmPrintUrl: true,
