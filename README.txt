@@ -63,7 +63,7 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 - Optional dynamic, what-you-see-is-what-you-get live formatting provided by the [Rich Markdown Editor](https://github.com/outline/rich-markdown-editor) developed by [Outline](https://www.getoutline.com/). Checkboxes are clickable in read/View Only Mode
 - Optional in-line syntax highlighting for Markdown and more than 60 other programming languages, intelligent autocompletion, and sophisticated search and replace provided by the [Monaco Editor](https://microsoft.github.io/monaco-editor/) (Visual Studio Code)
   - Languages supported: abap, aes, apex, azcli, bat, c, cameligo, clojure, coffeescript, cpp, csharp, csp, css, dart, dockerfile, fsharp, go, graphql, handlebars, hcl, html, ini, java, javascript, json, julia, kotlin, less, lexon, lua, markdown, mips, msdax, mysql, objective-c, pascal, pascaligo, perl, pgsql, php, plaintext, postiats, powerquery, powershell, pug, python, r, razor, redis, redshift, restructuredtext, ruby, rust, sb, scala, scheme, scss, shell, sol, sql, st, swift, systemverilog, tcl, twig, typescript, vb, verilog, xml, yaml
-- Debounced Markdown rendering: When your note is long (over `10,000` characters), the editor will automatically slow the rendering of your Markdown until you finish typing. This significantly improves the experience of editing long notes.
+- Debounced Markdown rendering: When your note is somewhat long (over `2500` characters), the editor will automatically slow the rendering of your Markdown until you finish typing. This significantly improves the experience of editing long notes.
 
 ### More Features
 
