@@ -2172,6 +2172,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
               />
             </ErrorBoundary>
           )}
+          {this.state.editingMode === EditingModes.useDynamicEditor && (
+            /** This <div> is used to make the block-menu-container drop downwards.
+             * I'm not sure why this works but it does.
+             * This may have to do with how #content has flex: auto.
+             */
+            <div></div>
+          )}
           {this.state.viewMode && !this.state.refreshView && (
             <ErrorBoundary>
               <ViewNote
