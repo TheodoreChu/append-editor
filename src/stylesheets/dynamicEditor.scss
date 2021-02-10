@@ -28,6 +28,9 @@
         font-weight: bold;
       }
     }
+    .token.string {
+      color: var(--sn-stylekit-foreground-color);
+    }
   }
 }
 
