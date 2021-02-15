@@ -12871,10 +12871,10 @@ sn-editor-kit@1.0.9:
   resolved "https://registry.yarnpkg.com/sn-editor-kit/-/sn-editor-kit-1.0.9.tgz#e37e884dfa820db0bb508192623ff7f3efc5f0e2"
   integrity sha512-Ryx7h91dGigDAqrwZ67n74d0g7M3E1xbQsewoY/4b7s7u4D5u9JMq4QvBZtBOdossthlLtnU5nJ41GjhcmmpQQ==
 
-sn-stylekit@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/sn-stylekit/-/sn-stylekit-2.1.1.tgz#1d32c08e770bc9e4560f6fa4d05e66a3229aca4e"
-  integrity sha512-Qzarr8CFTJr6f5KVwwv3oFUZ9wukCvDGIr6o/Z5o5GZk3tipIshKcJtTuuqtzkihvaGnJmzXbRTQzxadjgfiRg==
+sn-stylekit@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/sn-stylekit/-/sn-stylekit-2.2.0.tgz#0c143cb25addf4a1edf02d41ea1d6821017f8652"
+  integrity sha512-xUx+EujROZBaoMrvM0y7CjHPD6WJfwu1tY3oeFG/sV3M9YvCcGkX76Jz9iPt0daeYM4h0oAWphniH7pLi3aFwA==
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
