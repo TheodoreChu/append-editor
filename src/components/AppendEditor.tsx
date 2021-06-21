@@ -1694,12 +1694,13 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
           this.onAppendMode();
         }
       );
-    } else if (keyMap.get('Control') && keyMap.get('[')) {
-      e.preventDefault();
-      this.skipToTop();
-    } else if (keyMap.get('Control') && keyMap.get(']')) {
-      e.preventDefault();
-      this.skipToBottom();
+    // Control+[ and Control+] are broken on Swedish keyboard
+//    } else if (keyMap.get('Control') && keyMap.get('[')) {
+//      e.preventDefault();
+//      this.skipToTop();
+//    } else if (keyMap.get('Control') && keyMap.get(']')) {
+//      e.preventDefault();
+//      this.skipToBottom();
     } else if (
       keyMap.get('Control') &&
       !keyMap.get('Alt') &&
