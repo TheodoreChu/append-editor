@@ -2124,7 +2124,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 fontEdit={this.state.fontEdit}
                 fontSize={this.state.fontSize}
                 fontView={this.state.fontView}
-                helpLink={'https://appendeditor.com/#settings'}
+                helpLink={'https://github.com/theodorechu/append-editor/#settings'}
                 key={HtmlElementId.settings}
                 keyMap={keyMap}
                 onConfirm={this.onSaveSettings}
@@ -2221,7 +2221,7 @@ export default class AppendEditor extends React.Component<{}, AppendInterface> {
                 onUndo={this.onCancelPrint}
                 onConfirm={this.onPrintUrlTrue}
                 onCancel={this.onPrintUrlFalse}
-                helpLink={'https://appendeditor.com/#printing'}
+                helpLink={'https://github.com/theodorechu/append-editor/#printing'}
                 confirmText="Yes, print URLs"
                 cancelText="No, thanks"
               />

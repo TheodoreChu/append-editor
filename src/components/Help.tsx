@@ -164,11 +164,11 @@ export default class Help extends React.Component<HelpProps, HelpState> {
         <p>
           A more detailed documentation of the Append Editor is available at{' '}
           <a
-            href="https://appendeditor.com"
+            href="https://github.com/theodorechu/append-editor"
             target="_blank"
             rel="noopener noreferrer"
           >
-            appendeditor.com
+            github.com/theodorechu/append-editor
           </a>
           . If you like the Append Editor, please support it by giving it a star
           on{' '}
@@ -319,7 +319,7 @@ export default class Help extends React.Component<HelpProps, HelpState> {
             <p>
               Feel free to{' '}
               <a
-                href="https://appendeditor.com/contact"
+                href="https://github.com/theodorechu/append-editor/contact"
                 target="_blank"
                 rel="noopener noreferrer"
               >

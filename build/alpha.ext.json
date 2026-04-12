@@ -5,9 +5,9 @@
   "area": "editor-editor",
   "version": "1.2.6",
   "description": "Append to your notes",
-  "url": "https://alpha.appendeditor.com",
+  "url": "https://theodorechu.github.io/append-editor",
   "download_url": "https://github.com/TheodoreChu/append-editor/releases/download/v1.2.6/append-editor-build-v1.2.6.zip",
   "latest_url": "https://raw.githubusercontent.com/TheodoreChu/append-editor/develop/public/alpha.ext.json",
-  "marketing_url": "https://appendeditor.com",
+  "marketing_url": "https://github.com/theodorechu/append-editor",
   "thumbnail_url": ""
 }

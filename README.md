@@ -4,8 +4,8 @@
 
 [![Release](https://img.shields.io/github/release/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/releases)
 [![License](https://img.shields.io/github/license/theodorechu/append-editor?color=blue)](https://github.com/theodorechu/append-editor/blob/main/LICENSE)
-[![Status](https://img.shields.io/badge/status-ready%20for%20use-brightgreen.svg)](https://appendeditor.com/#installation)
-[![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://appendeditor.com/#installation)
+[![Status](https://img.shields.io/badge/status-ready%20for%20use-brightgreen.svg)](https://github.com/theodorechu/append-editor/#installation)
+[![Cost](https://img.shields.io/badge/cost-free-darkgreen.svg)](https://github.com/theodorechu/append-editor/#installation)
 [![GitHub issues](https://img.shields.io/github/issues/theodorechu/append-editor.svg)](https://github.com/theodorechu/append-editor/issues/)
 [![Slack](https://img.shields.io/badge/slack-standardnotes-CC2B5E.svg?style=flat&logo=slack)](https://standardnotes.org/slack)
 [![Downloads](https://img.shields.io/github/downloads/theodorechu/append-editor/total.svg?style=flat)](https://github.com/theodorechu/append-editor/releases)
@@ -41,7 +41,7 @@
 
 The Append Editor is an **unofficial** [editor](https://standardnotes.org/help/77/what-are-editors) for [Standard Notes](https://standardnotes.org), a free, [open-source](https://standardnotes.org/knowledge/5/what-is-free-and-open-source-software), and [end-to-end encrypted](https://standardnotes.org/knowledge/2/what-is-end-to-end-encryption) notes app.
 
-Try the demo at [beta.appendeditor.com](https://beta.appendeditor.com) or learn more at [appendeditor.com](https://appendeditor.com).
+Try the demo at [theodorechu.github.io/append-editor](https://theodorechu.github.io/append-editor) or learn more at [github.com/theodorechu/append-editor](https://github.com/theodorechu/append-editor).
 
 The Append Editor follows the "read first" philosophy. When you open your notes, the editor starts in Read/View Only Mode so you can't accidentally accidentally edit old notes. You can easily add to the end of your notes with the Append box at the bottom.
 
@@ -94,24 +94,12 @@ This editor works best on the [desktop app](https://standardnotes.org/download) 
 3. Click **Import Extension**.
 4. To install the Beta version, paste this into the input box:
    ```
-   https://notes.theochu.com/p/mEyBECVK7i
-   ```
-   or paste this into the input box on **desktop**:
-   ```
    https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/beta.ext.json
    ```
-5. To install the Alpha version, paste this into the input box:
-   ```
-   https://notes.theochu.com/p/wVH1OyOI0Y
-   ```
-   or paste this into the input box on **desktop**:
-   ```
-   https://raw.githubusercontent.com/TheodoreChu/append-editor/main/public/alpha.ext.json
-   ```
-6. Press Enter or Return on your keyboard.
-7. Click **Install**.
-8. At the top of your note, click **Editor**, then click **Append Editor - Beta** (or **Alpha**).
-9. When prompted to activate the extension, click **Continue**.
+5. Press Enter or Return on your keyboard.
+6. Click **Install**.
+7. At the top of your note, click **Editor**, then click **Append Editor - Beta** (or **Alpha**).
+8. When prompted to activate the extension, click **Continue**.
 
 After you have installed the editor on the web or desktop app, it will automatically sync to your [mobile app](https://standardnotes.org/download) after you sign in.
 
@@ -313,7 +301,7 @@ Printing and saving to PDF are available on the desktop and web apps. On Windows
 
 #### Printing URLs
 
-When you click **Print**, you get to choose whether to print the URLs or not. Printing the URLs will print [embedded URLS](https://appendeditor.com/#printing) [(https://appendeditor.com/#printing)](https://appendeditor.com/#printing) with their URLs next to them. The URLs for Tables of Contents and Footnotes will also be printed. Not printing the URLs will print the [embedded URLs](https://appendeditor.com/#printing) without the URLs next to them. In both cases, the links will be clickable if you choose **Save to PDF** when choosing your printer as described above.
+When you click **Print**, you get to choose whether to print the URLs or not. Printing the URLs will print [embedded URLS](https://github.com/theodorechu/append-editor/#printing) [(https://github.com/theodorechu/append-editor/#printing)](https://github.com/theodorechu/append-editor/#printing) with their URLs next to them. The URLs for Tables of Contents and Footnotes will also be printed. Not printing the URLs will print the [embedded URLs](https://github.com/theodorechu/append-editor/#printing) without the URLs next to them. In both cases, the links will be clickable if you choose **Save to PDF** when choosing your printer as described above.
 
 ## Settings
 

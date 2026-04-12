@@ -82,11 +82,11 @@ const Intro: React.FC<IntroProps> = ({ appendMode, editMode, showHelp }) => (
       <p>
         If you are using the demo at{' '}
         <a
-          href="https://beta.appendeditor.com"
+          href="https://theodorechu.github.io/append-editor"
           target="_blank"
           rel="nofollow noreferrer noopener"
         >
-          beta.appendeditor.com
+          theodorechu.github.io/append-editor
         </a>
         , then your notes will be lost after you close the page.
       </p>
